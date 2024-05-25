@@ -23,10 +23,6 @@ enum class LineDirection(val changeInX: Int, val changeInY: Int) {
     // + 4
 }
 
-class GameField(val sideLength: Int) {
-    val theMap = mutableMapOf<Coordinates, PlayerDot>()
-}
-
 class GamePlayer(private val gameField: GameField) {
 
     var maxLengthAchieved: Int = 0
@@ -38,14 +34,14 @@ class GamePlayer(private val gameField: GameField) {
     fun addNewCoordinate(x: Int, y: Int) {
         // modify the map here
 
-        gameField.theMap.apply {
+/*        gameField.theMap.apply {
             if (this.isEmpty()) {
                 return
             }
             // detect the line presence
             // val newLineIsCreated = this.detectIfANewLineIsCreated(x, y)
 
-        }
+        }*/
     }
 }
 
@@ -53,14 +49,4 @@ fun Map<Coordinates, PlayerDot>.detectIfANewLineIsCreated(x: Int, y: Int) {
     forEach {
 
     }
-}
-
-interface GameRules {
-
-    fun isGameActive(): Boolean
-
-    fun isGameWon(winningLength: Int): Boolean // must be > 2
-
-    fun isGameEndedWithoutWinning(): Boolean
-
 }
