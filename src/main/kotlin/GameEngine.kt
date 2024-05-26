@@ -36,7 +36,21 @@ object GameEngine {
         // later
     }
 
+    // this function is actually the single place for making moves and thus changing the game field
+    fun makeNewMove(where: Coordinates, what: WhichPlayer) {
+        if (gameField?.placeNewDot(where, what) == true) {
+            // analyze this new dot & detect if it creates or changes any lines
+            val lineDetected = checkNewDotArea(where, what)
+            if (lineDetected != LineDirection.None) {
+                measureDetectedLine(where, lineDetected)
+            }
+        }
+    }
+
     fun isRunning() = gameField != null && gameRules != null
+
+    // needed for UI to draw current state of the game, or simply to update the UI before making a new move
+    fun getCurrentField() = gameField?.theMap
 
     // endregion PUBLIC API
     // --------
