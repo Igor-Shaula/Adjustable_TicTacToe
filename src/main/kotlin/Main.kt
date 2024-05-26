@@ -7,10 +7,10 @@ fun main() {
 
 fun testTheNextSpotCreationBlock(startSpot: Coordinates) {
     println("\ntestTheNextSpotCreationBlock for given spot: $startSpot:")
-    testTheNextSpotCreationFor(startSpot, LineDirection.XMinus)
-    testTheNextSpotCreationFor(startSpot, LineDirection.XPlus)
-    testTheNextSpotCreationFor(startSpot, LineDirection.YMinus)
-    testTheNextSpotCreationFor(startSpot, LineDirection.YPlus)
+    testTheNextSpotCreationFor(startSpot, LineDirection.XmY0)
+    testTheNextSpotCreationFor(startSpot, LineDirection.XpY0)
+    testTheNextSpotCreationFor(startSpot, LineDirection.X0Ym)
+    testTheNextSpotCreationFor(startSpot, LineDirection.X0Yp)
     testTheNextSpotCreationFor(startSpot, LineDirection.XmYm)
     testTheNextSpotCreationFor(startSpot, LineDirection.XpYp)
     testTheNextSpotCreationFor(startSpot, LineDirection.XmYp)
@@ -30,6 +30,6 @@ fun test3x3Field() {
     println("\ntest3x3Field: gameEngine ready with given field: ${gameField.theMap}")
     GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
     GameEngine.makeNewMove(Coordinates(1, 0), WhichPlayer.A)
-    val xMinusLength = GameEngine.measureLineFrom(Coordinates(2, 0), LineDirection.XMinus, 0)
+    val xMinusLength = GameEngine.measureLineFrom(Coordinates(2, 0), LineDirection.XmY0, 0)
     println("test3x3Field: xMinusLength = $xMinusLength")
 }

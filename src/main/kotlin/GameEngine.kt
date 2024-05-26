@@ -75,10 +75,10 @@ object GameEngine {
             val minIndex = 0
             val maxIndex = field.sideLength - 1
             return when {
-                x > minIndex && field.theMap[Coordinates(x - 1, y)] == what -> LineDirection.XMinus
-                x < maxIndex && field.theMap[Coordinates(x + 1, y)] == what -> LineDirection.XPlus
-                y > minIndex && field.theMap[Coordinates(x, y - 1)] == what -> LineDirection.YMinus
-                y < maxIndex && field.theMap[Coordinates(x, y + 1)] == what -> LineDirection.YPlus
+                x > minIndex && field.theMap[Coordinates(x - 1, y)] == what -> LineDirection.XmY0
+                x < maxIndex && field.theMap[Coordinates(x + 1, y)] == what -> LineDirection.XpY0
+                y > minIndex && field.theMap[Coordinates(x, y - 1)] == what -> LineDirection.X0Ym
+                y < maxIndex && field.theMap[Coordinates(x, y + 1)] == what -> LineDirection.X0Yp
                 x > minIndex && y > minIndex && field.theMap[Coordinates(x - 1, y - 1)] == what -> LineDirection.XmYm
                 x < maxIndex && y < maxIndex && field.theMap[Coordinates(x + 1, y + 1)] == what -> LineDirection.XpYp
                 x > minIndex && y < maxIndex && field.theMap[Coordinates(x - 1, y + 1)] == what -> LineDirection.XmYp
@@ -110,12 +110,13 @@ internal fun getTheNextSpotFor(start: Coordinates, lineDirection: LineDirection)
 
 /**
  * describes all possible directions for the simplest line of 2 dots on a 2d field
+ * m -> minus, p -> plus, 0 -> no change along this axis
  */
 enum class LineDirection(val dx: Int, val dy: Int) {
-    XMinus(-1, 0),
-    XPlus(+1, 0),
-    YMinus(0, -1),
-    YPlus(0, +1),
+    XmY0(-1, 0),
+    XpY0(+1, 0),
+    X0Ym(0, -1),
+    X0Yp(0, +1),
     XmYm(-1, -1),
     XpYp(+1, +1),
     XmYp(-1, +1),
