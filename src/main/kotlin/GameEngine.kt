@@ -97,7 +97,28 @@ object GameEngine {
         }
     }
 
-// endregion ALL PRIVATE
+    internal fun getTheNextSafeSpotFor(start: Coordinates, lineDirection: LineDirection): Result<Coordinates> {
+        @Suppress("SimplifyBooleanWithConstants")
+        when {
+            false || // just for the following cases' alignment
+                    start.x <= gameField.minIndex && lineDirection == LineDirection.XmYm ||
+                    start.x <= gameField.minIndex && lineDirection == LineDirection.XmY0 ||
+                    start.x <= gameField.minIndex && lineDirection == LineDirection.XmYp ||
+                    start.y <= gameField.minIndex && lineDirection == LineDirection.XmYm ||
+                    start.y <= gameField.minIndex && lineDirection == LineDirection.X0Ym ||
+                    start.y <= gameField.minIndex && lineDirection == LineDirection.XpYm ||
+                    start.x >= gameField.maxIndex && lineDirection == LineDirection.XpYm ||
+                    start.x >= gameField.maxIndex && lineDirection == LineDirection.XpY0 ||
+                    start.x >= gameField.maxIndex && lineDirection == LineDirection.XpYp ||
+                    start.y >= gameField.maxIndex && lineDirection == LineDirection.XmYp ||
+                    start.y >= gameField.maxIndex && lineDirection == LineDirection.X0Yp ||
+                    start.y >= gameField.maxIndex && lineDirection == LineDirection.XpYp ->
+                return Result.failure(Exception("out of game field"))
+        }
+        return Result.success(Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy))
+    }
+
+    // endregion ALL PRIVATE
 }
 
 internal fun getTheNextSpotFor(start: Coordinates, lineDirection: LineDirection) =

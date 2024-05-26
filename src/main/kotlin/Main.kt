@@ -1,3 +1,5 @@
+import GameEngine.getTheNextSafeSpotFor
+
 // To execute Kotlin code, please define a top level function named main
 
 fun main() {
@@ -20,7 +22,8 @@ fun testTheNextSpotCreationBlock(startSpot: Coordinates) {
 }
 
 private fun testTheNextSpotCreationFor(startSpot: Coordinates, direction: LineDirection) {
-    val nextSpot = getTheNextSpotFor(startSpot, direction)
+//    val nextSpot = getTheNextSpotFor(startSpot, direction)
+    val nextSpot = getTheNextSafeSpotFor(startSpot, direction)
     println("nextSpot for $direction is $nextSpot")
 }
 
