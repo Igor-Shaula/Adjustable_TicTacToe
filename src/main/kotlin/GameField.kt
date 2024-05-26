@@ -19,3 +19,9 @@ class GameField(
         TODO("Not yet implemented")
     }
 }
+
+// describes every place on the game field
+data class Coordinates(val x: Int, val y: Int)
+//data class Coordinates(val x: Int, val y: Int, val z: Int? = null) // later
+
+enum class WhichPlayer { None, A, B }
