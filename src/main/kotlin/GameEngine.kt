@@ -42,7 +42,7 @@ object GameEngine {
             // analyze this new dot & detect if it creates or changes any lines
             val lineDetected = checkNewDotArea(where, what)
             if (lineDetected != LineDirection.None) {
-                measureDetectedLine(where, lineDetected)
+//                measureDetectedLine(where, lineDetected)
             }
         }
     }
@@ -61,6 +61,27 @@ object GameEngine {
         gameField?.clear()
         gameField = null
         gameRules = null
+    }
+
+    private fun checkNewDotArea(where: Coordinates, what: WhichPlayer): LineDirection {
+        val x = where.x
+        val y = where.y
+        gameField?.let { field ->
+            val minIndex = 0
+            val maxIndex = field.sideLength - 1
+            return when {
+                x > minIndex && field.theMap[Coordinates(x - 1, y)] == what -> LineDirection.XMinus
+                x < maxIndex && field.theMap[Coordinates(x + 1, y)] == what -> LineDirection.XPlus
+                y > minIndex && field.theMap[Coordinates(x, y - 1)] == what -> LineDirection.YMinus
+                y < maxIndex && field.theMap[Coordinates(x, y + 1)] == what -> LineDirection.YPlus
+                x > minIndex && y > minIndex && field.theMap[Coordinates(x - 1, y - 1)] == what -> LineDirection.XmYm
+                x < maxIndex && y < maxIndex && field.theMap[Coordinates(x + 1, y + 1)] == what -> LineDirection.XpYp
+                x > minIndex && y < maxIndex && field.theMap[Coordinates(x - 1, y + 1)] == what -> LineDirection.XmYp
+                x < maxIndex && y > minIndex && field.theMap[Coordinates(x + 1, y - 1)] == what -> LineDirection.XpYm
+                else -> LineDirection.None
+            }
+        }
+        return LineDirection.None // this line should not ever be reached
     }
 
     // endregion ALL PRIVATE
