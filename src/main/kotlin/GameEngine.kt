@@ -40,9 +40,13 @@ object GameEngine {
     fun makeNewMove(where: Coordinates, what: WhichPlayer) {
         if (gameField?.placeNewDot(where, what) == true) {
             // analyze this new dot & detect if it creates or changes any lines
-            val lineDetected = checkNewDotArea(where, what)
-            if (lineDetected != LineDirection.None) {
-//                measureDetectedLine(where, lineDetected)
+            val lineDirection = checkNewDotArea(where, what)
+            if (lineDirection != LineDirection.None) {
+                // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
+                // we also have a proven placed dot of the same player in the detected line direction
+                // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
+                val checkedNearCoordinates = getTheNextSpotFor(where, lineDirection)
+                measureLineFrom(checkedNearCoordinates, lineDirection, 2)
             }
         }
     }
