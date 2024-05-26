@@ -87,8 +87,11 @@ object GameEngine {
     // endregion ALL PRIVATE
 }
 
+fun getTheNextSpotFor(start: Coordinates, lineDirection: LineDirection) =
+    Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
+
 /**
- * describes all possible directions for a simplest line of 2 dots for a 2d field
+ * describes all possible directions for the simplest line of 2 dots on a 2d field
  */
 enum class LineDirection(val dx: Int, val dy: Int) {
     XMinus(-1, 0),
