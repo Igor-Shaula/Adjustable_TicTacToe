@@ -4,12 +4,3 @@ class GameRules(
 ) {
     fun isGameWon(lineLength: Int) = lineLength >= maxLength
 }
-
-interface winningCriteria {
-
-    fun isGameActive(): Boolean
-
-    fun isGameWon(winningLength: Int): Boolean // must be > 2
-
-    fun isGameEndedWithoutWinning(): Boolean
-}
