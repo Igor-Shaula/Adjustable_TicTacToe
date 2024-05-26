@@ -17,6 +17,15 @@ class GameField(
     fun clear() {
         theMap.clear()
     }
+
+    fun placeNewDot(where: Coordinates, what: WhichPlayer): Boolean = if (theMap[where] == WhichPlayer.None) {
+        theMap[where] = what
+        true
+    } else {
+        println("attempting to set a mark for player $what on the occupied coordinates: $where")
+        // later we can also emit a custom exception here - to be caught on the UI side and ask for another point
+        false
+    }
 }
 
 // describes every place on the game field
