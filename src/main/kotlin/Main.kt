@@ -1,12 +1,12 @@
 // To execute Kotlin code, please define a top level function named main
 
 fun main() {
-    testTheNextSpotCreationBlock()
+    testTheNextSpotCreationBlock(Coordinates(1, 1))
+    test3x3Field()
 }
 
-fun testTheNextSpotCreationBlock() {
-    val startSpot = Coordinates(1, 1)
-
+fun testTheNextSpotCreationBlock(startSpot: Coordinates) {
+    println("\ntestTheNextSpotCreationBlock for given spot: $startSpot:")
     testTheNextSpotCreationFor(startSpot, LineDirection.XMinus)
     testTheNextSpotCreationFor(startSpot, LineDirection.XPlus)
     testTheNextSpotCreationFor(startSpot, LineDirection.YMinus)
@@ -18,7 +18,18 @@ fun testTheNextSpotCreationBlock() {
     testTheNextSpotCreationFor(startSpot, LineDirection.None)
 }
 
-fun testTheNextSpotCreationFor(startSpot: Coordinates, direction: LineDirection) {
+private fun testTheNextSpotCreationFor(startSpot: Coordinates, direction: LineDirection) {
     val nextSpot = getTheNextSpotFor(startSpot, direction)
     println("nextSpot for $direction is $nextSpot")
+}
+
+fun test3x3Field() {
+    val gameField = GameField()
+    val gameRules = GameRules()
+    GameEngine.prepare(gameField, gameRules)
+    println("\ntest3x3Field: gameEngine ready with given field: ${gameField.theMap}")
+    GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
+    GameEngine.makeNewMove(Coordinates(1, 0), WhichPlayer.A)
+    val xMinusLength = GameEngine.measureLineFrom(Coordinates(2, 0), LineDirection.XMinus, 0)
+    println("test3x3Field: xMinusLength = $xMinusLength")
 }

@@ -41,6 +41,7 @@ object GameEngine {
         if (gameField?.placeNewDot(where, what) == true) {
             // analyze this new dot & detect if it creates or changes any lines
             val lineDirection = checkNewDotArea(where, what)
+            println("makeNewMove: detected existing line in direction: $lineDirection")
             if (lineDirection != LineDirection.None) {
                 // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
                 // we also have a proven placed dot of the same player in the detected line direction
@@ -88,10 +89,12 @@ object GameEngine {
         return LineDirection.None // this line should not ever be reached
     }
 
-    private fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
+    internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
         // firstly measure in the given direction and then in the opposite, also recursively
         gameField?.let { field ->
             val nextCoordinates = getTheNextSpotFor(start, lineDirection)
+            println("measureLineFrom: start coordinates: $start")
+            println("measureLineFrom: next coordinates: $nextCoordinates")
             if (field.theMap[nextCoordinates] == field.theMap[start]) {
                 return measureLineFrom(nextCoordinates, lineDirection, startingLength + 1)
             } // else the given startingLength is returned
@@ -102,7 +105,7 @@ object GameEngine {
     // endregion ALL PRIVATE
 }
 
-fun getTheNextSpotFor(start: Coordinates, lineDirection: LineDirection) =
+internal fun getTheNextSpotFor(start: Coordinates, lineDirection: LineDirection) =
     Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
 
 /**
