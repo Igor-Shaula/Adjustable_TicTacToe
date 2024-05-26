@@ -1,13 +1,16 @@
 class GameField(
-    sideLength: Int = 3, // for a good old 3x3 game
-    dimensions: Int = 2, // simplest variant of a 2d game
-    numberOfPlayers: Int = 2, // this is obvious
+    private var sideLength: Int, // for a good old 3x3 game
+    dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
+    numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious
 ) {
     val minIndex = 0 // this is obvious but let it be here for consistency
     val maxIndex = sideLength - 1 // constant for the given game field
-    val theMap: MutableMap<Coordinates, WhichPlayer> = mutableMapOf()
+    val theMap: MutableMap<Coordinates, WhichPlayer> = mutableMapOf() // not nullable but needs to be configured later
 
     init {
+        // here we're doing possible corrections that may be needed to keep the game rules reasonable
+        if (sideLength > MAX_GAME_FIELD_SIDE_SIZE) sideLength = MAX_GAME_FIELD_SIDE_SIZE
+        else if (sideLength < MIN_GAME_FIELD_SIDE_SIZE) sideLength = MIN_GAME_FIELD_SIDE_SIZE
         // let's create the initial board or field for the game
         for (x in 0..<sideLength) {
             for (y in 0..<sideLength) {

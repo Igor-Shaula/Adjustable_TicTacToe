@@ -15,7 +15,7 @@ object GameEngine {
      * create & provide the UI with a new game field, adjustability starts here - in the parameters
      */
     fun prepare(
-        newGameField: GameField = GameField(), newGameRules: GameRules = GameRules()
+        newGameField: GameField, newGameRules: GameRules
     ) {
         clear() // for all possible resources that could be used previously
         gameField = newGameField

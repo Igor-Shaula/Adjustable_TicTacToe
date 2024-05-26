@@ -2,6 +2,7 @@
 
 fun main() {
     testTheNextSpotCreationBlock(Coordinates(1, 1))
+    testTheNextSpotCreationBlock(Coordinates(0, 1))
     test3x3Field()
 }
 
@@ -24,8 +25,8 @@ private fun testTheNextSpotCreationFor(startSpot: Coordinates, direction: LineDi
 }
 
 fun test3x3Field() {
-    val gameField = GameField()
-    val gameRules = GameRules()
+    val gameField = GameField(3)
+    val gameRules = GameRules(3)
     GameEngine.prepare(gameField, gameRules)
     println("\ntest3x3Field: gameEngine ready with given field: ${gameField.theMap}")
     GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
