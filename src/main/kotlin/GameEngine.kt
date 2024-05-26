@@ -1,17 +1,19 @@
-// this class is the main contacting point for any game UI
-// as any UI is meant to use only one game logic - let it be a singleton
+/**
+ * this class is the main contacting point for any game UI.
+ * as any UI is meant to use only one game logic - let it be a singleton.
+ */
 object GameEngine {
 
     // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable
     private var gameField: GameField? = null
-
     private var gameRules: GameRules? = null
 
     // -------
     // region PUBLIC API
 
-    // create & provide the UI with a new game field
-    // adjustability starts here - in the parameters
+    /**
+     * create & provide the UI with a new game field, adjustability starts here - in the parameters
+     */
     fun prepare(
         newGameField: GameField = GameField, newGameRules: GameRules = GameRules
     ) {
