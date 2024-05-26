@@ -72,8 +72,8 @@ object GameEngine {
         val x = where.x
         val y = where.y
         gameField?.let { field ->
-            val minIndex = 0
-            val maxIndex = field.sideLength - 1
+            val minIndex = field.minIndex
+            val maxIndex = field.maxIndex
             return when {
                 x > minIndex && field.theMap[Coordinates(x - 1, y)] == what -> LineDirection.XmY0
                 x < maxIndex && field.theMap[Coordinates(x + 1, y)] == what -> LineDirection.XpY0

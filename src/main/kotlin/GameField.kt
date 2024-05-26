@@ -1,8 +1,10 @@
 class GameField(
-    val sideLength: Int = 3, // for a good old 3x3 game
-    val dimensions: Int = 2, // simplest variant of a 2d game
-    val numberOfPlayers: Int = 2, // this is obvious
+    sideLength: Int = 3, // for a good old 3x3 game
+    dimensions: Int = 2, // simplest variant of a 2d game
+    numberOfPlayers: Int = 2, // this is obvious
 ) {
+    val minIndex = 0 // this is obvious but let it be here for consistency
+    val maxIndex = sideLength - 1 // constant for the given game field
     val theMap: MutableMap<Coordinates, WhichPlayer> = mutableMapOf()
 
     init {
