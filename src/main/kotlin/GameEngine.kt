@@ -2,6 +2,7 @@
  * this class is the main contacting point for any game UI.
  * as any UI is meant to use only one game logic - let it be a singleton.
  */
+@Suppress("unused")
 object GameEngine {
 
     // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable

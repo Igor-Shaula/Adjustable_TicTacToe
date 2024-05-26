@@ -1,3 +1,4 @@
+@Suppress("UNUSED_PARAMETER")
 class GameField(
     private var sideLength: Int, // for a good old 3x3 game
     dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
@@ -37,4 +38,5 @@ class GameField(
 data class Coordinates(val x: Int, val y: Int)
 //data class Coordinates(val x: Int, val y: Int, val z: Int? = null) // later
 
+@Suppress("unused")
 enum class WhichPlayer { None, A, B }
