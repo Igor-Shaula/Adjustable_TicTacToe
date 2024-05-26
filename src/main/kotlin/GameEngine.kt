@@ -88,6 +88,17 @@ object GameEngine {
         return LineDirection.None // this line should not ever be reached
     }
 
+    private fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
+        // firstly measure in the given direction and then in the opposite, also recursively
+        gameField?.let { field ->
+            val nextCoordinates = getTheNextSpotFor(start, lineDirection)
+            if (field.theMap[nextCoordinates] == field.theMap[start]) {
+                return measureLineFrom(nextCoordinates, lineDirection, startingLength + 1)
+            } // else the given startingLength is returned
+        }
+        return startingLength
+    }
+
     // endregion ALL PRIVATE
 }
 
