@@ -2,8 +2,7 @@
 // as any UI is meant to use only one game logic - let it be a singleton
 object GameEngine {
 
-    private var isRunning = false
-
+    // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable
     private var gameField: GameField? = null
 
     private var gameRules: GameRules? = null
@@ -35,17 +34,17 @@ object GameEngine {
         // later
     }
 
+    fun isRunning() = gameField != null && gameRules != null
+
     // endregion PUBLIC API
     // --------
     // region ALL PRIVATE
 
     // immediately clear if anything is running at the moment
     private fun clear() {
-        if (isRunning) {
-            gameField?.clear()
-            gameRules?.clear()
-        }
-        isRunning = false
+        gameField?.clear()
+        gameField = null
+        gameRules = null
     }
 
     // endregion ALL PRIVATE
