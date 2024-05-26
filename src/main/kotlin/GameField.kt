@@ -34,9 +34,13 @@ class GameField(
     }
 }
 
+sealed interface GameSpace
+
 // describes every place on the game field
-data class Coordinates(val x: Int, val y: Int)
+data class Coordinates(val x: Int, val y: Int) : GameSpace
 //data class Coordinates(val x: Int, val y: Int, val z: Int? = null) // later
+
+data object Border : GameSpace
 
 @Suppress("unused")
 enum class WhichPlayer { None, A, B }

@@ -47,8 +47,12 @@ object GameEngine {
                 // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
                 // we also have a proven placed dot of the same player in the detected line direction
                 // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
-                val checkedNearCoordinates = getTheNextSpotFor(where, lineDirection)
-                measureLineFrom(checkedNearCoordinates, lineDirection, 2)
+                val checkedNearCoordinates = getTheNextSafeSpotFor(where, lineDirection)
+                if (checkedNearCoordinates is Coordinates) {
+                    measureLineFrom(checkedNearCoordinates, lineDirection, 2)
+                } else {
+                    println("makeNewMove: checkedNearCoordinates is Border - THIS SHOULD NEVER HAPPEN")
+                }
             }
         }
     }
@@ -86,18 +90,20 @@ object GameEngine {
     }
 
     internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
+        println("measureLineFrom: startingLength: $startingLength")
         // firstly measure in the given direction and then in the opposite, also recursively
-        val nextCoordinates = getTheNextSpotFor(start, lineDirection)
+        val nextCoordinates = getTheNextSafeSpotFor(start, lineDirection)
         println("measureLineFrom: start coordinates: $start")
         println("measureLineFrom: next coordinates: $nextCoordinates")
-        return if (gameField.theMap[nextCoordinates] == gameField.theMap[start]) {
+        return if (nextCoordinates is Coordinates && gameField.theMap[nextCoordinates] == gameField.theMap[start]) {
             measureLineFrom(nextCoordinates, lineDirection, startingLength + 1)
         } else {
+            println("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength
         }
     }
 
-    internal fun getTheNextSafeSpotFor(start: Coordinates, lineDirection: LineDirection): Result<Coordinates> {
+    internal fun getTheNextSafeSpotFor(start: Coordinates, lineDirection: LineDirection): GameSpace {
         @Suppress("SimplifyBooleanWithConstants")
         when {
             false || // just for the following cases' alignment
@@ -113,13 +119,13 @@ object GameEngine {
                     start.y >= gameField.maxIndex && lineDirection == LineDirection.XmYp ||
                     start.y >= gameField.maxIndex && lineDirection == LineDirection.X0Yp ||
                     start.y >= gameField.maxIndex && lineDirection == LineDirection.XpYp ->
-                return Result.failure(Exception("out of game field"))
+                return Border
         }
-        return Result.success(Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy))
+        return Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
     }
 
     // endregion ALL PRIVATE
 }
 
-internal fun getTheNextSpotFor(start: Coordinates, lineDirection: LineDirection) =
-    Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
+//internal fun getTheNextSpotFor(start: Coordinates, lineDirection: LineDirection) =
+//    Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
