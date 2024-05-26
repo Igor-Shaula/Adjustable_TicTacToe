@@ -51,3 +51,18 @@ object GameEngine {
 
     // endregion ALL PRIVATE
 }
+
+/**
+ * describes all possible directions for a simplest line of 2 dots for a 2d field
+ */
+enum class LineDirection(val dx: Int, val dy: Int) {
+    XMinus(-1, 0),
+    XPlus(+1, 0),
+    YMinus(0, -1),
+    YPlus(0, +1),
+    XmYm(-1, -1),
+    XpYp(+1, +1),
+    XmYp(-1, +1),
+    XpYm(+1, -1),
+    None(0, 0)
+}
