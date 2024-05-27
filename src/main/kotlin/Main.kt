@@ -31,7 +31,7 @@ fun test3x3Field() {
     val gameField = GameField(3)
     val gameRules = GameRules(3)
     GameEngine.prepare(gameField, gameRules)
-    println("\ntest3x3Field: gameEngine ready with given field: ${gameField.theMap}")
+    println("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
     GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
     GameEngine.makeNewMove(Coordinates(1, 0), WhichPlayer.A)
     GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A)
@@ -41,7 +41,7 @@ fun test5x5Field() {
     val gameField = GameField(5)
     val gameRules = GameRules(5)
     GameEngine.prepare(gameField, gameRules)
-    println("\ntest3x3Field: gameEngine ready with given field: ${gameField.theMap}")
+    println("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
     GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
     GameEngine.makeNewMove(Coordinates(1, 0), WhichPlayer.A)
 //    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later

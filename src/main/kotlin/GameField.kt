@@ -32,4 +32,16 @@ class GameField(
         // later we can also emit a custom exception here - to be caught on the UI side and ask for another point
         false
     }
+
+    fun print2dGameField(): String {
+        val sb: StringBuilder = StringBuilder(1 + sideLength * (sideLength + 1))
+        sb.append("\n")
+        for (x in 0..<sideLength) {
+            for (y in 0..<sideLength) {
+                sb.append(theMap[Coordinates(x, y)]).append(' ')
+            }
+            sb.append("\n")
+        }
+        return sb.toString()
+    }
 }

@@ -27,6 +27,7 @@ object GameEngine {
     @Suppress("MemberVisibilityCanBePrivate")
     fun finish() {
         // todo: count and show the score here - a bit later
+        println("the game is finished in the given state: ${gameField.print2dGameField()}")
         clear()
     }
 
