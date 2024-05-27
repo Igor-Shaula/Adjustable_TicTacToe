@@ -1,13 +1,23 @@
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class GameTests {
+
+    @Test
+    fun gameNotStarted_defaultGameCreated_3x3GameFieldExists() {
+        prepareClassic3x3GameField()
+        assertNotNull(GameEngine.getCurrentField())
+        assertTrue(GameEngine.isRunning())
+        assertTrue(GameEngine.getCurrentField().isNotEmpty()) // actually it's the same as GameEngine.isRunning()
+    }
 
     /**
      * here we check if an adjacent spot exists for every cell in 3x3 game for every possible direction
      */
     @Test
-    fun having3x3Field_1MarkSet_adjacentMarkDetectionLogiIsCorrect() {
+    fun having3x3Field_1MarkSet_adjacentMarkDetectionLogicIsCorrect() {
         checkTheNextSpotDetectionBlock(Coordinates(0, 0))
         checkTheNextSpotDetectionBlock(Coordinates(0, 1))
         checkTheNextSpotDetectionBlock(Coordinates(0, 2))
@@ -84,6 +94,16 @@ class GameTests {
         assertEquals(3, lengthFromEdgeToEdge)
         assertEquals(3, lengthFromEdgeToEdgeOpposite)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
+    }
+
+    @Test
+    fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
+        prepareClassic3x3GameField()
+        val someSpot = Coordinates(1, 1)
+        GameEngine.makeNewMove(someSpot, WhichPlayer.A)
+        GameEngine.makeNewMove(someSpot, WhichPlayer.B)
+        println("\ngame field with only one player's mark: ${GameEngine.gameField.print2dGameField()}")
+        assertEquals(WhichPlayer.A, GameEngine.getCurrentField()[someSpot])
     }
 
     @Test

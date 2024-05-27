@@ -6,7 +6,7 @@
 object GameEngine {
 
     // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable
-    private var gameField: GameField = GameField(MIN_GAME_FIELD_SIDE_SIZE)
+    internal var gameField: GameField = GameField(MIN_GAME_FIELD_SIDE_SIZE)
     private var gameRules: GameRules = GameRules(MIN_WINNING_LINE_LENGTH)
 
     // -------
