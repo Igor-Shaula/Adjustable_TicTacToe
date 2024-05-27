@@ -144,15 +144,3 @@ object GameEngine {
 
     // endregion ALL PRIVATE
 }
-
-private fun opposite(givenDirection: LineDirection): LineDirection = when (givenDirection) {
-    LineDirection.XmY0 -> LineDirection.XpY0
-    LineDirection.XpY0 -> LineDirection.XmY0
-    LineDirection.X0Ym -> LineDirection.X0Yp
-    LineDirection.X0Yp -> LineDirection.X0Ym
-    LineDirection.XmYm -> LineDirection.XpYp
-    LineDirection.XpYp -> LineDirection.XmYm
-    LineDirection.XmYp -> LineDirection.XpYm
-    LineDirection.XpYm -> LineDirection.XmYp
-    else -> LineDirection.None
-}
