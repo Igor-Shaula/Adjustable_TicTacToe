@@ -1,5 +1,6 @@
 import GameEngine.getTheNextSafeSpotFor
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class GameTests {
 
@@ -7,33 +8,50 @@ class GameTests {
 
     @Test
     fun oneSpotSetOn3x3Field_adjacentSpotDetectionLogic_isCorrect() {
-        testTheNextSpotCreationBlock(Coordinates(0, 0))
-        testTheNextSpotCreationBlock(Coordinates(0, 1))
-        testTheNextSpotCreationBlock(Coordinates(0, 2))
-        testTheNextSpotCreationBlock(Coordinates(1, 0))
-        testTheNextSpotCreationBlock(Coordinates(1, 1))
-        testTheNextSpotCreationBlock(Coordinates(1, 2))
-        testTheNextSpotCreationBlock(Coordinates(2, 0))
-        testTheNextSpotCreationBlock(Coordinates(2, 1))
-        testTheNextSpotCreationBlock(Coordinates(2, 2))
+        checkTheNextSpotDetectionBlock(Coordinates(0, 0))
+        checkTheNextSpotDetectionBlock(Coordinates(0, 1))
+        checkTheNextSpotDetectionBlock(Coordinates(0, 2))
+        checkTheNextSpotDetectionBlock(Coordinates(1, 0))
+        checkTheNextSpotDetectionBlock(Coordinates(1, 1))
+        checkTheNextSpotDetectionBlock(Coordinates(1, 2))
+        checkTheNextSpotDetectionBlock(Coordinates(2, 0))
+        checkTheNextSpotDetectionBlock(Coordinates(2, 1))
+        checkTheNextSpotDetectionBlock(Coordinates(2, 2))
     }
 
-    private fun testTheNextSpotCreationBlock(startSpot: Coordinates) {
+    private fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
         println("\ntestTheNextSpotCreationBlock for given spot: $startSpot:")
-        testTheNextSpotCreationFor(startSpot, LineDirection.XmY0)
-        testTheNextSpotCreationFor(startSpot, LineDirection.XpY0)
-        testTheNextSpotCreationFor(startSpot, LineDirection.X0Ym)
-        testTheNextSpotCreationFor(startSpot, LineDirection.X0Yp)
-        testTheNextSpotCreationFor(startSpot, LineDirection.XmYm)
-        testTheNextSpotCreationFor(startSpot, LineDirection.XpYp)
-        testTheNextSpotCreationFor(startSpot, LineDirection.XmYp)
-        testTheNextSpotCreationFor(startSpot, LineDirection.XpYm)
-        testTheNextSpotCreationFor(startSpot, LineDirection.None)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmY0)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpY0)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.X0Ym)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.X0Yp)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmYm)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpYp)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmYp)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpYm)
+        checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.None)
     }
 
-    private fun testTheNextSpotCreationFor(startSpot: Coordinates, direction: LineDirection) {
+    private fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
         val nextSpot = getTheNextSafeSpotFor(startSpot, direction)
         println("nextSpot for $direction is $nextSpot")
+        when {
+            // lowest limit for X axis
+            startSpot.x == 0 && (direction == LineDirection.XmYm || direction == LineDirection.XmY0 || direction == LineDirection.XmYp)
+            -> assertTrue(nextSpot is Border)
+            // lowest limit for Y axis
+            startSpot.y == 0 && (direction == LineDirection.XmYm || direction == LineDirection.X0Ym || direction == LineDirection.XpYm)
+            -> assertTrue(nextSpot is Border)
+            // highest limit for X axis
+            startSpot.x == 2 && (direction == LineDirection.XpYm || direction == LineDirection.XpY0 || direction == LineDirection.XpYp)
+            -> assertTrue(nextSpot is Border)
+            // highest limit for Y axis
+            startSpot.y == 2 && (direction == LineDirection.XmYp || direction == LineDirection.X0Yp || direction == LineDirection.XpYp)
+            -> assertTrue(nextSpot is Border)
+            // right in the center -> adjacent spot exists in any direction
+            startSpot.x == 1 && startSpot.y == 1
+            -> assertTrue(nextSpot is Coordinates)
+        }
     }
 
     @Test
