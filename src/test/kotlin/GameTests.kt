@@ -7,7 +7,7 @@ class GameTests {
      * here we check if an adjacent spot exists for every cell in 3x3 game for every possible direction
      */
     @Test
-    fun oneSpotSetOn3x3Field_adjacentSpotDetectionLogic_isCorrect() {
+    fun having3x3Field_1MarkSet_adjacentMarkDetectionLogiIsCorrect() {
         checkTheNextSpotDetectionBlock(Coordinates(0, 0))
         checkTheNextSpotDetectionBlock(Coordinates(0, 1))
         checkTheNextSpotDetectionBlock(Coordinates(0, 2))
@@ -20,26 +20,30 @@ class GameTests {
     }
 
     @Test
-    fun having3x3Field_2adjacentSpotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
+    fun having3x3Field_2AdjacentMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
         prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         GameEngine.makeNewMove(firstMark, WhichPlayer.A)
         GameEngine.makeNewMove(secondMark, WhichPlayer.A)
+        println("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        println("measuring line from $firstMark in the opposite direction:")
         val lengthFromSecondToFirst = GameEngine.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(2, lengthFromFirstToSecond)
         assertEquals(2, lengthFromSecondToFirst)
     }
 
     @Test
-    fun having3x3Field_2remoteSpotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
+    fun having3x3Field_2RemoteMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
         prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
         GameEngine.makeNewMove(firstMark, WhichPlayer.A)
         GameEngine.makeNewMove(secondMark, WhichPlayer.A)
+        println("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        println("measuring line from $firstMark in the opposite direction:")
         val lengthFromSecondToFirst = GameEngine.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(1, lengthFromFirstToSecond)
         assertEquals(1, lengthFromSecondToFirst)
@@ -47,7 +51,7 @@ class GameTests {
     }
 
     @Test
-    fun having3x3Field_2remoteSpotsOfTheSamePlayerAreConnected_detectedLineLengthIsCorrect() {
+    fun having3x3Field_2RemoteMarksOfTheSamePlayerAreConnected_detectedLineLengthIsCorrect() {
         prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
@@ -65,7 +69,7 @@ class GameTests {
     }
 
     @Test
-    fun having3x3Field_2adjacentMarksOfTheSamePlayerAreAddedWithOneMoreMark_detectedLineLengthIsCorrect() {
+    fun having3x3Field_2AdjacentMarksOfTheSamePlayerAreAddedWithOneMoreMark_detectedLineLengthIsCorrect() {
         prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
