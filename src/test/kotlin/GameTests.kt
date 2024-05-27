@@ -65,6 +65,24 @@ class GameTests {
     }
 
     @Test
+    fun having3x3Field_2adjacentMarksOfTheSamePlayerAreAddedWithOneMoreMark_detectedLineLengthIsCorrect() {
+        prepareClassic3x3GameField()
+        val firstMark = Coordinates(0, 0)
+        val secondMark = Coordinates(1, 0)
+        val oneMoreMark = Coordinates(2, 0)
+        GameEngine.makeNewMove(firstMark, WhichPlayer.A)
+        GameEngine.makeNewMove(secondMark, WhichPlayer.A)
+        GameEngine.makeNewMove(oneMoreMark, WhichPlayer.A)
+        println("measuring line from $firstMark in the forward direction:")
+        val lengthFromEdgeToEdge = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        println("measuring line from $firstMark in the opposite direction:")
+        val lengthFromEdgeToEdgeOpposite = GameEngine.measureLineFrom(oneMoreMark, LineDirection.XmY0, 1)
+        assertEquals(3, lengthFromEdgeToEdge)
+        assertEquals(3, lengthFromEdgeToEdgeOpposite)
+        // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
+    }
+
+    @Test
     fun test3x3Field() {
         prepareClassic3x3GameField()
         GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
