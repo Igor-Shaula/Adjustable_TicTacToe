@@ -24,15 +24,18 @@ object GameEngine {
     }
 
     // stop right now, count the achieved score for all players and show the result
+    @Suppress("MemberVisibilityCanBePrivate")
     fun finish() {
         // todo: count and show the score here - a bit later
         clear()
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun save() { // todo: here we might specify a filename
         // later
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun restore() { // todo: specify what exactly to restore, a file for example
         // later
     }
@@ -58,13 +61,6 @@ object GameEngine {
                     println("makeNewMove: checkedNearCoordinates is Border - THIS SHOULD NEVER HAPPEN")
                 }
             }
-        }
-    }
-
-    private fun updateGameScore(whichPlayer: WhichPlayer, detectedLineLength: Int) {
-        if (gameRules.isGameWon(detectedLineLength)) {
-            println("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
-            finish()
         }
     }
 
@@ -100,7 +96,7 @@ object GameEngine {
         }
     }
 
-    internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
+    private fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
         println("measureLineFrom: startingLength: $startingLength")
         // firstly measure in the given direction and then in the opposite, also recursively
         val nextCoordinates = getTheNextSafeSpotFor(start, lineDirection)
@@ -133,6 +129,13 @@ object GameEngine {
                 return Border
         }
         return Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
+    }
+
+    private fun updateGameScore(whichPlayer: WhichPlayer, detectedLineLength: Int) {
+        if (gameRules.isGameWon(detectedLineLength)) {
+            println("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
+            finish()
+        }
     }
 
     // endregion ALL PRIVATE
