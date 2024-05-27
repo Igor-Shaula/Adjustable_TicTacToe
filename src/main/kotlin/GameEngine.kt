@@ -57,6 +57,13 @@ object GameEngine {
         }
     }
 
+    private fun updateGameScore(whichPlayer: WhichPlayer, detectedLineLength: Int) {
+        if (gameRules.isGameWon(detectedLineLength)) {
+            println("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
+            finish()
+        }
+    }
+
     fun isRunning() = gameField.theMap.isNotEmpty()
 
     // needed for UI to draw current state of the game, or simply to update the UI before making a new move
