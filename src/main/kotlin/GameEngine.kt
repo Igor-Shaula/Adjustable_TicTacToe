@@ -31,15 +31,17 @@ object GameEngine {
         clear()
     }
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun save() { // todo: here we might specify a filename
-        // later
-    }
+    /*
+        @Suppress("MemberVisibilityCanBePrivate")
+        fun save() { // todo: here we might specify a filename
+            // later
+        }
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun restore() { // todo: specify what exactly to restore, a file for example
-        // later
-    }
+        @Suppress("MemberVisibilityCanBePrivate")
+        fun restore() { // todo: specify what exactly to restore, a file for example
+            // later
+        }
+    */
 
     // this function is actually the single place for making moves and thus changing the game field
     fun makeNewMove(where: Coordinates, what: WhichPlayer) {
@@ -59,6 +61,7 @@ object GameEngine {
                     println("makeNewMove: lineTotalLength = $lineTotalLength")
                     updateGameScore(what, lineTotalLength)
                 } else {
+                    // this line is also impossible to be covered by tests, so don't count it in the coverage
                     println("makeNewMove: checkedNearCoordinates is Border - THIS SHOULD NEVER HAPPEN")
                 }
             }
