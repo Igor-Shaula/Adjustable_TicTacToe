@@ -13,6 +13,19 @@ class GameTests {
         assertTrue(GameEngine.getCurrentField().isNotEmpty()) // actually it's the same as GameEngine.isRunning()
     }
 
+    @Test
+    fun having2dField_anyLineDirectionChosen_detectingOppositeDirectionIsCorrect() {
+        assertEquals(LineDirection.XpY0, opposite(LineDirection.XmY0))
+        assertEquals(LineDirection.XmY0, opposite(LineDirection.XpY0))
+        assertEquals(LineDirection.X0Yp, opposite(LineDirection.X0Ym))
+        assertEquals(LineDirection.X0Ym, opposite(LineDirection.X0Yp))
+        assertEquals(LineDirection.XpYp, opposite(LineDirection.XmYm))
+        assertEquals(LineDirection.XmYm, opposite(LineDirection.XpYp))
+        assertEquals(LineDirection.XpYm, opposite(LineDirection.XmYp))
+        assertEquals(LineDirection.XmYp, opposite(LineDirection.XpYm))
+        assertEquals(LineDirection.None, opposite(LineDirection.None))
+    }
+
     /**
      * here we check if an adjacent spot exists for every cell in 3x3 game for every possible direction
      */
