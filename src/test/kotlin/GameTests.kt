@@ -61,7 +61,7 @@ class GameTests {
     }
 
     @Test
-    fun having3x3Field_2spotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
+    fun having3x3Field_2adjacentSpotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
         val gameField = GameField(3)
         val gameRules = GameRules(3)
         GameEngine.prepare(gameField, gameRules)
@@ -74,6 +74,23 @@ class GameTests {
         val lengthFromSecondToFirst = GameEngine.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(2, lengthFromFirstToSecond)
         assertEquals(2, lengthFromSecondToFirst)
+    }
+
+    @Test
+    fun having3x3Field_2remoteSpotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
+        val gameField = GameField(3)
+        val gameRules = GameRules(3)
+        GameEngine.prepare(gameField, gameRules)
+        println("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
+        val firstMark = Coordinates(0, 0)
+        val secondMark = Coordinates(2, 0)
+        GameEngine.makeNewMove(firstMark, WhichPlayer.A)
+        GameEngine.makeNewMove(secondMark, WhichPlayer.A)
+        val lengthFromFirstToSecond = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromSecondToFirst = GameEngine.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        assertEquals(1, lengthFromFirstToSecond)
+        assertEquals(1, lengthFromSecondToFirst)
+        // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
     }
 
     @Test
