@@ -4,7 +4,7 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
-    println("\ncheckTheNextSpotDetectionBlock for given spot: $startSpot:")
+    Log.pl("\ncheckTheNextSpotDetectionBlock for given spot: $startSpot:")
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmY0)
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpY0)
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.X0Ym)
@@ -18,7 +18,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
 
 internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
     val nextSpot = getTheNextSafeSpotFor(startSpot, direction)
-    println("nextSpot on 3x3 field for $direction is $nextSpot")
+    Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
         // lowest limit for X axis
         startSpot.x == 0 && (direction == LineDirection.XmYm || direction == LineDirection.XmY0 || direction == LineDirection.XmYp)
@@ -45,5 +45,5 @@ internal fun prepareClassic3x3GameField() {
     val gameField = GameField(3)
     val gameRules = GameRules(3)
     GameEngine.prepare(gameField, gameRules)
-    println("\nprepareClassic3x3GameField: gameEngine ready with given field: ${gameField.print2dGameField()}")
+    Log.pl("\nprepareClassic3x3GameField: gameEngine ready with given field: ${gameField.print2dGameField()}")
 }

@@ -1,9 +1,11 @@
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class GameTests {
+
+    @BeforeTest
+    fun switchLoggingOn() {
+        Log.switch(true)
+    }
 
     @Test
     fun gameNotStarted_defaultGameCreated_3x3GameFieldExists() {
@@ -49,9 +51,9 @@ class GameTests {
         val secondMark = Coordinates(1, 0)
         GameEngine.makeNewMove(firstMark, WhichPlayer.A)
         GameEngine.makeNewMove(secondMark, WhichPlayer.A)
-        println("measuring line from $firstMark in the forward direction:")
+        Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
-        println("measuring line from $firstMark in the opposite direction:")
+        Log.pl("measuring line from $firstMark in the opposite direction:")
         val lengthFromSecondToFirst = GameEngine.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(2, lengthFromFirstToSecond)
         assertEquals(2, lengthFromSecondToFirst)
@@ -64,9 +66,9 @@ class GameTests {
         val secondMark = Coordinates(2, 0)
         GameEngine.makeNewMove(firstMark, WhichPlayer.A)
         GameEngine.makeNewMove(secondMark, WhichPlayer.A)
-        println("measuring line from $firstMark in the forward direction:")
+        Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
-        println("measuring line from $firstMark in the opposite direction:")
+        Log.pl("measuring line from $firstMark in the opposite direction:")
         val lengthFromSecondToFirst = GameEngine.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(1, lengthFromFirstToSecond)
         assertEquals(1, lengthFromSecondToFirst)
@@ -82,9 +84,9 @@ class GameTests {
         GameEngine.makeNewMove(firstMark, WhichPlayer.A)
         GameEngine.makeNewMove(secondMark, WhichPlayer.A)
         GameEngine.makeNewMove(connectingMark, WhichPlayer.A)
-        println("measuring line from $firstMark in the forward direction:")
+        Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
-        println("measuring line from $firstMark in the opposite direction:")
+        Log.pl("measuring line from $firstMark in the opposite direction:")
         val lengthFromSecondToFirst = GameEngine.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(3, lengthFromFirstToSecond)
         assertEquals(3, lengthFromSecondToFirst)
@@ -100,9 +102,9 @@ class GameTests {
         GameEngine.makeNewMove(firstMark, WhichPlayer.A)
         GameEngine.makeNewMove(secondMark, WhichPlayer.A)
         GameEngine.makeNewMove(oneMoreMark, WhichPlayer.A)
-        println("measuring line from $firstMark in the forward direction:")
+        Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromEdgeToEdge = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
-        println("measuring line from $firstMark in the opposite direction:")
+        Log.pl("measuring line from $firstMark in the opposite direction:")
         val lengthFromEdgeToEdgeOpposite = GameEngine.measureLineFrom(oneMoreMark, LineDirection.XmY0, 1)
         assertEquals(3, lengthFromEdgeToEdge)
         assertEquals(3, lengthFromEdgeToEdgeOpposite)
@@ -115,7 +117,7 @@ class GameTests {
         val someSpot = Coordinates(1, 1)
         GameEngine.makeNewMove(someSpot, WhichPlayer.A)
         GameEngine.makeNewMove(someSpot, WhichPlayer.B)
-        println("\ngame field with only one player's mark: ${GameEngine.gameField.print2dGameField()}")
+        Log.pl("\ngame field with only one player's mark: ${GameEngine.gameField.print2dGameField()}")
         assertEquals(WhichPlayer.A, GameEngine.getCurrentField()[someSpot])
     }
 
@@ -132,7 +134,7 @@ class GameTests {
         val gameField = GameField(5)
         val gameRules = GameRules(5)
         GameEngine.prepare(gameField, gameRules)
-        println("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
+        Log.pl("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
         GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
         GameEngine.makeNewMove(Coordinates(1, 0), WhichPlayer.A)
 //    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later

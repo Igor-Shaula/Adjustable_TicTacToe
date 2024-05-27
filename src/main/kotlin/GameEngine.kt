@@ -27,7 +27,7 @@ object GameEngine {
     @Suppress("MemberVisibilityCanBePrivate")
     fun finish() {
         // todo: count and show the score here - a bit later
-        println("the game is finished in the given state: ${gameField.print2dGameField()}")
+        Log.pl("the game is finished in the given state: ${gameField.print2dGameField()}")
         clear()
     }
 
@@ -48,7 +48,7 @@ object GameEngine {
         if (gameField.placeNewDot(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
             val lineDirection = checkNewDotArea(where, what)
-            println("makeNewMove: detected existing line in direction: $lineDirection")
+            Log.pl("makeNewMove: detected existing line in direction: $lineDirection")
             if (lineDirection != LineDirection.None) {
                 // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
                 // we also have a proven placed dot of the same player in the detected line direction
@@ -58,11 +58,11 @@ object GameEngine {
                     val lineTotalLength =
                         measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
                                 measureLineFrom(where, opposite(lineDirection), 0)
-                    println("makeNewMove: lineTotalLength = $lineTotalLength")
+                    Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
                     updateGameScore(what, lineTotalLength)
                 } else {
                     // this line is also impossible to be covered by tests, so don't count it in the coverage
-                    println("makeNewMove: checkedNearCoordinates is Border - THIS SHOULD NEVER HAPPEN")
+                    Log.pl("makeNewMove: checkedNearCoordinates is Border - THIS SHOULD NEVER HAPPEN")
                 }
             }
         }
@@ -101,15 +101,15 @@ object GameEngine {
     }
 
     internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
-        println("measureLineFrom: startingLength: $startingLength")
+        Log.pl("measureLineFrom: startingLength: $startingLength")
         // firstly measure in the given direction and then in the opposite, also recursively
         val nextCoordinates = getTheNextSafeSpotFor(start, lineDirection)
-        println("measureLineFrom: start coordinates: $start")
-        println("measureLineFrom: next coordinates: $nextCoordinates")
+        Log.pl("measureLineFrom: start coordinates: $start")
+        Log.pl("measureLineFrom: next coordinates: $nextCoordinates")
         return if (nextCoordinates is Coordinates && gameField.theMap[nextCoordinates] == gameField.theMap[start]) {
             measureLineFrom(nextCoordinates, lineDirection, startingLength + 1)
         } else {
-            println("measureLineFrom: ELSE -> exit: $startingLength")
+            Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength
         }
     }
@@ -137,7 +137,7 @@ object GameEngine {
 
     private fun updateGameScore(whichPlayer: WhichPlayer, detectedLineLength: Int) {
         if (gameRules.isGameWon(detectedLineLength)) {
-            println("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
+            Log.pl("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
             finish()
         }
     }
