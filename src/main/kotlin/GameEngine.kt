@@ -60,10 +60,7 @@ object GameEngine {
                                 measureLineFrom(where, lineDirection.opposite(), 0)
                     Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
                     updateGameScore(what, lineTotalLength)
-                } else {
-                    // this line is also impossible to be covered by tests, so don't count it in the coverage
-                    Log.pl("makeNewMove: checkedNearCoordinates is Border - THIS SHOULD NEVER HAPPEN")
-                }
+                } // else checkedNearCoordinates cannot be Border or anything else from Coordinates type
             }
         }
     }
