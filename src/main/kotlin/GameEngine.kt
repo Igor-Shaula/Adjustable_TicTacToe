@@ -49,7 +49,11 @@ object GameEngine {
                 // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
                 val checkedNearCoordinates = getTheNextSafeSpotFor(where, lineDirection)
                 if (checkedNearCoordinates is Coordinates) {
-                    measureLineFrom(checkedNearCoordinates, lineDirection, 2)
+                    val lineTotalLength =
+                        measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
+                                measureLineFrom(where, opposite(lineDirection), 0)
+                    println("makeNewMove: lineTotalLength = $lineTotalLength")
+                    updateGameScore(what, lineTotalLength)
                 } else {
                     println("makeNewMove: checkedNearCoordinates is Border - THIS SHOULD NEVER HAPPEN")
                 }
