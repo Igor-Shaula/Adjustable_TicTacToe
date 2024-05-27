@@ -97,7 +97,7 @@ object GameEngine {
         }
     }
 
-    private fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
+    internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
         println("measureLineFrom: startingLength: $startingLength")
         // firstly measure in the given direction and then in the opposite, also recursively
         val nextCoordinates = getTheNextSafeSpotFor(start, lineDirection)

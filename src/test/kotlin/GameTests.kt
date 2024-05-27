@@ -61,6 +61,22 @@ class GameTests {
     }
 
     @Test
+    fun having3x3Field_2spotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
+        val gameField = GameField(3)
+        val gameRules = GameRules(3)
+        GameEngine.prepare(gameField, gameRules)
+        println("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
+        val firstMark = Coordinates(0, 0)
+        val secondMark = Coordinates(1, 0)
+        GameEngine.makeNewMove(firstMark, WhichPlayer.A)
+        GameEngine.makeNewMove(secondMark, WhichPlayer.A)
+        val lengthFromFirstToSecond = GameEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromSecondToFirst = GameEngine.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        assertEquals(2, lengthFromFirstToSecond)
+        assertEquals(2, lengthFromSecondToFirst)
+    }
+
+    @Test
     fun test3x3Field() {
         val gameField = GameField(3)
         val gameRules = GameRules(3)
