@@ -60,12 +60,16 @@ class GameTests {
         }
     }
 
-    @Test
-    fun having3x3Field_2adjacentSpotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
+    private fun prepareClassic3x3GameField() {
         val gameField = GameField(3)
         val gameRules = GameRules(3)
         GameEngine.prepare(gameField, gameRules)
-        println("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
+        println("\nprepareClassic3x3GameField: gameEngine ready with given field: ${gameField.print2dGameField()}")
+    }
+
+    @Test
+    fun having3x3Field_2adjacentSpotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
+        prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         GameEngine.makeNewMove(firstMark, WhichPlayer.A)
@@ -78,10 +82,7 @@ class GameTests {
 
     @Test
     fun having3x3Field_2remoteSpotsAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
-        val gameField = GameField(3)
-        val gameRules = GameRules(3)
-        GameEngine.prepare(gameField, gameRules)
-        println("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
+        prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
         GameEngine.makeNewMove(firstMark, WhichPlayer.A)
@@ -95,10 +96,7 @@ class GameTests {
 
     @Test
     fun test3x3Field() {
-        val gameField = GameField(3)
-        val gameRules = GameRules(3)
-        GameEngine.prepare(gameField, gameRules)
-        println("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
+        prepareClassic3x3GameField()
         GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
         GameEngine.makeNewMove(Coordinates(1, 0), WhichPlayer.A)
         GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A)
