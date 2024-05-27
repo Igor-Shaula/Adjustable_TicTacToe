@@ -34,13 +34,12 @@ class GameField(
     }
 
     fun print2dGameField(): String {
-        val sb: StringBuilder = StringBuilder(1 + sideLength * (sideLength + 1))
-        sb.append("\n")
-        for (x in 0..<sideLength) {
-            for (y in 0..<sideLength) {
-                sb.append(theMap[Coordinates(x, y)]).append(' ')
-            }
+        val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
+        for (y in 0..<sideLength) {
             sb.append("\n")
+            for (x in 0..<sideLength) {
+                sb.append(theMap[Coordinates(x, y)]?.symbol).append(' ')
+            }
         }
         return sb.toString()
     }
