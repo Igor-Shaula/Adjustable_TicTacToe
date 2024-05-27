@@ -6,6 +6,7 @@ fun main() {
     testTheNextSpotCreationBlock(Coordinates(1, 1))
     testTheNextSpotCreationBlock(Coordinates(0, 1))
     test3x3Field()
+    test5x5Field()
 }
 
 fun testTheNextSpotCreationBlock(startSpot: Coordinates) {
@@ -22,20 +23,29 @@ fun testTheNextSpotCreationBlock(startSpot: Coordinates) {
 }
 
 private fun testTheNextSpotCreationFor(startSpot: Coordinates, direction: LineDirection) {
-//    val nextSpot = getTheNextSpotFor(startSpot, direction)
     val nextSpot = getTheNextSafeSpotFor(startSpot, direction)
     println("nextSpot for $direction is $nextSpot")
 }
 
 fun test3x3Field() {
-    val gameField = GameField(5)
-    val gameRules = GameRules(4)
+    val gameField = GameField(3)
+    val gameRules = GameRules(3)
     GameEngine.prepare(gameField, gameRules)
     println("\ntest3x3Field: gameEngine ready with given field: ${gameField.theMap}")
     GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
     GameEngine.makeNewMove(Coordinates(1, 0), WhichPlayer.A)
     GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A)
-    // the next line is very synthetic, but it shows that the actual line length is correct
-    val lengthXmY0 = GameEngine.measureLineFrom(Coordinates(2, 0), LineDirection.XmY0, 1)
-    println("test3x3Field: lengthXmY0 = $lengthXmY0")
+}
+
+fun test5x5Field() {
+    val gameField = GameField(5)
+    val gameRules = GameRules(5)
+    GameEngine.prepare(gameField, gameRules)
+    println("\ntest3x3Field: gameEngine ready with given field: ${gameField.theMap}")
+    GameEngine.makeNewMove(Coordinates(0, 0), WhichPlayer.A)
+    GameEngine.makeNewMove(Coordinates(1, 0), WhichPlayer.A)
+//    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
+    GameEngine.makeNewMove(Coordinates(3, 0), WhichPlayer.A)
+    GameEngine.makeNewMove(Coordinates(4, 0), WhichPlayer.A)
+    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally placed here to connect 2 segments
 }
