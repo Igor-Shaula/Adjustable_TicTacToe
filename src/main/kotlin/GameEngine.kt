@@ -57,7 +57,7 @@ object GameEngine {
                 if (checkedNearCoordinates is Coordinates) {
                     val lineTotalLength =
                         measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
-                                measureLineFrom(where, opposite(lineDirection), 0)
+                                measureLineFrom(where, lineDirection.opposite(), 0)
                     Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
                     updateGameScore(what, lineTotalLength)
                 } else {

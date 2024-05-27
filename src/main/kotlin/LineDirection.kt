@@ -11,17 +11,18 @@ enum class LineDirection(val dx: Int, val dy: Int) {
     XpYp(+1, +1),
     XmYp(-1, +1),
     XpYm(+1, -1),
-    None(0, 0)
-}
+    None(0, 0);
 
-internal fun opposite(givenDirection: LineDirection): LineDirection = when (givenDirection) {
-    LineDirection.XmY0 -> LineDirection.XpY0
-    LineDirection.XpY0 -> LineDirection.XmY0
-    LineDirection.X0Ym -> LineDirection.X0Yp
-    LineDirection.X0Yp -> LineDirection.X0Ym
-    LineDirection.XmYm -> LineDirection.XpYp
-    LineDirection.XpYp -> LineDirection.XmYm
-    LineDirection.XmYp -> LineDirection.XpYm
-    LineDirection.XpYm -> LineDirection.XmYp
-    else -> LineDirection.None
+    // setting opposite direction is very easy: plus -> minus, minus -> plus, 0 -> 0
+    fun opposite(): LineDirection = when (this) {
+        XmY0 -> XpY0
+        XpY0 -> XmY0
+        X0Ym -> X0Yp
+        X0Yp -> X0Ym
+        XmYm -> XpYp
+        XpYp -> XmYm
+        XmYp -> XpYm
+        XpYm -> XmYp
+        else -> None
+    }
 }

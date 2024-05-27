@@ -17,15 +17,15 @@ class GameTests {
 
     @Test
     fun having2dField_anyLineDirectionChosen_detectingOppositeDirectionIsCorrect() {
-        assertEquals(LineDirection.XpY0, opposite(LineDirection.XmY0))
-        assertEquals(LineDirection.XmY0, opposite(LineDirection.XpY0))
-        assertEquals(LineDirection.X0Yp, opposite(LineDirection.X0Ym))
-        assertEquals(LineDirection.X0Ym, opposite(LineDirection.X0Yp))
-        assertEquals(LineDirection.XpYp, opposite(LineDirection.XmYm))
-        assertEquals(LineDirection.XmYm, opposite(LineDirection.XpYp))
-        assertEquals(LineDirection.XpYm, opposite(LineDirection.XmYp))
-        assertEquals(LineDirection.XmYp, opposite(LineDirection.XpYm))
-        assertEquals(LineDirection.None, opposite(LineDirection.None))
+        assertEquals(LineDirection.XpY0, LineDirection.XmY0.opposite())
+        assertEquals(LineDirection.XmY0, LineDirection.XpY0.opposite())
+        assertEquals(LineDirection.X0Yp, LineDirection.X0Ym.opposite())
+        assertEquals(LineDirection.X0Ym, LineDirection.X0Yp.opposite())
+        assertEquals(LineDirection.XpYp, LineDirection.XmYm.opposite())
+        assertEquals(LineDirection.XmYm, LineDirection.XpYp.opposite())
+        assertEquals(LineDirection.XpYm, LineDirection.XmYp.opposite())
+        assertEquals(LineDirection.XmYp, LineDirection.XpYm.opposite())
+        assertEquals(LineDirection.None, LineDirection.None.opposite())
     }
 
     /**
