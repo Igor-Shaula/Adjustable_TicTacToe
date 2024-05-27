@@ -1,11 +1,14 @@
 import GameEngine.getTheNextSafeSpotFor
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 class GameTests {
 
-    // todo: ASSERTIONS will be added very soon. at first I wanted to see the console output of the GameEngine
-
+    /**
+     * here we check if an adjacent spot exists for every cell in 3x3 game for every possible direction
+     */
     @Test
     fun oneSpotSetOn3x3Field_adjacentSpotDetectionLogic_isCorrect() {
         checkTheNextSpotDetectionBlock(Coordinates(0, 0))
@@ -20,7 +23,7 @@ class GameTests {
     }
 
     private fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
-        println("\ntestTheNextSpotCreationBlock for given spot: $startSpot:")
+        println("\ncheckTheNextSpotDetectionBlock for given spot: $startSpot:")
         checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmY0)
         checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpY0)
         checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.X0Ym)
@@ -34,23 +37,26 @@ class GameTests {
 
     private fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
         val nextSpot = getTheNextSafeSpotFor(startSpot, direction)
-        println("nextSpot for $direction is $nextSpot")
+        println("nextSpot on 3x3 field for $direction is $nextSpot")
         when {
             // lowest limit for X axis
             startSpot.x == 0 && (direction == LineDirection.XmYm || direction == LineDirection.XmY0 || direction == LineDirection.XmYp)
-            -> assertTrue(nextSpot is Border)
+            -> assertEquals(Border, nextSpot)
             // lowest limit for Y axis
             startSpot.y == 0 && (direction == LineDirection.XmYm || direction == LineDirection.X0Ym || direction == LineDirection.XpYm)
-            -> assertTrue(nextSpot is Border)
+            -> assertEquals(Border, nextSpot)
             // highest limit for X axis
             startSpot.x == 2 && (direction == LineDirection.XpYm || direction == LineDirection.XpY0 || direction == LineDirection.XpYp)
-            -> assertTrue(nextSpot is Border)
+            -> assertEquals(Border, nextSpot)
             // highest limit for Y axis
             startSpot.y == 2 && (direction == LineDirection.XmYp || direction == LineDirection.X0Yp || direction == LineDirection.XpYp)
-            -> assertTrue(nextSpot is Border)
+            -> assertEquals(Border, nextSpot)
             // right in the center -> adjacent spot exists in any direction
             startSpot.x == 1 && startSpot.y == 1
-            -> assertTrue(nextSpot is Coordinates)
+            -> {
+                assertNotEquals(Border, nextSpot)
+                assertTrue(nextSpot is Coordinates)
+            }
         }
     }
 
