@@ -1,9 +1,9 @@
-import GameEngine.getTheNextSafeSpotFor
+import AtttEngine.getTheNextSafeSpotFor
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
+internal fun checkTheNextSpotDetectionBlock(startSpot: AtttPlace) {
     Log.pl("\ncheckTheNextSpotDetectionBlock for given spot: $startSpot:")
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmY0)
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpY0)
@@ -16,7 +16,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.None)
 }
 
-internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
+internal fun checkTheNextSpotDetectionForLineDirection(startSpot: AtttPlace, direction: LineDirection) {
     val nextSpot = getTheNextSafeSpotFor(startSpot, direction)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
@@ -36,14 +36,14 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, d
         startSpot.x == 1 && startSpot.y == 1
         -> {
             assertNotEquals(Border, nextSpot)
-            assertTrue(nextSpot is Coordinates)
+            assertTrue(nextSpot is AtttPlace)
         }
     }
 }
 
 internal fun prepareClassic3x3GameField() {
-    val gameField = GameField(3)
-    val gameRules = GameRules(3)
-    GameEngine.prepare(gameField, gameRules)
+    val gameField = AtttField(3)
+    val gameRules = AtttRules(3)
+    AtttEngine.prepare(gameField, gameRules)
     Log.pl("\nprepareClassic3x3GameField: gameEngine ready with given field: ${gameField.print2dGameField()}")
 }

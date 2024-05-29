@@ -1,12 +1,16 @@
+/**
+ * AtttField = Adjustable TicTacToe Field
+ * represents the area/space where all players' marks are placed.
+ */
 @Suppress("UNUSED_PARAMETER")
-class GameField(
+class AtttField(
     private var sideLength: Int, // for a good old 3x3 game
     dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
     numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious
 ) {
     val minIndex = 0 // this is obvious but let it be here for consistency
     val maxIndex = sideLength - 1 // constant for the given game field
-    val theMap: MutableMap<Coordinates, WhichPlayer> = mutableMapOf() // not nullable but needs to be configured later
+    val theMap: MutableMap<AtttPlace, AtttPlayer> = mutableMapOf() // not nullable but needs to be configured later
 
     init {
         // here we're doing possible corrections that may be needed to keep the game rules reasonable
@@ -15,7 +19,7 @@ class GameField(
         // let's create the initial board or field for the game
         for (x in 0..<sideLength) {
             for (y in 0..<sideLength) {
-                theMap[Coordinates(x, y)] = WhichPlayer.None
+                theMap[AtttPlace(x, y)] = AtttPlayer.None
             }
         }
     }
@@ -24,7 +28,7 @@ class GameField(
         theMap.clear()
     }
 
-    fun placeNewDot(where: Coordinates, what: WhichPlayer): Boolean = if (theMap[where] == WhichPlayer.None) {
+    fun placeNewDot(where: AtttPlace, what: AtttPlayer): Boolean = if (theMap[where] == AtttPlayer.None) {
         theMap[where] = what
         true
     } else {
@@ -38,7 +42,7 @@ class GameField(
         for (y in 0..<sideLength) {
             sb.append("\n")
             for (x in 0..<sideLength) {
-                sb.append(theMap[Coordinates(x, y)]?.symbol).append(' ')
+                sb.append(theMap[AtttPlace(x, y)]?.symbol).append(' ')
             }
         }
         return sb.toString()
