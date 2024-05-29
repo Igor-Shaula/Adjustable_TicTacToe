@@ -4,7 +4,7 @@ internal sealed interface GameSpace
 data class Coordinates(val x: Int, val y: Int) : GameSpace
 //data class Coordinates(val x: Int, val y: Int, val z: Int? = null) // later
 
-data object Border : GameSpace
+internal data object Border : GameSpace
 
 // for now, 2 players is enough, but in the future we can have more
 @Suppress("unused")
