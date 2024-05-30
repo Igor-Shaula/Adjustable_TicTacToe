@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "1.9.24"
 }
 
 group = "org.igor_shaula"
@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation(files("libs/Adjustable_TicTacToe_Engine-0.2.0.jar"))
+    implementation(files("libs/Adjustable_TicTacToe_Engine-0.2.3.jar"))
     testImplementation(kotlin("test"))
 }
 

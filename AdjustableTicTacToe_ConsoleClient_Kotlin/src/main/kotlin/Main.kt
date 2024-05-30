@@ -4,16 +4,20 @@ fun main() {
     val rules = AtttRules(3)
     engine.prepare(field, rules)
 
-    engine.makeNewMove(AtttPlace(1, 1))
-    engine.makeNewMove(AtttPlace(0, 0))
-    engine.makeNewMove(AtttPlace(1, 2))
-    engine.makeNewMove(AtttPlace(1, 0))
-    engine.makeNewMove(AtttPlace(2, 0))
-    engine.makeNewMove(AtttPlace(0, 2))
-    engine.makeNewMove(AtttPlace(0, 1))
-    engine.makeNewMove(AtttPlace(2, 1))
+    engine.mm(1, 1)
+    engine.mm(0, 0)
+    engine.mm(1, 2)
+    engine.mm(1, 0)
+    engine.mm(2, 0)
+    engine.mm(0, 2)
+    engine.mm(0, 1)
+    engine.mm(2, 1)
+    engine.mm(2, 2)
 
     engine.printCurrentFieldIn2d()
 
-    println("engine.isRunning() = " + engine.isRunning())
+    println("engine.isActive() = " + engine.isActive())
+
+    engine.finish()
+    println("engine.isActive() = " + engine.isActive())
 }
