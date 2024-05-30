@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation files('libs/Adjustable_TicTacToe_Engine-0.1.1.jar')
+    implementation files('libs/Adjustable_TicTacToe_Engine-0.2.1.jar')
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
