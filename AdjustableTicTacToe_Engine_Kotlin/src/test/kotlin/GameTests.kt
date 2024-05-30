@@ -112,6 +112,28 @@ class GameTests {
     }
 
     @Test
+    fun having3x3Field_2AdjacentMarksAreSetBySequentialPlayers_noLineIsCreatedForAnyPlayer() {
+        prepareClassic3x3GameField()
+        val firstMark = AtttPlace(0, 0)
+        val secondMark = AtttPlace(1, 0)
+        val firstActivePlayer = AtttEngine.activePlayer // should be player A
+        AtttEngine.makeNewMove(firstMark) // after this line active player is replaced with the next -> B
+        Log.pl("measuring line from $firstMark for player: $firstActivePlayer in the forward direction:")
+        val lengthForPlayerA = AtttEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val secondActivePlayer = AtttEngine.activePlayer // should be player B
+        AtttEngine.makeNewMove(secondMark) // after this line active player is replaced with the next -> A
+        Log.pl("measuring line from $secondMark for player: $secondActivePlayer in the forward direction:")
+        val lengthForPlayerB = AtttEngine.measureLineFrom(secondMark, LineDirection.XpY0, 1)
+        assertEquals(1, lengthForPlayerA)
+        assertEquals(1, lengthForPlayerB)
+        AtttEngine.makeNewMove(AtttPlace(2, 0))
+        AtttEngine.makeNewMove(AtttPlace(1, 1))
+        AtttEngine.makeNewMove(AtttPlace(2, 1))
+        AtttEngine.makeNewMove(AtttPlace(1, 2))
+        Log.pl(AtttEngine.gameField.print2dGameField())
+    }
+
+    @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
         prepareClassic3x3GameField()
         val someSpot = AtttPlace(1, 1)
