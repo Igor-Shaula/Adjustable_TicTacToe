@@ -9,6 +9,9 @@ object AtttEngine {
     internal var gameField: AtttField = AtttField(MIN_GAME_FIELD_SIDE_SIZE)
     private var gameRules: AtttRules = AtttRules(MIN_WINNING_LINE_LENGTH)
 
+    // this should be used only internally, for now there's no need to show it to a client
+    internal var activePlayer: AtttPlayer = AtttPlayer.None
+
     // -------
     // region PUBLIC API
 
@@ -17,10 +20,11 @@ object AtttEngine {
      */
     fun prepare(
         newGameField: AtttField, newGameRules: AtttRules
-    ) {
+    ): AtttPlayer { // game engine client must know who's the next to make a move on the board
         clear() // for all possible resources that could be used previously
         gameField = newGameField
         gameRules = newGameRules
+        return prepareNextPlayer()
     }
 
     // stop right now, count the achieved score for all players and show the result
@@ -44,7 +48,7 @@ object AtttEngine {
     */
 
     // this function is actually the single place for making moves and thus changing the game field
-    fun makeNewMove(where: AtttPlace, what: AtttPlayer) {
+    fun makeNewMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer {
         if (gameField.placeNewDot(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
             val lineDirection = checkNewDotArea(where, what)
@@ -63,6 +67,7 @@ object AtttEngine {
                 } // else checkedNearCoordinates cannot be Border or anything else from Coordinates type
             }
         }
+        return prepareNextPlayer()
     }
 
     fun isRunning() = gameField.theMap.isNotEmpty()
@@ -74,9 +79,17 @@ object AtttEngine {
     // --------
     // region ALL PRIVATE
 
+    // sets the currently active player, for which a move will be made & returns the player for the next move
+    private fun prepareNextPlayer(): AtttPlayer {
+        activePlayer =
+            if (activePlayer == AtttPlayer.A) AtttPlayer.B else AtttPlayer.A // A is set after None case as well
+        return activePlayer
+    }
+
     // immediately clear if anything is running at the moment
     private fun clear() {
         gameField.clear()
+        activePlayer = AtttPlayer.None
     }
 
     private fun checkNewDotArea(where: AtttPlace, what: AtttPlayer): LineDirection {
