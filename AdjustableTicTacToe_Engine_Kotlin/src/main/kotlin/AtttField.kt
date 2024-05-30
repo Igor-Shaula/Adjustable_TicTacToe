@@ -37,7 +37,7 @@ class AtttField(
         false
     }
 
-    fun print2dGameField(): String {
+    fun prepareForPrintingIn2d(): String {
         val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
         for (y in 0..<sideLength) {
             sb.append("\n")

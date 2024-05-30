@@ -45,5 +45,5 @@ internal fun prepareClassic3x3GameField() {
     val gameField = AtttField(3)
     val gameRules = AtttRules(3)
     AtttEngine.prepare(gameField, gameRules)
-    Log.pl("\nprepareClassic3x3GameField: gameEngine ready with given field: ${gameField.print2dGameField()}")
+    Log.pl("\nprepareClassic3x3GameField: gameEngine ready with given field: ${gameField.prepareForPrintingIn2d()}")
 }

@@ -130,7 +130,7 @@ class GameTests {
         AtttEngine.makeNewMove(AtttPlace(1, 1))
         AtttEngine.makeNewMove(AtttPlace(2, 1))
         AtttEngine.makeNewMove(AtttPlace(1, 2))
-        Log.pl(AtttEngine.gameField.print2dGameField())
+        Log.pl(AtttEngine.gameField.prepareForPrintingIn2d())
     }
 
     @Test
@@ -139,7 +139,7 @@ class GameTests {
         val someSpot = AtttPlace(1, 1)
         AtttEngine.makeNewMove(someSpot, AtttPlayer.A)
         AtttEngine.makeNewMove(someSpot, AtttPlayer.B)
-        Log.pl("\ngame field with only one player's mark: ${AtttEngine.gameField.print2dGameField()}")
+        Log.pl("\ngame field with only one player's mark: ${AtttEngine.gameField.prepareForPrintingIn2d()}")
         assertEquals(AtttPlayer.A, AtttEngine.getCurrentField()[someSpot])
     }
 
@@ -169,7 +169,7 @@ class GameTests {
         val gameField = AtttField(5)
         val gameRules = AtttRules(5)
         AtttEngine.prepare(gameField, gameRules)
-        Log.pl("\ntest3x3Field: gameEngine ready with given field: ${gameField.print2dGameField()}")
+        Log.pl("\ntest3x3Field: gameEngine ready with given field: ${gameField.prepareForPrintingIn2d()}")
         AtttEngine.makeNewMove(AtttPlace(0, 0), AtttPlayer.A)
         AtttEngine.makeNewMove(AtttPlace(1, 0), AtttPlayer.A)
 //    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later

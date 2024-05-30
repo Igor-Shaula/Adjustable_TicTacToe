@@ -31,7 +31,7 @@ object AtttEngine {
     @Suppress("MemberVisibilityCanBePrivate")
     fun finish() {
         // todo: count and show the score here - a bit later
-        Log.pl("the game is finished in the given state: ${gameField.print2dGameField()}")
+        Log.pl("the game is finished in the given state: ${gameField.prepareForPrintingIn2d()}")
         clear()
     }
 
@@ -48,7 +48,7 @@ object AtttEngine {
     */
 
     // this function is actually the single place for making moves and thus changing the game field
-    fun makeNewMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer {
+    fun makeNewMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
         if (gameField.placeNewDot(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
             val lineDirection = checkNewDotArea(where, what)
@@ -74,6 +74,10 @@ object AtttEngine {
 
     // needed for UI to draw current state of the game, or simply to update the UI before making a new move
     fun getCurrentField() = gameField.theMap
+
+    fun printCurrentFieldIn2d() {
+        println(gameField.prepareForPrintingIn2d())
+    }
 
     // endregion PUBLIC API
     // --------
