@@ -10,7 +10,7 @@ class AtttField(
 ) {
     internal val minIndex = 0 // this is obvious but let it be here for consistency
     internal val maxIndex = sideLength - 1 // constant for the given game field
-    internal val theMap: MutableMap<AtttPlace, AtttPlayer> =
+    internal val theMap: MutableMap<Coordinates, AtttPlayer> =
         mutableMapOf() // not nullable but needs to be configured later
 
     init {
@@ -20,7 +20,7 @@ class AtttField(
         // let's create the initial board or field for the game
         for (x in 0 until sideLength) {
             for (y in 0 until sideLength) {
-                theMap[AtttPlace(x, y)] = AtttPlayer.None
+                theMap[Coordinates(x, y)] = AtttPlayer.None
             }
         }
     }
@@ -29,7 +29,7 @@ class AtttField(
         theMap.clear()
     }
 
-    internal fun placeNewMark(where: AtttPlace, what: AtttPlayer): Boolean = if (theMap[where] == AtttPlayer.None) {
+    internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean = if (theMap[where] == AtttPlayer.None) {
         theMap[where] = what
         true
     } else {
@@ -46,7 +46,7 @@ class AtttField(
         for (y in 0 until sideLength) {
             sb.append("\n")
             for (x in 0 until sideLength) {
-                sb.append(theMap[AtttPlace(x, y)]?.symbol).append(' ')
+                sb.append(theMap[Coordinates(x, y)]?.symbol).append(' ')
             }
         }
         return sb.toString()

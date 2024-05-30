@@ -43,13 +43,13 @@ internal object AtttEngine : AtttGame {
      */
     override fun makeMove(x: Int, y: Int): AtttPlayer =
         if (gameField.isCorrectPosition(x, y)) {
-            makeMove(AtttPlace(x, y))
+            makeMove(Coordinates(x, y))
         } else {
             activePlayer
         }
 
     // this function is actually the single place for making moves and thus changing the game field
-    internal fun makeMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
+    internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
         if (gameField.placeNewMark(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
             val lineDirection = checkNewDotArea(where, what)
@@ -59,7 +59,7 @@ internal object AtttEngine : AtttGame {
                 // we also have a proven placed dot of the same player in the detected line direction
                 // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
                 val checkedNearCoordinates = getTheNextSafeSpotFor(where, lineDirection)
-                if (checkedNearCoordinates is AtttPlace) {
+                if (checkedNearCoordinates is Coordinates) {
                     val lineTotalLength =
                         measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
                                 measureLineFrom(where, lineDirection.opposite(), 0)
@@ -97,31 +97,31 @@ internal object AtttEngine : AtttGame {
         activePlayer = AtttPlayer.None
     }
 
-    private fun checkNewDotArea(where: AtttPlace, what: AtttPlayer): LineDirection {
+    private fun checkNewDotArea(where: Coordinates, what: AtttPlayer): LineDirection {
         val x = where.x
         val y = where.y
         val minIndex = gameField.minIndex
         val maxIndex = gameField.maxIndex
         return when {
-            x > minIndex && gameField.theMap[AtttPlace(x - 1, y)] == what -> LineDirection.XmY0
-            x < maxIndex && gameField.theMap[AtttPlace(x + 1, y)] == what -> LineDirection.XpY0
-            y > minIndex && gameField.theMap[AtttPlace(x, y - 1)] == what -> LineDirection.X0Ym
-            y < maxIndex && gameField.theMap[AtttPlace(x, y + 1)] == what -> LineDirection.X0Yp
-            x > minIndex && y > minIndex && gameField.theMap[AtttPlace(x - 1, y - 1)] == what -> LineDirection.XmYm
-            x < maxIndex && y < maxIndex && gameField.theMap[AtttPlace(x + 1, y + 1)] == what -> LineDirection.XpYp
-            x > minIndex && y < maxIndex && gameField.theMap[AtttPlace(x - 1, y + 1)] == what -> LineDirection.XmYp
-            x < maxIndex && y > minIndex && gameField.theMap[AtttPlace(x + 1, y - 1)] == what -> LineDirection.XpYm
+            x > minIndex && gameField.theMap[Coordinates(x - 1, y)] == what -> LineDirection.XmY0
+            x < maxIndex && gameField.theMap[Coordinates(x + 1, y)] == what -> LineDirection.XpY0
+            y > minIndex && gameField.theMap[Coordinates(x, y - 1)] == what -> LineDirection.X0Ym
+            y < maxIndex && gameField.theMap[Coordinates(x, y + 1)] == what -> LineDirection.X0Yp
+            x > minIndex && y > minIndex && gameField.theMap[Coordinates(x - 1, y - 1)] == what -> LineDirection.XmYm
+            x < maxIndex && y < maxIndex && gameField.theMap[Coordinates(x + 1, y + 1)] == what -> LineDirection.XpYp
+            x > minIndex && y < maxIndex && gameField.theMap[Coordinates(x - 1, y + 1)] == what -> LineDirection.XmYp
+            x < maxIndex && y > minIndex && gameField.theMap[Coordinates(x + 1, y - 1)] == what -> LineDirection.XpYm
             else -> LineDirection.None
         }
     }
 
-    internal fun measureLineFrom(start: AtttPlace, lineDirection: LineDirection, startingLength: Int): Int {
+    internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
         Log.pl("measureLineFrom: startingLength: $startingLength")
         // firstly measure in the given direction and then in the opposite, also recursively
         val nextCoordinates = getTheNextSafeSpotFor(start, lineDirection)
         Log.pl("measureLineFrom: start coordinates: $start")
         Log.pl("measureLineFrom: next coordinates: $nextCoordinates")
-        return if (nextCoordinates is AtttPlace && gameField.theMap[nextCoordinates] == gameField.theMap[start]) {
+        return if (nextCoordinates is Coordinates && gameField.theMap[nextCoordinates] == gameField.theMap[start]) {
             measureLineFrom(nextCoordinates, lineDirection, startingLength + 1)
         } else {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
@@ -129,7 +129,7 @@ internal object AtttEngine : AtttGame {
         }
     }
 
-    internal fun getTheNextSafeSpotFor(start: AtttPlace, lineDirection: LineDirection): GameSpace {
+    internal fun getTheNextSafeSpotFor(start: Coordinates, lineDirection: LineDirection): GameSpace {
         @Suppress("SimplifyBooleanWithConstants")
         when {
             false || // just for the following cases' alignment
@@ -147,7 +147,7 @@ internal object AtttEngine : AtttGame {
                     start.y >= gameField.maxIndex && lineDirection == LineDirection.XpYp ->
                 return Border
         }
-        return AtttPlace(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
+        return Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
     }
 
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {

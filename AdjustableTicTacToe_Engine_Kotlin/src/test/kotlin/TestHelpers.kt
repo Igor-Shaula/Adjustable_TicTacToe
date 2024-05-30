@@ -3,7 +3,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-internal fun checkTheNextSpotDetectionBlock(startSpot: AtttPlace) {
+internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
     Log.pl("\ncheckTheNextSpotDetectionBlock for given spot: $startSpot:")
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmY0)
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpY0)
@@ -16,7 +16,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: AtttPlace) {
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.None)
 }
 
-internal fun checkTheNextSpotDetectionForLineDirection(startSpot: AtttPlace, direction: LineDirection) {
+internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
     val nextSpot = getTheNextSafeSpotFor(startSpot, direction)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
@@ -36,7 +36,7 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: AtttPlace, dir
         startSpot.x == 1 && startSpot.y == 1
         -> {
             assertNotEquals(Border, nextSpot)
-            assertTrue(nextSpot is AtttPlace)
+            assertTrue(nextSpot is Coordinates)
         }
     }
 }
