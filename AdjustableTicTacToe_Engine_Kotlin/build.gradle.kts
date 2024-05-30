@@ -1,9 +1,9 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "1.9.24"
 }
 
 group = "org.igor_shaula"
-version = "0.2.0"
+version = "0.2.1"
 
 repositories {
     mavenCentral()

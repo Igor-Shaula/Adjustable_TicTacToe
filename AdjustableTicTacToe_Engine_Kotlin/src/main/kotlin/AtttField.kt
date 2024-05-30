@@ -17,8 +17,8 @@ class AtttField(
         if (sideLength > MAX_GAME_FIELD_SIDE_SIZE) sideLength = MAX_GAME_FIELD_SIDE_SIZE
         else if (sideLength < MIN_GAME_FIELD_SIDE_SIZE) sideLength = MIN_GAME_FIELD_SIDE_SIZE
         // let's create the initial board or field for the game
-        for (x in 0..<sideLength) {
-            for (y in 0..<sideLength) {
+        for (x in 0 until sideLength) {
+            for (y in 0 until sideLength) {
                 theMap[AtttPlace(x, y)] = AtttPlayer.None
             }
         }
@@ -39,9 +39,9 @@ class AtttField(
 
     fun prepareForPrintingIn2d(): String {
         val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
-        for (y in 0..<sideLength) {
+        for (y in 0 until sideLength) {
             sb.append("\n")
-            for (x in 0..<sideLength) {
+            for (x in 0 until sideLength) {
                 sb.append(theMap[AtttPlace(x, y)]?.symbol).append(' ')
             }
         }
