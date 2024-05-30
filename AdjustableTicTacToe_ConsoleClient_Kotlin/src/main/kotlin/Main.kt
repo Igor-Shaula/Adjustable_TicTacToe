@@ -1,23 +1,23 @@
 fun main() {
-    val engine = AtttEngine
     val field = AtttField(3, 2, 2)
     val rules = AtttRules(3)
-    engine.prepare(field, rules)
+    val game = AtttGame.create()
+    game.prepare(field, rules)
 
-    engine.mm(1, 1)
-    engine.mm(0, 0)
-    engine.mm(1, 2)
-    engine.mm(1, 0)
-    engine.mm(2, 0)
-    engine.mm(0, 2)
-    engine.mm(0, 1)
-    engine.mm(2, 1)
-    engine.mm(2, 2)
+    game.mm(1, 1)
+    game.mm(0, 0)
+    game.mm(1, 2)
+    game.mm(1, 0)
+    game.mm(2, 0)
+    game.mm(0, 2)
+    game.mm(0, 1)
+    game.mm(2, 1)
+    game.mm(2, 2)
 
-    engine.printCurrentFieldIn2d()
+    game.printCurrentFieldIn2d()
 
-    println("engine.isActive() = " + engine.isActive())
+    println("engine.isActive() = " + game.isActive())
 
-    engine.finish()
-    println("engine.isActive() = " + engine.isActive())
+    game.finish()
+    println("engine.isActive() = " + game.isActive())
 }

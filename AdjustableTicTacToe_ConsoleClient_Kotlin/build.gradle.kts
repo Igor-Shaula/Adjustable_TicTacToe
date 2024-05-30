@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation(files("libs/Adjustable_TicTacToe_Engine-0.2.3.jar"))
+    implementation(files("libs/Adjustable_TicTacToe_Engine-0.2.5.jar"))
     testImplementation(kotlin("test"))
 }
 
