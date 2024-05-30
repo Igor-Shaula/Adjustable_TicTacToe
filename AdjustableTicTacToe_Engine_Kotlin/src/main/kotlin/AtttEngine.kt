@@ -41,9 +41,11 @@ object AtttEngine {
      * this is the only way to make progress in the game.
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
-    fun makeMove(x: Int, y: Int) {
+    fun makeMove(x: Int, y: Int): AtttPlayer =
         if (gameField.isCorrectPosition(x, y)) {
             makeMove(AtttPlace(x, y))
+        } else {
+            activePlayer
         }
     }
 
