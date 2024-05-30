@@ -144,11 +144,24 @@ class GameTests {
     }
 
     @Test
-    fun test3x3Field() {
+    fun having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect() {
         prepareClassic3x3GameField()
         AtttEngine.makeNewMove(AtttPlace(0, 0), AtttPlayer.A)
         AtttEngine.makeNewMove(AtttPlace(1, 0), AtttPlayer.A)
         AtttEngine.makeNewMove(AtttPlace(2, 0), AtttPlayer.A)
+        // gameField & winning message for player A is printed in the console
+    }
+
+    @Test
+    fun having3x3Field_realSimulation2PlayersMovesMade_victoryConditionIsCorrect() {
+        prepareClassic3x3GameField()
+        AtttEngine.makeNewMove(AtttPlace(0, 0))
+        AtttEngine.makeNewMove(AtttPlace(1, 0))
+        AtttEngine.makeNewMove(AtttPlace(2, 0))
+        AtttEngine.makeNewMove(AtttPlace(1, 1))
+        AtttEngine.makeNewMove(AtttPlace(2, 1))
+        AtttEngine.makeNewMove(AtttPlace(1, 2))
+        // gameField & winning message for player B is printed in the console
     }
 
     @Test
