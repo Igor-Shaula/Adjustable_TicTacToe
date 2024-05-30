@@ -49,7 +49,7 @@ object AtttEngine {
 
     // this function is actually the single place for making moves and thus changing the game field
     internal fun makeMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
-        if (gameField.placeNewDot(where, what)) {
+        if (gameField.placeNewMark(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
             val lineDirection = checkNewDotArea(where, what)
             Log.pl("makeNewMove: detected existing line in direction: $lineDirection")

@@ -8,9 +8,10 @@ class AtttField(
     dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
     numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious
 ) {
-    val minIndex = 0 // this is obvious but let it be here for consistency
-    val maxIndex = sideLength - 1 // constant for the given game field
-    val theMap: MutableMap<AtttPlace, AtttPlayer> = mutableMapOf() // not nullable but needs to be configured later
+    internal val minIndex = 0 // this is obvious but let it be here for consistency
+    internal val maxIndex = sideLength - 1 // constant for the given game field
+    internal val theMap: MutableMap<AtttPlace, AtttPlayer> =
+        mutableMapOf() // not nullable but needs to be configured later
 
     init {
         // here we're doing possible corrections that may be needed to keep the game rules reasonable
@@ -24,11 +25,11 @@ class AtttField(
         }
     }
 
-    fun clear() {
+    internal fun clear() {
         theMap.clear()
     }
 
-    fun placeNewDot(where: AtttPlace, what: AtttPlayer): Boolean = if (theMap[where] == AtttPlayer.None) {
+    internal fun placeNewMark(where: AtttPlace, what: AtttPlayer): Boolean = if (theMap[where] == AtttPlayer.None) {
         theMap[where] = what
         true
     } else {
@@ -37,6 +38,9 @@ class AtttField(
         false
     }
 
+    /**
+     * returns beautiful & simple String representation of the current state of game field
+     */
     fun prepareForPrintingIn2d(): String {
         val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
         for (y in 0 until sideLength) {
@@ -48,5 +52,8 @@ class AtttField(
         return sb.toString()
     }
 
+    /**
+     * detects if given coordinates are correct in the currently active game field
+     */
     fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
 }
