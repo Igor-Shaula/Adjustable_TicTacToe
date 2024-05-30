@@ -35,17 +35,17 @@ object AtttEngine {
         clear()
     }
 
-    /*
-        @Suppress("MemberVisibilityCanBePrivate")
-        fun save() { // todo: here we might specify a filename
-            // later
-        }
+    fun mm(x: Int, y: Int) = makeMove(x, y)
 
-        @Suppress("MemberVisibilityCanBePrivate")
-        fun restore() { // todo: specify what exactly to restore, a file for example
-            // later
+    /**
+     * this is the only way to make progress in the game.
+     * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
+     */
+    fun makeMove(x: Int, y: Int) {
+        if (gameField.isCorrectPosition(x, y)) {
+            makeMove(AtttPlace(x, y))
         }
-    */
+    }
 
     // this function is actually the single place for making moves and thus changing the game field
     internal fun makeMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests

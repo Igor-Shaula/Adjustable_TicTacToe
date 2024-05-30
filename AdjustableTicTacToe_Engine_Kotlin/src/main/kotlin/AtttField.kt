@@ -47,4 +47,6 @@ class AtttField(
         }
         return sb.toString()
     }
+
+    fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
 }
