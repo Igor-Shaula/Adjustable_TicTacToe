@@ -1,0 +1,3 @@
+rootProject.name = 'AdjustableTicTacToe_ConsoleClient_Java'
+
+include 'lib'
