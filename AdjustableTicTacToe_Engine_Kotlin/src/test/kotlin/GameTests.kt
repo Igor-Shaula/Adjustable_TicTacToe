@@ -165,6 +165,18 @@ class GameTests {
     }
 
     @Test
+    fun having3x3Field_realSimulation2PlayersShortenedMovesMade_victoryConditionIsCorrect() {
+        prepareClassic3x3GameField()
+        AtttEngine.makeMove(0, 0)
+        AtttEngine.makeMove(1, 0)
+        AtttEngine.makeMove(2, 0)
+        AtttEngine.makeMove(1, 1)
+        AtttEngine.makeMove(2, 1)
+        AtttEngine.makeMove(1, 2)
+        // gameField & winning message for player B is printed in the console
+    }
+
+    @Test
     fun test5x5Field() {
         val gameField = AtttField(5)
         val gameRules = AtttRules(5)
