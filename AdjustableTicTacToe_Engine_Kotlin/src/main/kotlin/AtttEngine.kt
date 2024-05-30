@@ -3,7 +3,7 @@
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.
  */
 @Suppress("unused")
-object AtttEngine {
+internal object AtttEngine : AtttGame {
 
     // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable
     internal var gameField: AtttField = AtttField(MIN_GAME_FIELD_SIDE_SIZE)
@@ -18,7 +18,7 @@ object AtttEngine {
     /**
      * create & provide the UI with a new game field, adjustability starts here - in the parameters
      */
-    fun prepare(
+    override fun prepare(
         newGameField: AtttField, newGameRules: AtttRules
     ): AtttPlayer { // game engine client must know who's the next to make a move on the board
         clear() // for all possible resources that could be used previously
@@ -29,25 +29,24 @@ object AtttEngine {
 
     // stop right now, count the achieved score for all players and show the result
     @Suppress("MemberVisibilityCanBePrivate")
-    fun finish() {
+    override fun finish() {
         // todo: count and show the score here - a bit later
         Log.pl("the game is finished in the given state: ${gameField.prepareForPrintingIn2d()}")
         clear()
     }
 
-    fun mm(x: Int, y: Int) = makeMove(x, y)
+    override fun mm(x: Int, y: Int) = makeMove(x, y)
 
     /**
      * this is the only way to make progress in the game.
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
-    fun makeMove(x: Int, y: Int): AtttPlayer =
+    override fun makeMove(x: Int, y: Int): AtttPlayer =
         if (gameField.isCorrectPosition(x, y)) {
             makeMove(AtttPlace(x, y))
         } else {
             activePlayer
         }
-    }
 
     // this function is actually the single place for making moves and thus changing the game field
     internal fun makeMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
@@ -72,12 +71,12 @@ object AtttEngine {
         return prepareNextPlayer()
     }
 
-    fun isActive() = gameField.theMap.isNotEmpty()
+    override fun isActive() = gameField.theMap.isNotEmpty()
 
     // needed for UI to draw current state of the game, or simply to update the UI before making a new move
     internal fun getCurrentField() = gameField.theMap
 
-    fun printCurrentFieldIn2d() {
+    override fun printCurrentFieldIn2d() {
         println(gameField.prepareForPrintingIn2d())
     }
 
