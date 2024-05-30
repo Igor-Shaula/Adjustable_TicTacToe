@@ -11,7 +11,7 @@ class GameTests {
     fun gameNotStarted_defaultGameCreated_3x3GameFieldExists() {
         prepareClassic3x3GameField()
         assertNotNull(AtttEngine.getCurrentField())
-        assertTrue(AtttEngine.isRunning())
+        assertTrue(AtttEngine.isActive())
         assertTrue(AtttEngine.getCurrentField().isNotEmpty()) // actually it's the same as GameEngine.isRunning()
     }
 
@@ -49,8 +49,8 @@ class GameTests {
         prepareClassic3x3GameField()
         val firstMark = AtttPlace(0, 0)
         val secondMark = AtttPlace(1, 0)
-        AtttEngine.makeNewMove(firstMark, AtttPlayer.A)
-        AtttEngine.makeNewMove(secondMark, AtttPlayer.A)
+        AtttEngine.makeMove(firstMark, AtttPlayer.A)
+        AtttEngine.makeMove(secondMark, AtttPlayer.A)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = AtttEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -64,8 +64,8 @@ class GameTests {
         prepareClassic3x3GameField()
         val firstMark = AtttPlace(0, 0)
         val secondMark = AtttPlace(2, 0)
-        AtttEngine.makeNewMove(firstMark, AtttPlayer.A)
-        AtttEngine.makeNewMove(secondMark, AtttPlayer.A)
+        AtttEngine.makeMove(firstMark, AtttPlayer.A)
+        AtttEngine.makeMove(secondMark, AtttPlayer.A)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = AtttEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -81,9 +81,9 @@ class GameTests {
         val firstMark = AtttPlace(0, 0)
         val secondMark = AtttPlace(2, 0)
         val connectingMark = AtttPlace(1, 0)
-        AtttEngine.makeNewMove(firstMark, AtttPlayer.A)
-        AtttEngine.makeNewMove(secondMark, AtttPlayer.A)
-        AtttEngine.makeNewMove(connectingMark, AtttPlayer.A)
+        AtttEngine.makeMove(firstMark, AtttPlayer.A)
+        AtttEngine.makeMove(secondMark, AtttPlayer.A)
+        AtttEngine.makeMove(connectingMark, AtttPlayer.A)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = AtttEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -99,9 +99,9 @@ class GameTests {
         val firstMark = AtttPlace(0, 0)
         val secondMark = AtttPlace(1, 0)
         val oneMoreMark = AtttPlace(2, 0)
-        AtttEngine.makeNewMove(firstMark, AtttPlayer.A)
-        AtttEngine.makeNewMove(secondMark, AtttPlayer.A)
-        AtttEngine.makeNewMove(oneMoreMark, AtttPlayer.A)
+        AtttEngine.makeMove(firstMark, AtttPlayer.A)
+        AtttEngine.makeMove(secondMark, AtttPlayer.A)
+        AtttEngine.makeMove(oneMoreMark, AtttPlayer.A)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromEdgeToEdge = AtttEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -117,19 +117,19 @@ class GameTests {
         val firstMark = AtttPlace(0, 0)
         val secondMark = AtttPlace(1, 0)
         val firstActivePlayer = AtttEngine.activePlayer // should be player A
-        AtttEngine.makeNewMove(firstMark) // after this line active player is replaced with the next -> B
+        AtttEngine.makeMove(firstMark) // after this line active player is replaced with the next -> B
         Log.pl("measuring line from $firstMark for player: $firstActivePlayer in the forward direction:")
         val lengthForPlayerA = AtttEngine.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         val secondActivePlayer = AtttEngine.activePlayer // should be player B
-        AtttEngine.makeNewMove(secondMark) // after this line active player is replaced with the next -> A
+        AtttEngine.makeMove(secondMark) // after this line active player is replaced with the next -> A
         Log.pl("measuring line from $secondMark for player: $secondActivePlayer in the forward direction:")
         val lengthForPlayerB = AtttEngine.measureLineFrom(secondMark, LineDirection.XpY0, 1)
         assertEquals(1, lengthForPlayerA)
         assertEquals(1, lengthForPlayerB)
-        AtttEngine.makeNewMove(AtttPlace(2, 0))
-        AtttEngine.makeNewMove(AtttPlace(1, 1))
-        AtttEngine.makeNewMove(AtttPlace(2, 1))
-        AtttEngine.makeNewMove(AtttPlace(1, 2))
+        AtttEngine.makeMove(AtttPlace(2, 0))
+        AtttEngine.makeMove(AtttPlace(1, 1))
+        AtttEngine.makeMove(AtttPlace(2, 1))
+        AtttEngine.makeMove(AtttPlace(1, 2))
         Log.pl(AtttEngine.gameField.prepareForPrintingIn2d())
     }
 
@@ -137,8 +137,8 @@ class GameTests {
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
         prepareClassic3x3GameField()
         val someSpot = AtttPlace(1, 1)
-        AtttEngine.makeNewMove(someSpot, AtttPlayer.A)
-        AtttEngine.makeNewMove(someSpot, AtttPlayer.B)
+        AtttEngine.makeMove(someSpot, AtttPlayer.A)
+        AtttEngine.makeMove(someSpot, AtttPlayer.B)
         Log.pl("\ngame field with only one player's mark: ${AtttEngine.gameField.prepareForPrintingIn2d()}")
         assertEquals(AtttPlayer.A, AtttEngine.getCurrentField()[someSpot])
     }
@@ -146,21 +146,21 @@ class GameTests {
     @Test
     fun having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect() {
         prepareClassic3x3GameField()
-        AtttEngine.makeNewMove(AtttPlace(0, 0), AtttPlayer.A)
-        AtttEngine.makeNewMove(AtttPlace(1, 0), AtttPlayer.A)
-        AtttEngine.makeNewMove(AtttPlace(2, 0), AtttPlayer.A)
+        AtttEngine.makeMove(AtttPlace(0, 0), AtttPlayer.A)
+        AtttEngine.makeMove(AtttPlace(1, 0), AtttPlayer.A)
+        AtttEngine.makeMove(AtttPlace(2, 0), AtttPlayer.A)
         // gameField & winning message for player A is printed in the console
     }
 
     @Test
     fun having3x3Field_realSimulation2PlayersMovesMade_victoryConditionIsCorrect() {
         prepareClassic3x3GameField()
-        AtttEngine.makeNewMove(AtttPlace(0, 0))
-        AtttEngine.makeNewMove(AtttPlace(1, 0))
-        AtttEngine.makeNewMove(AtttPlace(2, 0))
-        AtttEngine.makeNewMove(AtttPlace(1, 1))
-        AtttEngine.makeNewMove(AtttPlace(2, 1))
-        AtttEngine.makeNewMove(AtttPlace(1, 2))
+        AtttEngine.makeMove(AtttPlace(0, 0))
+        AtttEngine.makeMove(AtttPlace(1, 0))
+        AtttEngine.makeMove(AtttPlace(2, 0))
+        AtttEngine.makeMove(AtttPlace(1, 1))
+        AtttEngine.makeMove(AtttPlace(2, 1))
+        AtttEngine.makeMove(AtttPlace(1, 2))
         // gameField & winning message for player B is printed in the console
     }
 
@@ -170,11 +170,11 @@ class GameTests {
         val gameRules = AtttRules(5)
         AtttEngine.prepare(gameField, gameRules)
         Log.pl("\ntest3x3Field: gameEngine ready with given field: ${gameField.prepareForPrintingIn2d()}")
-        AtttEngine.makeNewMove(AtttPlace(0, 0), AtttPlayer.A)
-        AtttEngine.makeNewMove(AtttPlace(1, 0), AtttPlayer.A)
+        AtttEngine.makeMove(AtttPlace(0, 0), AtttPlayer.A)
+        AtttEngine.makeMove(AtttPlace(1, 0), AtttPlayer.A)
 //    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
-        AtttEngine.makeNewMove(AtttPlace(3, 0), AtttPlayer.A)
-        AtttEngine.makeNewMove(AtttPlace(4, 0), AtttPlayer.A)
-        AtttEngine.makeNewMove(AtttPlace(2, 0), AtttPlayer.A) // intentionally placed here to connect 2 segments
+        AtttEngine.makeMove(AtttPlace(3, 0), AtttPlayer.A)
+        AtttEngine.makeMove(AtttPlace(4, 0), AtttPlayer.A)
+        AtttEngine.makeMove(AtttPlace(2, 0), AtttPlayer.A) // intentionally placed here to connect 2 segments
     }
 }

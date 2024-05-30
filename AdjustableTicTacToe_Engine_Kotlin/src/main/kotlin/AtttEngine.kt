@@ -48,7 +48,7 @@ object AtttEngine {
     */
 
     // this function is actually the single place for making moves and thus changing the game field
-    fun makeNewMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
+    fun makeMove(where: AtttPlace, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
         if (gameField.placeNewDot(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
             val lineDirection = checkNewDotArea(where, what)
@@ -70,7 +70,7 @@ object AtttEngine {
         return prepareNextPlayer()
     }
 
-    fun isRunning() = gameField.theMap.isNotEmpty()
+    fun isActive() = gameField.theMap.isNotEmpty()
 
     // needed for UI to draw current state of the game, or simply to update the UI before making a new move
     fun getCurrentField() = gameField.theMap
