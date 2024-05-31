@@ -55,6 +55,33 @@ class AtttField(
         }
     }
 
+    internal fun getTheNextSafeSpaceFor(start: Coordinates, lineDirection: LineDirection): GameSpace {
+        @Suppress("SimplifyBooleanWithConstants")
+        when {
+            false || // just for the following cases' alignment
+                    start.x <= minIndex && lineDirection == LineDirection.XmYm ||
+                    start.x <= minIndex && lineDirection == LineDirection.XmY0 ||
+                    start.x <= minIndex && lineDirection == LineDirection.XmYp ||
+                    start.y <= minIndex && lineDirection == LineDirection.XmYm ||
+                    start.y <= minIndex && lineDirection == LineDirection.X0Ym ||
+                    start.y <= minIndex && lineDirection == LineDirection.XpYm ||
+                    start.x >= maxIndex && lineDirection == LineDirection.XpYm ||
+                    start.x >= maxIndex && lineDirection == LineDirection.XpY0 ||
+                    start.x >= maxIndex && lineDirection == LineDirection.XpYp ||
+                    start.y >= maxIndex && lineDirection == LineDirection.XmYp ||
+                    start.y >= maxIndex && lineDirection == LineDirection.X0Yp ||
+                    start.y >= maxIndex && lineDirection == LineDirection.XpYp ->
+                return Border
+        }
+        val x = start.x + lineDirection.dx
+        val y = start.y + lineDirection.dy
+        Log.pl("lineDirection = $lineDirection")
+        Log.pl("start: x, y = ${start.x}, ${start.y}")
+        Log.pl("dx, dy = ${lineDirection.dx}, ${lineDirection.dy}")
+        Log.pl("x, y = $x, $y")
+        return Coordinates(x, y)
+    }
+
     /**
      * returns beautiful & simple String representation of the current state of game field
      */

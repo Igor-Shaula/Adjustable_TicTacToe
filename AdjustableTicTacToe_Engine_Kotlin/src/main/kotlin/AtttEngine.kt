@@ -58,7 +58,7 @@ internal object AtttEngine : AtttGame {
                 // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
                 // we also have a proven placed dot of the same player in the detected line direction
                 // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
-                val checkedNearCoordinates = getTheNextSafeSpotFor(where, lineDirection)
+                val checkedNearCoordinates = gameField.getTheNextSafeSpaceFor(where, lineDirection)
                 if (checkedNearCoordinates is Coordinates) {
                     val lineTotalLength =
                         measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
@@ -100,7 +100,7 @@ internal object AtttEngine : AtttGame {
     internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
         Log.pl("measureLineFrom: startingLength: $startingLength")
         // firstly measure in the given direction and then in the opposite, also recursively
-        val nextCoordinates = getTheNextSafeSpotFor(start, lineDirection)
+        val nextCoordinates = gameField.getTheNextSafeSpaceFor(start, lineDirection)
         Log.pl("measureLineFrom: start coordinates: $start")
         Log.pl("measureLineFrom: next coordinates: $nextCoordinates")
         return if (nextCoordinates is Coordinates && gameField.theMap[nextCoordinates] == gameField.theMap[start]) {
@@ -109,27 +109,6 @@ internal object AtttEngine : AtttGame {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength
         }
-    }
-
-    internal fun getTheNextSafeSpotFor(start: Coordinates, lineDirection: LineDirection): GameSpace {
-        @Suppress("SimplifyBooleanWithConstants")
-        when {
-            false || // just for the following cases' alignment
-                    start.x <= gameField.minIndex && lineDirection == LineDirection.XmYm ||
-                    start.x <= gameField.minIndex && lineDirection == LineDirection.XmY0 ||
-                    start.x <= gameField.minIndex && lineDirection == LineDirection.XmYp ||
-                    start.y <= gameField.minIndex && lineDirection == LineDirection.XmYm ||
-                    start.y <= gameField.minIndex && lineDirection == LineDirection.X0Ym ||
-                    start.y <= gameField.minIndex && lineDirection == LineDirection.XpYm ||
-                    start.x >= gameField.maxIndex && lineDirection == LineDirection.XpYm ||
-                    start.x >= gameField.maxIndex && lineDirection == LineDirection.XpY0 ||
-                    start.x >= gameField.maxIndex && lineDirection == LineDirection.XpYp ||
-                    start.y >= gameField.maxIndex && lineDirection == LineDirection.XmYp ||
-                    start.y >= gameField.maxIndex && lineDirection == LineDirection.X0Yp ||
-                    start.y >= gameField.maxIndex && lineDirection == LineDirection.XpYp ->
-                return Border
-        }
-        return Coordinates(x = start.x + lineDirection.dx, y = start.y + lineDirection.dy)
     }
 
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
