@@ -106,6 +106,22 @@ class AtttField(
         }
     }
 
+    internal fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
+        // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
+        // we also have a proven placed dot of the same player in the detected line direction
+        // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
+        val checkedNearCoordinates = getTheNextSafeSpaceFor(start, lineDirection)
+        var lineTotalLength = 0
+        if (checkedNearCoordinates is Coordinates) {
+            lineTotalLength =
+                measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
+                        measureLineFrom(start, lineDirection.opposite(), 0)
+            Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
+//            updateGameScore(what, lineTotalLength)
+        } // else checkedNearCoordinates cannot be Border or anything else from Coordinates type
+        return lineTotalLength
+    }
+
     private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer) =
         what == theMap[Coordinates(x, y)]
 

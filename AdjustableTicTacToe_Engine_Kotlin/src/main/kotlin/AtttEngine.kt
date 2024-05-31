@@ -51,25 +51,13 @@ internal object AtttEngine : AtttGame {
     // this function is actually the single place for making moves and thus changing the game field
     internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
         if (gameField.placeNewMark(where, what)) {
-            // analyze this new dot & detect if it creates or changes any lines
-
-            gameField.detectAllExistingLineDirectionsFromThePlacedMark(where)
-
-            val lineDirection = gameField.detectPossibleLineDirectionNearThePlacedMark(where)
-            Log.pl("makeNewMove: detected existing line in direction: $lineDirection")
-            if (lineDirection != LineDirection.None) {
-                // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
-                // we also have a proven placed dot of the same player in the detected line direction
-                // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
-                val checkedNearCoordinates = gameField.getTheNextSafeSpaceFor(where, lineDirection)
-                if (checkedNearCoordinates is Coordinates) {
-                    val lineTotalLength =
-                        measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
-                                measureLineFrom(where, lineDirection.opposite(), 0)
-                    Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
-                    updateGameScore(what, lineTotalLength)
-                } // else checkedNearCoordinates cannot be Border or anything else from Coordinates type
+            // analyze this new dot & detect if it creates or changes any lines in all possible directions
+            val existingLineDirections = gameField.detectAllExistingLineDirectionsFromThePlacedMark(where)
+            val maxLengthForThisMove = existingLineDirections.maxOfOrNull { lineDirection ->
+                gameField.measureFullLengthForExistingLineFrom(where, lineDirection)
             }
+            Log.pl("makeMove: maxLength for this move of player $what is: $maxLengthForThisMove")
+            maxLengthForThisMove?.let { updateGameScore(what, it) }
         }
         return prepareNextPlayer()
     }
