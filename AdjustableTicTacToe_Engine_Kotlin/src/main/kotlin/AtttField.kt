@@ -38,6 +38,23 @@ class AtttField(
         false
     }
 
+    internal fun detectPossibleLineDirectionNearThePlacedMark(fromWhere: Coordinates, what: AtttPlayer): LineDirection {
+        val x = fromWhere.x
+        val y = fromWhere.y
+        Log.pl("checkPlacedMarkArea: x, y = $x, $y")
+        return when {
+            x > minIndex && theMap[Coordinates(x - 1, y)] == what -> LineDirection.XmY0
+            x < maxIndex && theMap[Coordinates(x + 1, y)] == what -> LineDirection.XpY0
+            y > minIndex && theMap[Coordinates(x, y - 1)] == what -> LineDirection.X0Ym
+            y < maxIndex && theMap[Coordinates(x, y + 1)] == what -> LineDirection.X0Yp
+            x > minIndex && y > minIndex && theMap[Coordinates(x - 1, y - 1)] == what -> LineDirection.XmYm
+            x < maxIndex && y < maxIndex && theMap[Coordinates(x + 1, y + 1)] == what -> LineDirection.XpYp
+            x > minIndex && y < maxIndex && theMap[Coordinates(x - 1, y + 1)] == what -> LineDirection.XmYp
+            x < maxIndex && y > minIndex && theMap[Coordinates(x + 1, y - 1)] == what -> LineDirection.XpYm
+            else -> LineDirection.None
+        }
+    }
+
     /**
      * returns beautiful & simple String representation of the current state of game field
      */

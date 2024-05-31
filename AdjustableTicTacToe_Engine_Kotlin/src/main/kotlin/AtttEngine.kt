@@ -52,7 +52,7 @@ internal object AtttEngine : AtttGame {
     internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
         if (gameField.placeNewMark(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
-            val lineDirection = checkNewDotArea(where, what)
+            val lineDirection = gameField.detectPossibleLineDirectionNearThePlacedMark(where, what)
             Log.pl("makeNewMove: detected existing line in direction: $lineDirection")
             if (lineDirection != LineDirection.None) {
                 // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
@@ -95,24 +95,6 @@ internal object AtttEngine : AtttGame {
     private fun clear() {
         gameField.clear()
         activePlayer = AtttPlayer.None
-    }
-
-    private fun checkNewDotArea(where: Coordinates, what: AtttPlayer): LineDirection {
-        val x = where.x
-        val y = where.y
-        val minIndex = gameField.minIndex
-        val maxIndex = gameField.maxIndex
-        return when {
-            x > minIndex && gameField.theMap[Coordinates(x - 1, y)] == what -> LineDirection.XmY0
-            x < maxIndex && gameField.theMap[Coordinates(x + 1, y)] == what -> LineDirection.XpY0
-            y > minIndex && gameField.theMap[Coordinates(x, y - 1)] == what -> LineDirection.X0Ym
-            y < maxIndex && gameField.theMap[Coordinates(x, y + 1)] == what -> LineDirection.X0Yp
-            x > minIndex && y > minIndex && gameField.theMap[Coordinates(x - 1, y - 1)] == what -> LineDirection.XmYm
-            x < maxIndex && y < maxIndex && gameField.theMap[Coordinates(x + 1, y + 1)] == what -> LineDirection.XpYp
-            x > minIndex && y < maxIndex && gameField.theMap[Coordinates(x - 1, y + 1)] == what -> LineDirection.XmYp
-            x < maxIndex && y > minIndex && gameField.theMap[Coordinates(x + 1, y - 1)] == what -> LineDirection.XpYm
-            else -> LineDirection.None
-        }
     }
 
     internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
