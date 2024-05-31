@@ -4,12 +4,12 @@
  */
 @Suppress("UNUSED_PARAMETER")
 class AtttField(
-    private var sideLength: Int, // for a good old 3x3 game
+    private var sideLength: Int, // the only required parameter
     dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
-    numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious
+    numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious, can't be less
 ) {
-    internal val minIndex = 0 // this is obvious but let it be here for consistency
-    internal val maxIndex = sideLength - 1 // constant for the given game field
+    private val minIndex = 0 // this is obvious but let it be here for consistency
+    private val maxIndex = sideLength - 1 // constant for the given game field
     internal val theMap: MutableMap<Coordinates, AtttPlayer> =
         mutableMapOf() // not nullable but needs to be configured later
 
