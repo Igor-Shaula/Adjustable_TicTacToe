@@ -68,6 +68,25 @@ class AtttField(
             false // new mark is not placed because the space has been already occupied
         }
 
+    internal fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates): List<LineDirection> {
+        val x = fromWhere.x
+        val y = fromWhere.y
+        Log.pl("checkPlacedMarkArea: x, y = $x, $y")
+        val what = getCurrentMarkAt(x, y) ?: return emptyList()
+        val allDirections = mutableListOf<LineDirection>()
+        LineDirection.entries
+            .filter { it != LineDirection.None }
+            .forEach { lineDirection ->
+                val newX = x + lineDirection.dx
+                val newY = y + lineDirection.dy
+                if (isCorrectPosition(newX, newY) && checkIf2MarksAreOfTheSamePlayer(newX, newY, what)) {
+                    allDirections.add(lineDirection)
+                    Log.pl("line exists in direction: $lineDirection")
+                }
+            }
+        return allDirections
+    }
+
     internal fun detectPossibleLineDirectionNearThePlacedMark(fromWhere: Coordinates): LineDirection {
         val x = fromWhere.x
         val y = fromWhere.y

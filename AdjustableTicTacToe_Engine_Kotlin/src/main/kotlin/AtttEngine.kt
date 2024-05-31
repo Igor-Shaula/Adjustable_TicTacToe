@@ -52,6 +52,9 @@ internal object AtttEngine : AtttGame {
     internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
         if (gameField.placeNewMark(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
+
+            gameField.detectAllExistingLineDirectionsFromThePlacedMark(where)
+
             val lineDirection = gameField.detectPossibleLineDirectionNearThePlacedMark(where)
             Log.pl("makeNewMove: detected existing line in direction: $lineDirection")
             if (lineDirection != LineDirection.None) {
