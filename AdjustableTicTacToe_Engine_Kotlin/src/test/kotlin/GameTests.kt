@@ -8,6 +8,29 @@ class GameTests {
     }
 
     @Test
+    fun test3x3FieldWithMultiplePossibleLines() {
+        val gameField = AtttField(3)
+        val gameRules = AtttRules(3)
+        AtttEngine.prepare(gameField, gameRules)
+
+        // .Xx
+        // .xo
+        // oxo
+
+        AtttEngine.makeNewMove(AtttPlace(1, 1), AtttPlayer.A)
+        AtttEngine.makeNewMove(AtttPlace(2, 1), AtttPlayer.B)
+        AtttEngine.makeNewMove(AtttPlace(2, 0), AtttPlayer.A)
+        AtttEngine.makeNewMove(AtttPlace(0, 2), AtttPlayer.B)
+        AtttEngine.makeNewMove(AtttPlace(1, 2), AtttPlayer.A)
+        AtttEngine.makeNewMove(AtttPlace(2, 2), AtttPlayer.B)
+        AtttEngine.makeNewMove(AtttPlace(1, 0), AtttPlayer.A)
+
+        assertFalse(AtttEngine.isRunning(), "Game should have been won")
+        // Would be nice to be able to do this:
+        // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
+    }
+
+    @Test
     fun gameNotStarted_defaultGameCreated_3x3GameFieldExists() {
         prepareClassic3x3GameField()
         assertNotNull(AtttEngine.getCurrentField())
