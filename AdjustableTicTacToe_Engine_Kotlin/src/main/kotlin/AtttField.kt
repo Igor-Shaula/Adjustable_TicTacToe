@@ -109,6 +109,20 @@ class AtttField(
     private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer) =
         what == theMap[Coordinates(x, y)]
 
+    internal fun measureLineFrom(givenMark: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
+        Log.pl("measureLineFrom: given startingLength: $startingLength")
+        Log.pl("measureLineFrom: given start coordinates: $givenMark")
+        // firstly measure in the given direction and then in the opposite, also recursively
+        val nextMark = getTheNextSafeSpaceFor(givenMark, lineDirection)
+        Log.pl("measureLineFrom: detected next coordinates: $nextMark")
+        return if (nextMark is Coordinates && areMarksOfTheSamePlayer(givenMark, nextMark)) {
+            measureLineFrom(nextMark, lineDirection, startingLength + 1)
+        } else {
+            Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
+            startingLength
+        }
+    }
+
     internal fun getTheNextSafeSpaceFor(start: Coordinates, lineDirection: LineDirection): GameSpace {
         @Suppress("SimplifyBooleanWithConstants")
         when {
