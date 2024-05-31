@@ -97,14 +97,14 @@ internal object AtttEngine : AtttGame {
         activePlayer = AtttPlayer.None
     }
 
-    internal fun measureLineFrom(start: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
-        Log.pl("measureLineFrom: startingLength: $startingLength")
+    internal fun measureLineFrom(givenMark: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
+        Log.pl("measureLineFrom: given startingLength: $startingLength")
+        Log.pl("measureLineFrom: given start coordinates: $givenMark")
         // firstly measure in the given direction and then in the opposite, also recursively
-        val nextCoordinates = gameField.getTheNextSafeSpaceFor(start, lineDirection)
-        Log.pl("measureLineFrom: start coordinates: $start")
-        Log.pl("measureLineFrom: next coordinates: $nextCoordinates")
-        return if (nextCoordinates is Coordinates && gameField.theMap[nextCoordinates] == gameField.theMap[start]) {
-            measureLineFrom(nextCoordinates, lineDirection, startingLength + 1)
+        val nextMark = gameField.getTheNextSafeSpaceFor(givenMark, lineDirection)
+        Log.pl("measureLineFrom: detected next coordinates: $nextMark")
+        return if (nextMark is Coordinates && gameField.areMarksOfTheSamePlayer(givenMark, nextMark)) {
+            measureLineFrom(nextMark, lineDirection, startingLength + 1)
         } else {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength

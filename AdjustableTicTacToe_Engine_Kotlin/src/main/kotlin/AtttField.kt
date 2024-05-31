@@ -100,4 +100,7 @@ class AtttField(
      * detects if given coordinates are correct in the currently active game field
      */
     fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
+
+    internal fun areMarksOfTheSamePlayer(start: Coordinates, nextCoordinates: Coordinates) =
+        theMap[nextCoordinates] == theMap[start]
 }
