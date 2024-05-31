@@ -68,10 +68,11 @@ class AtttField(
             false // new mark is not placed because the space has been already occupied
         }
 
-    internal fun detectPossibleLineDirectionNearThePlacedMark(fromWhere: Coordinates, what: AtttPlayer): LineDirection {
+    internal fun detectPossibleLineDirectionNearThePlacedMark(fromWhere: Coordinates): LineDirection {
         val x = fromWhere.x
         val y = fromWhere.y
         Log.pl("checkPlacedMarkArea: x, y = $x, $y")
+        val what = getCurrentMarkAt(x, y)
         return when {
             x > minIndex && theMap[Coordinates(x - 1, y)] == what -> LineDirection.XmY0
             x < maxIndex && theMap[Coordinates(x + 1, y)] == what -> LineDirection.XpY0

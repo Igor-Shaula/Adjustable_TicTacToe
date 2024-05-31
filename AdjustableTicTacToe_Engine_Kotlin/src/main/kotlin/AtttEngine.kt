@@ -52,7 +52,7 @@ internal object AtttEngine : AtttGame {
     internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
         if (gameField.placeNewMark(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines
-            val lineDirection = gameField.detectPossibleLineDirectionNearThePlacedMark(where, what)
+            val lineDirection = gameField.detectPossibleLineDirectionNearThePlacedMark(where)
             Log.pl("makeNewMove: detected existing line in direction: $lineDirection")
             if (lineDirection != LineDirection.None) {
                 // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
