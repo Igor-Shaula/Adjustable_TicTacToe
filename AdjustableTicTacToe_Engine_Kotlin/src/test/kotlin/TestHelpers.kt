@@ -1,4 +1,3 @@
-import AtttEngine.getTheNextSafeSpotFor
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
@@ -17,7 +16,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
 }
 
 internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
-    val nextSpot = getTheNextSafeSpotFor(startSpot, direction)
+    val nextSpot = AtttEngine.gameField.getTheNextSafeSpaceFor(startSpot, direction)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
         // lowest limit for X axis
