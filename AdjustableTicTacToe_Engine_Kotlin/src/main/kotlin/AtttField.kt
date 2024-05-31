@@ -56,8 +56,6 @@ class AtttField(
 
     internal fun exists() = theMap.isNotEmpty()
 
-    internal fun areMarksOfTheSamePlayer(start: Coordinates, next: Coordinates) = theMap[next] == theMap[start]
-
     internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
         if (theMap[where] == AtttPlayer.None) {
             theMap[where] = what
@@ -87,6 +85,10 @@ class AtttField(
         return allDirections
     }
 
+    private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer) =
+        what == theMap[Coordinates(x, y)]
+
+    // this is a good sample of over-complication, I'll delete it a bit later
     internal fun detectPossibleLineDirectionNearThePlacedMark(fromWhere: Coordinates): LineDirection {
         val x = fromWhere.x
         val y = fromWhere.y
@@ -122,16 +124,13 @@ class AtttField(
         return lineTotalLength
     }
 
-    private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer) =
-        what == theMap[Coordinates(x, y)]
-
     internal fun measureLineFrom(givenMark: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
         Log.pl("measureLineFrom: given startingLength: $startingLength")
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
         // firstly measure in the given direction and then in the opposite, also recursively
         val nextMark = getTheNextSafeSpaceFor(givenMark, lineDirection)
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
-        return if (nextMark is Coordinates && areMarksOfTheSamePlayer(givenMark, nextMark)) {
+        return if (nextMark is Coordinates && theMap[givenMark] == theMap[nextMark]) {
             measureLineFrom(nextMark, lineDirection, startingLength + 1)
         } else {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
@@ -143,26 +142,22 @@ class AtttField(
         @Suppress("SimplifyBooleanWithConstants")
         when {
             false || // just for the following cases' alignment
-                    start.x <= minIndex && lineDirection == LineDirection.XmYm ||
-                    start.x <= minIndex && lineDirection == LineDirection.XmY0 ||
-                    start.x <= minIndex && lineDirection == LineDirection.XmYp ||
-                    start.y <= minIndex && lineDirection == LineDirection.XmYm ||
-                    start.y <= minIndex && lineDirection == LineDirection.X0Ym ||
-                    start.y <= minIndex && lineDirection == LineDirection.XpYm ||
-                    start.x >= maxIndex && lineDirection == LineDirection.XpYm ||
-                    start.x >= maxIndex && lineDirection == LineDirection.XpY0 ||
-                    start.x >= maxIndex && lineDirection == LineDirection.XpYp ||
-                    start.y >= maxIndex && lineDirection == LineDirection.XmYp ||
-                    start.y >= maxIndex && lineDirection == LineDirection.X0Yp ||
-                    start.y >= maxIndex && lineDirection == LineDirection.XpYp ->
+                    start.x <= minIndex && lineDirection == LineDirection.XmYm || // X is out of game field
+                    start.x <= minIndex && lineDirection == LineDirection.XmY0 || // X is out of game field
+                    start.x <= minIndex && lineDirection == LineDirection.XmYp || // X is out of game field
+                    start.y <= minIndex && lineDirection == LineDirection.XmYm || // Y is out of game field
+                    start.y <= minIndex && lineDirection == LineDirection.X0Ym || // Y is out of game field
+                    start.y <= minIndex && lineDirection == LineDirection.XpYm || // Y is out of game field
+                    start.x >= maxIndex && lineDirection == LineDirection.XpYm || // X is out of game field
+                    start.x >= maxIndex && lineDirection == LineDirection.XpY0 || // X is out of game field
+                    start.x >= maxIndex && lineDirection == LineDirection.XpYp || // X is out of game field
+                    start.y >= maxIndex && lineDirection == LineDirection.XmYp || // Y is out of game field
+                    start.y >= maxIndex && lineDirection == LineDirection.X0Yp || // Y is out of game field
+                    start.y >= maxIndex && lineDirection == LineDirection.XpYp -> // Y is out of game field
                 return Border
         }
-        val x = start.x + lineDirection.dx
-        val y = start.y + lineDirection.dy
-        Log.pl("lineDirection = $lineDirection")
-        Log.pl("start: x, y = ${start.x}, ${start.y}")
-        Log.pl("dx, dy = ${lineDirection.dx}, ${lineDirection.dy}")
-        Log.pl("x, y = $x, $y")
-        return Coordinates(x, y)
+        val nextX = start.x + lineDirection.dx
+        val nextY = start.y + lineDirection.dy
+        return Coordinates(nextX, nextY)
     }
 }
