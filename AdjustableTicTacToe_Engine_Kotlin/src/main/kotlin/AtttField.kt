@@ -103,4 +103,6 @@ class AtttField(
 
     internal fun areMarksOfTheSamePlayer(start: Coordinates, nextCoordinates: Coordinates) =
         theMap[nextCoordinates] == theMap[start]
+
+    fun exists() = theMap.isNotEmpty()
 }

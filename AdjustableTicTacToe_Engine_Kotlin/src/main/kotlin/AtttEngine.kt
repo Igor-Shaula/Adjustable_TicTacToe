@@ -71,7 +71,7 @@ internal object AtttEngine : AtttGame {
         return prepareNextPlayer()
     }
 
-    override fun isActive() = gameField.theMap.isNotEmpty()
+    override fun isActive() = gameField.exists()
 
     // needed for UI to draw current state of the game, or simply to update the UI before making a new move
     internal fun getCurrentField() = gameField.theMap
