@@ -2,7 +2,7 @@
  * AtttEngine = Adjustable TicTacToe Engine
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.
  */
-@Suppress("unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 internal object AtttEngine : AtttGame {
 
     // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable
@@ -41,12 +41,11 @@ internal object AtttEngine : AtttGame {
      * this is the only way to make progress in the game.
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
-    override fun makeMove(x: Int, y: Int): AtttPlayer =
-        if (gameField.isCorrectPosition(x, y)) {
-            makeMove(Coordinates(x, y))
-        } else {
-            activePlayer
-        }
+    override fun makeMove(x: Int, y: Int): AtttPlayer = if (gameField.isCorrectPosition(x, y)) {
+        makeMove(Coordinates(x, y))
+    } else {
+        activePlayer
+    }
 
     // this function is actually the single place for making moves and thus changing the game field
     internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer { // to avoid breaking tests
