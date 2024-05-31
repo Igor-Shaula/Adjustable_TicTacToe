@@ -25,18 +25,44 @@ class AtttField(
         }
     }
 
-    internal fun clear() {
-        theMap.clear()
+    // region public API
+
+    /**
+     * returns beautiful & simple String representation of the current state of game field
+     */
+    fun prepareForPrintingIn2d(): String {
+        val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
+        for (y in 0 until sideLength) {
+            sb.append("\n")
+            for (x in 0 until sideLength) {
+                sb.append(theMap[Coordinates(x, y)]?.symbol).append(' ')
+            }
+        }
+        return sb.toString()
     }
 
-    internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean = if (theMap[where] == AtttPlayer.None) {
-        theMap[where] = what
-        true
-    } else {
-        Log.pl("attempting to set a mark for player $what on the occupied coordinates: $where")
-        // later we can also emit a custom exception here - to be caught on the UI side and ask for another point
-        false
-    }
+    /**
+     * detects if given coordinates are correct in the currently active game field
+     */
+    fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
+
+    // endregion public API
+
+    internal fun clear() = theMap.clear()
+
+    internal fun exists() = theMap.isNotEmpty()
+
+    internal fun areMarksOfTheSamePlayer(start: Coordinates, next: Coordinates) = theMap[next] == theMap[start]
+
+    internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
+        if (theMap[where] == AtttPlayer.None) {
+            theMap[where] = what
+            true // new mark is successfully placed
+        } else {
+            Log.pl("attempting to set a mark for player $what on the occupied coordinates: $where")
+            // later we can also emit a custom exception here - to be caught on the UI side and ask for another point
+            false // new mark is not placed because the space has been already occupied
+        }
 
     internal fun detectPossibleLineDirectionNearThePlacedMark(fromWhere: Coordinates, what: AtttPlayer): LineDirection {
         val x = fromWhere.x
@@ -81,28 +107,4 @@ class AtttField(
         Log.pl("x, y = $x, $y")
         return Coordinates(x, y)
     }
-
-    /**
-     * returns beautiful & simple String representation of the current state of game field
-     */
-    fun prepareForPrintingIn2d(): String {
-        val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
-        for (y in 0 until sideLength) {
-            sb.append("\n")
-            for (x in 0 until sideLength) {
-                sb.append(theMap[Coordinates(x, y)]?.symbol).append(' ')
-            }
-        }
-        return sb.toString()
-    }
-
-    /**
-     * detects if given coordinates are correct in the currently active game field
-     */
-    fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
-
-    internal fun areMarksOfTheSamePlayer(start: Coordinates, nextCoordinates: Coordinates) =
-        theMap[nextCoordinates] == theMap[start]
-
-    fun exists() = theMap.isNotEmpty()
 }
