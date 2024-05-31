@@ -72,19 +72,23 @@ class AtttField(
         val x = fromWhere.x
         val y = fromWhere.y
         Log.pl("checkPlacedMarkArea: x, y = $x, $y")
-        val what = getCurrentMarkAt(x, y)
+        val what = getCurrentMarkAt(x, y) ?: return LineDirection.None
         return when {
-            x > minIndex && theMap[Coordinates(x - 1, y)] == what -> LineDirection.XmY0
-            x < maxIndex && theMap[Coordinates(x + 1, y)] == what -> LineDirection.XpY0
-            y > minIndex && theMap[Coordinates(x, y - 1)] == what -> LineDirection.X0Ym
-            y < maxIndex && theMap[Coordinates(x, y + 1)] == what -> LineDirection.X0Yp
-            x > minIndex && y > minIndex && theMap[Coordinates(x - 1, y - 1)] == what -> LineDirection.XmYm
-            x < maxIndex && y < maxIndex && theMap[Coordinates(x + 1, y + 1)] == what -> LineDirection.XpYp
-            x > minIndex && y < maxIndex && theMap[Coordinates(x - 1, y + 1)] == what -> LineDirection.XmYp
-            x < maxIndex && y > minIndex && theMap[Coordinates(x + 1, y - 1)] == what -> LineDirection.XpYm
+            x > minIndex && checkIf2MarksAreOfTheSamePlayer(x - 1, y, what) -> LineDirection.XmY0
+            x > minIndex && checkIf2MarksAreOfTheSamePlayer(x - 1, y, what) -> LineDirection.XmY0
+            x < maxIndex && checkIf2MarksAreOfTheSamePlayer(x + 1, y, what) -> LineDirection.XpY0
+            y > minIndex && checkIf2MarksAreOfTheSamePlayer(x, y - 1, what) -> LineDirection.X0Ym
+            y < maxIndex && checkIf2MarksAreOfTheSamePlayer(x, y + 1, what) -> LineDirection.X0Yp
+            x > minIndex && y > minIndex && checkIf2MarksAreOfTheSamePlayer(x - 1, y - 1, what) -> LineDirection.XmYm
+            x < maxIndex && y < maxIndex && checkIf2MarksAreOfTheSamePlayer(x + 1, y + 1, what) -> LineDirection.XpYp
+            x > minIndex && y < maxIndex && checkIf2MarksAreOfTheSamePlayer(x - 1, y + 1, what) -> LineDirection.XmYp
+            x < maxIndex && y > minIndex && checkIf2MarksAreOfTheSamePlayer(x + 1, y - 1, what) -> LineDirection.XpYm
             else -> LineDirection.None
         }
     }
+
+    private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer) =
+        what == theMap[Coordinates(x, y)]
 
     internal fun getTheNextSafeSpaceFor(start: Coordinates, lineDirection: LineDirection): GameSpace {
         @Suppress("SimplifyBooleanWithConstants")
