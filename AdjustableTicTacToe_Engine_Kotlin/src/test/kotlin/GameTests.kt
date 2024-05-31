@@ -57,9 +57,7 @@ class GameTests {
     @Test
     fun gameNotStarted_defaultGameCreated_3x3GameFieldExists() {
         prepareClassic3x3GameField()
-        assertNotNull(AtttEngine.gameField.theMap)
         assertTrue(AtttEngine.isActive())
-        assertTrue(AtttEngine.gameField.theMap.isNotEmpty()) // actually it's the same as GameEngine.isRunning()
     }
 
     @Test
@@ -187,7 +185,7 @@ class GameTests {
         AtttEngine.makeMove(someSpot, AtttPlayer.A)
         AtttEngine.makeMove(someSpot, AtttPlayer.B)
         Log.pl("\ngame field with only one player's mark: ${AtttEngine.gameField.prepareForPrintingIn2d()}")
-        assertEquals(AtttPlayer.A, AtttEngine.gameField.theMap[someSpot])
+        assertEquals(AtttPlayer.A, AtttEngine.gameField.getCurrentMarkAt(1, 1))
     }
 
     @Test

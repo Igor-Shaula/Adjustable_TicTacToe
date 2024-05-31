@@ -10,14 +10,13 @@ class AtttField(
 ) {
     private val minIndex = 0 // this is obvious but let it be here for consistency
     private val maxIndex = sideLength - 1 // constant for the given game field
-    internal val theMap: MutableMap<Coordinates, AtttPlayer> =
-        mutableMapOf() // not nullable but needs to be configured later
+    private val theMap: MutableMap<Coordinates, AtttPlayer> = mutableMapOf() // needs to be configured later
 
     init {
         // here we're doing possible corrections that may be needed to keep the game rules reasonable
         if (sideLength > MAX_GAME_FIELD_SIDE_SIZE) sideLength = MAX_GAME_FIELD_SIDE_SIZE
         else if (sideLength < MIN_GAME_FIELD_SIDE_SIZE) sideLength = MIN_GAME_FIELD_SIDE_SIZE
-        // let's create the initial board or field for the game
+        // let's create the initial board or field for the game & prepare it for upcoming player moves
         for (x in 0 until sideLength) {
             for (y in 0 until sideLength) {
                 theMap[Coordinates(x, y)] = AtttPlayer.None
@@ -45,6 +44,11 @@ class AtttField(
      * detects if given coordinates are correct in the currently active game field
      */
     fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
+
+    /**
+     * allows to see what's inside this game field space for the given coordinates
+     */
+    fun getCurrentMarkAt(x: Int, y: Int): AtttPlayer? = theMap[Coordinates(x, y)]
 
     // endregion public API
 
