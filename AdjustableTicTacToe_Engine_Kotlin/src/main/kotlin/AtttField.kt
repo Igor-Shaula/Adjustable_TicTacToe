@@ -22,6 +22,7 @@ class AtttField(
                 theMap[Coordinates(x, y)] = AtttPlayer.None
             }
         }
+        // todo: optimize by saving memory with the map creation here
     }
 
     // region public API

@@ -57,8 +57,10 @@ internal object AtttEngine : AtttGame {
             }
             Log.pl("makeMove: maxLength for this move of player $what is: $maxLengthForThisMove")
             maxLengthForThisMove?.let { updateGameScore(what, it) }
+            return prepareNextPlayer() // todo: check all possible & impossible cases of forcing moves by different players
+        } else {
+            return activePlayer
         }
-        return prepareNextPlayer()
     }
 
     override fun isActive() = gameField.exists() // todo: add checks for gameRules here as well
