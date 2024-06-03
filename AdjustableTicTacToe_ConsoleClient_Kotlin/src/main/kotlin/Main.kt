@@ -17,7 +17,19 @@ fun main() {
     game.printCurrentFieldIn2d()
 
     println("engine.isActive() = " + game.isActive())
-
     game.finish()
+    println("engine.isActive() = " + game.isActive())
+
+    game.prepare(field, rules)
+    game.prepare(AtttField(3), AtttRules(3))
+    game.mm(1, 1) // X
+    game.mm(2, 1) // O
+    game.mm(2, 0) // X
+    game.mm(0, 2) // O
+    game.mm(1, 2) // X
+    game.mm(2, 2) // O
+    println("engine.isActive() = " + game.isActive())
+    game.printCurrentFieldIn2d()
+    game.mm(1, 0) // X - this one was problematic
     println("engine.isActive() = " + game.isActive())
 }
