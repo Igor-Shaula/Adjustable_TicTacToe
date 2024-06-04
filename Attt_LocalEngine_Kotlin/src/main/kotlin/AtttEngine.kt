@@ -1,3 +1,5 @@
+import publicApi.AtttGame
+
 /**
  * AtttEngine = Adjustable TicTacToe Engine
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.

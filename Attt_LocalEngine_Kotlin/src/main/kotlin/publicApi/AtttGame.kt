@@ -1,3 +1,10 @@
+package publicApi
+
+import AtttEngine
+import AtttField
+import AtttPlayer
+import AtttRules
+
 interface AtttGame {
 
     fun prepare(newGameField: AtttField, newGameRules: AtttRules): AtttPlayer

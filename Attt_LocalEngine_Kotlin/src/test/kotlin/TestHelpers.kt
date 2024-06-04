@@ -1,3 +1,4 @@
+import publicApi.AtttGame
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
