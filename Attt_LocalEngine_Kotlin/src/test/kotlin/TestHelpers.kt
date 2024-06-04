@@ -1,5 +1,5 @@
-import internalElements.GameEngine
-import internalElements.GameField
+import logic.GameEngine
+import logic.GameField
 import elements.Border
 import elements.Coordinates
 import elements.LineDirection

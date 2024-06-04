@@ -1,4 +1,4 @@
-import internalElements.GameEngine
+import logic.GameEngine
 import elements.Player
 import elements.Coordinates
 import elements.LineDirection

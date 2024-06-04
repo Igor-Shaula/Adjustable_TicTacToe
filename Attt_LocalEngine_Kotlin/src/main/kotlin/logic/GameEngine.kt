@@ -1,4 +1,4 @@
-package internalElements
+package logic
 
 import elements.Coordinates
 import elements.MIN_GAME_FIELD_SIDE_SIZE

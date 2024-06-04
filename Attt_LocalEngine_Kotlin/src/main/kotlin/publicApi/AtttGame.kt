@@ -1,6 +1,6 @@
 package publicApi
 
-import internalElements.GameEngine
+import logic.GameEngine
 
 interface AtttPlayer {
 

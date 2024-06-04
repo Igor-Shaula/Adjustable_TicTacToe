@@ -1,4 +1,4 @@
-package internalElements
+package logic
 
 import elements.*
 import elements.LineDirection

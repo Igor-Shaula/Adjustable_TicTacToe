@@ -1,4 +1,4 @@
-package internalElements
+package logic
 
 import elements.MAX_WINNING_LINE_LENGTH
 import elements.MIN_WINNING_LINE_LENGTH
