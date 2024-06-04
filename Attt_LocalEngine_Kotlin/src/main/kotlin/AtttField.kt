@@ -1,3 +1,6 @@
+import internalElements.Border
+import internalElements.Coordinates
+import internalElements.GameSpace
 import internalElements.LineDirection
 
 /**

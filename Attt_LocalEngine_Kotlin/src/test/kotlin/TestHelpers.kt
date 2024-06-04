@@ -1,3 +1,5 @@
+import internalElements.Border
+import internalElements.Coordinates
 import internalElements.LineDirection
 import publicApi.AtttGame
 import kotlin.test.assertEquals

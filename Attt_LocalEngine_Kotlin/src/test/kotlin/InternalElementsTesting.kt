@@ -1,3 +1,4 @@
+import internalElements.Coordinates
 import internalElements.LineDirection
 import kotlin.test.BeforeTest
 import kotlin.test.Test

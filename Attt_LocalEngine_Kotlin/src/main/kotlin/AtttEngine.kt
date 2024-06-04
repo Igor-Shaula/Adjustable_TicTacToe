@@ -1,3 +1,4 @@
+import internalElements.Coordinates
 import publicApi.AtttGame
 
 /**
