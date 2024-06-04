@@ -1,3 +1,6 @@
+import internalElements.MAX_WINNING_LINE_LENGTH
+import internalElements.MIN_WINNING_LINE_LENGTH
+
 /**
  * AtttRules = Adjustable TicTacToe Rules
  * a single point of check if anybody wins, also container for all limitations & settings of game mechanics.
