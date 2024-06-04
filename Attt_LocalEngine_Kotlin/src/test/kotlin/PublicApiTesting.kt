@@ -5,7 +5,7 @@ import kotlin.test.assertFalse
 // simulation of different cases which can emerge when playing as a consumer of this API
 // preferably tests for AtttGame interface & other publicly accessible code of the library
 
-class PublicApiTests {
+class PublicApiTesting {
 
     @BeforeTest
     fun switchLoggingOn() {

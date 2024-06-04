@@ -1,12 +1,13 @@
 import kotlin.test.*
 
-class GameTests {
+class InternalElementsTesting {
 
     @BeforeTest
     fun switchLoggingOn() {
         Log.switch(true)
     }
 
+    // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
     @Test
     fun test3x3FieldWithMultiplePossibleLines() {
         val gameField = AtttField(3)
