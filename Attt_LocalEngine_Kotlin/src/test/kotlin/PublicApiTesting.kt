@@ -28,7 +28,7 @@ class PublicApiTesting {
         game.mm(2, 2) // O
         game.mm(1, 0) // X - this one was problematic
 
-        assertFalse(AtttEngine.isActive(), "Game should have been won")
+        assertFalse(game.isActive(), "Game should have been won")
         // Would be nice to be able to do this:
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
     }
