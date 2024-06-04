@@ -1,5 +1,6 @@
 import internalElements.Coordinates
 import publicApi.AtttGame
+import publicApi.AtttPlayer
 import utilities.Log
 
 /**
@@ -14,7 +15,7 @@ internal object AtttEngine : AtttGame {
     private var gameRules: AtttRules = AtttRules(MIN_WINNING_LINE_LENGTH)
 
     // this should be used only internally, for now there's no need to show it to a client
-    internal var activePlayer: AtttPlayer = AtttPlayer.None
+    internal var activePlayer: AtttPlayer = AtttPlayerImpl.None
 
     // -------
     // region PUBLIC API
@@ -83,14 +84,14 @@ internal object AtttEngine : AtttGame {
     // sets the currently active player, for which a move will be made & returns the player for the next move
     private fun prepareNextPlayer(): AtttPlayer {
         activePlayer =
-            if (activePlayer == AtttPlayer.A) AtttPlayer.B else AtttPlayer.A // A is set after None case as well
+            if (activePlayer == AtttPlayerImpl.A) AtttPlayerImpl.B else AtttPlayerImpl.A // A is set after None case as well
         return activePlayer
     }
 
     // immediately clear if anything is running at the moment
     private fun clear() {
         gameField.clear()
-        activePlayer = AtttPlayer.None
+        activePlayer = AtttPlayerImpl.None
     }
 
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {

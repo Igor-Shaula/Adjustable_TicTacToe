@@ -2,6 +2,7 @@ import internalElements.Border
 import internalElements.Coordinates
 import internalElements.GameSpace
 import internalElements.LineDirection
+import publicApi.AtttPlayer
 import utilities.Log
 
 /**
@@ -25,7 +26,7 @@ class AtttField(
         // let's create the initial board or field for the game & prepare it for upcoming player moves
         for (x in 0 until sideLength) {
             for (y in 0 until sideLength) {
-                theMap[Coordinates(x, y)] = AtttPlayer.None
+                theMap[Coordinates(x, y)] = AtttPlayerImpl.None
             }
         }
         // todo: optimize by saving memory with the map creation here
@@ -41,7 +42,7 @@ class AtttField(
         for (y in 0 until sideLength) {
             sb.append("\n")
             for (x in 0 until sideLength) {
-                sb.append(theMap[Coordinates(x, y)]?.symbol).append(' ')
+                sb.append(theMap[Coordinates(x, y)]?.getSymbol()).append(' ')
             }
         }
         return sb.toString()
@@ -64,7 +65,7 @@ class AtttField(
     internal fun exists() = theMap.isNotEmpty()
 
     internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
-        if (theMap[where] == AtttPlayer.None) {
+        if (theMap[where] == AtttPlayerImpl.None) {
             theMap[where] = what
             true // new mark is successfully placed
         } else {

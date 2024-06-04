@@ -1,3 +1,4 @@
+import internalElements.AtttEngine
 import internalElements.Coordinates
 import utilities.Log
 import kotlin.test.BeforeTest
@@ -22,17 +23,17 @@ class InternalApiTesting {
         // .xo
         // oxo
 
-        AtttEngine.makeMove(Coordinates(1, 1), AtttPlayer.A)
-        AtttEngine.makeMove(Coordinates(2, 1), AtttPlayer.B)
-        AtttEngine.makeMove(Coordinates(2, 0), AtttPlayer.A)
-        AtttEngine.makeMove(Coordinates(0, 2), AtttPlayer.B)
-        AtttEngine.makeMove(Coordinates(1, 2), AtttPlayer.A)
-        AtttEngine.makeMove(Coordinates(2, 2), AtttPlayer.B)
-        AtttEngine.makeMove(Coordinates(1, 0), AtttPlayer.A)
+        AtttEngine.makeMove(Coordinates(1, 1), AtttPlayerImpl.A)
+        AtttEngine.makeMove(Coordinates(2, 1), AtttPlayerImpl.B)
+        AtttEngine.makeMove(Coordinates(2, 0), AtttPlayerImpl.A)
+        AtttEngine.makeMove(Coordinates(0, 2), AtttPlayerImpl.B)
+        AtttEngine.makeMove(Coordinates(1, 2), AtttPlayerImpl.A)
+        AtttEngine.makeMove(Coordinates(2, 2), AtttPlayerImpl.B)
+        AtttEngine.makeMove(Coordinates(1, 0), AtttPlayerImpl.A)
 
         assertFalse(AtttEngine.isActive(), "Game should have been won")
         // Would be nice to be able to do this:
-        // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
+        // assertEquals(AtttPlayer.A, internalElements.AtttEngine.getWinner())
     }
 
     @Test
@@ -67,12 +68,12 @@ class InternalApiTesting {
         val gameRules = AtttRules(5)
         AtttEngine.prepare(gameField, gameRules)
         Log.pl("\ntest3x3Field: gameEngine ready with given field: ${gameField.prepareForPrintingIn2d()}")
-        AtttEngine.makeMove(Coordinates(0, 0), AtttPlayer.A)
-        AtttEngine.makeMove(Coordinates(1, 0), AtttPlayer.A)
+        AtttEngine.makeMove(Coordinates(0, 0), AtttPlayerImpl.A)
+        AtttEngine.makeMove(Coordinates(1, 0), AtttPlayerImpl.A)
 //    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
-        AtttEngine.makeMove(Coordinates(3, 0), AtttPlayer.A)
-        AtttEngine.makeMove(Coordinates(4, 0), AtttPlayer.A)
-        AtttEngine.makeMove(Coordinates(2, 0), AtttPlayer.A) // intentionally placed here to connect 2 segments
+        AtttEngine.makeMove(Coordinates(3, 0), AtttPlayerImpl.A)
+        AtttEngine.makeMove(Coordinates(4, 0), AtttPlayerImpl.A)
+        AtttEngine.makeMove(Coordinates(2, 0), AtttPlayerImpl.A) // intentionally placed here to connect 2 segments
         // todo: add assertion here
     }
 }

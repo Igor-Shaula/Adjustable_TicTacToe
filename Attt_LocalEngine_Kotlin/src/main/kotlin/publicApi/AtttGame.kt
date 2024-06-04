@@ -1,9 +1,8 @@
 package publicApi
 
-import AtttEngine
 import AtttField
-import AtttPlayer
 import AtttRules
+import internalElements.AtttEngine
 
 interface AtttGame {
 
@@ -22,4 +21,9 @@ interface AtttGame {
     companion object {
         fun create(): AtttGame = AtttEngine
     }
+}
+
+interface AtttPlayer {
+
+    fun getSymbol(): Char
 }
