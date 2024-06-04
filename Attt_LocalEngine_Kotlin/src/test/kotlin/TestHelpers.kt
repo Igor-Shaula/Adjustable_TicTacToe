@@ -2,6 +2,7 @@ import internalElements.Border
 import internalElements.Coordinates
 import internalElements.LineDirection
 import publicApi.AtttGame
+import utilities.Log
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue

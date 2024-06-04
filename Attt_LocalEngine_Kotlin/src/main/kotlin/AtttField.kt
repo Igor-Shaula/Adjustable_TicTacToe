@@ -2,6 +2,7 @@ import internalElements.Border
 import internalElements.Coordinates
 import internalElements.GameSpace
 import internalElements.LineDirection
+import utilities.Log
 
 /**
  * AtttField = Adjustable TicTacToe Field

@@ -1,5 +1,6 @@
 import internalElements.Coordinates
 import internalElements.LineDirection
+import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

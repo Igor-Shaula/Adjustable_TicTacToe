@@ -1,3 +1,5 @@
+package utilities
+
 /**
  * simplest log wrapper for direct logging from main classes.
  * for now the main purpose is to enable silence in logs & switch it on/off if needed
