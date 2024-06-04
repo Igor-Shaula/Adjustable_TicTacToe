@@ -1,3 +1,5 @@
+package internalElements
+
 import publicApi.AtttPlayer
 
 // for now, 2 players is enough, but in the future we can have more

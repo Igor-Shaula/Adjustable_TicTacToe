@@ -1,4 +1,9 @@
-import internalElements.Coordinates
+package internalElements
+
+import AtttField
+import AtttRules
+import MIN_GAME_FIELD_SIDE_SIZE
+import MIN_WINNING_LINE_LENGTH
 import publicApi.AtttGame
 import publicApi.AtttPlayer
 import utilities.Log

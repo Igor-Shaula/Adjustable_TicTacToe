@@ -1,3 +1,4 @@
+import internalElements.*
 import internalElements.Border
 import internalElements.Coordinates
 import internalElements.GameSpace
