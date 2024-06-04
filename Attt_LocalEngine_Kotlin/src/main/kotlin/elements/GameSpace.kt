@@ -1,4 +1,4 @@
-package internalElements
+package elements
 
 internal sealed interface GameSpace
 

@@ -1,8 +1,8 @@
 import internalElements.GameEngine
 import internalElements.GameField
-import internalElements.Border
-import internalElements.Coordinates
-import internalElements.LineDirection
+import elements.Border
+import elements.Coordinates
+import elements.LineDirection
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.assertEquals

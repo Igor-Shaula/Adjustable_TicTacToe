@@ -1,7 +1,7 @@
 import internalElements.GameEngine
 import internalElements.GameField
-import internalElements.Player
-import internalElements.Coordinates
+import elements.Player
+import elements.Coordinates
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test

@@ -1,7 +1,7 @@
 import internalElements.GameEngine
-import internalElements.Player
-import internalElements.Coordinates
-import internalElements.LineDirection
+import elements.Player
+import elements.Coordinates
+import elements.LineDirection
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
