@@ -1,4 +1,4 @@
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
 }
-rootProject.name = "Attt_LocalEngine"
+rootProject.name = "Attt_LocalEngine_Kotlin"
