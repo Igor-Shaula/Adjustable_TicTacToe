@@ -1,3 +1,5 @@
+package internalElements
+
 /**
  * describes all possible directions for the simplest line of 2 dots on a 2d field
  * m -> minus, p -> plus, 0 -> no change along this axis

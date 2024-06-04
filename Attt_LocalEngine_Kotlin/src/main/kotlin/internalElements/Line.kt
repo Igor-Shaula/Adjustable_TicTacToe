@@ -1,3 +1,5 @@
+package internalElements
+
 // todo: analyze this experimental idea
 internal class Line {
 

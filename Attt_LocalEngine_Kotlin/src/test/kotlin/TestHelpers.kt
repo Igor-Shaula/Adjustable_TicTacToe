@@ -1,3 +1,4 @@
+import internalElements.LineDirection
 import publicApi.AtttGame
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals

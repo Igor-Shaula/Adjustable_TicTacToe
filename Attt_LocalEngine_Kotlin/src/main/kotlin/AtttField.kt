@@ -1,3 +1,5 @@
+import internalElements.LineDirection
+
 /**
  * AtttField = Adjustable TicTacToe Field
  * represents the area/space where all players' marks are placed.
