@@ -1,5 +1,5 @@
-import internalElements.AtttEngine
-import internalElements.AtttPlayerImpl
+import internalElements.GameEngine
+import internalElements.Player
 import internalElements.Coordinates
 import internalElements.LineDirection
 import utilities.Log
@@ -18,7 +18,7 @@ class InternalElementsTesting {
     @Test
     fun gameNotStarted_defaultGameCreated_3x3GameFieldExists() {
         prepareClassic3x3GameField()
-        assertTrue(AtttEngine.isActive())
+        assertTrue(GameEngine.isActive())
     }
 
     @Test
@@ -55,12 +55,12 @@ class InternalElementsTesting {
         prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
-        AtttEngine.makeMove(firstMark, AtttPlayerImpl.A)
-        AtttEngine.makeMove(secondMark, AtttPlayerImpl.A)
+        GameEngine.makeMove(firstMark, Player.A)
+        GameEngine.makeMove(secondMark, Player.A)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = AtttEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromFirstToSecond = GameEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = AtttEngine.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = GameEngine.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(2, lengthFromFirstToSecond)
         assertEquals(2, lengthFromSecondToFirst)
     }
@@ -70,12 +70,12 @@ class InternalElementsTesting {
         prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
-        AtttEngine.makeMove(firstMark, AtttPlayerImpl.A)
-        AtttEngine.makeMove(secondMark, AtttPlayerImpl.A)
+        GameEngine.makeMove(firstMark, Player.A)
+        GameEngine.makeMove(secondMark, Player.A)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = AtttEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromFirstToSecond = GameEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = AtttEngine.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = GameEngine.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(1, lengthFromFirstToSecond)
         assertEquals(1, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -87,13 +87,13 @@ class InternalElementsTesting {
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
         val connectingMark = Coordinates(1, 0)
-        AtttEngine.makeMove(firstMark, AtttPlayerImpl.A)
-        AtttEngine.makeMove(secondMark, AtttPlayerImpl.A)
-        AtttEngine.makeMove(connectingMark, AtttPlayerImpl.A)
+        GameEngine.makeMove(firstMark, Player.A)
+        GameEngine.makeMove(secondMark, Player.A)
+        GameEngine.makeMove(connectingMark, Player.A)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = AtttEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromFirstToSecond = GameEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = AtttEngine.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = GameEngine.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(3, lengthFromFirstToSecond)
         assertEquals(3, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -105,13 +105,13 @@ class InternalElementsTesting {
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         val oneMoreMark = Coordinates(2, 0)
-        AtttEngine.makeMove(firstMark, AtttPlayerImpl.A)
-        AtttEngine.makeMove(secondMark, AtttPlayerImpl.A)
-        AtttEngine.makeMove(oneMoreMark, AtttPlayerImpl.A)
+        GameEngine.makeMove(firstMark, Player.A)
+        GameEngine.makeMove(secondMark, Player.A)
+        GameEngine.makeMove(oneMoreMark, Player.A)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromEdgeToEdge = AtttEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromEdgeToEdge = GameEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromEdgeToEdgeOpposite = AtttEngine.gameField.measureLineFrom(oneMoreMark, LineDirection.XmY0, 1)
+        val lengthFromEdgeToEdgeOpposite = GameEngine.gameField.measureLineFrom(oneMoreMark, LineDirection.XmY0, 1)
         assertEquals(3, lengthFromEdgeToEdge)
         assertEquals(3, lengthFromEdgeToEdgeOpposite)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -122,39 +122,39 @@ class InternalElementsTesting {
         prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
-        val firstActivePlayer = AtttEngine.activePlayer // should be player A
-        AtttEngine.makeMove(firstMark) // after this line active player is replaced with the next -> B
+        val firstActivePlayer = GameEngine.activePlayer // should be player A
+        GameEngine.makeMove(firstMark) // after this line active player is replaced with the next -> B
         Log.pl("measuring line from $firstMark for player: $firstActivePlayer in the forward direction:")
-        val lengthForPlayerA = AtttEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
-        val secondActivePlayer = AtttEngine.activePlayer // should be player B
-        AtttEngine.makeMove(secondMark) // after this line active player is replaced with the next -> A
+        val lengthForPlayerA = GameEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val secondActivePlayer = GameEngine.activePlayer // should be player B
+        GameEngine.makeMove(secondMark) // after this line active player is replaced with the next -> A
         Log.pl("measuring line from $secondMark for player: $secondActivePlayer in the forward direction:")
-        val lengthForPlayerB = AtttEngine.gameField.measureLineFrom(secondMark, LineDirection.XpY0, 1)
+        val lengthForPlayerB = GameEngine.gameField.measureLineFrom(secondMark, LineDirection.XpY0, 1)
         assertEquals(1, lengthForPlayerA)
         assertEquals(1, lengthForPlayerB)
-        AtttEngine.makeMove(Coordinates(2, 0))
-        AtttEngine.makeMove(Coordinates(1, 1))
-        AtttEngine.makeMove(Coordinates(2, 1))
-        AtttEngine.makeMove(Coordinates(1, 2))
-        Log.pl(AtttEngine.gameField.prepareForPrintingIn2d())
+        GameEngine.makeMove(Coordinates(2, 0))
+        GameEngine.makeMove(Coordinates(1, 1))
+        GameEngine.makeMove(Coordinates(2, 1))
+        GameEngine.makeMove(Coordinates(1, 2))
+        Log.pl(GameEngine.gameField.prepareForPrintingIn2d())
     }
 
     @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
         prepareClassic3x3GameField()
         val someSpot = Coordinates(1, 1)
-        AtttEngine.makeMove(someSpot, AtttPlayerImpl.A)
-        AtttEngine.makeMove(someSpot, AtttPlayerImpl.B)
-        Log.pl("\ngame field with only one player's mark: ${AtttEngine.gameField.prepareForPrintingIn2d()}")
-        assertEquals(AtttPlayerImpl.A, AtttEngine.gameField.getCurrentMarkAt(1, 1))
+        GameEngine.makeMove(someSpot, Player.A)
+        GameEngine.makeMove(someSpot, Player.B)
+        Log.pl("\ngame field with only one player's mark: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertEquals(Player.A, GameEngine.gameField.getCurrentMarkAt(1, 1))
     }
 
     @Test
     fun having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect() {
         prepareClassic3x3GameField()
-        AtttEngine.makeMove(Coordinates(0, 0), AtttPlayerImpl.A)
-        AtttEngine.makeMove(Coordinates(1, 0), AtttPlayerImpl.A)
-        AtttEngine.makeMove(Coordinates(2, 0), AtttPlayerImpl.A)
+        GameEngine.makeMove(Coordinates(0, 0), Player.A)
+        GameEngine.makeMove(Coordinates(1, 0), Player.A)
+        GameEngine.makeMove(Coordinates(2, 0), Player.A)
         // gameField & winning message for player A is printed in the console
         // todo: add assertion here
     }

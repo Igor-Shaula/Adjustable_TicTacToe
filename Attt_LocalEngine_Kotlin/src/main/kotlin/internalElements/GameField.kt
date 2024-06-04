@@ -8,7 +8,7 @@ import utilities.Log
  * represents the area/space where all players' marks are placed.
  */
 @Suppress("UNUSED_PARAMETER")
-internal class AtttField(
+internal class GameField(
     private var sideLength: Int, // the only required parameter
     dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
     numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious, can't be less
@@ -24,7 +24,7 @@ internal class AtttField(
         // let's create the initial board or field for the game & prepare it for upcoming player moves
         for (x in 0 until sideLength) {
             for (y in 0 until sideLength) {
-                theMap[Coordinates(x, y)] = AtttPlayerImpl.None
+                theMap[Coordinates(x, y)] = Player.None
             }
         }
         // todo: optimize by saving memory with the map creation here
@@ -63,7 +63,7 @@ internal class AtttField(
     internal fun exists() = theMap.isNotEmpty()
 
     internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
-        if (theMap[where] == AtttPlayerImpl.None) {
+        if (theMap[where] == Player.None) {
             theMap[where] = what
             true // new mark is successfully placed
         } else {

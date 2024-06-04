@@ -4,7 +4,7 @@ package internalElements
  * internalElements.AtttRules = Adjustable TicTacToe Rules
  * a single point of check if anybody wins, also container for all limitations & settings of game mechanics.
  */
-internal class AtttRules(
+internal class GameRules(
     private var winningLength: Int,
     // potentially here we can later add more criteria to detect if the game is won by any of players
 ) {

@@ -4,7 +4,7 @@ import publicApi.AtttPlayer
 
 // for now, 2 players is enough, but in the future we can have more
 @Suppress("unused")
-enum class AtttPlayerImpl(private val symbol: Char) : AtttPlayer {
+enum class Player(private val symbol: Char) : AtttPlayer {
 
     None('·'), A('X'), B('O');
 

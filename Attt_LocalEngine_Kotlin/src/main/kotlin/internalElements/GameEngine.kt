@@ -9,14 +9,14 @@ import utilities.Log
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-internal object AtttEngine : AtttGame {
+internal object GameEngine : AtttGame {
 
     // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable
-    internal var gameField: AtttField = AtttField(MIN_GAME_FIELD_SIDE_SIZE)
-    private var gameRules: AtttRules = AtttRules(MIN_WINNING_LINE_LENGTH)
+    internal var gameField: GameField = GameField(MIN_GAME_FIELD_SIDE_SIZE)
+    private var gameRules: GameRules = GameRules(MIN_WINNING_LINE_LENGTH)
 
     // this should be used only internally, for now there's no need to show it to a client
-    internal var activePlayer: AtttPlayer = AtttPlayerImpl.None
+    internal var activePlayer: AtttPlayer = Player.None
 
     // -------
     // region PUBLIC API
@@ -26,13 +26,13 @@ internal object AtttEngine : AtttGame {
      */
     override fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer {
         clear()
-        gameField = AtttField(desiredFieldSize)
-        gameRules = AtttRules(desiredMaxLineLength)
+        gameField = GameField(desiredFieldSize)
+        gameRules = GameRules(desiredMaxLineLength)
         return prepareNextPlayer()
     }
 
     fun prepare(
-        newGameField: AtttField, newGameRules: AtttRules
+        newGameField: GameField, newGameRules: GameRules
     ): AtttPlayer { // game engine client must know who's the next to make a move on the board
         clear() // for all possible resources that could be used previously
 //        gameField = newGameField
@@ -92,14 +92,14 @@ internal object AtttEngine : AtttGame {
     // sets the currently active player, for which a move will be made & returns the player for the next move
     private fun prepareNextPlayer(): AtttPlayer {
         activePlayer =
-            if (activePlayer == AtttPlayerImpl.A) AtttPlayerImpl.B else AtttPlayerImpl.A // A is set after None case as well
+            if (activePlayer == Player.A) Player.B else Player.A // A is set after None case as well
         return activePlayer
     }
 
     // immediately clear if anything is running at the moment
     private fun clear() {
         gameField.clear()
-        activePlayer = AtttPlayerImpl.None
+        activePlayer = Player.None
     }
 
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {

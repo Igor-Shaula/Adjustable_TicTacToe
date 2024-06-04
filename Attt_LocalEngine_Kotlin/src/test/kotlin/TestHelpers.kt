@@ -1,5 +1,5 @@
-import internalElements.AtttEngine
-import internalElements.AtttField
+import internalElements.GameEngine
+import internalElements.GameField
 import internalElements.Border
 import internalElements.Coordinates
 import internalElements.LineDirection
@@ -23,7 +23,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
 }
 
 internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
-    val nextSpot = AtttEngine.gameField.getTheNextSafeSpaceFor(startSpot, direction)
+    val nextSpot = GameEngine.gameField.getTheNextSafeSpaceFor(startSpot, direction)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
         // lowest limit for X axis
@@ -48,8 +48,8 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, d
 }
 
 internal fun prepareClassic3x3GameField() {
-    val gameField = AtttField(3)
-    AtttEngine.prepareGame(3, 3)
+    val gameField = GameField(3)
+    GameEngine.prepareGame(3, 3)
     Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${gameField.prepareForPrintingIn2d()}")
 }
 

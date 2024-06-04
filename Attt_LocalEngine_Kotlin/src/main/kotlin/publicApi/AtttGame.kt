@@ -1,6 +1,6 @@
 package publicApi
 
-import internalElements.AtttEngine
+import internalElements.GameEngine
 
 interface AtttPlayer {
 
@@ -22,6 +22,6 @@ interface AtttGame {
     fun finish()
 
     companion object {
-        fun create(): AtttGame = AtttEngine
+        fun create(): AtttGame = GameEngine
     }
 }
