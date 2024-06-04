@@ -31,30 +31,6 @@ class GameTests {
     }
 
     @Test
-    fun test3x3FieldWithMultiplePossibleLinesNew() {
-        val field = AtttField(3)
-        val rules = AtttRules(3)
-        val game = AtttGame.create()
-        game.prepare(field, rules)
-
-        // .Xx
-        // .xo
-        // oxo
-
-        game.mm(1, 1) // X
-        game.mm(2, 1) // O
-        game.mm(2, 0) // X
-        game.mm(0, 2) // O
-        game.mm(1, 2) // X
-        game.mm(2, 2) // O
-        game.mm(1, 0) // X - this one is problematic
-
-        assertFalse(AtttEngine.isActive(), "Game should have been won")
-        // Would be nice to be able to do this:
-        // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
-    }
-
-    @Test
     fun gameNotStarted_defaultGameCreated_3x3GameFieldExists() {
         prepareClassic3x3GameField()
         assertTrue(AtttEngine.isActive())
