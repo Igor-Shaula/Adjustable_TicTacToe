@@ -1,17 +1,14 @@
-import internalElements.*
-import internalElements.Border
-import internalElements.Coordinates
-import internalElements.GameSpace
-import internalElements.LineDirection
+package internalElements
+
 import publicApi.AtttPlayer
 import utilities.Log
 
 /**
- * AtttField = Adjustable TicTacToe Field
+ * internalElements.AtttField = Adjustable TicTacToe Field
  * represents the area/space where all players' marks are placed.
  */
 @Suppress("UNUSED_PARAMETER")
-class AtttField(
+internal class AtttField(
     private var sideLength: Int, // the only required parameter
     dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
     numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious, can't be less

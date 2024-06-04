@@ -1,7 +1,5 @@
 package internalElements
 
-import AtttField
-import AtttRules
 import publicApi.AtttGame
 import publicApi.AtttPlayer
 import utilities.Log
