@@ -44,5 +44,16 @@ internal fun prepareClassic3x3GameField() {
     val gameField = AtttField(3)
     val gameRules = AtttRules(3)
     AtttEngine.prepare(gameField, gameRules)
-    Log.pl("\nprepareClassic3x3GameField: gameEngine ready with given field: ${gameField.prepareForPrintingIn2d()}")
+    Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${gameField.prepareForPrintingIn2d()}")
+}
+
+// should use only publicly available API
+internal fun prepareGameInstanceForClassic3x3GameField(): AtttGame {
+    val gameInstance = AtttGame.create()
+    val gameField = AtttField(3)
+    val gameRules = AtttRules(3)
+    gameInstance.prepare(gameField, gameRules)
+    Log.pl("\nprepareGameInstanceForClassic3x3GameField: gameInstance is ready having this field:")
+    gameInstance.printCurrentFieldIn2d()
+    return gameInstance
 }
