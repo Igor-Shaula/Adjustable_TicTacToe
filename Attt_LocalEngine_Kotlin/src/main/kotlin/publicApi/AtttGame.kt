@@ -1,12 +1,15 @@
 package publicApi
 
-import AtttField
-import AtttRules
 import internalElements.AtttEngine
+
+interface AtttPlayer {
+
+    fun getSymbol(): Char
+}
 
 interface AtttGame {
 
-    fun prepare(newGameField: AtttField, newGameRules: AtttRules): AtttPlayer
+    fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer
 
     fun mm(x: Int, y: Int): AtttPlayer
 
@@ -21,9 +24,4 @@ interface AtttGame {
     companion object {
         fun create(): AtttGame = AtttEngine
     }
-}
-
-interface AtttPlayer {
-
-    fun getSymbol(): Char
 }

@@ -16,9 +16,7 @@ class InternalApiTesting {
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
     @Test
     fun test3x3FieldWithMultiplePossibleLines() {
-        val gameField = AtttField(3)
-        val gameRules = AtttRules(3)
-        AtttEngine.prepare(gameField, gameRules)
+        AtttEngine.prepareGame(3, 3)
 
         // .Xx
         // .xo
@@ -66,8 +64,7 @@ class InternalApiTesting {
     @Test
     fun test5x5Field() {
         val gameField = AtttField(5)
-        val gameRules = AtttRules(5)
-        AtttEngine.prepare(gameField, gameRules)
+        AtttEngine.prepareGame(5, 5)
         Log.pl("\ntest3x3Field: gameEngine ready with given field: ${gameField.prepareForPrintingIn2d()}")
         AtttEngine.makeMove(Coordinates(0, 0), AtttPlayerImpl.A)
         AtttEngine.makeMove(Coordinates(1, 0), AtttPlayerImpl.A)

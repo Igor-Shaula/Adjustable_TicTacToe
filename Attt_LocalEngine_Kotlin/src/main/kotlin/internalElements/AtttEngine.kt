@@ -26,12 +26,19 @@ internal object AtttEngine : AtttGame {
     /**
      * create & provide the UI with a new game field, adjustability starts here - in the parameters
      */
-    override fun prepare(
+    override fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer {
+        clear()
+        gameField = AtttField(desiredFieldSize)
+        gameRules = AtttRules(desiredMaxLineLength)
+        return prepareNextPlayer()
+    }
+
+    fun prepare(
         newGameField: AtttField, newGameRules: AtttRules
     ): AtttPlayer { // game engine client must know who's the next to make a move on the board
         clear() // for all possible resources that could be used previously
-        gameField = newGameField
-        gameRules = newGameRules
+//        gameField = newGameField
+//        gameRules = newGameRules
         return prepareNextPlayer()
     }
 
