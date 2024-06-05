@@ -186,6 +186,7 @@ class InternalElementsTesting {
         val secondMark = Coordinates(1, 0)
         GameEngine.makeMove(firstMark, Player.A)
         GameEngine.makeMove(secondMark, Player.A)
+        GameEngine.printCurrentFieldIn2d()
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = GameEngine.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")

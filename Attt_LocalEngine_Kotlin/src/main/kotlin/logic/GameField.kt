@@ -21,13 +21,7 @@ internal class GameField(
         // here we're doing possible corrections that may be needed to keep the game rules reasonable
         if (sideLength > MAX_GAME_FIELD_SIDE_SIZE) sideLength = MAX_GAME_FIELD_SIDE_SIZE
         else if (sideLength < MIN_GAME_FIELD_SIDE_SIZE) sideLength = MIN_GAME_FIELD_SIDE_SIZE
-        // let's create the initial board or field for the game & prepare it for upcoming player moves
-        for (x in 0 until sideLength) {
-            for (y in 0 until sideLength) {
-                theMap[Coordinates(x, y)] = Player.None
-            }
-        }
-        // todo: optimize by saving memory with the map creation here
+        // let's NOT initialize the initial field for the game to save memory & speed-up new game start
     }
 
     /**
@@ -63,7 +57,7 @@ internal class GameField(
         sideLength in MIN_GAME_FIELD_SIDE_SIZE..MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
 
     internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
-        if (theMap[where] == Player.None) {
+        if (theMap[where] == Player.None || theMap[where] == null) {
             theMap[where] = what
             true // new mark is successfully placed
         } else {
