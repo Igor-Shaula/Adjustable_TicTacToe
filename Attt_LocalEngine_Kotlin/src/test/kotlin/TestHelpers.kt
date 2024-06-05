@@ -2,7 +2,6 @@ import elements.Border
 import elements.Coordinates
 import elements.LineDirection
 import logic.GameEngine
-import logic.GameField
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.assertEquals
@@ -24,7 +23,6 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
 
 internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
     // as gameField is a stateful object - we have to reset it every time before a new test
-    GameEngine.finish()
     prepareClassic3x3GameField()
     val nextSpot = GameEngine.gameField.getTheNextSafeSpaceFor(startSpot, direction)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
@@ -52,9 +50,8 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, d
 
 internal fun prepareClassic3x3GameField() {
     // using internal API here instead of AtttGame as this function is used inside group of tests in InternalApiTesting
-    val gameField = GameField(3)
     GameEngine.prepareGame(3, 3)
-    Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${gameField.prepareForPrintingIn2d()}")
+    Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
 }
 
 // should use only publicly available API

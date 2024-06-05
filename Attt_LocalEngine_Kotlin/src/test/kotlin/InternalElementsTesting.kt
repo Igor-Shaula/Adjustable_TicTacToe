@@ -11,7 +11,6 @@ class InternalElementsTesting {
     @BeforeTest
     fun switchLoggingOn() {
         Log.switch(true)
-        GameEngine.finish()
     }
 
     // region GameEngine preparation
