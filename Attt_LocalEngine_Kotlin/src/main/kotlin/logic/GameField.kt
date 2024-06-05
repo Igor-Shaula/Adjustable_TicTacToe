@@ -5,8 +5,7 @@ import publicApi.AtttPlayer
 import utilities.Log
 
 /**
- * AtttField = Adjustable TicTacToe Field
- * represents the area/space where all players' marks are placed.
+ * represents the area/space where all players' marks are placed and exist through one active game session
  */
 @Suppress("UNUSED_PARAMETER")
 internal class GameField(
@@ -39,7 +38,7 @@ internal class GameField(
         for (y in 0 until sideLength) {
             sb.append("\n")
             for (x in 0 until sideLength) {
-                sb.append(theMap[Coordinates(x, y)]?.getSymbol()).append(' ')
+                sb.append(theMap[Coordinates(x, y)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK).append(' ')
             }
         }
         return sb.toString()
@@ -92,8 +91,8 @@ internal class GameField(
         what == theMap[Coordinates(x, y)]
 
     internal fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
-        // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
-        // we also have a proven placed dot of the same player in the detected line direction
+        // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
+        // we also have a proven placed dot of the same player in the detected line direction.
         // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
         val checkedNearCoordinates = getTheNextSafeSpaceFor(start, lineDirection)
         var lineTotalLength = 0
@@ -102,15 +101,14 @@ internal class GameField(
                 measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
                         measureLineFrom(start, lineDirection.opposite(), 0)
             Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
-//            updateGameScore(what, lineTotalLength)
-        } // else checkedNearCoordinates cannot be Border or anything else from Coordinates type
+        } // else checkedNearCoordinates cannot be Border or anything else apart from Coordinates type
         return lineTotalLength
     }
 
     internal fun measureLineFrom(givenMark: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
         Log.pl("measureLineFrom: given startingLength: $startingLength")
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
-        // firstly measure in the given direction and then in the opposite, also recursively
+        // firstly let's measure in the given direction and then in the opposite, also recursively
         val nextMark = getTheNextSafeSpaceFor(givenMark, lineDirection)
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
         return if (nextMark is Coordinates && theMap[givenMark] == theMap[nextMark]) {
