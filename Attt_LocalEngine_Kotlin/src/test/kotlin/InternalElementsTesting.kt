@@ -1,7 +1,7 @@
-import logic.GameEngine
-import elements.Player
 import elements.Coordinates
 import elements.LineDirection
+import elements.Player
+import logic.GameEngine
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -15,11 +15,39 @@ class InternalElementsTesting {
         Log.switch(true)
     }
 
+    // region GameEngine preparation
+
     @Test
-    fun gameIsNotStarted_defaultGameCreated_3x3GameFieldIsReady() {
+    fun gameIsNotStarted_classic3x3GameIsCreated_classic3x3GameFieldIsReady() {
         prepareClassic3x3GameField()
         assertTrue(GameEngine.gameField.isReady())
     }
+
+    @Test
+    fun gameIsNotStarted_tooSmallGameFieldIsCreated_minimal3x3GameFieldIsReady() {
+        // size = maxLength = 2 -> game would have no sense in this case, the same as with field size of 1
+        GameEngine.prepareGame(2, 2)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(3, GameEngine.gameField.sideLength)
+        // size = maxLength = 0
+        GameEngine.prepareGame(0, 0)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(3, GameEngine.gameField.sideLength)
+        // size = maxLength = -1
+        GameEngine.prepareGame(-1, -1)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(3, GameEngine.gameField.sideLength)
+        // size = maxLength = Int.MIN_VALUE
+        GameEngine.prepareGame(Int.MIN_VALUE, Int.MIN_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(3, GameEngine.gameField.sideLength)
+    }
+
+    // endregion GameEngine preparation
 
     @Test
     fun having2dField_anyLineDirectionChosen_detectingOppositeDirectionIsCorrect() {

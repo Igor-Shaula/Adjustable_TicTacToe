@@ -9,7 +9,7 @@ import utilities.Log
  */
 @Suppress("UNUSED_PARAMETER")
 internal class GameField(
-    private var sideLength: Int, // the only required parameter
+    internal var sideLength: Int, // the only required parameter
     dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
     numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious, can't be less
 ) {
