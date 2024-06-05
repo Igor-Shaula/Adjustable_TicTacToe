@@ -21,6 +21,11 @@ internal class GameRules(
         else if (winningLength < MIN_WINNING_LINE_LENGTH) winningLength = MIN_WINNING_LINE_LENGTH
     }
 
+    internal fun clear() {
+        players.clear()
+        winningLength = -1
+    }
+
     internal fun isWinningLength(lineLength: Int) = lineLength >= winningLength
 
     internal fun isGameWon(): Boolean = isWinningLength(getLeadingPlayer().getMaxLineLength())

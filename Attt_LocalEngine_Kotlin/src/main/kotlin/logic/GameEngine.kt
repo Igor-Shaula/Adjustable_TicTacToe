@@ -98,6 +98,7 @@ internal object GameEngine : AtttGame {
     // immediately clear if anything is running at the moment
     private fun clear() {
         gameField.clear()
+        gameRules.clear()
         activePlayer = Player.None
     }
 
