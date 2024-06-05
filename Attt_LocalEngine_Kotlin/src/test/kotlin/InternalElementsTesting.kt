@@ -22,27 +22,35 @@ class InternalElementsTesting {
     }
 
     @Test
+    fun gameIsNotStarted_gameFieldOfAnyCorrectSizeIsCreated_gameFieldWithSpecifiedSizeIsReady() {
+        GameEngine.prepareGame(5, 5)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(5, GameEngine.gameField.sideLength)
+    }
+
+    @Test
     fun gameIsNotStarted_tooSmallGameFieldIsCreated_minimal3x3GameFieldIsReady() {
         // size = maxLength = 2 -> game would have no sense in this case, the same as with field size of 1
         GameEngine.prepareGame(2, 2)
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
-        assertEquals(3, GameEngine.gameField.sideLength)
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
         // size = maxLength = 0
         GameEngine.prepareGame(0, 0)
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
-        assertEquals(3, GameEngine.gameField.sideLength)
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
         // size = maxLength = -1
         GameEngine.prepareGame(-1, -1)
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
-        assertEquals(3, GameEngine.gameField.sideLength)
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
         // size = maxLength = Int.MIN_VALUE
         GameEngine.prepareGame(Int.MIN_VALUE, Int.MIN_VALUE)
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
-        assertEquals(3, GameEngine.gameField.sideLength)
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
     }
 
     @Test
