@@ -33,7 +33,7 @@ class InternalApiTesting {
 
         assertFalse(GameEngine.isActive(), "Game should have been won")
         // Would be nice to be able to do this:
-        // assertEquals(AtttPlayer.A, internalElements.AtttEngine.getWinner())
+        // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
     }
 
     @Test

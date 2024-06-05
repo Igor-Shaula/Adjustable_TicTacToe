@@ -6,7 +6,7 @@ import elements.Player
 import publicApi.AtttPlayer
 
 /**
- * internalElements.AtttRules = Adjustable TicTacToe Rules
+ * AtttRules = Adjustable TicTacToe Rules
  * a single point of check if anybody wins, also container for all limitations & settings of game mechanics.
  */
 internal class GameRules(

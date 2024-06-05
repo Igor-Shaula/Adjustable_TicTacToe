@@ -10,7 +10,7 @@ import publicApi.AtttPlayer
 import utilities.Log
 
 /**
- * internalElements.AtttField = Adjustable TicTacToe Field
+ * AtttField = Adjustable TicTacToe Field
  * represents the area/space where all players' marks are placed.
  */
 @Suppress("UNUSED_PARAMETER")
