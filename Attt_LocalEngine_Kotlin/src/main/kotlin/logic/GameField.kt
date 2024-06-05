@@ -60,7 +60,7 @@ internal class GameField(
      * ensures that the game field has correct size & is clear, so it is safe to use it for a new game
      */
     internal fun isReady(): Boolean =
-        sideLength in MIN_GAME_FIELD_SIDE_SIZE until MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
+        sideLength in MIN_GAME_FIELD_SIDE_SIZE..MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
 
     internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
         if (theMap[where] == Player.None) {
