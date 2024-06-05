@@ -21,13 +21,14 @@ internal class GameRules(
         else if (winningLength < MIN_WINNING_LINE_LENGTH) winningLength = MIN_WINNING_LINE_LENGTH
     }
 
-    internal fun isGameWon(lineLength: Int) = lineLength >= winningLength
+    internal fun isWinningLength(lineLength: Int) = lineLength >= winningLength
 
-    internal fun getLeadingPlayer(): AtttPlayer {
-        // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case
-        val leadingPlayer = players.entries.maxByOrNull { k -> k.value }
-        return leadingPlayer?.key ?: Player.None
-    }
+    internal fun isGameWon(): Boolean = isWinningLength(getLeadingPlayer().getMaxLineLength())
+
+    internal fun getLeadingPlayer(): AtttPlayer = detectLeadingPlayer() ?: Player.None
+
+    // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case
+    private fun detectLeadingPlayer(): AtttPlayer? = players.entries.maxByOrNull { k -> k.value }?.key
 
     internal fun updatePlayerScore(whichPlayer: AtttPlayer, newLineLength: Int) {
         val existingMaxLineLength = players[whichPlayer]
