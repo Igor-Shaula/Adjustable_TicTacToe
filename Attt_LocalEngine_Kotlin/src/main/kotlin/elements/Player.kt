@@ -11,9 +11,15 @@ internal const val SYMBOL_FOR_PLAYER_B = 'O'
 enum class Player(private val symbol: Char) : AtttPlayer {
 
     // player None was added to avoid nullability in all places that require use of this class
-    None(SYMBOL_FOR_ABSENT_MARK),
-    A(SYMBOL_FOR_PLAYER_A),
-    B(SYMBOL_FOR_PLAYER_B);
+    None(SYMBOL_FOR_ABSENT_MARK), A(SYMBOL_FOR_PLAYER_A), B(SYMBOL_FOR_PLAYER_B);
+
+    private var maxLineLength = 0
 
     override fun getSymbol(): Char = this.symbol
+
+    override fun getMaxLineLength(): Int = maxLineLength
+
+    internal fun tryToSetMaxLineLength(newLineLength: Int) {
+        if (newLineLength > maxLineLength) maxLineLength = newLineLength
+    }
 }

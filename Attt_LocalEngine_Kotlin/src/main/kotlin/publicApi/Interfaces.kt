@@ -5,6 +5,8 @@ import logic.GameEngine
 interface AtttPlayer {
 
     fun getSymbol(): Char
+
+    fun getMaxLineLength(): Int
 }
 
 interface AtttGame {

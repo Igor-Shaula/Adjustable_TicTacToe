@@ -101,7 +101,7 @@ internal object GameEngine : AtttGame {
 
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
         gameRules.updatePlayerScore(whichPlayer, detectedLineLength)
-        if (gameRules.isGameWon(detectedLineLength)) {
+        if (gameRules.isWinningLength(detectedLineLength)) {
             Log.pl("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
             finish()
         }
