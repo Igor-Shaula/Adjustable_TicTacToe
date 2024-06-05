@@ -67,7 +67,7 @@ internal object GameEngine : AtttGame {
             maxLengthForThisMove?.let { updateGameScore(what, it) }
             return prepareNextPlayer() // todo: check all possible & impossible cases of forcing moves by different players
         } else {
-            return activePlayer
+            return what
         }
     }
 
