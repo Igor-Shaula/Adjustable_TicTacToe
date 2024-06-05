@@ -1,8 +1,8 @@
-import logic.GameEngine
-import logic.GameField
 import elements.Border
 import elements.Coordinates
 import elements.LineDirection
+import logic.GameEngine
+import logic.GameField
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.assertEquals
@@ -48,6 +48,7 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, d
 }
 
 internal fun prepareClassic3x3GameField() {
+    // using internal API here instead of AtttGame as this function is used inside group of tests in InternalApiTesting
     val gameField = GameField(3)
     GameEngine.prepareGame(3, 3)
     Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${gameField.prepareForPrintingIn2d()}")

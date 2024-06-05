@@ -16,9 +16,9 @@ class InternalElementsTesting {
     }
 
     @Test
-    fun gameNotStarted_defaultGameCreated_3x3GameFieldExists() {
+    fun gameIsNotStarted_defaultGameCreated_3x3GameFieldIsReady() {
         prepareClassic3x3GameField()
-        assertTrue(GameEngine.isActive())
+        assertTrue(GameEngine.gameField.isReady())
     }
 
     @Test
