@@ -24,10 +24,10 @@ class InternalElementsTesting {
 
     @Test
     fun gameIsNotStarted_gameFieldOfAnyCorrectSizeIsCreated_gameFieldWithSpecifiedSizeIsReady() {
-        GameEngine.prepareGame(5, 5)
+        GameEngine.prepareGame(7, 5)
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
-        assertEquals(5, GameEngine.gameField.sideLength)
+        assertEquals(7, GameEngine.gameField.sideLength)
     }
 
     @Test
@@ -173,7 +173,7 @@ class InternalElementsTesting {
     fun having3x3Field_1MarkSet_adjacentMarkDetectionLogicIsCorrect() {
         checkTheNextSpotDetectionBlock(Coordinates(0, 0))
         checkTheNextSpotDetectionBlock(Coordinates(0, 1))
-        checkTheNextSpotDetectionBlock(Coordinates(0, 2)) // is failing when all tests are launched at once
+        checkTheNextSpotDetectionBlock(Coordinates(0, 2))
         checkTheNextSpotDetectionBlock(Coordinates(1, 0))
         checkTheNextSpotDetectionBlock(Coordinates(1, 1))
         checkTheNextSpotDetectionBlock(Coordinates(1, 2))
