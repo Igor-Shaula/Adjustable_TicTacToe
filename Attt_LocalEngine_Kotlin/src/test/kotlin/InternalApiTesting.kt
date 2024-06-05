@@ -38,7 +38,7 @@ class InternalApiTesting {
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
         // -> and yes, this is done:
         assertEquals(Player.A, GameEngine.getLeader())
-        assertEquals(Player.A, GameEngine.activePlayer) // so it's the winner
+        assertEquals(Player.A, GameEngine.activePlayer) // so it's the winner - as we did set the player intentionally
         assertEquals(3, GameEngine.getLeader().getMaxLineLength())
     }
 
@@ -52,7 +52,9 @@ class InternalApiTesting {
         GameEngine.makeMove(Coordinates(2, 1))
         GameEngine.makeMove(Coordinates(1, 2))
         // gameField & winning message for player B is printed in the console
-        // todo: add assertion here
+        assertEquals(Player.B, GameEngine.getLeader())
+        assertEquals(Player.A, GameEngine.activePlayer) // game is ready for the next potential move in any case
+        assertEquals(3, GameEngine.getLeader().getMaxLineLength())
     }
 
     @Test
@@ -65,7 +67,9 @@ class InternalApiTesting {
         GameEngine.makeMove(2, 1)
         GameEngine.makeMove(1, 2)
         // gameField & winning message for player B is printed in the console
-        // todo: add assertion here
+        assertEquals(Player.B, GameEngine.getLeader())
+        assertEquals(Player.A, GameEngine.activePlayer) // game is ready for the next potential move in any case
+        assertEquals(3, GameEngine.getLeader().getMaxLineLength())
     }
 
     @Test
@@ -79,6 +83,8 @@ class InternalApiTesting {
         GameEngine.makeMove(Coordinates(3, 0), Player.A)
         GameEngine.makeMove(Coordinates(4, 0), Player.A)
         GameEngine.makeMove(Coordinates(2, 0), Player.A) // intentionally placed here to connect 2 segments
-        // todo: add assertion here
+        assertEquals(Player.A, GameEngine.getLeader())
+        assertEquals(Player.A, GameEngine.activePlayer) // so it's the winner
+        assertEquals(5, GameEngine.getLeader().getMaxLineLength())
     }
 }

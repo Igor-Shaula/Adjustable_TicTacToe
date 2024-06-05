@@ -11,6 +11,7 @@ class InternalElementsTesting {
     @BeforeTest
     fun switchLoggingOn() {
         Log.switch(true)
+        GameEngine.finish()
     }
 
     // region GameEngine preparation
@@ -170,7 +171,7 @@ class InternalElementsTesting {
     fun having3x3Field_1MarkSet_adjacentMarkDetectionLogicIsCorrect() {
         checkTheNextSpotDetectionBlock(Coordinates(0, 0))
         checkTheNextSpotDetectionBlock(Coordinates(0, 1))
-        checkTheNextSpotDetectionBlock(Coordinates(0, 2))
+        checkTheNextSpotDetectionBlock(Coordinates(0, 2)) // is failing when all tests are launched at once
         checkTheNextSpotDetectionBlock(Coordinates(1, 0))
         checkTheNextSpotDetectionBlock(Coordinates(1, 1))
         checkTheNextSpotDetectionBlock(Coordinates(1, 2))
@@ -286,6 +287,8 @@ class InternalElementsTesting {
         GameEngine.makeMove(Coordinates(1, 0), Player.A)
         GameEngine.makeMove(Coordinates(2, 0), Player.A)
         // gameField & winning message for player A is printed in the console
-        // todo: add assertion here
+        assertEquals(Player.A, GameEngine.getLeader())
+        assertEquals(Player.A, GameEngine.activePlayer) // so it's the winner - as we did set the player intentionally
+        assertEquals(3, GameEngine.getLeader().getMaxLineLength())
     }
 }
