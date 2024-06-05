@@ -1,6 +1,4 @@
-import elements.Coordinates
-import elements.LineDirection
-import elements.Player
+import elements.*
 import logic.GameEngine
 import utilities.Log
 import kotlin.test.BeforeTest
@@ -45,6 +43,20 @@ class InternalElementsTesting {
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
         assertEquals(3, GameEngine.gameField.sideLength)
+    }
+
+    @Test
+    fun gameIsNotStarted_tooBigGameFieldIsCreated_maximal1000x1000GameFieldIsReady() {
+        // size = maxLength = 1001 -> for now the limit is set to 1000 dots per side but in the future there could be more
+        GameEngine.prepareGame(1001, 1001)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        // size = maxLength = Int.MAX_VALUE
+        GameEngine.prepareGame(Int.MAX_VALUE, Int.MAX_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
     }
 
     // endregion GameEngine preparation
