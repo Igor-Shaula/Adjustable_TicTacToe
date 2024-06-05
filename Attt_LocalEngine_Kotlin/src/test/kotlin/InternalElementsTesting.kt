@@ -75,11 +75,6 @@ class InternalElementsTesting {
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
         assertEquals(MAX_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
-        // size = maxLength = Int.MIN_VALUE - Int.MIN_VALUE = -2 in fact - this is an interesting effect of the Int
-//        GameEngine.prepareGame(Int.MIN_VALUE - Int.MIN_VALUE, Int.MIN_VALUE - Int.MIN_VALUE)
-//        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
-//        assertTrue(GameEngine.gameField.isReady())
-//        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
     }
 
     @Suppress("INTEGER_OVERFLOW")
@@ -90,11 +85,67 @@ class InternalElementsTesting {
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
         assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
-        // size = maxLength = Int.MAX_VALUE + Int.MAX_VALUE = -2 in fact
+    }
+
+    // assertions of this test are made mostly to see interesting effects during different kinds of limits mixing
+    @Suppress("INTEGER_OVERFLOW")
+    @Test
+    fun gameIsNotStarted_MinAndMaxIntMixedGameFieldIsCreated_minimal3x3GameFieldIsReady() {
+        // size = maxLength = Int.MIN_VALUE + Int.MIN_VALUE = 0 in fact - this is an interesting effect of the Int
+        GameEngine.prepareGame(Int.MIN_VALUE + Int.MIN_VALUE, Int.MIN_VALUE + Int.MIN_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        println(Int.MIN_VALUE + Int.MIN_VALUE)
+
+        // size = maxLength = Int.MIN_VALUE - Int.MIN_VALUE = 0 in fact - this is an interesting effect of the Int
+        GameEngine.prepareGame(Int.MIN_VALUE - Int.MIN_VALUE, Int.MIN_VALUE - Int.MIN_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        println(Int.MIN_VALUE - Int.MIN_VALUE)
+
+        // size = maxLength = Int.MAX_VALUE + Int.MAX_VALUE = -2 in fact - this is an interesting effect of the Int
         GameEngine.prepareGame(Int.MAX_VALUE + Int.MAX_VALUE, Int.MAX_VALUE + Int.MAX_VALUE)
         Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertTrue(GameEngine.gameField.isReady())
         assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        println(Int.MAX_VALUE + Int.MAX_VALUE)
+
+        // size = maxLength = Int.MAX_VALUE - Int.MAX_VALUE = 0 which is obvious
+        GameEngine.prepareGame(Int.MAX_VALUE - Int.MAX_VALUE, Int.MAX_VALUE - Int.MAX_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        println(Int.MAX_VALUE - Int.MAX_VALUE)
+
+        // size = maxLength = Int.MIN_VALUE - Int.MAX_VALUE = +1 in fact - this is an interesting effect of the Int
+        GameEngine.prepareGame(Int.MIN_VALUE - Int.MAX_VALUE, Int.MIN_VALUE - Int.MAX_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        println(Int.MIN_VALUE - Int.MAX_VALUE)
+
+        // size = maxLength = Int.MAX_VALUE - Int.MIN_VALUE = -1 which is obvious
+        GameEngine.prepareGame(Int.MAX_VALUE - Int.MIN_VALUE, Int.MAX_VALUE - Int.MIN_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        println(Int.MAX_VALUE - Int.MIN_VALUE)
+
+        // size = maxLength = Int.MIN_VALUE + Int.MAX_VALUE = -1 which is obvious
+        GameEngine.prepareGame(Int.MIN_VALUE + Int.MAX_VALUE, Int.MIN_VALUE + Int.MAX_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        println(Int.MIN_VALUE + Int.MAX_VALUE)
+
+        // size = maxLength = Int.MAX_VALUE + Int.MIN_VALUE = -1 which is obvious
+        GameEngine.prepareGame(Int.MAX_VALUE + Int.MIN_VALUE, Int.MAX_VALUE + Int.MIN_VALUE)
+        Log.pl("\ngameEngine is ready having this field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertTrue(GameEngine.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, GameEngine.gameField.sideLength)
+        println(Int.MAX_VALUE + Int.MIN_VALUE)
     }
 
     // endregion GameEngine preparation
