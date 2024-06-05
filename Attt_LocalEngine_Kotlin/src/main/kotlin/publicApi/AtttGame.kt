@@ -15,6 +15,8 @@ interface AtttGame {
 
     fun makeMove(x: Int, y: Int): AtttPlayer
 
+    fun getLeader(): AtttPlayer
+
     fun isActive(): Boolean
 
     fun printCurrentFieldIn2d()

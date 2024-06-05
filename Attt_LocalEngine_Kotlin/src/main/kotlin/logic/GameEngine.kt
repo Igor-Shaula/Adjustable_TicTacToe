@@ -80,6 +80,8 @@ internal object GameEngine : AtttGame {
         }
     }
 
+    override fun getLeader(): AtttPlayer = gameRules.getLeadingPlayer()
+
     override fun isActive() = gameField.exists() // todo: add checks for gameRules here as well
 
     /**
@@ -107,6 +109,7 @@ internal object GameEngine : AtttGame {
     }
 
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
+        gameRules.updatePlayerScore(whichPlayer, detectedLineLength)
         if (gameRules.isGameWon(detectedLineLength)) {
             Log.pl("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
             finish()
