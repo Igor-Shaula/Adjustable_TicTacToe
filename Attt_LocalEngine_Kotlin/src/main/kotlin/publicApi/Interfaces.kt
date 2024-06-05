@@ -19,7 +19,7 @@ interface AtttGame {
 
     fun getLeader(): AtttPlayer
 
-    fun isActive(): Boolean
+    fun isGameWon(): Boolean
 
     fun printCurrentFieldIn2d()
 
