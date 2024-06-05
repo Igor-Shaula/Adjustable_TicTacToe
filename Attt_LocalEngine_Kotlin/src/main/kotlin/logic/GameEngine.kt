@@ -64,7 +64,10 @@ internal object GameEngine : AtttGame {
                 gameField.measureFullLengthForExistingLineFrom(where, lineDirection)
             }
             Log.pl("makeMove: maxLength for this move of player $what is: $maxLengthForThisMove")
-            maxLengthForThisMove?.let { updateGameScore(what, it) }
+            maxLengthForThisMove?.let {
+                (what as Player).tryToSetMaxLineLength(it) // this cast is secure as Player is direct inheritor to AtttPlayer
+                updateGameScore(what, it)
+            }
             return prepareNextPlayer() // todo: check all possible & impossible cases of forcing moves by different players
         } else {
             return what
@@ -73,7 +76,7 @@ internal object GameEngine : AtttGame {
 
     override fun getLeader(): AtttPlayer = gameRules.getLeadingPlayer()
 
-    override fun isActive() = gameField.exists() // todo: add checks for gameRules here as well
+    override fun isActive() = activePlayer != Player.None && gameRules.isGameWon()
 
     /**
      * prints the current state of the game in 2d on console
@@ -88,8 +91,7 @@ internal object GameEngine : AtttGame {
 
     // sets the currently active player, for which a move will be made & returns the player for the next move
     private fun prepareNextPlayer(): AtttPlayer {
-        activePlayer =
-            if (activePlayer == Player.A) Player.B else Player.A // A is set after None case as well
+        activePlayer = if (activePlayer == Player.A) Player.B else Player.A // A is set after None & null case as well
         return activePlayer
     }
 
