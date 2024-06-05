@@ -36,12 +36,10 @@ internal class GameField(
         // todo: optimize by saving memory with the map creation here
     }
 
-    // region public API
-
     /**
      * returns beautiful & simple String representation of the current state of game field
      */
-    fun prepareForPrintingIn2d(): String {
+    internal fun prepareForPrintingIn2d(): String {
         val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
         for (y in 0 until sideLength) {
             sb.append("\n")
@@ -55,14 +53,12 @@ internal class GameField(
     /**
      * detects if given coordinates are correct in the currently active game field
      */
-    fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
+    internal fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
 
     /**
      * allows to see what's inside this game field space for the given coordinates
      */
-    fun getCurrentMarkAt(x: Int, y: Int): AtttPlayer? = theMap[Coordinates(x, y)]
-
-    // endregion public API
+    internal fun getCurrentMarkAt(x: Int, y: Int): AtttPlayer? = theMap[Coordinates(x, y)]
 
     internal fun clear() = theMap.clear()
 
