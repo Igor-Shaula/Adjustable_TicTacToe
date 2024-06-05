@@ -1,11 +1,12 @@
+import elements.Coordinates
+import elements.Player
 import logic.GameEngine
 import logic.GameField
-import elements.Player
-import elements.Coordinates
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertFalse
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class InternalApiTesting {
 
@@ -31,9 +32,14 @@ class InternalApiTesting {
         GameEngine.makeMove(Coordinates(2, 2), Player.B)
         GameEngine.makeMove(Coordinates(1, 0), Player.A)
 
-        assertFalse(GameEngine.isActive(), "Game should have been won")
+//        assertFalse(GameEngine.isActive(), "Game should have been won") -> no more relevant as the API was changed
+        assertTrue(GameEngine.isGameWon(), "Game should have been won")
         // Would be nice to be able to do this:
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
+        // -> and yes, this is done:
+        assertEquals(Player.A, GameEngine.getLeader())
+        assertEquals(Player.A, GameEngine.activePlayer) // so it's the winner
+        assertEquals(3, GameEngine.getLeader().getMaxLineLength())
     }
 
     @Test

@@ -3,7 +3,7 @@ import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 // simulation of different cases which can emerge when playing as a consumer of this API
 // preferably tests for AtttGame interface & other publicly accessible code of the library
@@ -31,7 +31,7 @@ class PublicApiTesting {
         game.mm(2, 2) // O
         game.mm(1, 0) // X - this one was problematic but in version 0.3.0 this bug was fixed
 
-        assertFalse(game.isActive(), "Game should have been won")
+        assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(Player.A, game.getLeader())
     }
 }
