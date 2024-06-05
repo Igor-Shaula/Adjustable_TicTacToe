@@ -151,6 +151,8 @@ class InternalElementsTesting {
 
     // endregion GameEngine preparation
 
+    // region line direction & next spot detection
+
     @Test
     fun having2dField_anyLineDirectionChosen_detectingOppositeDirectionIsCorrect() {
         assertEquals(LineDirection.XpY0, LineDirection.XmY0.opposite())
@@ -179,6 +181,10 @@ class InternalElementsTesting {
         checkTheNextSpotDetectionBlock(Coordinates(2, 1))
         checkTheNextSpotDetectionBlock(Coordinates(2, 2))
     }
+
+    // endregion line direction & next spot detection
+
+    // region line length measurements
 
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
@@ -270,12 +276,25 @@ class InternalElementsTesting {
         Log.pl(GameEngine.gameField.prepareForPrintingIn2d())
     }
 
+    // endregion line length measurements
+
     @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
         prepareClassic3x3GameField()
         val someSpot = Coordinates(1, 1)
         GameEngine.makeMove(someSpot, Player.A)
         GameEngine.makeMove(someSpot, Player.B)
+        Log.pl("\ngame field with only one player's mark: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        assertEquals(Player.A, GameEngine.gameField.getCurrentMarkAt(1, 1))
+    }
+
+    @Test
+    fun having3x3Field_TryToSetMarkForThisPlayerOnWrongPosition_currentPlayerRemainsUnchanged() {
+        prepareClassic3x3GameField()
+        GameEngine.makeMove(-1, -1) // attempt to set the mark on a wrong place
+        assertEquals(Player.A, GameEngine.activePlayer) // this player remains chosen for the next move
+        GameEngine.makeMove(1, 1) // another attempt for the same player - this time successful
+        assertEquals(Player.B, GameEngine.activePlayer) // this time the next player is prepared for a move
         Log.pl("\ngame field with only one player's mark: ${GameEngine.gameField.prepareForPrintingIn2d()}")
         assertEquals(Player.A, GameEngine.gameField.getCurrentMarkAt(1, 1))
     }
