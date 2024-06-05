@@ -1,11 +1,6 @@
 package logic
 
 import elements.*
-import elements.LineDirection
-import elements.MAX_GAME_FIELD_SIDE_SIZE
-import elements.MIN_GAME_FIELD_DIMENSIONS
-import elements.MIN_GAME_FIELD_SIDE_SIZE
-import elements.MIN_NUMBER_OF_PLAYERS
 import publicApi.AtttPlayer
 import utilities.Log
 
