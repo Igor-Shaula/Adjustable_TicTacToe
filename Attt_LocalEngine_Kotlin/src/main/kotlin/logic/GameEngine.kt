@@ -35,15 +35,6 @@ internal object GameEngine : AtttGame {
         return prepareNextPlayer()
     }
 
-    fun prepare(
-        newGameField: GameField, newGameRules: GameRules
-    ): AtttPlayer { // game engine client must know who's the next to make a move on the board
-        clear() // for all possible resources that could be used previously
-//        gameField = newGameField
-//        gameRules = newGameRules
-        return prepareNextPlayer()
-    }
-
     // stop right now, count the achieved score for all players and show the result
     @Suppress("MemberVisibilityCanBePrivate")
     override fun finish() {

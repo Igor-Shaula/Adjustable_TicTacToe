@@ -100,26 +100,6 @@ internal class GameField(
     private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer) =
         what == theMap[Coordinates(x, y)]
 
-    // this is a good sample of over-complication, I'll delete it a bit later
-    internal fun detectPossibleLineDirectionNearThePlacedMark(fromWhere: Coordinates): LineDirection {
-        val x = fromWhere.x
-        val y = fromWhere.y
-        Log.pl("checkPlacedMarkArea: x, y = $x, $y")
-        val what = getCurrentMarkAt(x, y) ?: return LineDirection.None
-        return when {
-            x > minIndex && checkIf2MarksAreOfTheSamePlayer(x - 1, y, what) -> LineDirection.XmY0
-            x > minIndex && checkIf2MarksAreOfTheSamePlayer(x - 1, y, what) -> LineDirection.XmY0
-            x < maxIndex && checkIf2MarksAreOfTheSamePlayer(x + 1, y, what) -> LineDirection.XpY0
-            y > minIndex && checkIf2MarksAreOfTheSamePlayer(x, y - 1, what) -> LineDirection.X0Ym
-            y < maxIndex && checkIf2MarksAreOfTheSamePlayer(x, y + 1, what) -> LineDirection.X0Yp
-            x > minIndex && y > minIndex && checkIf2MarksAreOfTheSamePlayer(x - 1, y - 1, what) -> LineDirection.XmYm
-            x < maxIndex && y < maxIndex && checkIf2MarksAreOfTheSamePlayer(x + 1, y + 1, what) -> LineDirection.XpYp
-            x > minIndex && y < maxIndex && checkIf2MarksAreOfTheSamePlayer(x - 1, y + 1, what) -> LineDirection.XmYp
-            x < maxIndex && y > minIndex && checkIf2MarksAreOfTheSamePlayer(x + 1, y - 1, what) -> LineDirection.XpYm
-            else -> LineDirection.None
-        }
-    }
-
     internal fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length
         // we also have a proven placed dot of the same player in the detected line direction
