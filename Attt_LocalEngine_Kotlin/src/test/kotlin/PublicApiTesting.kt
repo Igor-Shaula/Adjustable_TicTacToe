@@ -16,7 +16,7 @@ class PublicApiTesting {
     }
 
     @Test
-    fun test3x3FieldWithMultiplePossibleLinesNew() {
+    fun having3x3Field_onePlayerGetsMultiplePossibleLines_winnerIsDetectedOnceTheConditionsAreMet() {
         val game = prepareGameInstanceForClassic3x3GameField()
         /*
             . X x
