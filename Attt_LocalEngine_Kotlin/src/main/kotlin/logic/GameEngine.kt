@@ -124,10 +124,12 @@ internal object GameEngine : AtttGame {
      * gameRules data is updated only here
      */
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
-        gameRules?.updatePlayerScore(whichPlayer, detectedLineLength)
-//        if (gameRules?.isWinningLength(detectedLineLength) == true) {
-//            Log.pl("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
-//        }
+        gameRules?.let { rules ->
+            rules.updatePlayerScore(whichPlayer, detectedLineLength)
+            if (rules.isGameWon()) {
+                Log.pl("player ${rules.getWinner()} wins with detectedLineLength: $detectedLineLength")
+            }
+        }
     }
 
     // endregion ALL PRIVATE
