@@ -17,7 +17,7 @@ internal object GameEngine : AtttGame {
     internal var gameField: GameField? = null
     private var gameRules: GameRules? = null
 
-    // this should be used only internally, for now there's no need to show it to a client
+    // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
     internal var activePlayer: AtttPlayer = Player.None
 
     // -------
@@ -30,10 +30,12 @@ internal object GameEngine : AtttGame {
         clear()
         gameField = GameField(desiredFieldSize)
         gameRules = GameRules(desiredMaxLineLength)
-        return prepareNextPlayer()
+        return prepareNextPlayer() // absolutely necessary to have this invocation here - it prepares the first player's move
     }
 
-    // stop right now, count the achieved score for all players and show the result
+    /**
+     * stop right now and clear all occupied resources
+     */
     @Suppress("MemberVisibilityCanBePrivate")
     override fun finish() {
         // todo: count and show the score here - a bit later
@@ -44,7 +46,7 @@ internal object GameEngine : AtttGame {
     override fun mm(x: Int, y: Int) = makeMove(x, y)
 
     /**
-     * this is the only way to make progress in the game.
+     * this is the only way for a client to make progress in the game.
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
     override fun makeMove(x: Int, y: Int): AtttPlayer = if (gameField?.isCorrectPosition(x, y) == true) {
@@ -53,7 +55,9 @@ internal object GameEngine : AtttGame {
         activePlayer
     }
 
-    // this function is actually the single place for making moves and thus changing the game field
+    /**
+     * this function is actually the only place for making moves and thus changing the game field
+     */
     internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer =
         gameField?.let { nnField ->
             if (nnField.placeNewMark(where, what)) {
@@ -73,10 +77,19 @@ internal object GameEngine : AtttGame {
             }
         } ?: Player.None // when there is no field - there should be no player
 
+    /**
+     * a client might want to know the currently leading player at any time during the game
+     */
     override fun getLeader(): AtttPlayer = gameRules?.getLeadingPlayer() ?: Player.None
 
+    /**
+     * there can be only one winner - Player.None is returned until the winner not yet detected
+     */
     override fun getWinner(): AtttPlayer = gameRules?.getWinner() ?: Player.None
 
+    /**
+     * after the winner is detected there is no way to modify the game field, so the game state is preserved
+     */
     override fun isGameWon() = gameRules?.isGameWon() == true
 
     /**
@@ -96,7 +109,9 @@ internal object GameEngine : AtttGame {
         return activePlayer
     }
 
-    // immediately clear if anything is running at the moment
+    /**
+     * immediately clears all resources and make this game session unable for use
+     */
     private fun clear() {
         gameField?.clear()
         gameField = null
@@ -105,6 +120,9 @@ internal object GameEngine : AtttGame {
         activePlayer = Player.None
     }
 
+    /**
+     * gameRules data is updated only here
+     */
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
         gameRules?.updatePlayerScore(whichPlayer, detectedLineLength)
 //        if (gameRules?.isWinningLength(detectedLineLength) == true) {
