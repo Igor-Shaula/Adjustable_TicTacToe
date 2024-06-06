@@ -6,14 +6,15 @@ import elements.Player
 import publicApi.AtttPlayer
 
 /**
- * AtttRules = Adjustable TicTacToe Rules
  * a single point of check if anybody wins, also container for all limitations & settings of game mechanics.
  */
 internal class GameRules(
     private var winningLength: Int,
     // potentially here we can later add more criteria to detect if the game is won by any of players
 ) {
-    private val players: MutableMap<AtttPlayer, Int> = mutableMapOf()
+    private val maxLines: MutableMap<AtttPlayer, Int> = mutableMapOf()
+
+    private var theWinner: AtttPlayer? = null
 
     init {
         // here we're doing possible corrections that may be needed to keep the game rules reasonable
@@ -22,23 +23,26 @@ internal class GameRules(
     }
 
     internal fun clear() {
-        players.clear()
+        maxLines.clear()
+        theWinner = null
         winningLength = -1
     }
 
-    internal fun isWinningLength(lineLength: Int) = lineLength >= winningLength
+    internal fun isGameWon(): Boolean = theWinner != null
 
-    internal fun isGameWon(): Boolean = isWinningLength(getLeadingPlayer().getMaxLineLength())
+    internal fun getWinner(): AtttPlayer? = theWinner
 
     internal fun getLeadingPlayer(): AtttPlayer = detectLeadingPlayer() ?: Player.None
 
     // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case
-    private fun detectLeadingPlayer(): AtttPlayer? = players.entries.maxByOrNull { k -> k.value }?.key
+    private fun detectLeadingPlayer(): AtttPlayer? = maxLines.entries.maxByOrNull { k -> k.value }?.key
 
     internal fun updatePlayerScore(whichPlayer: AtttPlayer, newLineLength: Int) {
-        val existingMaxLineLength = players[whichPlayer]
-        if (newLineLength > (existingMaxLineLength ?: 0)) {
-            players[whichPlayer] = newLineLength
+        if (theWinner != null) return // do NOT make any changes to
+        // the following lines work only when the winner has NOT been yet detected
+        if (newLineLength > (maxLines[whichPlayer] ?: 0)) {
+            maxLines[whichPlayer] = newLineLength
+            if (newLineLength >= winningLength) theWinner = whichPlayer
         }
     }
 }

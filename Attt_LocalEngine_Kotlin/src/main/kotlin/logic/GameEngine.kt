@@ -75,6 +75,8 @@ internal object GameEngine : AtttGame {
 
     override fun getLeader(): AtttPlayer = gameRules?.getLeadingPlayer() ?: Player.None
 
+    override fun getWinner(): AtttPlayer = gameRules?.getWinner()?: Player.None
+
     override fun isGameWon() = activePlayer != Player.None && gameRules?.isGameWon() == true
 
     /**
@@ -105,9 +107,9 @@ internal object GameEngine : AtttGame {
 
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
         gameRules?.updatePlayerScore(whichPlayer, detectedLineLength)
-        if (gameRules?.isWinningLength(detectedLineLength) == true) {
-            Log.pl("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
-        }
+//        if (gameRules?.isWinningLength(detectedLineLength) == true) {
+//            Log.pl("player $whichPlayer wins with detectedLineLength: $detectedLineLength")
+//        }
     }
 
     // endregion ALL PRIVATE
