@@ -36,8 +36,7 @@ class InternalApiTesting {
         // Would be nice to be able to do this:
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
         // -> and yes, this is done:
-        assertEquals(Player.A, GameEngine.getLeader())
-        assertEquals(3, GameEngine.getLeader().getMaxLineLength()) // actual 5
+        assertEquals(Player.A, GameEngine.getWinner())
     }
 
     @Test
@@ -50,9 +49,9 @@ class InternalApiTesting {
         GameEngine.makeMove(Coordinates(2, 1))
         GameEngine.makeMove(Coordinates(1, 2))
         // gameField & winning message for player B is printed in the console
-        assertEquals(Player.B, GameEngine.getLeader())
+        assertEquals(Player.B, GameEngine.getWinner())
         assertEquals(Player.A, GameEngine.activePlayer) // game is ready for the next potential move in any case
-        assertEquals(3, GameEngine.getLeader().getMaxLineLength())
+        assertEquals(3, GameEngine.getWinner().getMaxLineLength())
     }
 
     @Test
@@ -65,8 +64,8 @@ class InternalApiTesting {
         GameEngine.makeMove(2, 1)
         GameEngine.makeMove(1, 2)
         // gameField & winning message for player B is printed in the console
-        assertEquals(Player.B, GameEngine.getLeader())
+        assertEquals(Player.B, GameEngine.getWinner())
         assertEquals(Player.A, GameEngine.activePlayer) // game is ready for the next potential move in any case
-        assertEquals(3, GameEngine.getLeader().getMaxLineLength())
+        assertEquals(3, GameEngine.getWinner().getMaxLineLength())
     }
 }

@@ -32,6 +32,6 @@ class PublicApiTesting {
         game.mm(1, 0) // X - this one was problematic but in version 0.3.0 this bug was fixed
 
         assertTrue(game.isGameWon(), "Game should have been won")
-        assertEquals(Player.A, game.getLeader())
+        assertEquals(Player.A, game.getWinner())
     }
 }
