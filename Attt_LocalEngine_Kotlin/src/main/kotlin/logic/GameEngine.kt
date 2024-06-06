@@ -46,6 +46,9 @@ internal object GameEngine : AtttGame {
         activePlayer = Player.None
     }
 
+    /**
+     * the same as makeMove(...) - this reduction is made for convenience as this method is the most frequently used
+     */
     override fun mm(x: Int, y: Int) = makeMove(x, y)
 
     /**
@@ -62,12 +65,12 @@ internal object GameEngine : AtttGame {
      * this function is actually the only place for making moves and thus changing the game field
      */
     internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer =
-        gameField?.let { nnField ->
-            if (nnField.placeNewMark(where, what)) {
+        gameField?.let { field ->
+            if (field.placeNewMark(where, what)) {
                 // analyze this new dot & detect if it creates or changes any lines in all possible directions
-                val existingLineDirections = nnField.detectAllExistingLineDirectionsFromThePlacedMark(where)
+                val existingLineDirections = field.detectAllExistingLineDirectionsFromThePlacedMark(where)
                 val maxLengthForThisMove = existingLineDirections.maxOfOrNull { lineDirection ->
-                    nnField.measureFullLengthForExistingLineFrom(where, lineDirection)
+                    field.measureFullLengthForExistingLineFrom(where, lineDirection)
                 }
                 Log.pl("makeMove: maxLength for this move of player $what is: $maxLengthForThisMove")
                 maxLengthForThisMove?.let {
@@ -106,6 +109,9 @@ internal object GameEngine : AtttGame {
     // --------
     // region ALL PRIVATE
 
+    /**
+     * if a game session exists - than we have an actively running game which can have a winner or not
+     */
     private fun gameExists() = gameField != null && gameRules != null
 
     /**
