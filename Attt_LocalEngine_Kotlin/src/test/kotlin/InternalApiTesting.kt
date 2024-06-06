@@ -37,7 +37,7 @@ class InternalApiTesting {
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
         // -> and yes, this is done:
         assertEquals(Player.A, GameEngine.getLeader())
-        assertEquals(3, GameEngine.getLeader().getMaxLineLength())
+        assertEquals(3, GameEngine.getLeader().getMaxLineLength()) // actual 5
     }
 
     @Test
