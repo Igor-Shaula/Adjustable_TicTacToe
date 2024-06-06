@@ -27,20 +27,23 @@ internal object GameEngine : AtttGame {
      * create & provide the UI with a new game field, adjustability starts here - in the parameters
      */
     override fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer {
-        clear()
+        if (gameExists()) finish() // any previous game should be stopped before a new one is launched on this GameEngine
         gameField = GameField(desiredFieldSize)
         gameRules = GameRules(desiredMaxLineLength)
         return prepareNextPlayer() // absolutely necessary to have this invocation here - it prepares the first player's move
     }
 
     /**
-     * stop right now and clear all occupied resources
+     * stop right now and clear all occupied resources, this game session gets impossible for any use
      */
     @Suppress("MemberVisibilityCanBePrivate")
     override fun finish() {
-        // todo: count and show the score here - a bit later
         Log.pl("the game is finished in the given state: ${gameField?.prepareForPrintingIn2d()}")
-        clear()
+        gameField?.clear()
+        gameField = null
+        gameRules?.clear()
+        gameRules = null
+        activePlayer = Player.None
     }
 
     override fun mm(x: Int, y: Int) = makeMove(x, y)
@@ -103,21 +106,14 @@ internal object GameEngine : AtttGame {
     // --------
     // region ALL PRIVATE
 
-    // sets the currently active player, for which a move will be made & returns the player for the next move
+    private fun gameExists() = gameField != null && gameRules != null
+
+    /**
+     * sets the currently active player, for which a move will be made & returns the player for the next move
+     */
     private fun prepareNextPlayer(): AtttPlayer {
         activePlayer = if (activePlayer == Player.A) Player.B else Player.A // A is set after None & null case as well
         return activePlayer
-    }
-
-    /**
-     * immediately clears all resources and make this game session unable for use
-     */
-    private fun clear() {
-        gameField?.clear()
-        gameField = null
-        gameRules?.clear()
-        gameRules = null
-        activePlayer = Player.None
     }
 
     /**
