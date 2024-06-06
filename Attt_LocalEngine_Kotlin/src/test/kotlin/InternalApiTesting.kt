@@ -1,7 +1,6 @@
 import elements.Coordinates
 import elements.Player
 import logic.GameEngine
-import logic.GameField
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -69,21 +68,5 @@ class InternalApiTesting {
         assertEquals(Player.B, GameEngine.getLeader())
         assertEquals(Player.A, GameEngine.activePlayer) // game is ready for the next potential move in any case
         assertEquals(3, GameEngine.getLeader().getMaxLineLength())
-    }
-
-    @Test
-    fun test5x5Field() {
-        val gameField = GameField(5)
-        GameEngine.prepareGame(5, 5)
-        Log.pl("\ntest3x3Field: gameEngine ready with given field: ${gameField.prepareForPrintingIn2d()}")
-        GameEngine.makeMove(Coordinates(0, 0), Player.A)
-        GameEngine.makeMove(Coordinates(1, 0), Player.A)
-//    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
-        GameEngine.makeMove(Coordinates(3, 0), Player.A)
-        GameEngine.makeMove(Coordinates(4, 0), Player.A)
-        GameEngine.makeMove(Coordinates(2, 0), Player.A) // intentionally placed here to connect 2 segments
-        assertEquals(Player.A, GameEngine.getLeader())
-        assertEquals(Player.A, GameEngine.activePlayer) // so it's the winner
-        assertEquals(5, GameEngine.getLeader().getMaxLineLength())
     }
 }

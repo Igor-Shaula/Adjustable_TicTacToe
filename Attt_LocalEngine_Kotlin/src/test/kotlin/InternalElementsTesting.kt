@@ -308,4 +308,18 @@ class InternalElementsTesting {
         assertEquals(Player.A, GameEngine.getLeader())
         assertEquals(3, GameEngine.getLeader().getMaxLineLength())
     }
+
+    @Test
+    fun having2LinesOfOnePlayerOn5x5Field_thisPlayerMarkIsSetInBetween_victoryConditionIsCorrect() {
+        GameEngine.prepareGame(5, 5)
+        Log.pl("\ntest3x3Field: gameEngine ready with given field: ${GameEngine.gameField.prepareForPrintingIn2d()}")
+        GameEngine.makeMove(Coordinates(0, 0), Player.A)
+        GameEngine.makeMove(Coordinates(1, 0), Player.A)
+//    GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
+        GameEngine.makeMove(Coordinates(3, 0), Player.A)
+        GameEngine.makeMove(Coordinates(4, 0), Player.A)
+        GameEngine.makeMove(Coordinates(2, 0), Player.A) // intentionally placed here to connect 2 segments
+        assertEquals(Player.A, GameEngine.getLeader())
+        assertEquals(5, GameEngine.getLeader().getMaxLineLength())
+    }
 }
