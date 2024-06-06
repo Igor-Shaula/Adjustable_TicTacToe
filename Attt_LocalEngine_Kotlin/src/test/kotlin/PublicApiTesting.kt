@@ -1,4 +1,5 @@
 import elements.Player
+import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -33,5 +34,43 @@ class PublicApiTesting {
 
         assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(Player.A, game.getWinner())
+    }
+
+    @Test
+    fun havingUnpreparedField_aPlayerTriesToMakeMove_noMoveIsMadeOnUnpreparedField() {
+        val game = AtttGame.create()
+        game.mm(0, 0)
+        assertEquals(Player.None, game.getLeader())
+//        assertEquals(0, game.getLeader().getMaxLineLength())
+        // so it's impossible to play game BEFORE prepare() is invoked
+    }
+
+    @Test
+    fun having3x3Field_onePlayerMakesTheFirstLine_leadingPlayerIsDetectedCorrectly() {
+        val game = prepareGameInstanceForClassic3x3GameField()
+        game.mm(0, 0) // A
+        game.mm(1, 0) // B
+        game.mm(0, 1) // A -> now A has a line of 2 marks
+        assertEquals(Player.A, game.getLeader())
+//        assertEquals(2, game.getLeader().getMaxLineLength())
+    }
+
+    @Test
+    fun having5x5Field_onePlayerMakesLongerLineThanAnother_thisPlayerBecomesTheLeadingOne() {
+        /*
+            A B A .
+            A B . .
+            . B . .
+            . . . .
+         */
+        val game = prepareGameInstanceForClassic3x3GameField()
+        game.mm(0, 0) // A
+        game.mm(1, 0) // B
+        game.mm(0, 1) // A -> now A has a line of 2 marks and becomes a leader
+        game.mm(1, 1) // B -> now B also has a line of 2 marks
+        game.mm(2, 0) // A -> now A still has a line of 2 marks
+        game.mm(1, 2) // A -> now B has a line of 3 marks and becomes a new leader
+        assertEquals(Player.B, game.getLeader())
+        assertEquals(3, game.getLeader().getMaxLineLength())
     }
 }
