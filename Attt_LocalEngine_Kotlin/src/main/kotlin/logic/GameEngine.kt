@@ -75,9 +75,9 @@ internal object GameEngine : AtttGame {
 
     override fun getLeader(): AtttPlayer = gameRules?.getLeadingPlayer() ?: Player.None
 
-    override fun getWinner(): AtttPlayer = gameRules?.getWinner()?: Player.None
+    override fun getWinner(): AtttPlayer = gameRules?.getWinner() ?: Player.None
 
-    override fun isGameWon() = activePlayer != Player.None && gameRules?.isGameWon() == true
+    override fun isGameWon() = gameRules?.isGameWon() == true
 
     /**
      * prints the current state of the game in 2d on console
