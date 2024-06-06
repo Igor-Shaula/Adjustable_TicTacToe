@@ -306,7 +306,6 @@ class InternalElementsTesting {
         GameEngine.makeMove(Coordinates(2, 0), Player.A)
         // gameField & winning message for player A is printed in the console
         assertEquals(Player.A, GameEngine.getLeader())
-        assertEquals(Player.A, GameEngine.activePlayer) // so it's the winner - as we did set the player intentionally
         assertEquals(3, GameEngine.getLeader().getMaxLineLength())
     }
 }

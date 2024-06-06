@@ -17,7 +17,7 @@ class InternalApiTesting {
 
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
     @Test
-    fun test3x3FieldWithMultiplePossibleLines() {
+    fun test3x3FieldWithMultiplePossibleLines() { // test name is left as it was in the pull-request
         GameEngine.prepareGame(3, 3)
 
         // .Xx
@@ -30,7 +30,7 @@ class InternalApiTesting {
         GameEngine.makeMove(Coordinates(0, 2), Player.B)
         GameEngine.makeMove(Coordinates(1, 2), Player.A)
         GameEngine.makeMove(Coordinates(2, 2), Player.B)
-        GameEngine.makeMove(Coordinates(1, 0), Player.A)
+        GameEngine.makeMove(Coordinates(1, 0), Player.A) // here A wins and anyway the next possible player is B
 
 //        assertFalse(GameEngine.isActive(), "Game should have been won") -> no more relevant as the API was changed
         assertTrue(GameEngine.isGameWon(), "Game should have been won")
@@ -38,7 +38,6 @@ class InternalApiTesting {
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
         // -> and yes, this is done:
         assertEquals(Player.A, GameEngine.getLeader())
-        assertEquals(Player.A, GameEngine.activePlayer) // so it's the winner - as we did set the player intentionally
         assertEquals(3, GameEngine.getLeader().getMaxLineLength())
     }
 
