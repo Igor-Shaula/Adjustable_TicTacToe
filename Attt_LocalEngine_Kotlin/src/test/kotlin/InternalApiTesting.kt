@@ -1,6 +1,7 @@
 import elements.Coordinates
 import elements.Player
 import logic.GameEngine
+import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -12,6 +13,15 @@ class InternalApiTesting {
     @BeforeTest
     fun switchLoggingOn() {
         Log.switch(true)
+    }
+
+    @Test
+    fun havingUnpreparedField_aPlayerTriesToMakeMove_noMoveIsMadeOnUnpreparedField() {
+        val game = AtttGame.create()
+        (game as GameEngine).makeMove(Coordinates(0, 0))
+        assertEquals(Player.None, game.getLeader())
+        assertEquals(0, game.getLeader().getMaxLineLength())
+        // so it's impossible to play game BEFORE prepare() is invoked
     }
 
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!

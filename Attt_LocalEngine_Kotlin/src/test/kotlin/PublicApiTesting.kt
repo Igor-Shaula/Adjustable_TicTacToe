@@ -37,15 +37,6 @@ class PublicApiTesting {
     }
 
     @Test
-    fun havingUnpreparedField_aPlayerTriesToMakeMove_noMoveIsMadeOnUnpreparedField() {
-        val game = AtttGame.create()
-        game.mm(0, 0)
-        assertEquals(Player.None, game.getLeader())
-//        assertEquals(0, game.getLeader().getMaxLineLength())
-        // so it's impossible to play game BEFORE prepare() is invoked
-    }
-
-    @Test
     fun having3x3Field_onePlayerMakesTheFirstLine_leadingPlayerIsDetectedCorrectly() {
         val game = prepareGameInstanceForClassic3x3GameField()
         game.mm(0, 0) // A
