@@ -260,7 +260,7 @@ class InternalElementsTesting {
     }
 
     @Test
-    fun having3x3Field_2AdjacentMarksAreSetBySequentialPlayers_noLineIsCreatedForAnyPlayer() {
+    fun having3x3Field_2AdjacentMarksAreSetByDifferentPlayers_noLineIsCreatedForAnyPlayer() {
         prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
@@ -274,12 +274,7 @@ class InternalElementsTesting {
         val lengthForPlayerB = GameEngine.gameField?.measureLineFrom(secondMark, LineDirection.XpY0, 1)
         assertEquals(1, lengthForPlayerA)
         assertEquals(1, lengthForPlayerB)
-        GameEngine.makeMove(Coordinates(2, 0))
-        GameEngine.makeMove(Coordinates(1, 1))
-        GameEngine.makeMove(Coordinates(2, 1))
-        GameEngine.makeMove(Coordinates(1, 2))
         GameEngine.gameField?.prepareForPrintingIn2d()?.let { Log.pl(it) }
-        // todo: add assertions here
     }
 
     // endregion line length measurements
