@@ -1,6 +1,6 @@
 import elements.Coordinates
 import elements.Player
-import logic.GameEngine
+import logic.GameSession
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -28,7 +28,7 @@ class InternalApiTesting {
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
     @Test
     fun test3x3FieldWithMultiplePossibleLines() { // test name is left as it was in the pull-request
-        val game = GameEngine(3, 3)
+        val game = GameSession(3, 3)
 
         // .Xx
         // .xo

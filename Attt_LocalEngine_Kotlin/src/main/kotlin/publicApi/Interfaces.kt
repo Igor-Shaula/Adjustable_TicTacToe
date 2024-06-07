@@ -1,6 +1,6 @@
 package publicApi
 
-import logic.GameEngine
+import logic.GameSession
 
 interface AtttPlayer {
 
@@ -29,6 +29,6 @@ interface AtttGame {
 
     companion object {
         fun create(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttGame =
-            GameEngine(desiredFieldSize, desiredMaxLineLength)
+            GameSession(desiredFieldSize, desiredMaxLineLength)
     }
 }

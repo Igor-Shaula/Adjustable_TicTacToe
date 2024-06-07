@@ -1,7 +1,7 @@
 import elements.Border
 import elements.Coordinates
 import elements.LineDirection
-import logic.GameEngine
+import logic.GameSession
 import logic.GameField
 import publicApi.AtttGame
 import utilities.Log
@@ -49,9 +49,9 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, d
     }
 }
 
-internal fun prepareClassic3x3GameField(): GameEngine {
+internal fun prepareClassic3x3GameField(): GameSession {
     // using internal API here instead of AtttGame as this function is used inside group of tests in InternalApiTesting
-    val game3x3 = GameEngine(3, 3)
+    val game3x3 = GameSession(3, 3)
     Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${game3x3.gameField?.prepareForPrintingIn2d()}")
     return game3x3
 }

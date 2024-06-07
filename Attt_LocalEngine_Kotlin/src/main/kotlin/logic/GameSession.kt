@@ -11,7 +11,7 @@ import utilities.Log
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class GameEngine(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
+class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
 
     // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable
     internal var gameField: GameField? = null
