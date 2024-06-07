@@ -25,7 +25,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
 internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
     // as gameField is a stateful object - we have to reset it every time before a new test
     val game = prepareClassic3x3GameField()
-    val nextSpot = game.gameField?.getTheNextSafeSpaceFor(startSpot, direction)
+    val nextSpot = game.gameField.getTheNextSafeSpaceFor(startSpot, direction)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
         // lowest limit for X axis
@@ -52,7 +52,7 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, d
 internal fun prepareClassic3x3GameField(): GameSession {
     // using internal API here instead of AtttGame as this function is used inside group of tests in InternalApiTesting
     val game3x3 = GameSession(3, 3)
-    Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${game3x3.gameField?.prepareForPrintingIn2d()}")
+    Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${game3x3.gameField.prepareForPrintingIn2d()}")
     return game3x3
 }
 
