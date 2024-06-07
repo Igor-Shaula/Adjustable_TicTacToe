@@ -16,7 +16,7 @@ private const val symbolForPlayerNone = 'n'
 // for now - just the replacement of the former enums use
 internal object PlayerProvider {
 
-    // this is a very temporary solution to just check the failing tests -> then the architecture will get better
+    // for now, a minimal number of 2 players is enough, but in the future we will have more
     var X: AtttPlayer = createNewPlayerX()
         private set
     var O: AtttPlayer = createNewPlayerO()

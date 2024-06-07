@@ -8,7 +8,7 @@ interface AtttPlayer {
 
     fun getName(): String?
 
-    fun getSymbol(): Char
+    fun getSymbol(): Char?
 
     fun getMaxLineLength(): Int
 }
