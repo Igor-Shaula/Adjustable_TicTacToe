@@ -23,10 +23,22 @@ internal object PlayerProvider {
         private set
     val None: AtttPlayer = Player(idForPlayerNone, "PlayerNone", symbolForPlayerNone) // one for all cases
 
+    // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
+    internal var activePlayer: AtttPlayer = None
+        private set
+
     // creates new instances for all players for every new GameSession instance
     internal fun prepareNewPlayersInstances() {
         X = createNewPlayerX()
         O = createNewPlayerO()
+    }
+
+    /**
+     * sets the currently active player, for which a move will be made & returns the player for the next move
+     */
+    internal fun presetNextPlayer(): AtttPlayer {
+        activePlayer = if (activePlayer == X) O else X // A is set after None & null case as well
+        return activePlayer
     }
 
     private fun createNewPlayerX() = Player(idForPlayerX, "PlayerX", symbolForPlayerX)
