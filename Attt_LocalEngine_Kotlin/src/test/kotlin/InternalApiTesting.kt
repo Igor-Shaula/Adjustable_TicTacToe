@@ -61,7 +61,7 @@ class InternalApiTesting {
         game.makeMove(Coordinates(1, 2))
         // gameField & winning message for player B is printed in the console
         assertEquals(PlayerProvider.O, game.getWinner())
-        assertEquals(PlayerProvider.X, game.activePlayer) // game is ready for the next potential move in any case
+        assertEquals(PlayerProvider.X, PlayerProvider.activePlayer) // game is ready for the next potential move in any case
         assertEquals(3, game.getWinner().getMaxLineLength())
     }
 
@@ -76,7 +76,7 @@ class InternalApiTesting {
         game.makeMove(1, 2)
         // gameField & winning message for player B is printed in the console
         assertEquals(PlayerProvider.O, game.getWinner())
-        assertEquals(PlayerProvider.X, game.activePlayer) // game is ready for the next potential move in any case
+        assertEquals(PlayerProvider.X, PlayerProvider.activePlayer) // game is ready for the next potential move in any case
         assertEquals(3, game.getWinner().getMaxLineLength())
     }
 }

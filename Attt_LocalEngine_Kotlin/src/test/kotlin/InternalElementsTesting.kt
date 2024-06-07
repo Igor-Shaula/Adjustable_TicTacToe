@@ -263,11 +263,11 @@ class InternalElementsTesting {
         val game = prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
-        val firstActivePlayer = game.activePlayer // should be player A
+        val firstActivePlayer = PlayerProvider.activePlayer // should be player A
         game.makeMove(firstMark) // after this line active player is replaced with the next -> B
         Log.pl("measuring line from $firstMark for player: $firstActivePlayer in the forward direction:")
         val lengthForPlayerA = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
-        val secondActivePlayer = game.activePlayer // should be player B
+        val secondActivePlayer = PlayerProvider.activePlayer // should be player B
         game.makeMove(secondMark) // after this line active player is replaced with the next -> A
         Log.pl("measuring line from $secondMark for player: $secondActivePlayer in the forward direction:")
         val lengthForPlayerB = game.gameField.measureLineFrom(secondMark, LineDirection.XpY0, 1)
@@ -292,9 +292,9 @@ class InternalElementsTesting {
     fun having3x3Field_TryToSetMarkForThisPlayerOnWrongPosition_currentPlayerRemainsUnchanged() {
         val game = prepareClassic3x3GameField()
         game.makeMove(-1, -1) // attempt to set the mark on a wrong place
-        assertEquals(PlayerProvider.X, game.activePlayer) // this player remains chosen for the next move
+        assertEquals(PlayerProvider.X, PlayerProvider.activePlayer) // this player remains chosen for the next move
         game.makeMove(1, 1) // another attempt for the same player - this time successful
-        assertEquals(PlayerProvider.O, game.activePlayer) // this time the next player is prepared for a move
+        assertEquals(PlayerProvider.O, PlayerProvider.activePlayer) // this time the next player is prepared for a move
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
         assertEquals(PlayerProvider.X, game.gameField.getCurrentMarkAt(1, 1))
     }
