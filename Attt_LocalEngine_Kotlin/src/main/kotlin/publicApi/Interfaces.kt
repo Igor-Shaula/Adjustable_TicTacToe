@@ -11,7 +11,7 @@ interface AtttPlayer {
 
 interface AtttGame {
 
-    fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer
+//    fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer
 
     fun mm(x: Int, y: Int): AtttPlayer
 
@@ -28,6 +28,7 @@ interface AtttGame {
     fun finish()
 
     companion object {
-        fun create(): AtttGame = GameEngine
+        fun create(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttGame =
+            GameEngine(desiredFieldSize, desiredMaxLineLength)
     }
 }

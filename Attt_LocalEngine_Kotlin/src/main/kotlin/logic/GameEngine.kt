@@ -11,7 +11,7 @@ import utilities.Log
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-internal object GameEngine : AtttGame {
+class GameEngine(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
 
     // let's not consume RAM with game objects until the game is not yet started - that's why these are nullable
     internal var gameField: GameField? = null
@@ -20,18 +20,24 @@ internal object GameEngine : AtttGame {
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
     internal var activePlayer: AtttPlayer = Player.None
 
+    init {
+        gameField = GameField(desiredFieldSize)
+        gameRules = GameRules(desiredMaxLineLength)
+        prepareNextPlayer()
+    }
+
     // -------
     // region PUBLIC API
 
     /**
      * create & provide the UI with a new game field, adjustability starts here - in the parameters
      */
-    override fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer {
-        if (gameExists()) finish() // any previous game should be stopped before a new one is launched on this GameEngine
-        gameField = GameField(desiredFieldSize)
-        gameRules = GameRules(desiredMaxLineLength)
-        return prepareNextPlayer() // absolutely necessary to have this invocation here - it prepares the first player's move
-    }
+//    override fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer {
+//        if (gameExists()) finish() // any previous game should be stopped before a new one is launched on this GameEngine
+//        gameField = GameField(desiredFieldSize)
+//        gameRules = GameRules(desiredMaxLineLength)
+//        return prepareNextPlayer() // absolutely necessary to have this invocation here - it prepares the first player's move
+//    }
 
     /**
      * stop right now and clear all occupied resources, this game session gets impossible for any use
