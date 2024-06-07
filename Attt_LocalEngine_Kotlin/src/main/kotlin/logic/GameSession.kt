@@ -17,7 +17,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
-    internal var activePlayer: AtttPlayer = Player.None
+    internal var activePlayer: AtttPlayer = PlayerProvider.None
 
     init {
         prepareNextPlayer() // this invocation sets the activePlayer to the first Player among others
@@ -69,7 +69,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     /**
      * there can be only one winner - Player.None is returned until the winner not yet detected
      */
-    override fun getWinner(): AtttPlayer = gameRules.getWinner() ?: Player.None
+    override fun getWinner(): AtttPlayer = gameRules.getWinner() ?: PlayerProvider.None
 
     /**
      * after the winner is detected there is no way to modify the game field, so the game state is preserved
@@ -91,7 +91,9 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
      * sets the currently active player, for which a move will be made & returns the player for the next move
      */
     private fun prepareNextPlayer(): AtttPlayer {
-        activePlayer = if (activePlayer == Player.A) Player.B else Player.A // A is set after None & null case as well
+        activePlayer =
+            if (activePlayer == PlayerProvider.A) PlayerProvider.B
+            else PlayerProvider.A // A is set after None & null case as well
         return activePlayer
     }
 
