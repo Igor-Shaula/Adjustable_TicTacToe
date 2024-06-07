@@ -20,6 +20,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     internal var activePlayer: AtttPlayer = PlayerProvider.None
 
     init {
+        PlayerProvider.prepareNewPlayersInstances()
         prepareNextPlayer() // this invocation sets the activePlayer to the first Player among others
     }
 
