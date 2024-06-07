@@ -27,17 +27,6 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     // region PUBLIC API
 
     /**
-     * stop right now and clear all occupied resources, this game session gets impossible for any use
-     */
-    @Suppress("MemberVisibilityCanBePrivate")
-    override fun finish() {
-        Log.pl("the game is finished in the given state: ${gameField.prepareForPrintingIn2d()}")
-        gameField.clear()
-        gameRules.clear()
-        activePlayer = Player.None
-    }
-
-    /**
      * the same as makeMove(...) - this reduction is made for convenience as this method is the most frequently used
      */
     override fun mm(x: Int, y: Int) = makeMove(x, y)

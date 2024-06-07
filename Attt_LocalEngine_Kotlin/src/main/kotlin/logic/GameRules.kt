@@ -22,12 +22,6 @@ internal class GameRules(
         else if (winningLength < MIN_WINNING_LINE_LENGTH) winningLength = MIN_WINNING_LINE_LENGTH
     }
 
-    internal fun clear() {
-        maxLines.clear()
-        theWinner = null
-        winningLength = -1
-    }
-
     internal fun isGameWon(): Boolean = theWinner != null
 
     internal fun getWinner(): AtttPlayer? = theWinner

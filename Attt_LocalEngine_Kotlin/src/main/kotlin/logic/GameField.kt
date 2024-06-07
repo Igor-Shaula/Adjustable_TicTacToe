@@ -48,11 +48,6 @@ internal class GameField(
      */
     internal fun getCurrentMarkAt(x: Int, y: Int): AtttPlayer? = theMap[Coordinates(x, y)]
 
-    internal fun clear() {
-        theMap.clear()
-        sideLength = -1 // intentionally placing incorrect value to prevent from using this object again
-    }
-
     /**
      * ensures that the game field has correct size & is clear, so it is safe to use it for a new game
      */

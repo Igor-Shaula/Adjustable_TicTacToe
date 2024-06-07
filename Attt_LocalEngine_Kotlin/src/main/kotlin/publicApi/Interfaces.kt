@@ -23,8 +23,6 @@ interface AtttGame {
 
     fun printCurrentFieldIn2d()
 
-    fun finish()
-
     companion object {
         /**
          * create AtttGame instance & provide the UI with a new game field, adjustability happens here - in the parameters
