@@ -55,7 +55,7 @@ internal class GameField(
         sideLength in MIN_GAME_FIELD_SIDE_SIZE..MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
 
     internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
-        if (theMap[where] == Player.None || theMap[where] == null) {
+        if (theMap[where] == PlayerProvider.None || theMap[where] == null) {
             theMap[where] = what
             true // new mark is successfully placed
         } else {
