@@ -1,6 +1,6 @@
 package publicApi
 
-import logic.GameEngine
+import logic.GameSession
 
 interface AtttPlayer {
 
@@ -10,8 +10,6 @@ interface AtttPlayer {
 }
 
 interface AtttGame {
-
-    fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer
 
     fun mm(x: Int, y: Int): AtttPlayer
 
@@ -25,9 +23,11 @@ interface AtttGame {
 
     fun printCurrentFieldIn2d()
 
-    fun finish()
-
     companion object {
-        fun create(): AtttGame = GameEngine
+        /**
+         * create AtttGame instance & provide the UI with a new game field, adjustability happens here - in the parameters
+         */
+        fun create(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttGame =
+            GameSession(desiredFieldSize, desiredMaxLineLength)
     }
 }

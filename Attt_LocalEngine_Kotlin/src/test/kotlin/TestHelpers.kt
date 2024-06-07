@@ -1,7 +1,8 @@
 import elements.Border
 import elements.Coordinates
 import elements.LineDirection
-import logic.GameEngine
+import logic.GameSession
+import logic.GameField
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.assertEquals
@@ -23,8 +24,8 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
 
 internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
     // as gameField is a stateful object - we have to reset it every time before a new test
-    prepareClassic3x3GameField()
-    val nextSpot = GameEngine.gameField?.getTheNextSafeSpaceFor(startSpot, direction)
+    val game = prepareClassic3x3GameField()
+    val nextSpot = game.gameField.getTheNextSafeSpaceFor(startSpot, direction)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
         // lowest limit for X axis
@@ -48,21 +49,21 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, d
     }
 }
 
-internal fun prepareClassic3x3GameField() {
+internal fun prepareClassic3x3GameField(): GameSession {
     // using internal API here instead of AtttGame as this function is used inside group of tests in InternalApiTesting
-    GameEngine.prepareGame(3, 3)
-    Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${GameEngine.gameField?.prepareForPrintingIn2d()}")
+    val game3x3 = GameSession(3, 3)
+    Log.pl("\nprepareClassic3x3GameField: gameEngine is ready having this field: ${game3x3.gameField.prepareForPrintingIn2d()}")
+    return game3x3
 }
 
 // should use only publicly available API
 internal fun prepareGameInstanceForClassic3x3GameField(): AtttGame {
-    val gameInstance = AtttGame.create()
-    gameInstance.prepareGame(3, 3)
+    val gameInstance = AtttGame.create(3, 3)
     Log.pl("\nprepareGameInstanceForClassic3x3GameField: gameInstance is ready having this field:")
     gameInstance.printCurrentFieldIn2d()
     return gameInstance
 }
 
-internal fun isGameFieldReady() = GameEngine.gameField?.isReady() == true
+internal fun isGameFieldReady(gameField: GameField?) = gameField?.isReady() == true
 
-internal fun getGameFieldSideLength() = GameEngine.gameField?.sideLength ?: -1
+internal fun getGameFieldSideLength(gameField: GameField?) = gameField?.sideLength ?: -1

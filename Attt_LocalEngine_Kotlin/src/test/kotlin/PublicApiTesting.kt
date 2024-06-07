@@ -1,5 +1,4 @@
 import elements.Player
-import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -43,7 +42,7 @@ class PublicApiTesting {
         game.mm(1, 0) // B
         game.mm(0, 1) // A -> now A has a line of 2 marks
         assertEquals(Player.A, game.getLeader())
-//        assertEquals(2, game.getLeader().getMaxLineLength())
+        assertEquals(2, game.getLeader().getMaxLineLength())
     }
 
     @Test
