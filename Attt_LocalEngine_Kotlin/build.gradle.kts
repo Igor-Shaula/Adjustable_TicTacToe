@@ -3,14 +3,13 @@ plugins {
 }
 
 group = "org.igor_shaula"
-version = "0.4.5"
+version = "0.5.0"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-//    testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation(kotlin("test"))
 }
 
