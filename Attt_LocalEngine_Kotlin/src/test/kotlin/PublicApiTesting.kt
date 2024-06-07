@@ -1,4 +1,3 @@
-import elements.Player
 import logic.PlayerProvider
 import utilities.Log
 import kotlin.test.BeforeTest
@@ -33,7 +32,7 @@ class PublicApiTesting {
         game.mm(1, 0) // X - this one was problematic but in version 0.3.0 this bug was fixed
 
         assertTrue(game.isGameWon(), "Game should have been won")
-        assertEquals(PlayerProvider.A, game.getWinner())
+        assertEquals(PlayerProvider.X, game.getWinner())
     }
 
     @Test
@@ -42,7 +41,7 @@ class PublicApiTesting {
         game.mm(0, 0) // A
         game.mm(1, 0) // B
         game.mm(0, 1) // A -> now A has a line of 2 marks
-        assertEquals(PlayerProvider.A, game.getLeader())
+        assertEquals(PlayerProvider.X, game.getLeader())
         assertEquals(2, game.getLeader().getMaxLineLength())
     }
 
@@ -61,7 +60,7 @@ class PublicApiTesting {
         game.mm(1, 1) // B -> now B also has a line of 2 marks
         game.mm(2, 0) // A -> now A still has a line of 2 marks
         game.mm(1, 2) // A -> now B has a line of 3 marks and becomes a new leader
-        assertEquals(PlayerProvider.B, game.getLeader())
+        assertEquals(PlayerProvider.O, game.getLeader())
         assertEquals(3, game.getLeader().getMaxLineLength())
     }
 }

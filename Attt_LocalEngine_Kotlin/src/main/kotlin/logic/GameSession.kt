@@ -93,8 +93,8 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
      */
     private fun prepareNextPlayer(): AtttPlayer {
         activePlayer =
-            if (activePlayer == PlayerProvider.A) PlayerProvider.B
-            else PlayerProvider.A // A is set after None & null case as well
+            if (activePlayer == PlayerProvider.X) PlayerProvider.O
+            else PlayerProvider.X // A is set after None & null case as well
         return activePlayer
     }
 
