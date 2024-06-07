@@ -18,7 +18,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
 
     init {
         PlayerProvider.prepareNewPlayersInstances()
-        PlayerProvider.presetNextPlayer() // this invocation sets the activePlayer to the first Player among others
+        PlayerProvider.presetNextPlayer() // this invocation sets the activePlayer to the starting Player among others
     }
 
     // -------
