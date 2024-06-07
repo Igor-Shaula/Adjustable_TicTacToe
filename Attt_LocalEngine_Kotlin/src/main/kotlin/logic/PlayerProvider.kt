@@ -3,14 +3,14 @@ package logic
 import elements.Player
 import publicApi.AtttPlayer
 
-internal const val SYMBOL_FOR_ABSENT_MARK = '.'
+internal const val SYMBOL_FOR_ABSENT_MARK = '·'
 
-private const val idForPlayerA = 0
-private const val idForPlayerB = 1
+private const val idForPlayerX = 42 // of course, you know why exactly 42 :)
+private const val idForPlayerO = 0
 private const val idForPlayerNone = -1
 
-private const val symbolForPlayerA = 'X'
-private const val symbolForPlayerB = 'O'
+private const val symbolForPlayerX = 'X'
+private const val symbolForPlayerO = 'O'
 private const val symbolForPlayerNone = 'n'
 
 // for now - just the replacement of the former enums use
@@ -22,15 +22,15 @@ internal object PlayerProvider {
     */
 
     // this is a very temporary solution to just check the failing tests -> then the architecture will get better
-    var A: AtttPlayer = Player(idForPlayerA, "PlayerA", symbolForPlayerA)
+    var X: AtttPlayer = Player(idForPlayerX, "PlayerX", symbolForPlayerX)
         private set
-    var B: AtttPlayer = Player(idForPlayerB, "PlayerB", symbolForPlayerB)
+    var O: AtttPlayer = Player(idForPlayerO, "PlayerO", symbolForPlayerO)
         private set
     val None: AtttPlayer = Player(idForPlayerNone, "PlayerNone", symbolForPlayerNone) // one for all cases
 
     // creates new instances for all players for every new GameSession instance
     internal fun prepareNewPlayersInstances() {
-        A = Player(idForPlayerA, "PlayerA", symbolForPlayerA)
-        B = Player(idForPlayerB, "PlayerB", symbolForPlayerB)
+        X = Player(idForPlayerX, "PlayerX", symbolForPlayerX)
+        O = Player(idForPlayerO, "PlayerO", symbolForPlayerO)
     }
 }
