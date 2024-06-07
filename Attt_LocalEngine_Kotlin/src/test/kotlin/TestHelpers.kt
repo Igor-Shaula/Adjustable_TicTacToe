@@ -1,8 +1,8 @@
 import elements.Border
 import elements.Coordinates
 import elements.LineDirection
-import logic.GameSession
 import logic.GameField
+import logic.GameSession
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.assertEquals
