@@ -4,7 +4,11 @@ import logic.GameSession
 
 interface AtttPlayer {
 
-    fun getSymbol(): Char
+    fun getId(): Int
+
+    fun getName(): String?
+
+    fun getSymbol(): Char?
 
     fun getMaxLineLength(): Int
 }

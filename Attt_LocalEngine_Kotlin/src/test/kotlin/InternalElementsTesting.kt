@@ -1,5 +1,9 @@
-import elements.*
+import elements.Coordinates
+import elements.LineDirection
+import elements.MAX_GAME_FIELD_SIDE_SIZE
+import elements.MIN_GAME_FIELD_SIDE_SIZE
 import logic.GameSession
+import logic.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest
@@ -191,8 +195,8 @@ class InternalElementsTesting {
         val game = prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
-        game.makeMove(firstMark, Player.A)
-        game.makeMove(secondMark, Player.A)
+        game.makeMove(firstMark, PlayerProvider.X)
+        game.makeMove(secondMark, PlayerProvider.X)
         game.printCurrentFieldIn2d()
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
@@ -207,8 +211,8 @@ class InternalElementsTesting {
         val game = prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
-        game.makeMove(firstMark, Player.A)
-        game.makeMove(secondMark, Player.A)
+        game.makeMove(firstMark, PlayerProvider.X)
+        game.makeMove(secondMark, PlayerProvider.X)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -224,9 +228,9 @@ class InternalElementsTesting {
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
         val connectingMark = Coordinates(1, 0)
-        game.makeMove(firstMark, Player.A)
-        game.makeMove(secondMark, Player.A)
-        game.makeMove(connectingMark, Player.A)
+        game.makeMove(firstMark, PlayerProvider.X)
+        game.makeMove(secondMark, PlayerProvider.X)
+        game.makeMove(connectingMark, PlayerProvider.X)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -242,9 +246,9 @@ class InternalElementsTesting {
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         val oneMoreMark = Coordinates(2, 0)
-        game.makeMove(firstMark, Player.A)
-        game.makeMove(secondMark, Player.A)
-        game.makeMove(oneMoreMark, Player.A)
+        game.makeMove(firstMark, PlayerProvider.X)
+        game.makeMove(secondMark, PlayerProvider.X)
+        game.makeMove(oneMoreMark, PlayerProvider.X)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromEdgeToEdge = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -259,11 +263,11 @@ class InternalElementsTesting {
         val game = prepareClassic3x3GameField()
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
-        val firstActivePlayer = game.activePlayer // should be player A
+        val firstActivePlayer = PlayerProvider.activePlayer // should be player A
         game.makeMove(firstMark) // after this line active player is replaced with the next -> B
         Log.pl("measuring line from $firstMark for player: $firstActivePlayer in the forward direction:")
         val lengthForPlayerA = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
-        val secondActivePlayer = game.activePlayer // should be player B
+        val secondActivePlayer = PlayerProvider.activePlayer // should be player B
         game.makeMove(secondMark) // after this line active player is replaced with the next -> A
         Log.pl("measuring line from $secondMark for player: $secondActivePlayer in the forward direction:")
         val lengthForPlayerB = game.gameField.measureLineFrom(secondMark, LineDirection.XpY0, 1)
@@ -278,21 +282,21 @@ class InternalElementsTesting {
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
         val game = prepareClassic3x3GameField()
         val someSpot = Coordinates(1, 1)
-        game.makeMove(someSpot, Player.A)
-        game.makeMove(someSpot, Player.B)
+        game.makeMove(someSpot, PlayerProvider.X)
+        game.makeMove(someSpot, PlayerProvider.O)
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
-        assertEquals(Player.A, game.gameField.getCurrentMarkAt(1, 1))
+        assertEquals(PlayerProvider.X, game.gameField.getCurrentMarkAt(1, 1))
     }
 
     @Test
     fun having3x3Field_TryToSetMarkForThisPlayerOnWrongPosition_currentPlayerRemainsUnchanged() {
         val game = prepareClassic3x3GameField()
         game.makeMove(-1, -1) // attempt to set the mark on a wrong place
-        assertEquals(Player.A, game.activePlayer) // this player remains chosen for the next move
+        assertEquals(PlayerProvider.X, PlayerProvider.activePlayer) // this player remains chosen for the next move
         game.makeMove(1, 1) // another attempt for the same player - this time successful
-        assertEquals(Player.B, game.activePlayer) // this time the next player is prepared for a move
+        assertEquals(PlayerProvider.O, PlayerProvider.activePlayer) // this time the next player is prepared for a move
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
-        assertEquals(Player.A, game.gameField.getCurrentMarkAt(1, 1))
+        assertEquals(PlayerProvider.X, game.gameField.getCurrentMarkAt(1, 1))
     }
 
     @Test
@@ -300,32 +304,28 @@ class InternalElementsTesting {
         println("having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect")
         val atttGame = AtttGame.create(3, 3)
         val game = atttGame as GameSession
-        game.makeMove(Coordinates(0, 0), Player.A)
-        game.makeMove(Coordinates(1, 0), Player.A)
+        game.makeMove(Coordinates(0, 0), PlayerProvider.X)
+        game.makeMove(Coordinates(1, 0), PlayerProvider.X)
         println(game.getWinner().getMaxLineLength())
         println(game.getLeader().getMaxLineLength())
-        game.makeMove(Coordinates(2, 0), Player.A)
+        game.makeMove(Coordinates(2, 0), PlayerProvider.X)
         // gameField & winning message for player A is printed in the console
-        assertEquals(Player.A, game.getWinner())
+        assertEquals(PlayerProvider.X, game.getWinner())
         println("3x3 Player.A: ${game.getWinner().hashCode()}")
-        assertEquals(
-            3,
-            game.getWinner().getMaxLineLength()
-        ) // actual 5 when this test is launched in scope with others
-        // todo: fix
+        assertEquals(3, game.getWinner().getMaxLineLength())
     }
 
     @Test
     fun having2LinesOfOnePlayerOn5x5Field_thisPlayerMarkIsSetInBetween_victoryConditionIsCorrect() {
         val game = GameSession(5, 5)
         Log.pl("\ntest5x5Field: gameEngine ready with given field: ${game.gameField.prepareForPrintingIn2d()}")
-        game.makeMove(Coordinates(0, 0), Player.A)
-        game.makeMove(Coordinates(1, 0), Player.A)
+        game.makeMove(Coordinates(0, 0), PlayerProvider.X)
+        game.makeMove(Coordinates(1, 0), PlayerProvider.X)
         // GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
-        game.makeMove(Coordinates(3, 0), Player.A)
-        game.makeMove(Coordinates(4, 0), Player.A)
-        game.makeMove(Coordinates(2, 0), Player.A) // intentionally placed here to connect 2 segments
-        assertEquals(Player.A, game.getWinner())
+        game.makeMove(Coordinates(3, 0), PlayerProvider.X)
+        game.makeMove(Coordinates(4, 0), PlayerProvider.X)
+        game.makeMove(Coordinates(2, 0), PlayerProvider.X) // intentionally placed here to connect 2 segments
+        assertEquals(PlayerProvider.X, game.getWinner())
         println("5x5 Player.A: ${game.getWinner().hashCode()}")
         assertEquals(5, game.getWinner().getMaxLineLength())
     }

@@ -1,6 +1,6 @@
 import elements.Coordinates
-import elements.Player
 import logic.GameSession
+import logic.PlayerProvider
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -34,20 +34,20 @@ class InternalApiTesting {
         // .xo
         // oxo
 
-        game.makeMove(Coordinates(1, 1), Player.A)
-        game.makeMove(Coordinates(2, 1), Player.B)
-        game.makeMove(Coordinates(2, 0), Player.A)
-        game.makeMove(Coordinates(0, 2), Player.B)
-        game.makeMove(Coordinates(1, 2), Player.A)
-        game.makeMove(Coordinates(2, 2), Player.B)
-        game.makeMove(Coordinates(1, 0), Player.A) // here A wins and anyway the next possible player is B
+        game.makeMove(Coordinates(1, 1), PlayerProvider.X)
+        game.makeMove(Coordinates(2, 1), PlayerProvider.O)
+        game.makeMove(Coordinates(2, 0), PlayerProvider.X)
+        game.makeMove(Coordinates(0, 2), PlayerProvider.O)
+        game.makeMove(Coordinates(1, 2), PlayerProvider.X)
+        game.makeMove(Coordinates(2, 2), PlayerProvider.O)
+        game.makeMove(Coordinates(1, 0), PlayerProvider.X) // here A wins and anyway the next possible player is B
 
 //        assertFalse(GameEngine.isActive(), "Game should have been won") -> no more relevant as the API was changed
         assertTrue(game.isGameWon(), "Game should have been won")
         // Would be nice to be able to do this:
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
         // -> and yes, this is done:
-        assertEquals(Player.A, game.getWinner())
+        assertEquals(PlayerProvider.X, game.getWinner())
     }
 
     @Test
@@ -60,8 +60,8 @@ class InternalApiTesting {
         game.makeMove(Coordinates(2, 1))
         game.makeMove(Coordinates(1, 2))
         // gameField & winning message for player B is printed in the console
-        assertEquals(Player.B, game.getWinner())
-        assertEquals(Player.A, game.activePlayer) // game is ready for the next potential move in any case
+        assertEquals(PlayerProvider.O, game.getWinner())
+        assertEquals(PlayerProvider.X, PlayerProvider.activePlayer) // game is ready for the next potential move in any case
         assertEquals(3, game.getWinner().getMaxLineLength())
     }
 
@@ -75,8 +75,8 @@ class InternalApiTesting {
         game.makeMove(2, 1)
         game.makeMove(1, 2)
         // gameField & winning message for player B is printed in the console
-        assertEquals(Player.B, game.getWinner())
-        assertEquals(Player.A, game.activePlayer) // game is ready for the next potential move in any case
+        assertEquals(PlayerProvider.O, game.getWinner())
+        assertEquals(PlayerProvider.X, PlayerProvider.activePlayer) // game is ready for the next potential move in any case
         assertEquals(3, game.getWinner().getMaxLineLength())
     }
 }

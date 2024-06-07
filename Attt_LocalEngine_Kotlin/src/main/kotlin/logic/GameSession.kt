@@ -16,11 +16,9 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
-    // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
-    internal var activePlayer: AtttPlayer = Player.None
-
     init {
-        prepareNextPlayer() // this invocation sets the activePlayer to the first Player among others
+        PlayerProvider.prepareNewPlayersInstances()
+        PlayerProvider.presetNextPlayer() // this invocation sets the activePlayer to the starting Player among others
     }
 
     // -------
@@ -38,13 +36,13 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     override fun makeMove(x: Int, y: Int): AtttPlayer = if (gameField.isCorrectPosition(x, y)) {
         makeMove(Coordinates(x, y))
     } else {
-        activePlayer
+        PlayerProvider.activePlayer
     }
 
     /**
      * this function is actually the only place for making moves and thus changing the game field
      */
-    internal fun makeMove(where: Coordinates, what: AtttPlayer = activePlayer): AtttPlayer =
+    internal fun makeMove(where: Coordinates, what: AtttPlayer = PlayerProvider.activePlayer): AtttPlayer =
         if (gameField.placeNewMark(where, what)) {
             // analyze this new dot & detect if it creates or changes any lines in all possible directions
             val existingLineDirections = gameField.detectAllExistingLineDirectionsFromThePlacedMark(where)
@@ -56,7 +54,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
                 (what as Player).tryToSetMaxLineLength(it) // this cast is secure as Player is direct inheritor to AtttPlayer
                 updateGameScore(what, it)
             }
-            prepareNextPlayer()
+            PlayerProvider.presetNextPlayer()
         } else {
             what
         }
@@ -69,7 +67,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     /**
      * there can be only one winner - Player.None is returned until the winner not yet detected
      */
-    override fun getWinner(): AtttPlayer = gameRules.getWinner() ?: Player.None
+    override fun getWinner(): AtttPlayer = gameRules.getWinner() ?: PlayerProvider.None
 
     /**
      * after the winner is detected there is no way to modify the game field, so the game state is preserved
@@ -86,14 +84,6 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     // endregion PUBLIC API
     // --------
     // region ALL PRIVATE
-
-    /**
-     * sets the currently active player, for which a move will be made & returns the player for the next move
-     */
-    private fun prepareNextPlayer(): AtttPlayer {
-        activePlayer = if (activePlayer == Player.A) Player.B else Player.A // A is set after None & null case as well
-        return activePlayer
-    }
 
     /**
      * gameRules data is updated only here

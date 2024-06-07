@@ -2,7 +2,6 @@ package logic
 
 import elements.MAX_WINNING_LINE_LENGTH
 import elements.MIN_WINNING_LINE_LENGTH
-import elements.Player
 import publicApi.AtttPlayer
 
 /**
@@ -26,7 +25,7 @@ internal class GameRules(
 
     internal fun getWinner(): AtttPlayer? = theWinner
 
-    internal fun getLeadingPlayer(): AtttPlayer = detectLeadingPlayer() ?: Player.None
+    internal fun getLeadingPlayer(): AtttPlayer = detectLeadingPlayer() ?: PlayerProvider.None
 
     // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case
     private fun detectLeadingPlayer(): AtttPlayer? = maxLines.entries.maxByOrNull { k -> k.value }?.key
