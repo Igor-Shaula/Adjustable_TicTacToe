@@ -11,8 +11,6 @@ interface AtttPlayer {
 
 interface AtttGame {
 
-//    fun prepareGame(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttPlayer
-
     fun mm(x: Int, y: Int): AtttPlayer
 
     fun makeMove(x: Int, y: Int): AtttPlayer
@@ -28,6 +26,9 @@ interface AtttGame {
     fun finish()
 
     companion object {
+        /**
+         * create AtttGame instance & provide the UI with a new game field, adjustability happens here - in the parameters
+         */
         fun create(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttGame =
             GameSession(desiredFieldSize, desiredMaxLineLength)
     }
