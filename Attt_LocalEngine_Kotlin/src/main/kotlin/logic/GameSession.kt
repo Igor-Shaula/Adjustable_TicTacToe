@@ -11,13 +11,13 @@ import utilities.Log
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
+class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int) : AtttGame {
 
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
     init {
-        PlayerProvider.prepareNewPlayersInstances()
+        PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
         PlayerProvider.presetNextPlayer() // this invocation sets the activePlayer to the starting Player among others
     }
 
