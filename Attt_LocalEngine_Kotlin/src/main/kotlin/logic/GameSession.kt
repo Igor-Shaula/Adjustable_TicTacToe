@@ -11,13 +11,13 @@ import utilities.Log
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
+class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int) : AtttGame {
 
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
     init {
-        PlayerProvider.prepareNewPlayersInstances()
+        PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
         PlayerProvider.presetNextPlayer() // this invocation sets the activePlayer to the starting Player among others
     }
 
@@ -49,7 +49,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
             val maxLengthForThisMove = existingLineDirections.maxOfOrNull { lineDirection ->
                 gameField.measureFullLengthForExistingLineFrom(where, lineDirection)
             }
-            Log.pl("makeMove: maxLength for this move of player $what is: $maxLengthForThisMove")
+            Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $maxLengthForThisMove")
             maxLengthForThisMove?.let {
                 (what as Player).tryToSetMaxLineLength(it) // this cast is secure as Player is direct inheritor to AtttPlayer
                 updateGameScore(what, it)
@@ -67,7 +67,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     /**
      * there can be only one winner - Player.None is returned until the winner not yet detected
      */
-    override fun getWinner(): AtttPlayer = gameRules.getWinner() ?: PlayerProvider.None
+    override fun getWinner(): AtttPlayer = gameRules.getWinner()
 
     /**
      * after the winner is detected there is no way to modify the game field, so the game state is preserved
@@ -78,6 +78,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
      * prints the current state of the game in 2d on console
      */
     override fun printCurrentFieldIn2d() {
+        // not using Log.pl here as this action is intentional & has not be able to switch off
         println(gameField.prepareForPrintingIn2d())
     }
 
@@ -91,7 +92,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int) : AtttGame {
     private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
         gameRules.updatePlayerScore(whichPlayer, detectedLineLength)
         if (gameRules.isGameWon()) {
-            Log.pl("player ${gameRules.getWinner()} wins with detectedLineLength: $detectedLineLength")
+            Log.pl("player ${gameRules.getWinner().getId()} wins with detectedLineLength: $detectedLineLength")
         }
     }
 

@@ -4,12 +4,8 @@ import elements.MAX_GAME_FIELD_SIDE_SIZE
 import elements.MIN_GAME_FIELD_SIDE_SIZE
 import logic.GameSession
 import logic.PlayerProvider
-import publicApi.AtttGame
 import utilities.Log
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class InternalElementsTesting {
 
@@ -22,74 +18,75 @@ class InternalElementsTesting {
 
     @Test
     fun gameIsNotStarted_classic3x3GameIsCreated_classic3x3GameFieldIsReady() {
-        val game = prepareClassic3x3GameField()
-        assertTrue(isGameFieldReady(game.gameField))
+        val game = GameSession(3, 3, 2)
+        assertTrue(game.gameField.isReady())
+        assertFalse(game.isGameWon())
     }
 
     @Test
     fun gameIsNotStarted_gameFieldOfAnyCorrectSizeIsCreated_gameFieldWithSpecifiedSizeIsReady() {
-        val game = GameSession(7, 5)
+        val game = GameSession(7, 5, 2)
         Log.pl("\ngameEngine is ready having this field: ${game.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(game.gameField))
-        assertEquals(7, getGameFieldSideLength(game.gameField))
+        assertTrue(game.gameField.isReady())
+        assertEquals(7, game.gameField.sideLength)
     }
 
     @Test
     fun gameIsNotStarted_tooSmallGameFieldIsCreated_minimal3x3GameFieldIsReady() {
         // size = maxLength = 2 -> game would have no sense in this case, the same as with field size of 1
-        val game2x2 = GameSession(2, 2)
+        val game2x2 = GameSession(2, 2, 2)
         Log.pl("\ngameEngine is ready having this field: ${game2x2.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(game2x2.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(game2x2.gameField))
+        assertTrue(game2x2.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, game2x2.gameField.sideLength)
         // size = maxLength = 0
-        val game0x0 = GameSession(0, 0)
+        val game0x0 = GameSession(0, 0, 2)
         Log.pl("\ngameEngine is ready having this field: ${game0x0.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(game0x0.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(game0x0.gameField))
+        assertTrue(game0x0.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, game0x0.gameField.sideLength)
         // size = maxLength = -1
-        val gameM1M1 = GameSession(-1, -1)
+        val gameM1M1 = GameSession(-1, -1, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameM1M1.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameM1M1.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameM1M1.gameField))
+        assertTrue(gameM1M1.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameM1M1.gameField.sideLength)
         // size = maxLength = Int.MIN_VALUE
-        val gameMxM = GameSession(Int.MIN_VALUE, Int.MIN_VALUE)
+        val gameMxM = GameSession(Int.MIN_VALUE, Int.MIN_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMxM.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMxM.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMxM.gameField))
+        assertTrue(gameMxM.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMxM.gameField.sideLength)
     }
 
     @Test
     fun gameIsNotStarted_tooBigGameFieldIsCreated_maximal1000x1000GameFieldIsReady() {
         // size = maxLength = 1001 -> for now the limit is set to 1000 dots per side but in the future there could be more
-        val game1k1 = GameSession(1001, 1001)
+        val game1k1 = GameSession(1001, 1001, 2)
         Log.pl("\ngameEngine is ready having this field: ${game1k1.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(game1k1.gameField))
-        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(game1k1.gameField))
+        assertTrue(game1k1.gameField.isReady())
+        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, game1k1.gameField.sideLength)
         // size = maxLength = Int.MAX_VALUE
-        val gameMM = GameSession(Int.MAX_VALUE, Int.MAX_VALUE)
+        val gameMM = GameSession(Int.MAX_VALUE, Int.MAX_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMM.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMM.gameField))
-        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMM.gameField))
+        assertTrue(gameMM.gameField.isReady())
+        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, gameMM.gameField.sideLength)
     }
 
     @Suppress("INTEGER_OVERFLOW")
     @Test
     fun gameIsNotStarted_underMinIntGameFieldIsCreated_maximal1000x1000GameFieldIsReady() {
         // size = maxLength tries to be less than Int.MIN_VALUE -> there will be overflow of the Int
-        val game = GameSession(Int.MIN_VALUE - 1, Int.MIN_VALUE - 1)
+        val game = GameSession(Int.MIN_VALUE - 1, Int.MIN_VALUE - 1, 2)
         Log.pl("\ngameEngine is ready having this field: ${game.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(game.gameField))
-        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(game.gameField))
+        assertTrue(game.gameField.isReady())
+        assertEquals(MAX_GAME_FIELD_SIDE_SIZE, game.gameField.sideLength)
     }
 
     @Suppress("INTEGER_OVERFLOW")
     @Test
     fun gameIsNotStarted_overMaxIntGameFieldIsCreated_minimal3x3GameFieldIsReady() {
         // size = maxLength tries to be more than Int.MAX_VALUE -> there will be overflow of the Int
-        val game = GameSession(Int.MAX_VALUE + 1, Int.MAX_VALUE + 1)
+        val game = GameSession(Int.MAX_VALUE + 1, Int.MAX_VALUE + 1, 2)
         Log.pl("\ngameEngine is ready having this field: ${game.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(game.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(game.gameField))
+        assertTrue(game.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, game.gameField.sideLength)
     }
 
     // assertions of this test are made mostly to see interesting effects during different kinds of limits mixing
@@ -97,59 +94,59 @@ class InternalElementsTesting {
     @Test
     fun gameIsNotStarted_MinAndMaxIntMixedGameFieldIsCreated_minimal3x3GameFieldIsReady() {
         // size = maxLength = Int.MIN_VALUE + Int.MIN_VALUE = 0 in fact - this is an interesting effect of the Int
-        val gameMinPlusMin = GameSession(Int.MIN_VALUE + Int.MIN_VALUE, Int.MIN_VALUE + Int.MIN_VALUE)
+        val gameMinPlusMin = GameSession(Int.MIN_VALUE + Int.MIN_VALUE, Int.MIN_VALUE + Int.MIN_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMinPlusMin.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMinPlusMin.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMinPlusMin.gameField))
+        assertTrue(gameMinPlusMin.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMinPlusMin.gameField.sideLength)
         println(Int.MIN_VALUE + Int.MIN_VALUE)
 
         // size = maxLength = Int.MIN_VALUE - Int.MIN_VALUE = 0 in fact - this is an interesting effect of the Int
-        val gameMinMinusMin = GameSession(Int.MIN_VALUE - Int.MIN_VALUE, Int.MIN_VALUE - Int.MIN_VALUE)
+        val gameMinMinusMin = GameSession(Int.MIN_VALUE - Int.MIN_VALUE, Int.MIN_VALUE - Int.MIN_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMinMinusMin.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMinMinusMin.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMinMinusMin.gameField))
+        assertTrue(gameMinMinusMin.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMinMinusMin.gameField.sideLength)
         println(Int.MIN_VALUE - Int.MIN_VALUE)
 
         // size = maxLength = Int.MAX_VALUE + Int.MAX_VALUE = -2 in fact - this is an interesting effect of the Int
-        val gameMaxPlusMax = GameSession(Int.MAX_VALUE + Int.MAX_VALUE, Int.MAX_VALUE + Int.MAX_VALUE)
+        val gameMaxPlusMax = GameSession(Int.MAX_VALUE + Int.MAX_VALUE, Int.MAX_VALUE + Int.MAX_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMaxPlusMax.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMaxPlusMax.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMaxPlusMax.gameField))
+        assertTrue(gameMaxPlusMax.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMaxPlusMax.gameField.sideLength)
         println(Int.MAX_VALUE + Int.MAX_VALUE)
 
         // size = maxLength = Int.MAX_VALUE - Int.MAX_VALUE = 0 which is obvious
-        val gameMaxMinusMax = GameSession(Int.MAX_VALUE - Int.MAX_VALUE, Int.MAX_VALUE - Int.MAX_VALUE)
+        val gameMaxMinusMax = GameSession(Int.MAX_VALUE - Int.MAX_VALUE, Int.MAX_VALUE - Int.MAX_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMaxMinusMax.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMaxMinusMax.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMaxMinusMax.gameField))
+        assertTrue(gameMaxMinusMax.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMaxMinusMax.gameField.sideLength)
         println(Int.MAX_VALUE - Int.MAX_VALUE)
 
         // size = maxLength = Int.MIN_VALUE - Int.MAX_VALUE = +1 in fact - this is an interesting effect of the Int
-        val gameMinMinusMax = GameSession(Int.MIN_VALUE - Int.MAX_VALUE, Int.MIN_VALUE - Int.MAX_VALUE)
+        val gameMinMinusMax = GameSession(Int.MIN_VALUE - Int.MAX_VALUE, Int.MIN_VALUE - Int.MAX_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMinMinusMax.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMinMinusMax.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMinMinusMax.gameField))
+        assertTrue(gameMinMinusMax.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMinMinusMax.gameField.sideLength)
         println(Int.MIN_VALUE - Int.MAX_VALUE)
 
         // size = maxLength = Int.MAX_VALUE - Int.MIN_VALUE = -1 which is obvious
-        val gameMaxMinusMin = GameSession(Int.MAX_VALUE - Int.MIN_VALUE, Int.MAX_VALUE - Int.MIN_VALUE)
+        val gameMaxMinusMin = GameSession(Int.MAX_VALUE - Int.MIN_VALUE, Int.MAX_VALUE - Int.MIN_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMaxMinusMin.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMaxMinusMin.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMaxMinusMin.gameField))
+        assertTrue(gameMaxMinusMin.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMaxMinusMin.gameField.sideLength)
         println(Int.MAX_VALUE - Int.MIN_VALUE)
 
         // size = maxLength = Int.MIN_VALUE + Int.MAX_VALUE = -1 which is obvious
-        val gameMinPlusMax = GameSession(Int.MIN_VALUE + Int.MAX_VALUE, Int.MIN_VALUE + Int.MAX_VALUE)
+        val gameMinPlusMax = GameSession(Int.MIN_VALUE + Int.MAX_VALUE, Int.MIN_VALUE + Int.MAX_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMinPlusMax.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMinPlusMax.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMinPlusMax.gameField))
+        assertTrue(gameMinPlusMax.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMinPlusMax.gameField.sideLength)
         println(Int.MIN_VALUE + Int.MAX_VALUE)
 
         // size = maxLength = Int.MAX_VALUE + Int.MIN_VALUE = -1 which is obvious
-        val gameMaxPlusMin = GameSession(Int.MAX_VALUE + Int.MIN_VALUE, Int.MAX_VALUE + Int.MIN_VALUE)
+        val gameMaxPlusMin = GameSession(Int.MAX_VALUE + Int.MIN_VALUE, Int.MAX_VALUE + Int.MIN_VALUE, 2)
         Log.pl("\ngameEngine is ready having this field: ${gameMaxPlusMin.gameField.prepareForPrintingIn2d()}")
-        assertTrue(isGameFieldReady(gameMaxPlusMin.gameField))
-        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, getGameFieldSideLength(gameMaxPlusMin.gameField))
+        assertTrue(gameMaxPlusMin.gameField.isReady())
+        assertEquals(MIN_GAME_FIELD_SIDE_SIZE, gameMaxPlusMin.gameField.sideLength)
         println(Int.MAX_VALUE + Int.MIN_VALUE)
     }
 
@@ -192,11 +189,12 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
-        game.makeMove(firstMark, PlayerProvider.X)
-        game.makeMove(secondMark, PlayerProvider.X)
+        val playerX = PlayerProvider.playersList[0]
+        game.makeMove(firstMark, playerX)
+        game.makeMove(secondMark, playerX)
         game.printCurrentFieldIn2d()
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
@@ -208,11 +206,12 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2RemoteMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
-        game.makeMove(firstMark, PlayerProvider.X)
-        game.makeMove(secondMark, PlayerProvider.X)
+        val playerX = PlayerProvider.playersList[0]
+        game.makeMove(firstMark, playerX)
+        game.makeMove(secondMark, playerX)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -224,13 +223,14 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2RemoteMarksOfTheSamePlayerAreConnected_detectedLineLengthIsCorrect() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
         val connectingMark = Coordinates(1, 0)
-        game.makeMove(firstMark, PlayerProvider.X)
-        game.makeMove(secondMark, PlayerProvider.X)
-        game.makeMove(connectingMark, PlayerProvider.X)
+        val playerX = PlayerProvider.playersList[0]
+        game.makeMove(firstMark, playerX)
+        game.makeMove(secondMark, playerX)
+        game.makeMove(connectingMark, playerX)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -242,13 +242,14 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2AdjacentMarksOfTheSamePlayerAreAddedWithOneMoreMark_detectedLineLengthIsCorrect() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         val oneMoreMark = Coordinates(2, 0)
-        game.makeMove(firstMark, PlayerProvider.X)
-        game.makeMove(secondMark, PlayerProvider.X)
-        game.makeMove(oneMoreMark, PlayerProvider.X)
+        val playerX = PlayerProvider.playersList[0]
+        game.makeMove(firstMark, playerX)
+        game.makeMove(secondMark, playerX)
+        game.makeMove(oneMoreMark, playerX)
         Log.pl("measuring line from $firstMark in the forward direction:")
         val lengthFromEdgeToEdge = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
@@ -260,7 +261,7 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByDifferentPlayers_noLineIsCreatedForAnyPlayer() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         val firstActivePlayer = PlayerProvider.activePlayer // should be player A
@@ -280,53 +281,53 @@ class InternalElementsTesting {
 
     @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
-        val game = prepareClassic3x3GameField()
-        val someSpot = Coordinates(1, 1)
-        game.makeMove(someSpot, PlayerProvider.X)
-        game.makeMove(someSpot, PlayerProvider.O)
+        val game = GameSession(3, 3, 2)
+        val theSameSpot = Coordinates(1, 1)
+        val playerX = PlayerProvider.playersList[0]
+        val playerO = PlayerProvider.playersList[1]
+        game.makeMove(theSameSpot, playerX)
+        game.makeMove(theSameSpot, playerO)
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
-        assertEquals(PlayerProvider.X, game.gameField.getCurrentMarkAt(1, 1))
+        assertEquals(playerX, game.gameField.getCurrentMarkAt(theSameSpot.x, theSameSpot.y))
     }
 
     @Test
     fun having3x3Field_TryToSetMarkForThisPlayerOnWrongPosition_currentPlayerRemainsUnchanged() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
+        val playerX = PlayerProvider.playersList[0]
+        val playerO = PlayerProvider.playersList[1]
         game.makeMove(-1, -1) // attempt to set the mark on a wrong place
-        assertEquals(PlayerProvider.X, PlayerProvider.activePlayer) // this player remains chosen for the next move
+        assertEquals(playerX, PlayerProvider.activePlayer) // this player remains chosen for the next move
         game.makeMove(1, 1) // another attempt for the same player - this time successful
-        assertEquals(PlayerProvider.O, PlayerProvider.activePlayer) // this time the next player is prepared for a move
+        assertEquals(playerO, PlayerProvider.activePlayer) // this time the next player is prepared for a move
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
-        assertEquals(PlayerProvider.X, game.gameField.getCurrentMarkAt(1, 1))
+        assertEquals(playerX, game.gameField.getCurrentMarkAt(1, 1))
     }
 
     @Test
     fun having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect() {
-        println("having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect")
-        val atttGame = AtttGame.create(3, 3)
-        val game = atttGame as GameSession
-        game.makeMove(Coordinates(0, 0), PlayerProvider.X)
-        game.makeMove(Coordinates(1, 0), PlayerProvider.X)
-        println(game.getWinner().getMaxLineLength())
-        println(game.getLeader().getMaxLineLength())
-        game.makeMove(Coordinates(2, 0), PlayerProvider.X)
+        val game = GameSession(3, 3, 2)
+        val playerX = PlayerProvider.playersList[0]
+        game.makeMove(Coordinates(0, 0), playerX)
+        game.makeMove(Coordinates(1, 0), playerX)
+        game.makeMove(Coordinates(2, 0), playerX)
         // gameField & winning message for player A is printed in the console
-        assertEquals(PlayerProvider.X, game.getWinner())
-        println("3x3 Player.A: ${game.getWinner().hashCode()}")
+        assertEquals(playerX, game.getWinner())
         assertEquals(3, game.getWinner().getMaxLineLength())
     }
 
     @Test
     fun having2LinesOfOnePlayerOn5x5Field_thisPlayerMarkIsSetInBetween_victoryConditionIsCorrect() {
-        val game = GameSession(5, 5)
+        val game = GameSession(5, 5, 2)
+        val playerX = PlayerProvider.playersList[0]
         Log.pl("\ntest5x5Field: gameEngine ready with given field: ${game.gameField.prepareForPrintingIn2d()}")
-        game.makeMove(Coordinates(0, 0), PlayerProvider.X)
-        game.makeMove(Coordinates(1, 0), PlayerProvider.X)
+        game.makeMove(Coordinates(0, 0), playerX)
+        game.makeMove(Coordinates(1, 0), playerX)
         // GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
-        game.makeMove(Coordinates(3, 0), PlayerProvider.X)
-        game.makeMove(Coordinates(4, 0), PlayerProvider.X)
-        game.makeMove(Coordinates(2, 0), PlayerProvider.X) // intentionally placed here to connect 2 segments
-        assertEquals(PlayerProvider.X, game.getWinner())
-        println("5x5 Player.A: ${game.getWinner().hashCode()}")
+        game.makeMove(Coordinates(3, 0), playerX)
+        game.makeMove(Coordinates(4, 0), playerX)
+        game.makeMove(Coordinates(2, 0), playerX) // intentionally placed here to connect 2 segments
+        assertEquals(playerX, game.getWinner())
         assertEquals(5, game.getWinner().getMaxLineLength())
     }
 }
