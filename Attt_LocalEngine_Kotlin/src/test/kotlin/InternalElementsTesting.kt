@@ -22,7 +22,7 @@ class InternalElementsTesting {
 
     @Test
     fun gameIsNotStarted_classic3x3GameIsCreated_classic3x3GameFieldIsReady() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         assertTrue(isGameFieldReady(game.gameField))
     }
 
@@ -192,7 +192,7 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         val playerX = PlayerProvider.playersList[0]
@@ -209,7 +209,7 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2RemoteMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
         val playerX = PlayerProvider.playersList[0]
@@ -226,7 +226,7 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2RemoteMarksOfTheSamePlayerAreConnected_detectedLineLengthIsCorrect() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(2, 0)
         val connectingMark = Coordinates(1, 0)
@@ -245,7 +245,7 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2AdjacentMarksOfTheSamePlayerAreAddedWithOneMoreMark_detectedLineLengthIsCorrect() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         val oneMoreMark = Coordinates(2, 0)
@@ -264,7 +264,7 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByDifferentPlayers_noLineIsCreatedForAnyPlayer() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val firstMark = Coordinates(0, 0)
         val secondMark = Coordinates(1, 0)
         val firstActivePlayer = PlayerProvider.activePlayer // should be player A
@@ -284,7 +284,7 @@ class InternalElementsTesting {
 
     @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
-        val game = prepareClassic3x3GameField()
+        val game = GameSession(3, 3, 2)
         val someSpot = Coordinates(1, 1)
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
