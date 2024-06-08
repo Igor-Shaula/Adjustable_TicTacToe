@@ -6,6 +6,13 @@ internal data class Player(
     private val id: Int, private var name: String? = null, private var symbol: Char? = null
 ) : AtttPlayer {
 
+    init {
+        if (name.isNullOrBlank()) name = "Player # $id"
+        if (symbol == null || symbol?.isWhitespace() == true) {
+            symbol = definePlayerSymbolById()
+        }
+    }
+
     private var maxLineLength = 0 // not using get & set here as this data is accessed from AtttPlayer interface
 
     override fun getId(): Int = id // this is the main criterion to distinguish one player from any other
