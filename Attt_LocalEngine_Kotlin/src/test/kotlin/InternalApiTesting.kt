@@ -14,17 +14,6 @@ class InternalApiTesting {
         Log.switch(true)
     }
 
-    /*
-        @Test
-        fun havingUnpreparedField_aPlayerTriesToMakeMove_noMoveIsMadeOnUnpreparedField() {
-            val game = AtttGame.create()
-            (game as GameEngine).makeMove(Coordinates(0, 0))
-            assertEquals(Player.None, game.getLeader())
-            assertEquals(0, game.getLeader().getMaxLineLength())
-            // so it's impossible to play game BEFORE prepare() is invoked
-        }
-    */
-
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
     @Test
     fun test3x3FieldWithMultiplePossibleLines() { // test name is left as it was in the pull-request
@@ -44,7 +33,6 @@ class InternalApiTesting {
         game.makeMove(Coordinates(2, 2), playerO)
         game.makeMove(Coordinates(1, 0), playerX) // here A wins and anyway the next possible player is B
 
-//        assertFalse(GameEngine.isActive(), "Game should have been won") -> no more relevant as the API was changed
         assertTrue(game.isGameWon(), "Game should have been won")
         // Would be nice to be able to do this:
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
