@@ -2,8 +2,8 @@ package elements
 
 import publicApi.AtttPlayer
 
-internal class Player(
-    private val id: Int, private val name: String? = null, private val symbol: Char? = null
+internal data class Player(
+    private val id: Int, private var name: String? = null, private var symbol: Char? = null
 ) : AtttPlayer {
 
     private var maxLineLength = 0 // not using get & set here as this data is accessed from AtttPlayer interface
