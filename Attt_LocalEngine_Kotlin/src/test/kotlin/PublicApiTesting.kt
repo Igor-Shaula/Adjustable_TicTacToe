@@ -1,6 +1,7 @@
 import logic.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
+import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -89,4 +90,23 @@ class PublicApiTesting {
         assertEquals(3, game.getLeader().getMaxLineLength())
     }
 
+    // kind of a load testing on a field that is big and yet still able to fit into console output
+    @Test
+    fun having100x100Field_2PlayersMakeRandomMoves_activePlayerDefinitionForEachMoveIsCorrect() {
+        val game = AtttGame.create(100, 10, 42)
+        Log.switch(false) // speeding up and preventing from huge amount of messages in the console
+        var iterationsCount = 0
+        (0..999_999).forEach { _ -> // including ,so it's precisely a million in fact
+            if (!game.isGameWon()) {
+                game.mm(Random.nextInt(100), Random.nextInt(100))
+                iterationsCount++
+            }
+        }
+        Log.switch(true) // restoring for possible other tests
+        Log.pl("iterationsCount: $iterationsCount")
+        Log.pl(
+            "player ${game.getLeader().getName()} is leading with maxLineLength: ${game.getLeader().getMaxLineLength()}"
+        )
+        game.printCurrentFieldIn2d()
+    }
 }
