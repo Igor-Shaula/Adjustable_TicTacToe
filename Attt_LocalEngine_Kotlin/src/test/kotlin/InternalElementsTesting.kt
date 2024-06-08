@@ -4,7 +4,6 @@ import elements.MAX_GAME_FIELD_SIDE_SIZE
 import elements.MIN_GAME_FIELD_SIDE_SIZE
 import logic.GameSession
 import logic.PlayerProvider
-import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -285,13 +284,13 @@ class InternalElementsTesting {
     @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
         val game = GameSession(3, 3, 2)
-        val someSpot = Coordinates(1, 1)
+        val theSameSpot = Coordinates(1, 1)
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
-        game.makeMove(someSpot, playerX)
-        game.makeMove(someSpot, playerO)
+        game.makeMove(theSameSpot, playerX)
+        game.makeMove(theSameSpot, playerO)
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
-        assertEquals(playerX, game.gameField.getCurrentMarkAt(1, 1))
+        assertEquals(playerX, game.gameField.getCurrentMarkAt(theSameSpot.x, theSameSpot.y))
     }
 
     @Test
@@ -309,17 +308,13 @@ class InternalElementsTesting {
 
     @Test
     fun having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect() {
-        val atttGame = AtttGame.create(3, 3)
-        val game = atttGame as GameSession
+        val game = GameSession(3, 3, 2)
         val playerX = PlayerProvider.playersList[0]
         game.makeMove(Coordinates(0, 0), playerX)
         game.makeMove(Coordinates(1, 0), playerX)
-        Log.pl(game.getWinner().getMaxLineLength().toString())
-        Log.pl(game.getLeader().getMaxLineLength().toString())
         game.makeMove(Coordinates(2, 0), playerX)
         // gameField & winning message for player A is printed in the console
         assertEquals(playerX, game.getWinner())
-        Log.pl("3x3 playerX: ${game.getWinner().hashCode()}")
         assertEquals(3, game.getWinner().getMaxLineLength())
     }
 
@@ -335,7 +330,6 @@ class InternalElementsTesting {
         game.makeMove(Coordinates(4, 0), playerX)
         game.makeMove(Coordinates(2, 0), playerX) // intentionally placed here to connect 2 segments
         assertEquals(playerX, game.getWinner())
-        Log.pl("5x5 Player.A: ${game.getWinner().hashCode()}")
         assertEquals(5, game.getWinner().getMaxLineLength())
     }
 }
