@@ -1,5 +1,6 @@
 package publicApi
 
+import elements.MIN_NUMBER_OF_PLAYERS
 import logic.GameSession
 
 interface AtttPlayer {
@@ -31,7 +32,8 @@ interface AtttGame {
         /**
          * create AtttGame instance & provide the UI with a new game field, adjustability happens here - in the parameters
          */
-        fun create(desiredFieldSize: Int, desiredMaxLineLength: Int): AtttGame =
-            GameSession(desiredFieldSize, desiredMaxLineLength)
+        fun create(
+            desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int = MIN_NUMBER_OF_PLAYERS
+        ): AtttGame = GameSession(desiredFieldSize, desiredMaxLineLength, desiredPlayerNumber)
     }
 }
