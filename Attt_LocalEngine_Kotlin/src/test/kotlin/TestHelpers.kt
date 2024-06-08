@@ -1,7 +1,6 @@
 import elements.Border
 import elements.Coordinates
 import elements.LineDirection
-import logic.GameField
 import logic.GameSession
 import utilities.Log
 import kotlin.test.assertEquals
@@ -47,7 +46,3 @@ internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, d
         }
     }
 }
-
-internal fun isGameFieldReady(gameField: GameField?) = gameField?.isReady() == true
-
-internal fun getGameFieldSideLength(gameField: GameField?) = gameField?.sideLength ?: -1
