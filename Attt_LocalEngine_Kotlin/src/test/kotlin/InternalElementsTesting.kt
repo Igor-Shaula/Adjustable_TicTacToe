@@ -22,7 +22,8 @@ class InternalElementsTesting {
     @Test
     fun gameIsNotStarted_classic3x3GameIsCreated_classic3x3GameFieldIsReady() {
         val game = GameSession(3, 3, 2)
-        assertTrue(isGameFieldReady(game.gameField))
+        assertTrue(game.gameField.isReady())
+        assertFalse(game.isGameWon())
     }
 
     @Test
