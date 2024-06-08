@@ -1,3 +1,4 @@
+import elements.MAX_NUMBER_OF_PLAYERS
 import logic.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
@@ -93,7 +94,7 @@ class PublicApiTesting {
     // kind of a load testing on a field that is big and yet still able to fit into console output
     @Test
     fun having100x100Field_2PlayersMakeRandomMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = AtttGame.create(100, 10, 42)
+        val game = AtttGame.create(100, 10, MAX_NUMBER_OF_PLAYERS)
         Log.switch(false) // speeding up and preventing from huge amount of messages in the console
         var iterationsCount = 0
         (0..999_999).forEach { _ -> // including ,so it's precisely a million in fact
