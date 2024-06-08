@@ -18,4 +18,4 @@ internal const val MAX_GAME_FIELD_DIMENSIONS = 3 // what if we want a 3d? this c
 
 // default size for AtttField creation
 internal const val MIN_NUMBER_OF_PLAYERS = 2 // the game has no sense if less
-internal const val MAX_NUMBER_OF_PLAYERS = 1000 // let's imagine this engine once works for an online multiplayer game
+internal const val MAX_NUMBER_OF_PLAYERS = 90 // because ASCII visible basic symbols excluding ' ` . and _
