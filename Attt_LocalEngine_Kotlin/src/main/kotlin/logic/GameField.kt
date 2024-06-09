@@ -15,7 +15,7 @@ internal class GameField(
 ) {
     private val minIndex = 0 // this is obvious but let it be here for consistency
     private val maxIndex = sideLength - 1 // constant for the given game field
-    private val theMap: MutableMap<Coordinates, AtttPlayer> = mutableMapOf() // needs to be configured later
+    private val theMap: MutableMap<Coordinates, AtttPlayer> = mutableMapOf() // initially empty to save memory
 
     init {
         // here we're doing possible corrections that may be needed to keep the game rules reasonable
@@ -55,7 +55,7 @@ internal class GameField(
         sideLength in MIN_GAME_FIELD_SIDE_SIZE..MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
 
     internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
-        if (theMap[where] == PlayerProvider.None || theMap[where] == null) {
+        if (theMap[where] == null || theMap[where] == PlayerProvider.None) { // PlayerProvider.None - to ensure all cases
             theMap[where] = what
             true // new mark is successfully placed
         } else {
