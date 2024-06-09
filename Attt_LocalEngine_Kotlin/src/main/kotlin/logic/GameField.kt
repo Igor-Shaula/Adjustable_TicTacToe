@@ -74,14 +74,17 @@ internal class GameField(
         val x = fromWhere.x
         val y = fromWhere.y
         Log.pl("checkPlacedMarkArea: x, y = $x, $y")
-        val what = getCurrentMarkAt(x, y) ?: return emptyList()
+        val mark = getCurrentMarkAt(x, y)
+        if (mark == null || mark == PlayerProvider.None) {
+            return emptyList() // preventing from doing detection calculations for initially wrong Player
+        }
         val allDirections = mutableListOf<LineDirection>()
         LineDirection.entries
             .filter { it != LineDirection.None }
             .forEach { lineDirection ->
                 val newX = x + lineDirection.dx
                 val newY = y + lineDirection.dy
-                if (isCorrectPosition(newX, newY) && checkIf2MarksAreOfTheSamePlayer(newX, newY, what)) {
+                if (isCorrectPosition(newX, newY) && checkIf2MarksAreOfTheSamePlayer(newX, newY, mark)) {
                     allDirections.add(lineDirection)
                     Log.pl("line exists in direction: $lineDirection")
                 }
