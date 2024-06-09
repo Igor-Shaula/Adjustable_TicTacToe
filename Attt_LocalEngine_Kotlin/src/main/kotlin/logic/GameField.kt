@@ -46,6 +46,13 @@ internal class GameField(
      */
     internal fun getCurrentMarkAt(x: Int, y: Int): AtttPlayer? = theMap[Coordinates(x, y)]
 
+    private fun containsTheSameMark(what: AtttPlayer?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
+
+    private fun belongToTheSameRealPlayer(givenPlace: Coordinates, potentialSpot: Coordinates): Boolean {
+        val newMark = theMap[potentialSpot] // optimization to do finding in map only once
+        return newMark != null && newMark != PlayerProvider.None && newMark == theMap[givenPlace]
+    }
+
     /**
      * ensures that the game field has correct size & is clear, so it is safe to use it for a new game
      */
@@ -72,8 +79,8 @@ internal class GameField(
         val x = fromWhere.x
         val y = fromWhere.y
         Log.pl("checkPlacedMarkArea: x, y = $x, $y")
-        val mark = getCurrentMarkAt(x, y)
-        if (mark == null || mark == PlayerProvider.None) {
+        val checkedMark = getCurrentMarkAt(x, y)
+        if (checkedMark == null || checkedMark == PlayerProvider.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
         }
         val allDirections = mutableListOf<LineDirection>()
@@ -82,16 +89,13 @@ internal class GameField(
             .forEach { lineDirection ->
                 val newX = x + lineDirection.dx
                 val newY = y + lineDirection.dy
-                if (isCorrectPosition(newX, newY) && checkIf2MarksAreOfTheSamePlayer(newX, newY, mark)) {
+                if (isCorrectPosition(newX, newY) && containsTheSameMark(checkedMark, Coordinates(newX, newY))) {
                     allDirections.add(lineDirection)
                     Log.pl("line exists in direction: $lineDirection")
                 }
             }
         return allDirections // is empty if no lines ae found in all possible directions
     }
-
-    private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer?) =
-        what == theMap[Coordinates(x, y)]
 
     private fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
@@ -114,7 +118,7 @@ internal class GameField(
         // firstly let's measure in the given direction and then in the opposite, also recursively
         val nextMark = getTheNextSafeSpaceFor(givenMark, lineDirection)
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
-        return if (nextMark is Coordinates && theMap[givenMark] == theMap[nextMark]) {
+        return if (nextMark is Coordinates && belongToTheSameRealPlayer(givenMark, nextMark)) {
             measureLineFrom(nextMark, lineDirection, startingLength + 1)
         } else {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
