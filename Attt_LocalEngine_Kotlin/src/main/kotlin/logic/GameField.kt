@@ -83,7 +83,7 @@ internal class GameField(
         return allDirections
     }
 
-    private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer) =
+    private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer?) =
         what == theMap[Coordinates(x, y)]
 
     internal fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
