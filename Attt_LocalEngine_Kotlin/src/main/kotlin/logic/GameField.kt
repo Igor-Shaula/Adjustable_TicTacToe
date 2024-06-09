@@ -64,7 +64,13 @@ internal class GameField(
             false // new mark is not placed because the space has been already occupied
         }
 
-    internal fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates): List<LineDirection> {
+    internal fun detectMaxLineLengthForNewMark(where: Coordinates): Int? =
+        detectAllExistingLineDirectionsFromThePlacedMark(where)
+            .maxOfOrNull { lineDirection ->
+                measureFullLengthForExistingLineFrom(where, lineDirection)
+            }
+
+    private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates): List<LineDirection> {
         val x = fromWhere.x
         val y = fromWhere.y
         Log.pl("checkPlacedMarkArea: x, y = $x, $y")
@@ -80,13 +86,13 @@ internal class GameField(
                     Log.pl("line exists in direction: $lineDirection")
                 }
             }
-        return allDirections
+        return allDirections // is empty if no lines ae found in all possible directions
     }
 
     private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer?) =
         what == theMap[Coordinates(x, y)]
 
-    internal fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
+    private fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
         // we also have a proven placed dot of the same player in the detected line direction.
         // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:

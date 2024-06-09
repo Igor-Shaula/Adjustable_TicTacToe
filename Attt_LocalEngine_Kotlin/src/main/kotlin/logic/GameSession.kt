@@ -44,13 +44,8 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      */
     internal fun makeMove(where: Coordinates, what: AtttPlayer = PlayerProvider.activePlayer): AtttPlayer =
         if (gameField.placeNewMark(where, what)) {
-            // analyze this new dot & detect if it creates or changes any lines in all possible directions
-            val existingLineDirections = gameField.detectAllExistingLineDirectionsFromThePlacedMark(where)
-            val maxLengthForThisMove = existingLineDirections.maxOfOrNull { lineDirection ->
-                gameField.measureFullLengthForExistingLineFrom(where, lineDirection)
-            }
-            Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $maxLengthForThisMove")
-            maxLengthForThisMove?.let {
+            gameField.detectMaxLineLengthForNewMark(where)?.let {
+                Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $it")
                 (what as Player).tryToSetMaxLineLength(it) // this cast is secure as Player is direct inheritor to AtttPlayer
                 updateGameScore(what, it)
             }
