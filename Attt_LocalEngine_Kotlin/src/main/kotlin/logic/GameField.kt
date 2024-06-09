@@ -7,11 +7,9 @@ import utilities.Log
 /**
  * represents the area/space where all players' marks are placed and exist through one active game session
  */
-@Suppress("UNUSED_PARAMETER")
 internal class GameField(
     internal var sideLength: Int, // the only required parameter
-    dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
-    numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious, can't be less
+//    dimensions: Int = MIN_GAME_FIELD_DIMENSIONS // the simplest variant is 2d game
 ) {
     private val minIndex = 0 // this is obvious but let it be here for consistency
     private val maxIndex = sideLength - 1 // constant for the given game field
@@ -28,7 +26,7 @@ internal class GameField(
      * returns beautiful & simple String representation of the current state of game field
      */
     internal fun prepareForPrintingIn2d(): String {
-        val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
+        val sb = StringBuilder(sideLength * (sideLength + 1))
         for (y in 0 until sideLength) {
             sb.append("\n")
             for (x in 0 until sideLength) {
