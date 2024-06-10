@@ -197,9 +197,9 @@ class InternalElementsTesting {
         game.makeMove(secondMark, playerX)
         game.printCurrentFieldIn2d()
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromFirstToSecond = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = game.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = game.chosenAlgorithm.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(2, lengthFromFirstToSecond)
         assertEquals(2, lengthFromSecondToFirst)
     }
@@ -213,9 +213,9 @@ class InternalElementsTesting {
         game.makeMove(firstMark, playerX)
         game.makeMove(secondMark, playerX)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromFirstToSecond = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = game.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = game.chosenAlgorithm.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(1, lengthFromFirstToSecond)
         assertEquals(1, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -232,9 +232,9 @@ class InternalElementsTesting {
         game.makeMove(secondMark, playerX)
         game.makeMove(connectingMark, playerX)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromFirstToSecond = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = game.gameField.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = game.chosenAlgorithm.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(3, lengthFromFirstToSecond)
         assertEquals(3, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -251,9 +251,9 @@ class InternalElementsTesting {
         game.makeMove(secondMark, playerX)
         game.makeMove(oneMoreMark, playerX)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromEdgeToEdge = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromEdgeToEdge = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromEdgeToEdgeOpposite = game.gameField.measureLineFrom(oneMoreMark, LineDirection.XmY0, 1)
+        val lengthFromEdgeToEdgeOpposite = game.chosenAlgorithm.measureLineFrom(oneMoreMark, LineDirection.XmY0, 1)
         assertEquals(3, lengthFromEdgeToEdge)
         assertEquals(3, lengthFromEdgeToEdgeOpposite)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -267,11 +267,11 @@ class InternalElementsTesting {
         val firstActivePlayer = PlayerProvider.activePlayer // should be player A
         game.makeMove(firstMark) // after this line active player is replaced with the next -> B
         Log.pl("measuring line from $firstMark for player: $firstActivePlayer in the forward direction:")
-        val lengthForPlayerA = game.gameField.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthForPlayerA = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         val secondActivePlayer = PlayerProvider.activePlayer // should be player B
         game.makeMove(secondMark) // after this line active player is replaced with the next -> A
         Log.pl("measuring line from $secondMark for player: $secondActivePlayer in the forward direction:")
-        val lengthForPlayerB = game.gameField.measureLineFrom(secondMark, LineDirection.XpY0, 1)
+        val lengthForPlayerB = game.chosenAlgorithm.measureLineFrom(secondMark, LineDirection.XpY0, 1)
         assertEquals(1, lengthForPlayerA)
         assertEquals(1, lengthForPlayerB)
         Log.pl(game.gameField.prepareForPrintingIn2d())

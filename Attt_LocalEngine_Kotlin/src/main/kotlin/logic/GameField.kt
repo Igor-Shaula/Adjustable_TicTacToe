@@ -46,9 +46,9 @@ internal class GameField(
      */
     internal fun getCurrentMarkAt(coordinates: Coordinates): AtttPlayer? = theMap[coordinates]
 
-    private fun containsTheSameMark(what: AtttPlayer?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
+    internal fun containsTheSameMark(what: AtttPlayer?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
 
-    private fun belongToTheSameRealPlayer(givenPlace: Coordinates, potentialSpot: Coordinates): Boolean {
+    internal fun belongToTheSameRealPlayer(givenPlace: Coordinates, potentialSpot: Coordinates): Boolean {
         val newMark = theMap[potentialSpot] // optimization to do finding in map only once
         return newMark != null && newMark != PlayerProvider.None && newMark == theMap[givenPlace]
     }
@@ -68,55 +68,4 @@ internal class GameField(
             // later we can also emit a custom exception here - to be caught on the UI side and ask for another point
             false // new mark is not placed because the space has been already occupied
         }
-
-    internal fun detectMaxLineLengthForNewMark(where: Coordinates): Int? =
-        detectAllExistingLineDirectionsFromThePlacedMark(where)
-            .maxOfOrNull { lineDirection ->
-                measureFullLengthForExistingLineFrom(where, lineDirection)
-            }
-
-    private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates): List<LineDirection> {
-        val checkedMark = getCurrentMarkAt(fromWhere)
-        if (checkedMark == null || checkedMark == PlayerProvider.None) {
-            return emptyList() // preventing from doing detection calculations for initially wrong Player
-        }
-        val allDirections = mutableListOf<LineDirection>()
-        LineDirection.entries.filter { it != LineDirection.None }.forEach { lineDirection ->
-            val nextCoordinates = fromWhere.getNextInTheDirection(lineDirection)
-            if (nextCoordinates.existsWithin(sideLength) && containsTheSameMark(checkedMark, nextCoordinates)) {
-                allDirections.add(lineDirection)
-                Log.pl("line exists in direction: $lineDirection")
-            }
-        }
-        return allDirections // is empty if no lines ae found in all possible directions
-    }
-
-    private fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
-        // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
-        // we also have a proven placed dot of the same player in the detected line direction.
-        // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
-        val checkedNearCoordinates = start.getTheNextSpaceFor(lineDirection, sideLength)
-        var lineTotalLength = 0
-        if (checkedNearCoordinates is Coordinates) {
-            lineTotalLength =
-                measureLineFrom(checkedNearCoordinates, lineDirection, 2) +
-                        measureLineFrom(start, lineDirection.opposite(), 0)
-            Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
-        } // else checkedNearCoordinates cannot be Border or anything else apart from Coordinates type
-        return lineTotalLength
-    }
-
-    internal fun measureLineFrom(givenMark: Coordinates, lineDirection: LineDirection, startingLength: Int): Int {
-        Log.pl("measureLineFrom: given startingLength: $startingLength")
-        Log.pl("measureLineFrom: given start coordinates: $givenMark")
-        // firstly let's measure in the given direction and then in the opposite, also recursively
-        val nextMark = givenMark.getTheNextSpaceFor(lineDirection, sideLength)
-        Log.pl("measureLineFrom: detected next coordinates: $nextMark")
-        return if (nextMark is Coordinates && belongToTheSameRealPlayer(givenMark, nextMark)) {
-            measureLineFrom(nextMark, lineDirection, startingLength + 1)
-        } else {
-            Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
-            startingLength
-        }
-    }
 }

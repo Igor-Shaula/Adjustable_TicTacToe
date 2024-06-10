@@ -11,7 +11,7 @@ internal data object Border : GameSpace
  * describes every place on the game field, later add 3rd dimension here.
  * coordinates for every axis (x & y for now) should exist only here.
  */
-internal data class Coordinates(val x: Int, val y: Int) : GameSpace {
+data class Coordinates(val x: Int, val y: Int) : GameSpace {
 
     /**
      * detects if given coordinates are correct in the currently active game field
