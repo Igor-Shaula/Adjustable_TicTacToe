@@ -288,7 +288,7 @@ class InternalElementsTesting {
         game.makeMove(theSameSpot, playerX)
         game.makeMove(theSameSpot, playerO)
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
-        assertEquals(playerX, game.gameField.getCurrentMarkAt(theSameSpot.x, theSameSpot.y))
+        assertEquals(playerX, game.gameField.getCurrentMarkAt(theSameSpot))
     }
 
     @Test
@@ -301,7 +301,7 @@ class InternalElementsTesting {
         game.makeMove(1, 1) // another attempt for the same player - this time successful
         assertEquals(playerO, PlayerProvider.activePlayer) // this time the next player is prepared for a move
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
-        assertEquals(playerX, game.gameField.getCurrentMarkAt(1, 1))
+        assertEquals(playerX, game.gameField.getCurrentMarkAt(Coordinates(1, 1)))
     }
 
     @Test

@@ -44,7 +44,7 @@ internal class GameField(
     /**
      * allows to see what's inside this game field space for the given coordinates
      */
-    internal fun getCurrentMarkAt(x: Int, y: Int): AtttPlayer? = theMap[Coordinates(x, y)]
+    internal fun getCurrentMarkAt(coordinates: Coordinates): AtttPlayer? = theMap[coordinates]
 
     private fun containsTheSameMark(what: AtttPlayer?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
 
@@ -76,8 +76,7 @@ internal class GameField(
             }
 
     private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates): List<LineDirection> {
-        Log.pl("checkPlacedMarkArea: x, y = ${fromWhere.x}, ${fromWhere.y}")
-        val checkedMark = getCurrentMarkAt(fromWhere.x, fromWhere.y)
+        val checkedMark = getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerProvider.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
         }
