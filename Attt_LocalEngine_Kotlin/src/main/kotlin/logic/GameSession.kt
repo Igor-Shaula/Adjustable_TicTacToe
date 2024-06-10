@@ -33,10 +33,13 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      * this is the only way for a client to make progress in the game.
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
-    override fun makeMove(x: Int, y: Int): AtttPlayer = if (gameField.isCorrectPosition(x, y)) {
-        makeMove(Coordinates(x, y))
-    } else {
-        PlayerProvider.activePlayer
+    override fun makeMove(x: Int, y: Int): AtttPlayer {
+        val requestedPosition = Coordinates(x, y)
+        return if (gameField.isCorrectPosition(requestedPosition)) {
+            makeMove(requestedPosition)
+        } else {
+            PlayerProvider.activePlayer
+        }
     }
 
     /**

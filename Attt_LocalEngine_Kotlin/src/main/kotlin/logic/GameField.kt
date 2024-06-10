@@ -39,7 +39,8 @@ internal class GameField(
     /**
      * detects if given coordinates are correct in the currently active game field
      */
-    internal fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
+    internal fun isCorrectPosition(coordinates: Coordinates): Boolean =
+        coordinates.x in 0 until sideLength && coordinates.y in 0 until sideLength
 
     /**
      * allows to see what's inside this game field space for the given coordinates
