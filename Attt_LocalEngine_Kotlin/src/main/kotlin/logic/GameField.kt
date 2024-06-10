@@ -1,6 +1,9 @@
 package logic
 
-import elements.*
+import elements.Coordinates
+import elements.LineDirection
+import elements.MAX_GAME_FIELD_SIDE_SIZE
+import elements.MIN_GAME_FIELD_SIDE_SIZE
 import publicApi.AtttPlayer
 import utilities.Log
 
@@ -11,8 +14,6 @@ internal class GameField(
     internal var sideLength: Int, // the only required parameter
 //    dimensions: Int = MIN_GAME_FIELD_DIMENSIONS // the simplest variant is 2d game
 ) {
-    private val minIndex = 0 // this is obvious but let it be here for consistency
-    private val maxIndex = sideLength - 1 // constant for the given game field
     private val theMap: MutableMap<Coordinates, AtttPlayer> = mutableMapOf() // initially empty to save memory
 
     init {
@@ -99,7 +100,7 @@ internal class GameField(
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
         // we also have a proven placed dot of the same player in the detected line direction.
         // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
-        val checkedNearCoordinates = getTheNextSafeSpaceFor(start, lineDirection)
+        val checkedNearCoordinates = start.getTheNextSpaceFor(lineDirection, sideLength)
         var lineTotalLength = 0
         if (checkedNearCoordinates is Coordinates) {
             lineTotalLength =
@@ -114,7 +115,7 @@ internal class GameField(
         Log.pl("measureLineFrom: given startingLength: $startingLength")
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
         // firstly let's measure in the given direction and then in the opposite, also recursively
-        val nextMark = getTheNextSafeSpaceFor(givenMark, lineDirection)
+        val nextMark = givenMark.getTheNextSpaceFor(lineDirection, sideLength)
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
         return if (nextMark is Coordinates && belongToTheSameRealPlayer(givenMark, nextMark)) {
             measureLineFrom(nextMark, lineDirection, startingLength + 1)
@@ -122,28 +123,5 @@ internal class GameField(
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength
         }
-    }
-
-    internal fun getTheNextSafeSpaceFor(start: Coordinates, lineDirection: LineDirection): GameSpace {
-        @Suppress("SimplifyBooleanWithConstants")
-        when {
-            false || // just for the following cases' alignment
-                    start.x <= minIndex && lineDirection == LineDirection.XmYm || // X is out of game field
-                    start.x <= minIndex && lineDirection == LineDirection.XmY0 || // X is out of game field
-                    start.x <= minIndex && lineDirection == LineDirection.XmYp || // X is out of game field
-                    start.y <= minIndex && lineDirection == LineDirection.XmYm || // Y is out of game field
-                    start.y <= minIndex && lineDirection == LineDirection.X0Ym || // Y is out of game field
-                    start.y <= minIndex && lineDirection == LineDirection.XpYm || // Y is out of game field
-                    start.x >= maxIndex && lineDirection == LineDirection.XpYm || // X is out of game field
-                    start.x >= maxIndex && lineDirection == LineDirection.XpY0 || // X is out of game field
-                    start.x >= maxIndex && lineDirection == LineDirection.XpYp || // X is out of game field
-                    start.y >= maxIndex && lineDirection == LineDirection.XmYp || // Y is out of game field
-                    start.y >= maxIndex && lineDirection == LineDirection.X0Yp || // Y is out of game field
-                    start.y >= maxIndex && lineDirection == LineDirection.XpYp -> // Y is out of game field
-                return Border
-        }
-        val nextX = start.x + lineDirection.dx
-        val nextY = start.y + lineDirection.dy
-        return Coordinates(nextX, nextY)
     }
 }
