@@ -18,7 +18,10 @@ internal data class Coordinates(val x: Int, val y: Int) : GameSpace {
      */
     internal fun existsWithin(sideLength: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
 
-    internal fun getNextInTheDirection(lineDirection: LineDirection) =
+    /**
+     * returns the next possible Coordinate within the given line direction
+     */
+    internal fun getNextInTheDirection(lineDirection: LineDirection): Coordinates =
         Coordinates(x + lineDirection.dx, y + lineDirection.dy)
 
     internal fun getTheNextSpaceFor(lineDirection: LineDirection, sideLength: Int): GameSpace {

@@ -64,6 +64,7 @@ internal object PlayerProvider {
             } else {
                 playersList[activePlayer.getId() + 1] // normal case in the middle of a game -> just pick the next one
             }
+        Log.pl("activePlayer is set to be: $activePlayer")
         return activePlayer
     }
 }
