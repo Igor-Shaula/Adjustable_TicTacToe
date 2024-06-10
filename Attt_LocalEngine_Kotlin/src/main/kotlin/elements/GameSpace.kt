@@ -7,11 +7,13 @@ internal sealed interface GameSpace
  */
 internal data object Border : GameSpace
 
+open class Coordinates(open val x: Int, open val y: Int) : GameSpace
+
 /**
  * describes every place on the game field, later add 3rd dimension here.
  * coordinates for every axis (x & y for now) should exist only here.
  */
-data class Coordinates(val x: Int, val y: Int) : GameSpace {
+data class CoordinatesXY(override val x: Int, override val y: Int) : Coordinates(x, y) {
 
     /**
      * detects if given coordinates are correct in the currently active game field
@@ -21,8 +23,8 @@ data class Coordinates(val x: Int, val y: Int) : GameSpace {
     /**
      * returns the next possible Coordinate within the given line direction
      */
-    internal fun getNextInTheDirection(lineDirection: LineDirection): Coordinates =
-        Coordinates(x + lineDirection.dx, y + lineDirection.dy)
+    internal fun getNextInTheDirection(lineDirection: LineDirection): CoordinatesXY =
+        CoordinatesXY(x + lineDirection.dx, y + lineDirection.dy)
 
     internal fun getTheNextSpaceFor(lineDirection: LineDirection, sideLength: Int): GameSpace {
         val minIndex = 0 // this is obvious but let it be here for consistency
@@ -43,6 +45,6 @@ data class Coordinates(val x: Int, val y: Int) : GameSpace {
                     y >= maxIndex && lineDirection == LineDirection.XpYp -> // Y is out of game field
                 return Border
         }
-        return Coordinates(x + lineDirection.dx, y + lineDirection.dy)
+        return CoordinatesXY(x + lineDirection.dx, y + lineDirection.dy)
     }
 }
