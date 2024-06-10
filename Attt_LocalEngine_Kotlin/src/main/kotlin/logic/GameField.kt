@@ -46,9 +46,9 @@ internal class GameField(
      */
     internal fun getCurrentMarkAt(coordinates: Coordinates): AtttPlayer? = theMap[coordinates]
 
-    private fun containsTheSameMark(what: AtttPlayer?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
+    internal fun containsTheSameMark(what: AtttPlayer?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
 
-    private fun belongToTheSameRealPlayer(givenPlace: Coordinates, potentialSpot: Coordinates): Boolean {
+    internal fun belongToTheSameRealPlayer(givenPlace: Coordinates, potentialSpot: Coordinates): Boolean {
         val newMark = theMap[potentialSpot] // optimization to do finding in map only once
         return newMark != null && newMark != PlayerProvider.None && newMark == theMap[givenPlace]
     }
