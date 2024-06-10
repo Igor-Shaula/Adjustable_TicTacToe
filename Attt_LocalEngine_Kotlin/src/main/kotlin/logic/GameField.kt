@@ -1,9 +1,6 @@
 package logic
 
-import elements.Coordinates
-import elements.LineDirection
-import elements.MAX_GAME_FIELD_SIDE_SIZE
-import elements.MIN_GAME_FIELD_SIDE_SIZE
+import elements.*
 import publicApi.AtttPlayer
 import utilities.Log
 
@@ -36,9 +33,9 @@ internal class GameField(
     internal fun prepareForPrintingIn2d(): String {
         val sb = StringBuilder(sideLength * (sideLength + 1))
         for (y in 0 until sideLength) {
-            sb.append("\n")
+            sb.append(SYMBOL_FOR_NEW_LINE)
             for (x in 0 until sideLength) {
-                sb.append(theMap[Coordinates(x, y)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK).append(' ')
+                sb.append(theMap[Coordinates(x, y)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK).append(SYMBOL_FOR_DIVIDER)
             }
         }
         return sb.toString()
