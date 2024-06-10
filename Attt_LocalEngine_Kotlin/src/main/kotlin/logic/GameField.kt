@@ -76,10 +76,8 @@ internal class GameField(
             }
 
     private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates): List<LineDirection> {
-        val x = fromWhere.x
-        val y = fromWhere.y
-        Log.pl("checkPlacedMarkArea: x, y = $x, $y")
-        val checkedMark = getCurrentMarkAt(x, y)
+        Log.pl("checkPlacedMarkArea: x, y = ${fromWhere.x}, ${fromWhere.y}")
+        val checkedMark = getCurrentMarkAt(fromWhere.x, fromWhere.y)
         if (checkedMark == null || checkedMark == PlayerProvider.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
         }
@@ -87,9 +85,8 @@ internal class GameField(
         LineDirection.entries
             .filter { it != LineDirection.None }
             .forEach { lineDirection ->
-                val newX = x + lineDirection.dx
-                val newY = y + lineDirection.dy
-                if (isCorrectPosition(newX, newY) && containsTheSameMark(checkedMark, Coordinates(newX, newY))) {
+                val nextCoordinates = fromWhere.getNextInTheDirection(lineDirection)
+                if (isCorrectPosition(nextCoordinates) && containsTheSameMark(checkedMark, nextCoordinates)) {
                     allDirections.add(lineDirection)
                     Log.pl("line exists in direction: $lineDirection")
                 }
