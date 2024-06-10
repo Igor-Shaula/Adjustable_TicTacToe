@@ -16,6 +16,8 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
+    internal val chosenAlgorithm = LineDirectionBasedCalculation(gameField)
+
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
         PlayerProvider.presetNextPlayer() // this invocation sets the activePlayer to the starting Player among others
@@ -47,7 +49,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      */
     internal fun makeMove(where: Coordinates, what: AtttPlayer = PlayerProvider.activePlayer): AtttPlayer =
         if (gameField.placeNewMark(where, what)) {
-            gameField.detectMaxLineLengthForNewMark(where)?.let {
+            chosenAlgorithm.getMaxLengthAchievedForThisMove(where)?.let {
                 Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $it")
                 (what as Player).tryToSetMaxLineLength(it) // this cast is secure as Player is direct inheritor to AtttPlayer
                 updateGameScore(what, it)
