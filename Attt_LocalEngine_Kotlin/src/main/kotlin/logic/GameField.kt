@@ -38,12 +38,6 @@ internal class GameField(
     }
 
     /**
-     * detects if given coordinates are correct in the currently active game field
-     */
-    internal fun isCorrectPosition(coordinates: Coordinates): Boolean =
-        coordinates.x in 0 until sideLength && coordinates.y in 0 until sideLength
-
-    /**
      * allows to see what's inside this game field space for the given coordinates
      */
     internal fun getCurrentMarkAt(x: Int, y: Int): AtttPlayer? = theMap[Coordinates(x, y)]
@@ -84,15 +78,13 @@ internal class GameField(
             return emptyList() // preventing from doing detection calculations for initially wrong Player
         }
         val allDirections = mutableListOf<LineDirection>()
-        LineDirection.entries
-            .filter { it != LineDirection.None }
-            .forEach { lineDirection ->
-                val nextCoordinates = fromWhere.getNextInTheDirection(lineDirection)
-                if (isCorrectPosition(nextCoordinates) && containsTheSameMark(checkedMark, nextCoordinates)) {
-                    allDirections.add(lineDirection)
-                    Log.pl("line exists in direction: $lineDirection")
-                }
+        LineDirection.entries.filter { it != LineDirection.None }.forEach { lineDirection ->
+            val nextCoordinates = fromWhere.getNextInTheDirection(lineDirection)
+            if (nextCoordinates.existsWithin(sideLength) && containsTheSameMark(checkedMark, nextCoordinates)) {
+                allDirections.add(lineDirection)
+                Log.pl("line exists in direction: $lineDirection")
             }
+        }
         return allDirections // is empty if no lines ae found in all possible directions
     }
 

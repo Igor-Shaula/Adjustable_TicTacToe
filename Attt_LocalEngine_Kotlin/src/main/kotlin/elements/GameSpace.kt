@@ -13,6 +13,11 @@ internal data object Border : GameSpace
  */
 internal data class Coordinates(val x: Int, val y: Int) : GameSpace {
 
+    /**
+     * detects if given coordinates are correct in the currently active game field
+     */
+    internal fun existsWithin(sideLength: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
+
     internal fun getNextInTheDirection(lineDirection: LineDirection) =
         Coordinates(x + lineDirection.dx, y + lineDirection.dy)
 

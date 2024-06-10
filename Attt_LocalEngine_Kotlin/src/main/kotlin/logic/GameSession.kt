@@ -35,7 +35,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      */
     override fun makeMove(x: Int, y: Int): AtttPlayer {
         val requestedPosition = Coordinates(x, y)
-        return if (gameField.isCorrectPosition(requestedPosition)) {
+        return if (requestedPosition.existsWithin(gameField.sideLength)) {
             makeMove(requestedPosition)
         } else {
             PlayerProvider.activePlayer
