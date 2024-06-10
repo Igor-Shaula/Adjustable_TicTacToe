@@ -7,46 +7,51 @@ import utilities.Log
 /**
  * represents the area/space where all players' marks are placed and exist through one active game session
  */
-@Suppress("UNUSED_PARAMETER")
 internal class GameField(
-    internal var sideLength: Int, // the only required parameter
-    dimensions: Int = MIN_GAME_FIELD_DIMENSIONS, // simplest variant of a 2d game
-    numberOfPlayers: Int = MIN_NUMBER_OF_PLAYERS, // this is obvious, can't be less
+    sideLength: Int, // the only required parameter, by the way it's impossible to add private setter here
+//    dimensions: Int = MIN_GAME_FIELD_DIMENSIONS // the simplest variant is 2d game
 ) {
-    private val minIndex = 0 // this is obvious but let it be here for consistency
-    private val maxIndex = sideLength - 1 // constant for the given game field
-    private val theMap: MutableMap<Coordinates, AtttPlayer> = mutableMapOf() // needs to be configured later
+    internal var sideLength = 42 // for some specifics of Kotlin this value is correctly set only inside init-block
+        private set(value) { // I'm doing this for prevent from changing anywhere outside this class
+            // here we're applying all possible corrections that may be needed to keep the game rules reasonable
+            field = if (value > MAX_GAME_FIELD_SIDE_SIZE) MAX_GAME_FIELD_SIDE_SIZE
+            else if (value < MIN_GAME_FIELD_SIDE_SIZE) MIN_GAME_FIELD_SIDE_SIZE
+            else value
+            Log.pl("sideLength setter: initial value = $value, assigned to the field: $field")
+        }
 
     init {
-        // here we're doing possible corrections that may be needed to keep the game rules reasonable
-        if (sideLength > MAX_GAME_FIELD_SIDE_SIZE) sideLength = MAX_GAME_FIELD_SIDE_SIZE
-        else if (sideLength < MIN_GAME_FIELD_SIDE_SIZE) sideLength = MIN_GAME_FIELD_SIDE_SIZE
-        // let's NOT initialize the initial field for the game to save memory & speed-up new game start
+        this.sideLength = sideLength // this is not obvious but absolutely needed here - proven by tests
     }
+
+    // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
+    private val theMap: MutableMap<Coordinates, AtttPlayer> = mutableMapOf() // initially empty to save memory
 
     /**
      * returns beautiful & simple String representation of the current state of game field
      */
     internal fun prepareForPrintingIn2d(): String {
-        val sb: StringBuilder = StringBuilder(sideLength * (sideLength + 1))
+        val sb = StringBuilder(sideLength * (sideLength + 1))
         for (y in 0 until sideLength) {
-            sb.append("\n")
+            sb.append(SYMBOL_FOR_NEW_LINE)
             for (x in 0 until sideLength) {
-                sb.append(theMap[Coordinates(x, y)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK).append(' ')
+                sb.append(theMap[Coordinates(x, y)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK).append(SYMBOL_FOR_DIVIDER)
             }
         }
         return sb.toString()
     }
 
     /**
-     * detects if given coordinates are correct in the currently active game field
-     */
-    internal fun isCorrectPosition(x: Int, y: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
-
-    /**
      * allows to see what's inside this game field space for the given coordinates
      */
     internal fun getCurrentMarkAt(x: Int, y: Int): AtttPlayer? = theMap[Coordinates(x, y)]
+
+    private fun containsTheSameMark(what: AtttPlayer?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
+
+    private fun belongToTheSameRealPlayer(givenPlace: Coordinates, potentialSpot: Coordinates): Boolean {
+        val newMark = theMap[potentialSpot] // optimization to do finding in map only once
+        return newMark != null && newMark != PlayerProvider.None && newMark == theMap[givenPlace]
+    }
 
     /**
      * ensures that the game field has correct size & is clear, so it is safe to use it for a new game
@@ -55,7 +60,7 @@ internal class GameField(
         sideLength in MIN_GAME_FIELD_SIDE_SIZE..MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
 
     internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
-        if (theMap[where] == PlayerProvider.None || theMap[where] == null) {
+        if (theMap[where] == null || theMap[where] == PlayerProvider.None) { // PlayerProvider.None - to ensure all cases
             theMap[where] = what
             true // new mark is successfully placed
         } else {
@@ -64,33 +69,34 @@ internal class GameField(
             false // new mark is not placed because the space has been already occupied
         }
 
-    internal fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates): List<LineDirection> {
-        val x = fromWhere.x
-        val y = fromWhere.y
-        Log.pl("checkPlacedMarkArea: x, y = $x, $y")
-        val what = getCurrentMarkAt(x, y) ?: return emptyList()
-        val allDirections = mutableListOf<LineDirection>()
-        LineDirection.entries
-            .filter { it != LineDirection.None }
-            .forEach { lineDirection ->
-                val newX = x + lineDirection.dx
-                val newY = y + lineDirection.dy
-                if (isCorrectPosition(newX, newY) && checkIf2MarksAreOfTheSamePlayer(newX, newY, what)) {
-                    allDirections.add(lineDirection)
-                    Log.pl("line exists in direction: $lineDirection")
-                }
+    internal fun detectMaxLineLengthForNewMark(where: Coordinates): Int? =
+        detectAllExistingLineDirectionsFromThePlacedMark(where)
+            .maxOfOrNull { lineDirection ->
+                measureFullLengthForExistingLineFrom(where, lineDirection)
             }
-        return allDirections
+
+    private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates): List<LineDirection> {
+        Log.pl("checkPlacedMarkArea: x, y = ${fromWhere.x}, ${fromWhere.y}")
+        val checkedMark = getCurrentMarkAt(fromWhere.x, fromWhere.y)
+        if (checkedMark == null || checkedMark == PlayerProvider.None) {
+            return emptyList() // preventing from doing detection calculations for initially wrong Player
+        }
+        val allDirections = mutableListOf<LineDirection>()
+        LineDirection.entries.filter { it != LineDirection.None }.forEach { lineDirection ->
+            val nextCoordinates = fromWhere.getNextInTheDirection(lineDirection)
+            if (nextCoordinates.existsWithin(sideLength) && containsTheSameMark(checkedMark, nextCoordinates)) {
+                allDirections.add(lineDirection)
+                Log.pl("line exists in direction: $lineDirection")
+            }
+        }
+        return allDirections // is empty if no lines ae found in all possible directions
     }
 
-    private fun checkIf2MarksAreOfTheSamePlayer(x: Int, y: Int, what: AtttPlayer) =
-        what == theMap[Coordinates(x, y)]
-
-    internal fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
+    private fun measureFullLengthForExistingLineFrom(start: Coordinates, lineDirection: LineDirection): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
         // we also have a proven placed dot of the same player in the detected line direction.
         // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
-        val checkedNearCoordinates = getTheNextSafeSpaceFor(start, lineDirection)
+        val checkedNearCoordinates = start.getTheNextSpaceFor(lineDirection, sideLength)
         var lineTotalLength = 0
         if (checkedNearCoordinates is Coordinates) {
             lineTotalLength =
@@ -105,36 +111,13 @@ internal class GameField(
         Log.pl("measureLineFrom: given startingLength: $startingLength")
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
         // firstly let's measure in the given direction and then in the opposite, also recursively
-        val nextMark = getTheNextSafeSpaceFor(givenMark, lineDirection)
+        val nextMark = givenMark.getTheNextSpaceFor(lineDirection, sideLength)
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
-        return if (nextMark is Coordinates && theMap[givenMark] == theMap[nextMark]) {
+        return if (nextMark is Coordinates && belongToTheSameRealPlayer(givenMark, nextMark)) {
             measureLineFrom(nextMark, lineDirection, startingLength + 1)
         } else {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength
         }
-    }
-
-    internal fun getTheNextSafeSpaceFor(start: Coordinates, lineDirection: LineDirection): GameSpace {
-        @Suppress("SimplifyBooleanWithConstants")
-        when {
-            false || // just for the following cases' alignment
-                    start.x <= minIndex && lineDirection == LineDirection.XmYm || // X is out of game field
-                    start.x <= minIndex && lineDirection == LineDirection.XmY0 || // X is out of game field
-                    start.x <= minIndex && lineDirection == LineDirection.XmYp || // X is out of game field
-                    start.y <= minIndex && lineDirection == LineDirection.XmYm || // Y is out of game field
-                    start.y <= minIndex && lineDirection == LineDirection.X0Ym || // Y is out of game field
-                    start.y <= minIndex && lineDirection == LineDirection.XpYm || // Y is out of game field
-                    start.x >= maxIndex && lineDirection == LineDirection.XpYm || // X is out of game field
-                    start.x >= maxIndex && lineDirection == LineDirection.XpY0 || // X is out of game field
-                    start.x >= maxIndex && lineDirection == LineDirection.XpYp || // X is out of game field
-                    start.y >= maxIndex && lineDirection == LineDirection.XmYp || // Y is out of game field
-                    start.y >= maxIndex && lineDirection == LineDirection.X0Yp || // Y is out of game field
-                    start.y >= maxIndex && lineDirection == LineDirection.XpYp -> // Y is out of game field
-                return Border
-        }
-        val nextX = start.x + lineDirection.dx
-        val nextY = start.y + lineDirection.dy
-        return Coordinates(nextX, nextY)
     }
 }

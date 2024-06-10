@@ -23,7 +23,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
 internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
     // as gameField is a stateful object - we have to reset it every time before a new test
     val game = GameSession(3, 3, 2)
-    val nextSpot = game.gameField.getTheNextSafeSpaceFor(startSpot, direction)
+    val nextSpot = startSpot.getTheNextSpaceFor(direction, game.gameField.sideLength)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
         // lowest limit for X axis
