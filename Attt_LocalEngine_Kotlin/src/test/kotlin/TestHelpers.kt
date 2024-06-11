@@ -1,5 +1,6 @@
 import elements.Border
 import elements.Coordinates
+import elements.CoordinatesXY
 import elements.LineDirection
 import logic.GameSession
 import utilities.Log
@@ -7,7 +8,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
+internal fun checkTheNextSpotDetectionBlock(startSpot: CoordinatesXY) {
     Log.pl("\ncheckTheNextSpotDetectionBlock for given spot: $startSpot:")
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmY0)
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpY0)
@@ -20,7 +21,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: Coordinates) {
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.None)
 }
 
-internal fun checkTheNextSpotDetectionForLineDirection(startSpot: Coordinates, direction: LineDirection) {
+internal fun checkTheNextSpotDetectionForLineDirection(startSpot: CoordinatesXY, direction: LineDirection) {
     // as gameField is a stateful object - we have to reset it every time before a new test
     val game = GameSession(3, 3, 2)
     val nextSpot = startSpot.getTheNextSpaceFor(direction, game.gameField.sideLength)
