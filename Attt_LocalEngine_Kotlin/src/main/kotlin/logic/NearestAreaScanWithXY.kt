@@ -5,7 +5,7 @@ import elements.CoordinatesXY
 import elements.LineDirection
 import utilities.Log
 
-internal class LineDirectionBasedCalculation(private val gameField: GameField) : OneMoveProcessing {
+internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMoveProcessing {
 
     override fun getMaxLengthAchievedForThisMove(where: Coordinates): Int? {
         if (where !is CoordinatesXY) return null
