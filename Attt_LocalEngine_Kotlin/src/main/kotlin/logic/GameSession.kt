@@ -16,7 +16,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
-    internal val chosenAlgorithm = LineDirectionBasedCalculation(gameField)
+    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith2D(gameField)
 
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
@@ -36,7 +36,8 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
     override fun makeMove(x: Int, y: Int): AtttPlayer {
-        val requestedPosition = Coordinates(x, y)
+        Log.pl("makeMove: x = $x, y = $y")
+        val requestedPosition = chosenAlgorithm.getCoordinatesFor(x, y)
         return if (requestedPosition.existsWithin(gameField.sideLength)) {
             makeMove(requestedPosition)
         } else {
