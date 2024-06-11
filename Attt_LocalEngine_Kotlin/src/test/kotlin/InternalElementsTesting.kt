@@ -1,8 +1,9 @@
-import elements.Coordinates
+import elements.CoordinatesXY
 import elements.LineDirection
 import elements.MAX_GAME_FIELD_SIDE_SIZE
 import elements.MIN_GAME_FIELD_SIDE_SIZE
 import logic.GameSession
+import logic.NearestAreaScanWithXY
 import logic.PlayerProvider
 import utilities.Log
 import kotlin.test.*
@@ -190,16 +191,17 @@ class InternalElementsTesting {
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
         val game = GameSession(3, 3, 2)
-        val firstMark = Coordinates(0, 0)
-        val secondMark = Coordinates(1, 0)
+        val firstMark = CoordinatesXY(0, 0)
+        val secondMark = CoordinatesXY(1, 0)
         val playerX = PlayerProvider.playersList[0]
         game.makeMove(firstMark, playerX)
         game.makeMove(secondMark, playerX)
         game.printCurrentFieldIn2d()
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val algorithmForXY = NearestAreaScanWithXY(game.gameField)
+        val lengthFromFirstToSecond = algorithmForXY.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = game.chosenAlgorithm.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = algorithmForXY.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(2, lengthFromFirstToSecond)
         assertEquals(2, lengthFromSecondToFirst)
     }
@@ -207,15 +209,16 @@ class InternalElementsTesting {
     @Test
     fun having3x3Field_2RemoteMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
         val game = GameSession(3, 3, 2)
-        val firstMark = Coordinates(0, 0)
-        val secondMark = Coordinates(2, 0)
+        val firstMark = CoordinatesXY(0, 0)
+        val secondMark = CoordinatesXY(2, 0)
         val playerX = PlayerProvider.playersList[0]
         game.makeMove(firstMark, playerX)
         game.makeMove(secondMark, playerX)
+        val algorithmForXY = NearestAreaScanWithXY(game.gameField)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromFirstToSecond = algorithmForXY.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = game.chosenAlgorithm.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = algorithmForXY.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(1, lengthFromFirstToSecond)
         assertEquals(1, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -224,17 +227,18 @@ class InternalElementsTesting {
     @Test
     fun having3x3Field_2RemoteMarksOfTheSamePlayerAreConnected_detectedLineLengthIsCorrect() {
         val game = GameSession(3, 3, 2)
-        val firstMark = Coordinates(0, 0)
-        val secondMark = Coordinates(2, 0)
-        val connectingMark = Coordinates(1, 0)
+        val firstMark = CoordinatesXY(0, 0)
+        val secondMark = CoordinatesXY(2, 0)
+        val connectingMark = CoordinatesXY(1, 0)
         val playerX = PlayerProvider.playersList[0]
         game.makeMove(firstMark, playerX)
         game.makeMove(secondMark, playerX)
         game.makeMove(connectingMark, playerX)
+        val algorithmForXY = NearestAreaScanWithXY(game.gameField)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromFirstToSecond = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromFirstToSecond = algorithmForXY.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromSecondToFirst = game.chosenAlgorithm.measureLineFrom(secondMark, LineDirection.XmY0, 1)
+        val lengthFromSecondToFirst = algorithmForXY.measureLineFrom(secondMark, LineDirection.XmY0, 1)
         assertEquals(3, lengthFromFirstToSecond)
         assertEquals(3, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -243,17 +247,18 @@ class InternalElementsTesting {
     @Test
     fun having3x3Field_2AdjacentMarksOfTheSamePlayerAreAddedWithOneMoreMark_detectedLineLengthIsCorrect() {
         val game = GameSession(3, 3, 2)
-        val firstMark = Coordinates(0, 0)
-        val secondMark = Coordinates(1, 0)
-        val oneMoreMark = Coordinates(2, 0)
+        val firstMark = CoordinatesXY(0, 0)
+        val secondMark = CoordinatesXY(1, 0)
+        val oneMoreMark = CoordinatesXY(2, 0)
         val playerX = PlayerProvider.playersList[0]
         game.makeMove(firstMark, playerX)
         game.makeMove(secondMark, playerX)
         game.makeMove(oneMoreMark, playerX)
+        val algorithmForXY = NearestAreaScanWithXY(game.gameField)
         Log.pl("measuring line from $firstMark in the forward direction:")
-        val lengthFromEdgeToEdge = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthFromEdgeToEdge = algorithmForXY.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         Log.pl("measuring line from $firstMark in the opposite direction:")
-        val lengthFromEdgeToEdgeOpposite = game.chosenAlgorithm.measureLineFrom(oneMoreMark, LineDirection.XmY0, 1)
+        val lengthFromEdgeToEdgeOpposite = algorithmForXY.measureLineFrom(oneMoreMark, LineDirection.XmY0, 1)
         assertEquals(3, lengthFromEdgeToEdge)
         assertEquals(3, lengthFromEdgeToEdgeOpposite)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
@@ -262,16 +267,17 @@ class InternalElementsTesting {
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByDifferentPlayers_noLineIsCreatedForAnyPlayer() {
         val game = GameSession(3, 3, 2)
-        val firstMark = Coordinates(0, 0)
-        val secondMark = Coordinates(1, 0)
+        val firstMark = CoordinatesXY(0, 0)
+        val secondMark = CoordinatesXY(1, 0)
         val firstActivePlayer = PlayerProvider.activePlayer // should be player A
+        val algorithmForXY = NearestAreaScanWithXY(game.gameField)
         game.makeMove(firstMark) // after this line active player is replaced with the next -> B
         Log.pl("measuring line from $firstMark for player: $firstActivePlayer in the forward direction:")
-        val lengthForPlayerA = game.chosenAlgorithm.measureLineFrom(firstMark, LineDirection.XpY0, 1)
+        val lengthForPlayerA = algorithmForXY.measureLineFrom(firstMark, LineDirection.XpY0, 1)
         val secondActivePlayer = PlayerProvider.activePlayer // should be player B
         game.makeMove(secondMark) // after this line active player is replaced with the next -> A
         Log.pl("measuring line from $secondMark for player: $secondActivePlayer in the forward direction:")
-        val lengthForPlayerB = game.chosenAlgorithm.measureLineFrom(secondMark, LineDirection.XpY0, 1)
+        val lengthForPlayerB = algorithmForXY.measureLineFrom(secondMark, LineDirection.XpY0, 1)
         assertEquals(1, lengthForPlayerA)
         assertEquals(1, lengthForPlayerB)
         Log.pl(game.gameField.prepareForPrintingIn2d())
