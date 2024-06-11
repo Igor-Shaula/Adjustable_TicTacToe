@@ -1,7 +1,7 @@
 import elements.Border
 import elements.Coordinates
 import elements.CoordinatesXY
-import elements.LineDirection
+import elements.LineDirectionForXY
 import logic.GameSession
 import utilities.Log
 import kotlin.test.assertEquals
@@ -10,34 +10,34 @@ import kotlin.test.assertTrue
 
 internal fun checkTheNextSpotDetectionBlock(startSpot: CoordinatesXY) {
     Log.pl("\ncheckTheNextSpotDetectionBlock for given spot: $startSpot:")
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmY0)
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpY0)
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.X0Ym)
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.X0Yp)
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmYm)
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpYp)
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XmYp)
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.XpYm)
-    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirection.None)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.XmY0)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.XpY0)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.X0Ym)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.X0Yp)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.XmYm)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.XpYp)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.XmYp)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.XpYm)
+    checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.None)
 }
 
-internal fun checkTheNextSpotDetectionForLineDirection(startSpot: CoordinatesXY, direction: LineDirection) {
+internal fun checkTheNextSpotDetectionForLineDirection(startSpot: CoordinatesXY, direction: LineDirectionForXY) {
     // as gameField is a stateful object - we have to reset it every time before a new test
     val game = GameSession(3, 3, 2)
     val nextSpot = startSpot.getTheNextSpaceFor(direction, game.gameField.sideLength)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
         // lowest limit for X axis
-        startSpot.x == 0 && (direction == LineDirection.XmYm || direction == LineDirection.XmY0 || direction == LineDirection.XmYp)
+        startSpot.x == 0 && (direction == LineDirectionForXY.XmYm || direction == LineDirectionForXY.XmY0 || direction == LineDirectionForXY.XmYp)
         -> assertEquals(Border, nextSpot)
         // lowest limit for Y axis
-        startSpot.y == 0 && (direction == LineDirection.XmYm || direction == LineDirection.X0Ym || direction == LineDirection.XpYm)
+        startSpot.y == 0 && (direction == LineDirectionForXY.XmYm || direction == LineDirectionForXY.X0Ym || direction == LineDirectionForXY.XpYm)
         -> assertEquals(Border, nextSpot)
         // highest limit for X axis
-        startSpot.x == 2 && (direction == LineDirection.XpYm || direction == LineDirection.XpY0 || direction == LineDirection.XpYp)
+        startSpot.x == 2 && (direction == LineDirectionForXY.XpYm || direction == LineDirectionForXY.XpY0 || direction == LineDirectionForXY.XpYp)
         -> assertEquals(Border, nextSpot)
         // highest limit for Y axis
-        startSpot.y == 2 && (direction == LineDirection.XmYp || direction == LineDirection.X0Yp || direction == LineDirection.XpYp)
+        startSpot.y == 2 && (direction == LineDirectionForXY.XmYp || direction == LineDirectionForXY.X0Yp || direction == LineDirectionForXY.XpYp)
         -> assertEquals(Border, nextSpot)
         // right in the center -> adjacent spot exists in any direction
         startSpot.x == 1 && startSpot.y == 1
