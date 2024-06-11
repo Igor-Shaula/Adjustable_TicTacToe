@@ -4,10 +4,7 @@ import elements.Coordinates
 import elements.LineDirection
 import utilities.Log
 
-interface OneMoveProcessing {
 
-    fun getMaxLengthAchievedForThisMove(where: Coordinates): Int?
-}
 
 internal class LineDirectionBasedCalculation(private val gameField: GameField) : OneMoveProcessing {
 
