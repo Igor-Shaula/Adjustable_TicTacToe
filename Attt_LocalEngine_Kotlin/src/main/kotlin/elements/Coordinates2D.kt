@@ -1,6 +1,6 @@
 package elements
 
-// extensible alternative for Coordinates
+// extensible alternative for CoordinatesXY
 data class Coordinates2D(val xAxis: OneAxis, val yAxis: OneAxis) : Coordinates(xAxis.l, yAxis.l) {
 
     constructor(x: Int, y: Int) : this(OneAxis(x), OneAxis(y))
@@ -9,11 +9,9 @@ data class Coordinates2D(val xAxis: OneAxis, val yAxis: OneAxis) : Coordinates(x
         xAxis.l in 0 until sideLength && yAxis.l in 0 until sideLength
 
     internal fun getNextInTheDirection(
-        xAxisDirection: LineDirectionForOneAxis,
-        yAxisDirection: LineDirectionForOneAxis
-    ) = Coordinates2D(
-        OneAxis(xAxis.l + xAxisDirection.deltaOne),
-        OneAxis(yAxis.l + yAxisDirection.deltaOne)
+        xAxisDirection: LineDirectionForOneAxis, yAxisDirection: LineDirectionForOneAxis
+    ) = Coordinates2D( // should be exactly Coordinates2D
+        OneAxis(xAxis.l + xAxisDirection.deltaOne), OneAxis(yAxis.l + yAxisDirection.deltaOne)
     )
 
     internal fun getTheNextSpaceFor(
@@ -31,8 +29,7 @@ data class Coordinates2D(val xAxis: OneAxis, val yAxis: OneAxis) : Coordinates(x
                 return Border
         }
         return Coordinates2D(
-            OneAxis(xAxis.l + xAxisDirection.deltaOne),
-            OneAxis(yAxis.l + yAxisDirection.deltaOne)
+            OneAxis(xAxis.l + xAxisDirection.deltaOne), OneAxis(yAxis.l + yAxisDirection.deltaOne)
         )
     }
 }

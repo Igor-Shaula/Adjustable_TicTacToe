@@ -14,7 +14,7 @@ data class CoordinatesXY(override val x: Int, override val y: Int) : Coordinates
     /**
      * returns the next possible Coordinate within the given line direction
      */
-    internal fun getNextInTheDirection(lineDirection: LineDirection): CoordinatesXY =
+    internal fun getNextInTheDirection(lineDirection: LineDirection): CoordinatesXY = // should be exactly CoordinatesXY
         CoordinatesXY(x + lineDirection.dx, y + lineDirection.dy)
 
     internal fun getTheNextSpaceFor(lineDirection: LineDirection, sideLength: Int): GameSpace {
