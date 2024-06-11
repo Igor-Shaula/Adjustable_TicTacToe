@@ -10,13 +10,14 @@ import utilities.Log
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
-@Suppress("unused", "MemberVisibilityCanBePrivate")
 class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int) : AtttGame {
 
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
-    internal val chosenAlgorithm = LineDirectionBasedCalculation(gameField)
+    // the only place for switching between kinds of algorithms for every move processing
+    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith2D(gameField)
+//    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(gameField)
 
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
@@ -36,7 +37,8 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
     override fun makeMove(x: Int, y: Int): AtttPlayer {
-        val requestedPosition = Coordinates(x, y)
+        Log.pl("makeMove: x = $x, y = $y")
+        val requestedPosition = chosenAlgorithm.getCoordinatesFor(x, y)
         return if (requestedPosition.existsWithin(gameField.sideLength)) {
             makeMove(requestedPosition)
         } else {
