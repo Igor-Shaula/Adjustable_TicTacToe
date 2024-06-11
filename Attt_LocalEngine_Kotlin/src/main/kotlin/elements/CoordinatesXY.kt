@@ -7,11 +7,6 @@ package elements
 data class CoordinatesXY(override val x: Int, override val y: Int) : Coordinates(x, y) {
 
     /**
-     * detects if given coordinates are correct in the currently active game field
-     */
-    internal fun existsWithin(sideLength: Int): Boolean = x in 0 until sideLength && y in 0 until sideLength
-
-    /**
      * returns the next possible Coordinate within the given line direction
      */
     internal fun getNextInTheDirection(lineDirection: LineDirection): CoordinatesXY = // should be exactly CoordinatesXY
