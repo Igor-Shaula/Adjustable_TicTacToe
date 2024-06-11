@@ -172,15 +172,15 @@ class InternalElementsTesting {
      */
     @Test
     fun having3x3Field_1MarkSet_adjacentMarkDetectionLogicIsCorrect() {
-        checkTheNextSpotDetectionBlock(Coordinates(0, 0))
-        checkTheNextSpotDetectionBlock(Coordinates(0, 1))
-        checkTheNextSpotDetectionBlock(Coordinates(0, 2))
-        checkTheNextSpotDetectionBlock(Coordinates(1, 0))
-        checkTheNextSpotDetectionBlock(Coordinates(1, 1))
-        checkTheNextSpotDetectionBlock(Coordinates(1, 2))
-        checkTheNextSpotDetectionBlock(Coordinates(2, 0))
-        checkTheNextSpotDetectionBlock(Coordinates(2, 1))
-        checkTheNextSpotDetectionBlock(Coordinates(2, 2))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(0, 0))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(0, 1))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(0, 2))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(1, 0))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(1, 1))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(1, 2))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(2, 0))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(2, 1))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(2, 2))
     }
 
     // endregion line direction & next spot detection
@@ -282,7 +282,7 @@ class InternalElementsTesting {
     @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
         val game = GameSession(3, 3, 2)
-        val theSameSpot = Coordinates(1, 1)
+        val theSameSpot = game.chosenAlgorithm.getCoordinatesFor(1, 1)
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
         game.makeMove(theSameSpot, playerX)
@@ -301,16 +301,16 @@ class InternalElementsTesting {
         game.makeMove(1, 1) // another attempt for the same player - this time successful
         assertEquals(playerO, PlayerProvider.activePlayer) // this time the next player is prepared for a move
         Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
-        assertEquals(playerX, game.gameField.getCurrentMarkAt(Coordinates(1, 1)))
+        assertEquals(playerX, game.gameField.getCurrentMarkAt(game.chosenAlgorithm.getCoordinatesFor(1, 1)))
     }
 
     @Test
     fun having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect() {
         val game = GameSession(3, 3, 2)
         val playerX = PlayerProvider.playersList[0]
-        game.makeMove(Coordinates(0, 0), playerX)
-        game.makeMove(Coordinates(1, 0), playerX)
-        game.makeMove(Coordinates(2, 0), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 0), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
         // gameField & winning message for player A is printed in the console
         assertEquals(playerX, game.getWinner())
         assertEquals(3, game.getWinner().getMaxLineLength())
@@ -321,12 +321,13 @@ class InternalElementsTesting {
         val game = GameSession(5, 5, 2)
         val playerX = PlayerProvider.playersList[0]
         Log.pl("\ntest5x5Field: gameEngine ready with given field: ${game.gameField.prepareForPrintingIn2d()}")
-        game.makeMove(Coordinates(0, 0), playerX)
-        game.makeMove(Coordinates(1, 0), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 0), playerX)
         // GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
-        game.makeMove(Coordinates(3, 0), playerX)
-        game.makeMove(Coordinates(4, 0), playerX)
-        game.makeMove(Coordinates(2, 0), playerX) // intentionally placed here to connect 2 segments
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(3, 0), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(4, 0), playerX)
+        // intentionally placed here to connect 2 segments
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
         assertEquals(playerX, game.getWinner())
         assertEquals(5, game.getWinner().getMaxLineLength())
     }
