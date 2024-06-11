@@ -1,4 +1,3 @@
-import elements.Coordinates
 import logic.GameSession
 import logic.PlayerProvider
 import utilities.Log
@@ -25,13 +24,16 @@ class InternalApiTesting {
         // .xo
         // oxo
 
-        game.makeMove(Coordinates(1, 1), playerX)
-        game.makeMove(Coordinates(2, 1), playerO)
-        game.makeMove(Coordinates(2, 0), playerX)
-        game.makeMove(Coordinates(0, 2), playerO)
-        game.makeMove(Coordinates(1, 2), playerX)
-        game.makeMove(Coordinates(2, 2), playerO)
-        game.makeMove(Coordinates(1, 0), playerX) // here A wins and anyway the next possible player is B
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 1), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 1), playerO)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 2), playerO)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 2), playerX)
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 2), playerO)
+        game.makeMove(
+            game.chosenAlgorithm.getCoordinatesFor(1, 0),
+            playerX
+        ) // here A wins and anyway the next possible player is B
 
         assertTrue(game.isGameWon(), "Game should have been won")
         // Would be nice to be able to do this:
@@ -43,12 +45,12 @@ class InternalApiTesting {
     @Test
     fun having3x3Field_realSimulation2PlayersMovesMade_victoryConditionIsCorrect() {
         val game = GameSession(3, 3, 2)
-        game.makeMove(Coordinates(0, 0)) // X
-        game.makeMove(Coordinates(1, 0)) // O
-        game.makeMove(Coordinates(2, 0)) // X
-        game.makeMove(Coordinates(1, 1)) // O
-        game.makeMove(Coordinates(2, 1)) // X
-        game.makeMove(Coordinates(1, 2)) // O - > O wins here
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0)) // X
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 0)) // O
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0)) // X
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 1)) // O
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 1)) // X
+        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 2)) // O - > O wins here
         /*
             X O X
             . O X
