@@ -4,7 +4,7 @@ package elements
  * describes all possible directions for the simplest line of 2 dots on a 2d field
  * m -> minus, p -> plus, 0 -> no change along this axis
  */
-enum class LineDirectionForXY(override val dx: Int, override val dy: Int) : LineDirection {
+enum class LineDirectionForXY(val dx: Int, val dy: Int) : LineDirection {
     XmY0(-1, 0),    // horizontal to the left
     XpY0(+1, 0),    // horizontal to the right
     X0Ym(0, -1),    // vertical up

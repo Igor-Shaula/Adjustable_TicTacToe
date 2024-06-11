@@ -2,8 +2,8 @@ package elements
 
 internal data class LineDirectionFor2Axes(
     internal val xAxisLD: LineDirectionFor1Axis, internal val yAxisLD: LineDirectionFor1Axis,
-) {
-    internal fun opposite() = LineDirectionFor2Axes(xAxisLD.opposite(), yAxisLD.opposite())
+) : LineDirection {
+    override fun opposite() = LineDirectionFor2Axes(xAxisLD.opposite(), yAxisLD.opposite())
 
     fun isNone() = xAxisLD == LineDirectionFor1Axis.None && yAxisLD == LineDirectionFor1Axis.None
 

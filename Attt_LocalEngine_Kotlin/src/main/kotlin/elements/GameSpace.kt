@@ -1,8 +1,6 @@
 package elements
 
-interface LineDirection {
-    val dx: Int
-    val dy: Int
+internal interface LineDirection {
     fun opposite(): LineDirection
 }
 
