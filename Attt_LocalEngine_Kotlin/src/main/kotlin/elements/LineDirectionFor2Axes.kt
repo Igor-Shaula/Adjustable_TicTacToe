@@ -1,11 +1,11 @@
 package elements
 
-internal data class LineDirectionForTwoAxes(
-    internal val xAxisLD: LineDirectionForOneAxis, internal val yAxisLD: LineDirectionForOneAxis
+internal data class LineDirectionFor2Axes(
+    internal val xAxisLD: LineDirectionFor1Axis, internal val yAxisLD: LineDirectionFor1Axis,
 ) {
-    internal fun opposite() = LineDirectionForTwoAxes(xAxisLD.opposite(), yAxisLD.opposite())
+    internal fun opposite() = LineDirectionFor2Axes(xAxisLD.opposite(), yAxisLD.opposite())
 
-    fun isNone() = xAxisLD == LineDirectionForOneAxis.None && yAxisLD == LineDirectionForOneAxis.None
+    fun isNone() = xAxisLD == LineDirectionFor1Axis.None && yAxisLD == LineDirectionFor1Axis.None
 
     companion object {
         /*
@@ -21,11 +21,11 @@ internal data class LineDirectionForTwoAxes(
                     LineDirectionForTwoAxes(LineDirectionForOneAxis.None, LineDirectionForOneAxis.None)
                 )
         */
-        fun getAllFromLoops(): List<LineDirectionForTwoAxes> {
-            val resultList = mutableListOf<LineDirectionForTwoAxes>()
-            LineDirectionForOneAxis.entries.forEach { xAxisDirection ->
-                LineDirectionForOneAxis.entries.forEach { yAxisDirection ->
-                    resultList.add(LineDirectionForTwoAxes(xAxisDirection, yAxisDirection))
+        fun getAllFromLoops(): List<LineDirectionFor2Axes> {
+            val resultList = mutableListOf<LineDirectionFor2Axes>()
+            LineDirectionFor1Axis.entries.forEach { xAxisDirection ->
+                LineDirectionFor1Axis.entries.forEach { yAxisDirection ->
+                    resultList.add(LineDirectionFor2Axes(xAxisDirection, yAxisDirection))
                 }
             }
             return resultList
