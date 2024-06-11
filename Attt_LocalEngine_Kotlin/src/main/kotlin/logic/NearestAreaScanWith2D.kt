@@ -15,6 +15,8 @@ internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMove
             }
     }
 
+    override fun getCoordinatesFor(x: Int, y: Int): Coordinates = Coordinates2D(x, y)
+
     private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates2D): List<LineDirectionForTwoAxes> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerProvider.None) {
