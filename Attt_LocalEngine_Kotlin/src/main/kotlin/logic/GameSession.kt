@@ -10,13 +10,14 @@ import utilities.Log
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
-@Suppress("unused", "MemberVisibilityCanBePrivate")
 class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int) : AtttGame {
 
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
+    // the only place for switching between kinds of algorithms for every move processing
     internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith2D(gameField)
+//    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(gameField)
 
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
