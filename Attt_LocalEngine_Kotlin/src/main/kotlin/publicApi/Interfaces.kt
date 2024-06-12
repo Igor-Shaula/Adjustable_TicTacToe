@@ -33,7 +33,8 @@ interface AtttGame {
          * create AtttGame instance & provide the UI with a new game field, adjustability happens here - in the parameters
          */
         fun create(
-            desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int = MIN_NUMBER_OF_PLAYERS
-        ): AtttGame = GameSession(desiredFieldSize, desiredMaxLineLength, desiredPlayerNumber)
+            desiredFieldSize: Int, desiredMaxLineLength: Int,
+            is3D: Boolean = false, desiredPlayerNumber: Int = MIN_NUMBER_OF_PLAYERS
+        ): AtttGame = GameSession(desiredFieldSize, desiredMaxLineLength, is3D, desiredPlayerNumber)
     }
 }

@@ -8,8 +8,7 @@ import utilities.Log
  * represents the area/space where all players' marks are placed and exist through one active game session
  */
 internal class GameField(
-    sideLength: Int, // the only required parameter, by the way it's impossible to add private setter here
-//    dimensions: Int = MIN_GAME_FIELD_DIMENSIONS // the simplest variant is 2d game
+    sideLength: Int // the only required parameter, by the way it's impossible to add private setter here
 ) {
     internal var sideLength = 42 // for some specifics of Kotlin this value is correctly set only inside init-block
         private set(value) { // I'm doing this for prevent from changing anywhere outside this class

@@ -10,14 +10,16 @@ import utilities.Log
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
-class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int) : AtttGame {
+class GameSession(
+    desiredFieldSize: Int, desiredMaxLineLength: Int, is3D: Boolean, desiredPlayerNumber: Int
+) : AtttGame {
 
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
     // the only place for switching between kinds of algorithms for every move processing
-    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith3D(gameField)
-//    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith2D(gameField)
+    internal val chosenAlgorithm: OneMoveProcessing =
+        if (is3D) NearestAreaScanWith3D(gameField) else NearestAreaScanWith2D(gameField)
 //    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(gameField)
 
     init {
