@@ -41,6 +41,21 @@ internal class GameField(
         return sb.toString()
     }
 
+    internal fun prepareForPrinting3dIn2d(): String {
+        val sb = StringBuilder(sideLength * (sideLength + 1) * (sideLength + 1))
+        for (y in 0 until sideLength) {
+            sb.append(SYMBOL_FOR_NEW_LINE)
+            for (z in 0 until sideLength) {
+                for (x in 0 until sideLength) {
+                    sb.append(theMap[Coordinates3D(x, y, z)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK)
+                        .append(SYMBOL_FOR_DIVIDER)
+                }
+                repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) }
+            }
+        }
+        return sb.toString()
+    }
+
     /**
      * allows to see what's inside this game field space for the given coordinates
      */

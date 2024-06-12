@@ -82,7 +82,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      */
     override fun printCurrentFieldIn2d() {
         // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(gameField.prepareForPrintingIn2d())
+        println(gameField.prepareForPrinting3dIn2d())
     }
 
     // endregion PUBLIC API
