@@ -41,16 +41,16 @@ internal class GameField(
         return sb.toString()
     }
 
-    internal fun prepareForPrinting3dIn2d(): String {
-        val sb = StringBuilder(sideLength * (sideLength + 1) * (sideLength + 1))
+    internal fun prepareForPrinting3dIn2d(chosenAlgorithm: OneMoveProcessing): String {
+        val sb = StringBuilder(sideLength * (sideLength + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
         for (y in 0 until sideLength) {
             sb.append(SYMBOL_FOR_NEW_LINE)
-            for (z in 0 until sideLength) {
+            for (z in 0 until sideLength) { // will work only once for 2D
                 for (x in 0 until sideLength) {
-                    sb.append(theMap[Coordinates3D(x, y, z)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK)
-                        .append(SYMBOL_FOR_DIVIDER)
+                    sb.append(theMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK)
+                        .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
                 }
-                repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) }
+                repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
             }
         }
         return sb.toString()
