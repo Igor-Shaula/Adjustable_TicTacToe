@@ -14,13 +14,16 @@ class GameSession(
     desiredFieldSize: Int, desiredMaxLineLength: Int, is3D: Boolean, desiredPlayerNumber: Int
 ) : AtttGame {
 
+    // to distinguish between older XY-based logic and new multi-axis-based approach for coordinates processing
+    private val useNewDimensionsBasedLogic = true
+
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
     // the only place for switching between kinds of algorithms for every move processing
     internal val chosenAlgorithm: OneMoveProcessing =
-        if (is3D) NearestAreaScanWith3D(gameField) else NearestAreaScanWith2D(gameField)
-//    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(gameField)
+        if (is3D) NearestAreaScanWith3D(gameField) // NewDimensionsBasedLogic is used as the only option here
+        else if (useNewDimensionsBasedLogic) NearestAreaScanWith2D(gameField) else NearestAreaScanWithXY(gameField)
 
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
