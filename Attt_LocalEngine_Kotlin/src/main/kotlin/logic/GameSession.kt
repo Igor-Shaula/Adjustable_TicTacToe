@@ -10,15 +10,20 @@ import utilities.Log
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
-class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int) : AtttGame {
+class GameSession(
+    desiredFieldSize: Int, desiredMaxLineLength: Int, private val is3D: Boolean, desiredPlayerNumber: Int
+) : AtttGame {
+
+    // to distinguish between older XY-based logic and new multi-axis-based approach for coordinates processing
+    private val useNewDimensionsBasedLogic = true
 
     internal var gameField: GameField = GameField(desiredFieldSize)
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
     // the only place for switching between kinds of algorithms for every move processing
-    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith3D(gameField)
-//    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith2D(gameField)
-//    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(gameField)
+    internal val chosenAlgorithm: OneMoveProcessing =
+        if (is3D) NearestAreaScanWith3D(gameField) // NewDimensionsBasedLogic is used as the only option here
+        else if (useNewDimensionsBasedLogic) NearestAreaScanWith2D(gameField) else NearestAreaScanWithXY(gameField)
 
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
@@ -81,8 +86,10 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      * prints the current state of the game in 2d on console
      */
     override fun printCurrentFieldIn2d() {
+        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
+        val zAxisSize = if (is3D) gameField.sideLength else 1
         // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm))
+        println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize))
     }
 
     // endregion PUBLIC API

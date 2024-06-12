@@ -8,8 +8,7 @@ import utilities.Log
  * represents the area/space where all players' marks are placed and exist through one active game session
  */
 internal class GameField(
-    sideLength: Int, // the only required parameter, by the way it's impossible to add private setter here
-//    dimensions: Int = MIN_GAME_FIELD_DIMENSIONS // the simplest variant is 2d game
+    sideLength: Int // the only required parameter, by the way it's impossible to add private setter here
 ) {
     internal var sideLength = 42 // for some specifics of Kotlin this value is correctly set only inside init-block
         private set(value) { // I'm doing this for prevent from changing anywhere outside this class
@@ -31,12 +30,12 @@ internal class GameField(
      * returns beautiful & simple String representation of the current state of game field
      */
     internal fun prepareForPrinting3dIn2d(
-        chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this)
+        chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this), zAxisSize: Int = 1 // for tests
     ): String {
-        val sb = StringBuilder(sideLength * (sideLength + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
+        val sb = StringBuilder(sideLength * (zAxisSize + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
         for (y in 0 until sideLength) {
             sb.append(SYMBOL_FOR_NEW_LINE)
-            for (z in 0 until sideLength) { // will work only once for 2D
+            for (z in 0 until zAxisSize) { // will work only once for 2D
                 for (x in 0 until sideLength) {
                     sb.append(theMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK)
                         .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice

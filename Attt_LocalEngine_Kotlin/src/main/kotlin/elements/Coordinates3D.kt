@@ -11,7 +11,7 @@ data class Coordinates3D(
         xAxisDirection: LineDirectionFor1Axis,
         yAxisDirection: LineDirectionFor1Axis,
         zAxisDirection: LineDirectionFor1Axis
-    ) = Coordinates3D( // should be exactly Coordinates2D
+    ) = Coordinates3D( // should be exactly Coordinates3D
         OneAxis(xAxis.l + xAxisDirection.deltaOne),
         OneAxis(yAxis.l + yAxisDirection.deltaOne),
         OneAxis(zAxis.l + zAxisDirection.deltaOne)

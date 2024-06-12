@@ -3,6 +3,7 @@ import elements.Coordinates
 import elements.CoordinatesXY
 import elements.LineDirectionForXY
 import logic.GameSession
+import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -23,7 +24,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: CoordinatesXY) {
 
 internal fun checkTheNextSpotDetectionForLineDirection(startSpot: CoordinatesXY, direction: LineDirectionForXY) {
     // as gameField is a stateful object - we have to reset it every time before a new test
-    val game = GameSession(3, 3, 2)
+    val game = AtttGame.create() as GameSession
     val nextSpot = startSpot.getTheNextSpaceFor(direction, game.gameField.sideLength)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {
