@@ -196,7 +196,6 @@ class InternalElementsTesting {
         val playerX = PlayerProvider.playersList[0]
         game.makeMove(firstMark, playerX)
         game.makeMove(secondMark, playerX)
-        game.printCurrentFieldIn2d()
         Log.pl("measuring line from $firstMark in the forward direction:")
         val algorithmForXY = NearestAreaScanWithXY(game.gameField)
         val lengthFromFirstToSecond = algorithmForXY.measureLineFrom(firstMark, LineDirectionForXY.XpY0, 1)
@@ -204,6 +203,7 @@ class InternalElementsTesting {
         val lengthFromSecondToFirst = algorithmForXY.measureLineFrom(secondMark, LineDirectionForXY.XmY0, 1)
         assertEquals(2, lengthFromFirstToSecond)
         assertEquals(2, lengthFromSecondToFirst)
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -222,6 +222,7 @@ class InternalElementsTesting {
         assertEquals(1, lengthFromFirstToSecond)
         assertEquals(1, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -242,6 +243,7 @@ class InternalElementsTesting {
         assertEquals(3, lengthFromFirstToSecond)
         assertEquals(3, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -262,6 +264,7 @@ class InternalElementsTesting {
         assertEquals(3, lengthFromEdgeToEdge)
         assertEquals(3, lengthFromEdgeToEdgeOpposite)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -280,7 +283,7 @@ class InternalElementsTesting {
         val lengthForPlayerB = algorithmForXY.measureLineFrom(secondMark, LineDirectionForXY.XpY0, 1)
         assertEquals(1, lengthForPlayerA)
         assertEquals(1, lengthForPlayerB)
-        Log.pl(game.gameField.prepareForPrintingIn2d())
+        game.printCurrentFieldIn2d()
     }
 
     // endregion line length measurements
@@ -293,8 +296,8 @@ class InternalElementsTesting {
         val playerO = PlayerProvider.playersList[1]
         game.makeMove(theSameSpot, playerX)
         game.makeMove(theSameSpot, playerO)
-        Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
         assertEquals(playerX, game.gameField.getCurrentMarkAt(theSameSpot))
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -306,8 +309,8 @@ class InternalElementsTesting {
         assertEquals(playerX, PlayerProvider.activePlayer) // this player remains chosen for the next move
         game.makeMove(1, 1) // another attempt for the same player - this time successful
         assertEquals(playerO, PlayerProvider.activePlayer) // this time the next player is prepared for a move
-        Log.pl("\ngame field with only one player's mark: ${game.gameField.prepareForPrintingIn2d()}")
         assertEquals(playerX, game.gameField.getCurrentMarkAt(game.chosenAlgorithm.getCoordinatesFor(1, 1)))
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -320,6 +323,7 @@ class InternalElementsTesting {
         // gameField & winning message for player A is printed in the console
         assertEquals(playerX, game.getWinner())
         assertEquals(3, game.getWinner().getMaxLineLength())
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -336,5 +340,6 @@ class InternalElementsTesting {
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
         assertEquals(playerX, game.getWinner())
         assertEquals(5, game.getWinner().getMaxLineLength())
+        game.printCurrentFieldIn2d()
     }
 }

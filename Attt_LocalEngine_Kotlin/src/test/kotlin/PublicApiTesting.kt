@@ -36,6 +36,7 @@ class PublicApiTesting {
         val playerX = PlayerProvider.playersList[0]
         assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(playerX, game.getWinner())
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -68,6 +69,7 @@ class PublicApiTesting {
         val playerX = PlayerProvider.playersList[0]
         assertEquals(playerX, game.getLeader())
         assertEquals(2, game.getLeader().getMaxLineLength())
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -140,9 +142,9 @@ class PublicApiTesting {
         game.mm(1, 1) // B -> now B also has a line of 2 marks
         game.mm(2, 1) // C -> now C also has a line of 2 marks
         game.mm(0, 2) // A -> now A has a line of 3 marks and becomes a new leader
-        game.printCurrentFieldIn2d()
         assertEquals(PlayerProvider.playersList[0], game.getLeader())
         assertEquals(3, game.getLeader().getMaxLineLength())
+        game.printCurrentFieldIn2d()
     }
 
     @Test
