@@ -1,5 +1,6 @@
 import logic.GameSession
 import logic.PlayerProvider
+import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,7 +17,7 @@ class InternalApiTesting {
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
     @Test
     fun test3x3FieldWithMultiplePossibleLines() { // test name is left as it was in the pull-request
-        val game = GameSession(3, 3, false, 2)
+        val game = AtttGame.create() as GameSession
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
 
@@ -45,7 +46,7 @@ class InternalApiTesting {
 
     @Test
     fun having3x3Field_realSimulation2PlayersMovesMade_victoryConditionIsCorrect() {
-        val game = GameSession(3, 3, false, 2)
+        val game = AtttGame.create() as GameSession
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0)) // X
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 0)) // O
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0)) // X
@@ -68,7 +69,7 @@ class InternalApiTesting {
 
     @Test
     fun having3x3Field_realSimulation2PlayersShortenedMovesMade_victoryConditionIsCorrect() {
-        val game = GameSession(3, 3, false, 2)
+        val game = AtttGame.create()
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
         game.makeMove(0, 0) // X

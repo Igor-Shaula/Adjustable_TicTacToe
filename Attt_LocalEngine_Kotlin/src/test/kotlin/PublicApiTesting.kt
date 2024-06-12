@@ -10,7 +10,6 @@ import kotlin.test.assertTrue
 
 // simulation of different cases which can emerge when playing as a consumer of this API
 // preferably tests for AtttGame interface & other publicly accessible code of the library
-
 class PublicApiTesting {
 
     @BeforeTest
@@ -20,7 +19,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3Field_onePlayerGetsMultiplePossibleLines_winnerIsDetectedOnceTheConditionsAreMet() {
-        val game = AtttGame.create(3, 3)
+        val game = AtttGame.create()
         /*
             . X x
             . x o
@@ -41,7 +40,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3x3Field_onePlayerGetsMultiplePossibleLines_winnerIsDetectedOnceTheConditionsAreMet() {
-        val game = AtttGame.create(3, 3, true)
+        val game = AtttGame.create(is3D = true)
         /*
             . . x
             . X o <- x x x - on Z axis
@@ -62,7 +61,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3Field_onePlayerMakesTheFirstLine_leadingPlayerIsDetectedCorrectly() {
-        val game = AtttGame.create(3, 3)
+        val game = AtttGame.create()
         game.mm(0, 0) // X
         game.mm(1, 0) // O
         game.mm(0, 1) // X -> now A has a line of 2 marks
@@ -74,7 +73,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3x3Field_onePlayerMakesTheFirstLine_leadingPlayerIsDetectedCorrectly() {
-        val game = AtttGame.create(3, 3, true)
+        val game = AtttGame.create(is3D = true)
         game.mm(0, 0, 0) // X
         game.mm(1, 0, 0) // O
         game.mm(0, 0, 1) // X -> now A has a line of 2 marks
@@ -171,7 +170,7 @@ class PublicApiTesting {
     // kind of a load testing on a field that is big and yet still able to fit into console output
     @Test
     fun having100x100Field_2PlayersMakeRandomMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = AtttGame.create(100, 10, false, MAX_NUMBER_OF_PLAYERS)
+        val game = AtttGame.create(100, 10, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
         Log.switch(false) // speeding up and preventing from huge amount of messages in the console
         var iterationsCount = 0
         (0..999_999).forEach { _ -> // including ,so it's precisely a million in fact
