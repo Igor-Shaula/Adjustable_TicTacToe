@@ -16,7 +16,8 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
     private var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
     // the only place for switching between kinds of algorithms for every move processing
-    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith2D(gameField)
+    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith3D(gameField)
+//    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWith2D(gameField)
 //    internal val chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(gameField)
 
     init {
@@ -30,15 +31,15 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
     /**
      * the same as makeMove(...) - this reduction is made for convenience as this method is the most frequently used
      */
-    override fun mm(x: Int, y: Int) = makeMove(x, y)
+    override fun mm(x: Int, y: Int, z: Int) = makeMove(x, y, z)
 
     /**
      * this is the only way for a client to make progress in the game.
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
-    override fun makeMove(x: Int, y: Int): AtttPlayer {
-        Log.pl("makeMove: x = $x, y = $y")
-        val requestedPosition = chosenAlgorithm.getCoordinatesFor(x, y)
+    override fun makeMove(x: Int, y: Int, z: Int): AtttPlayer {
+        Log.pl("makeMove: x = $x, y = $y, z = $z")
+        val requestedPosition = chosenAlgorithm.getCoordinatesFor(x, y, z)
         return if (requestedPosition.existsWithin(gameField.sideLength)) {
             makeMove(requestedPosition)
         } else {
@@ -81,7 +82,7 @@ class GameSession(desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlaye
      */
     override fun printCurrentFieldIn2d() {
         // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(gameField.prepareForPrintingIn2d())
+        println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm))
     }
 
     // endregion PUBLIC API

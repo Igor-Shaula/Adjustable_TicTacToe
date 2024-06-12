@@ -16,9 +16,9 @@ interface AtttPlayer {
 
 interface AtttGame {
 
-    fun mm(x: Int, y: Int): AtttPlayer
+    fun mm(x: Int, y: Int, z: Int = 0): AtttPlayer
 
-    fun makeMove(x: Int, y: Int): AtttPlayer
+    fun makeMove(x: Int, y: Int, z: Int = 0): AtttPlayer
 
     fun getLeader(): AtttPlayer
 

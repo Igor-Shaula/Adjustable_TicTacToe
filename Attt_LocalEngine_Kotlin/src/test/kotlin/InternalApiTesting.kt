@@ -40,6 +40,7 @@ class InternalApiTesting {
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
         // -> and yes, this is done:
         assertEquals(playerX, game.getWinner())
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -56,13 +57,13 @@ class InternalApiTesting {
             . O X
             . O .
          */
-        game.printCurrentFieldIn2d()
         // gameField & winning message for player B is printed in the console
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
         assertEquals(playerO, game.getWinner())
         assertEquals(playerX, PlayerProvider.activePlayer) // game is ready for the next potential move in any case
         assertEquals(3, game.getWinner().getMaxLineLength())
+        game.printCurrentFieldIn2d()
     }
 
     @Test
@@ -80,5 +81,6 @@ class InternalApiTesting {
         assertEquals(playerO, game.getWinner())
         assertEquals(playerX, PlayerProvider.activePlayer) // game is ready for the next potential move in any case
         assertEquals(3, game.getWinner().getMaxLineLength())
+        game.printCurrentFieldIn2d()
     }
 }

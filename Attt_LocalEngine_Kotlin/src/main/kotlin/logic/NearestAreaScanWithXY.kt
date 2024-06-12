@@ -15,7 +15,7 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
             }
     }
 
-    override fun getCoordinatesFor(x: Int, y: Int): Coordinates = CoordinatesXY(x, y)
+    override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = CoordinatesXY(x, y)
 
     private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: CoordinatesXY): List<LineDirectionForXY> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
@@ -35,7 +35,9 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
         return allDirections // is empty if no lines ae found in all possible directions
     }
 
-    private fun measureFullLengthForExistingLineFrom(start: CoordinatesXY, lineDirectionForXY: LineDirectionForXY): Int {
+    private fun measureFullLengthForExistingLineFrom(
+        start: CoordinatesXY, lineDirectionForXY: LineDirectionForXY
+    ): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
         // we also have a proven placed dot of the same player in the detected line direction.
         // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
@@ -50,7 +52,9 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
         return lineTotalLength
     }
 
-    internal fun measureLineFrom(givenMark: CoordinatesXY, lineDirectionForXY: LineDirectionForXY, startingLength: Int): Int {
+    internal fun measureLineFrom(
+        givenMark: CoordinatesXY, lineDirectionForXY: LineDirectionForXY, startingLength: Int
+    ): Int {
         Log.pl("measureLineFrom: given startingLength: $startingLength")
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
         // firstly let's measure in the given direction and then in the opposite, also recursively

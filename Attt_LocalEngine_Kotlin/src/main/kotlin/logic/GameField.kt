@@ -30,12 +30,18 @@ internal class GameField(
     /**
      * returns beautiful & simple String representation of the current state of game field
      */
-    internal fun prepareForPrintingIn2d(): String {
-        val sb = StringBuilder(sideLength * (sideLength + 1))
+    internal fun prepareForPrinting3dIn2d(
+        chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this)
+    ): String {
+        val sb = StringBuilder(sideLength * (sideLength + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
         for (y in 0 until sideLength) {
             sb.append(SYMBOL_FOR_NEW_LINE)
-            for (x in 0 until sideLength) {
-                sb.append(theMap[Coordinates(x, y)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK).append(SYMBOL_FOR_DIVIDER)
+            for (z in 0 until sideLength) { // will work only once for 2D
+                for (x in 0 until sideLength) {
+                    sb.append(theMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK)
+                        .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
+                }
+                repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
             }
         }
         return sb.toString()
