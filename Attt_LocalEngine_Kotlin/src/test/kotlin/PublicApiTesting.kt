@@ -18,6 +18,27 @@ class PublicApiTesting {
     }
 
     @Test
+    fun havingDefault2DField_zAxisIsUpdatedForEveryMove_winnerIsDetectedCorrectlyAsIn2dGame() {
+        val game = AtttGame.create()
+        /*
+            . X x
+            . x o
+            o x o
+         */
+        game.mm(1, 1, 1) // X
+        game.mm(2, 1, 2) // O
+        game.mm(2, 0, 3) // X
+        game.mm(0, 2, 4) // O
+        game.mm(1, 2, 5) // X
+        game.mm(2, 2, 6) // O
+        game.mm(1, 0, 7) // X - this one was problematic but in version 0.3.0 this bug was fixed
+        val playerX = PlayerProvider.playersList[0]
+        assertTrue(game.isGameWon(), "Game should have been won")
+        assertEquals(playerX, game.getWinner())
+        game.printCurrentFieldIn2d()
+    }
+
+    @Test
     fun having3x3Field_onePlayerGetsMultiplePossibleLines_winnerIsDetectedOnceTheConditionsAreMet() {
         val game = AtttGame.create()
         /*
