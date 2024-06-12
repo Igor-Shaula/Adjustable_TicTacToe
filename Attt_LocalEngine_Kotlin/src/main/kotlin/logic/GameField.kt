@@ -30,17 +30,6 @@ internal class GameField(
     /**
      * returns beautiful & simple String representation of the current state of game field
      */
-    internal fun prepareForPrintingIn2d(): String {
-        val sb = StringBuilder(sideLength * (sideLength + 1))
-        for (y in 0 until sideLength) {
-            sb.append(SYMBOL_FOR_NEW_LINE)
-            for (x in 0 until sideLength) {
-                sb.append(theMap[Coordinates(x, y)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK).append(SYMBOL_FOR_DIVIDER)
-            }
-        }
-        return sb.toString()
-    }
-
     internal fun prepareForPrinting3dIn2d(
         chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this)
     ): String {
