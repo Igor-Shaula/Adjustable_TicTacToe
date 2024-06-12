@@ -41,7 +41,9 @@ internal class GameField(
         return sb.toString()
     }
 
-    internal fun prepareForPrinting3dIn2d(chosenAlgorithm: OneMoveProcessing): String {
+    internal fun prepareForPrinting3dIn2d(
+        chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this)
+    ): String {
         val sb = StringBuilder(sideLength * (sideLength + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
         for (y in 0 until sideLength) {
             sb.append(SYMBOL_FOR_NEW_LINE)
