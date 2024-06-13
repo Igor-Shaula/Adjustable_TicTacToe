@@ -1,6 +1,4 @@
 import gameLogic.GameSession
-import geometry.conceptXY.CoordinatesXY
-import geometry.conceptXY.LineDirectionForXY
 import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
@@ -8,7 +6,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class InternalElementsTesting {
+class InternalApiTesting {
 
     @BeforeTest
     fun switchLoggingOn() {
