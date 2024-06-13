@@ -1,24 +1,23 @@
 package geometry.concept3D
 
-import geometry.*
 import geometry.Border
+import geometry.Coordinates
+import geometry.GameSpace
 import geometry.LineDirectionFor1Axis
 
 // 3d as simple as 2d :)
 data class Coordinates3D(
-    val xAxis: OneAxis, val yAxis: OneAxis, val zAxis: OneAxis
-) : Coordinates(xAxis.l, yAxis.l, zAxis.l) {
-
-    constructor(x: Int, y: Int, z: Int) : this(OneAxis(x), OneAxis(y), OneAxis(z))
+    val xAxis: Int, val yAxis: Int, val zAxis: Int
+) : Coordinates(xAxis, yAxis, zAxis) {
 
     internal fun getNextInTheDirection(
         xAxisDirection: LineDirectionFor1Axis,
         yAxisDirection: LineDirectionFor1Axis,
         zAxisDirection: LineDirectionFor1Axis
     ) = Coordinates3D( // should be exactly Coordinates3D
-        OneAxis(xAxis.l + xAxisDirection.deltaOne),
-        OneAxis(yAxis.l + yAxisDirection.deltaOne),
-        OneAxis(zAxis.l + zAxisDirection.deltaOne)
+        xAxis + xAxisDirection.deltaOne,
+        yAxis + yAxisDirection.deltaOne,
+        zAxis + zAxisDirection.deltaOne
     )
 
     internal fun getTheNextSpaceFor(
@@ -32,18 +31,18 @@ data class Coordinates3D(
         @Suppress("SimplifyBooleanWithConstants")
         when {
             false || // just for the following cases alignment
-                    xAxis.l <= minIndex && xAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
-                    xAxis.l >= maxIndex && xAxisDirection == LineDirectionFor1Axis.Plus || // X is out of game field
-                    yAxis.l <= minIndex && yAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
-                    yAxis.l >= maxIndex && yAxisDirection == LineDirectionFor1Axis.Plus || // X is out of game field
-                    zAxis.l <= minIndex && zAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
-                    zAxis.l >= maxIndex && zAxisDirection == LineDirectionFor1Axis.Plus -> // X is out of game field
+                    xAxis <= minIndex && xAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
+                    xAxis >= maxIndex && xAxisDirection == LineDirectionFor1Axis.Plus || // X is out of game field
+                    yAxis <= minIndex && yAxisDirection == LineDirectionFor1Axis.Minus || // Y is out of game field
+                    yAxis >= maxIndex && yAxisDirection == LineDirectionFor1Axis.Plus || // Y is out of game field
+                    zAxis <= minIndex && zAxisDirection == LineDirectionFor1Axis.Minus || // Z is out of game field
+                    zAxis >= maxIndex && zAxisDirection == LineDirectionFor1Axis.Plus -> // Z is out of game field
                 return Border
         }
         return Coordinates3D(
-            OneAxis(xAxis.l + xAxisDirection.deltaOne),
-            OneAxis(yAxis.l + yAxisDirection.deltaOne),
-            OneAxis(zAxis.l + zAxisDirection.deltaOne)
+            xAxis + xAxisDirection.deltaOne,
+            yAxis + yAxisDirection.deltaOne,
+            zAxis + zAxisDirection.deltaOne
         )
     }
 }

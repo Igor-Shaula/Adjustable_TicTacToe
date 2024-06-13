@@ -1,18 +1,17 @@
 package geometry.concept2D
 
-import geometry.*
 import geometry.Border
+import geometry.Coordinates
+import geometry.GameSpace
 import geometry.LineDirectionFor1Axis
 
 // extensible alternative for CoordinatesXY
-data class Coordinates2D(val xAxis: OneAxis, val yAxis: OneAxis) : Coordinates(xAxis.l, yAxis.l) {
-
-    constructor(x: Int, y: Int) : this(OneAxis(x), OneAxis(y))
+data class Coordinates2D(val xAxis: Int, val yAxis: Int) : Coordinates(xAxis, yAxis) {
 
     internal fun getNextInTheDirection(
         xAxisDirection: LineDirectionFor1Axis, yAxisDirection: LineDirectionFor1Axis
     ) = Coordinates2D( // should be exactly Coordinates2D
-        OneAxis(xAxis.l + xAxisDirection.deltaOne), OneAxis(yAxis.l + yAxisDirection.deltaOne)
+        xAxis + xAxisDirection.deltaOne, yAxis + yAxisDirection.deltaOne
     )
 
     internal fun getTheNextSpaceFor(
@@ -23,14 +22,14 @@ data class Coordinates2D(val xAxis: OneAxis, val yAxis: OneAxis) : Coordinates(x
         @Suppress("SimplifyBooleanWithConstants")
         when {
             false || // just for the following cases alignment
-                    xAxis.l <= minIndex && xAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
-                    xAxis.l >= maxIndex && xAxisDirection == LineDirectionFor1Axis.Plus || // X is out of game field
-                    yAxis.l <= minIndex && yAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
-                    yAxis.l >= maxIndex && yAxisDirection == LineDirectionFor1Axis.Plus -> // X is out of game field
+                    xAxis <= minIndex && xAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
+                    xAxis >= maxIndex && xAxisDirection == LineDirectionFor1Axis.Plus || // X is out of game field
+                    yAxis <= minIndex && yAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
+                    yAxis >= maxIndex && yAxisDirection == LineDirectionFor1Axis.Plus -> // X is out of game field
                 return Border
         }
         return Coordinates2D(
-            OneAxis(xAxis.l + xAxisDirection.deltaOne), OneAxis(yAxis.l + yAxisDirection.deltaOne)
+            xAxis + xAxisDirection.deltaOne, yAxis + yAxisDirection.deltaOne
         )
     }
 }
