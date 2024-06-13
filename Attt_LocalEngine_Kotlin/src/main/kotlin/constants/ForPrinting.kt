@@ -1,4 +1,4 @@
-package elements
+package constants
 
 internal const val SYMBOL_FOR_ABSENT_MARK = '·'
 internal const val SYMBOL_FOR_DIVIDER = ' '
