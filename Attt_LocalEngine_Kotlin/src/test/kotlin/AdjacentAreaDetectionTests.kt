@@ -1,15 +1,50 @@
+import gameLogic.GameSession
 import geometry.abstractions.Border
 import geometry.abstractions.Coordinates
 import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
-import gameLogic.GameSession
 import publicApi.AtttGame
 import utilities.Log
-import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
-import kotlin.test.assertTrue
+import kotlin.test.*
 
-internal fun checkTheNextSpotDetectionBlock(startSpot: CoordinatesXY) {
+class AdjacentAreaDetectionTests {
+
+    @BeforeTest
+    fun switchLoggingOn() {
+        Log.switch(true)
+    }
+
+    @Test
+    fun having2dField_anyLineDirectionChosen_detectingOppositeDirectionIsCorrect() {
+        assertEquals(LineDirectionForXY.XpY0, LineDirectionForXY.XmY0.opposite())
+        assertEquals(LineDirectionForXY.XmY0, LineDirectionForXY.XpY0.opposite())
+        assertEquals(LineDirectionForXY.X0Yp, LineDirectionForXY.X0Ym.opposite())
+        assertEquals(LineDirectionForXY.X0Ym, LineDirectionForXY.X0Yp.opposite())
+        assertEquals(LineDirectionForXY.XpYp, LineDirectionForXY.XmYm.opposite())
+        assertEquals(LineDirectionForXY.XmYm, LineDirectionForXY.XpYp.opposite())
+        assertEquals(LineDirectionForXY.XpYm, LineDirectionForXY.XmYp.opposite())
+        assertEquals(LineDirectionForXY.XmYp, LineDirectionForXY.XpYm.opposite())
+        assertEquals(LineDirectionForXY.None, LineDirectionForXY.None.opposite())
+    }
+
+    /**
+     * here we check if an adjacent spot exists for every cell in 3x3 game for every possible direction
+     */
+    @Test
+    fun having3x3Field_1MarkSet_adjacentMarkDetectionLogicIsCorrect() {
+        checkTheNextSpotDetectionBlock(CoordinatesXY(0, 0))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(0, 1))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(0, 2))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(1, 0))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(1, 1))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(1, 2))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(2, 0))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(2, 1))
+        checkTheNextSpotDetectionBlock(CoordinatesXY(2, 2))
+    }
+}
+
+private fun checkTheNextSpotDetectionBlock(startSpot: CoordinatesXY) {
     Log.pl("\ncheckTheNextSpotDetectionBlock for given spot: $startSpot:")
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.XmY0)
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.XpY0)
@@ -22,7 +57,7 @@ internal fun checkTheNextSpotDetectionBlock(startSpot: CoordinatesXY) {
     checkTheNextSpotDetectionForLineDirection(startSpot, LineDirectionForXY.None)
 }
 
-internal fun checkTheNextSpotDetectionForLineDirection(startSpot: CoordinatesXY, direction: LineDirectionForXY) {
+private fun checkTheNextSpotDetectionForLineDirection(startSpot: CoordinatesXY, direction: LineDirectionForXY) {
     // as gameField is a stateful object - we have to reset it every time before a new test
     val game = AtttGame.create() as GameSession
     val nextSpot = startSpot.getTheNextSpaceFor(direction, game.gameField.sideLength)
