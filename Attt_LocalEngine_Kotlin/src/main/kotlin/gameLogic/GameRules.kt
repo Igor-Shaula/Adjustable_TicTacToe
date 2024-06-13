@@ -1,7 +1,8 @@
-package logic
+package gameLogic
 
-import elements.MAX_WINNING_LINE_LENGTH
-import elements.MIN_WINNING_LINE_LENGTH
+import constants.MAX_WINNING_LINE_LENGTH
+import constants.MIN_WINNING_LINE_LENGTH
+import players.PlayerProvider
 import publicApi.AtttPlayer
 
 /**

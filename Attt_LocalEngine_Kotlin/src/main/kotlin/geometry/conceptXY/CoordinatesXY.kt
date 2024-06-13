@@ -1,4 +1,8 @@
-package elements
+package geometry.conceptXY
+
+import geometry.abstractions.Border
+import geometry.abstractions.Coordinates
+import geometry.abstractions.GameSpace
 
 /**
  * describes every place on the game field, later add 3rd dimension here.

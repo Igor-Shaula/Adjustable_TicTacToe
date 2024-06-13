@@ -1,8 +1,8 @@
-import elements.Border
-import elements.Coordinates
-import elements.CoordinatesXY
-import elements.LineDirectionForXY
-import logic.GameSession
+import geometry.abstractions.Border
+import geometry.abstractions.Coordinates
+import geometry.conceptXY.CoordinatesXY
+import geometry.conceptXY.LineDirectionForXY
+import gameLogic.GameSession
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.assertEquals

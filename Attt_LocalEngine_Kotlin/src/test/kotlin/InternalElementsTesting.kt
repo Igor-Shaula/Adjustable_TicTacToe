@@ -1,10 +1,10 @@
-import elements.CoordinatesXY
-import elements.LineDirectionForXY
-import elements.MAX_GAME_FIELD_SIDE_SIZE
-import elements.MIN_GAME_FIELD_SIDE_SIZE
-import logic.GameSession
-import logic.NearestAreaScanWithXY
-import logic.PlayerProvider
+import geometry.conceptXY.CoordinatesXY
+import geometry.conceptXY.LineDirectionForXY
+import constants.MAX_GAME_FIELD_SIDE_SIZE
+import constants.MIN_GAME_FIELD_SIDE_SIZE
+import gameLogic.GameSession
+import geometry.conceptXY.NearestAreaScanWithXY
+import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.*

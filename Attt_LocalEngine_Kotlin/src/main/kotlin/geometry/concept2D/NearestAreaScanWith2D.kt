@@ -1,8 +1,9 @@
-package logic
+package geometry.concept2D
 
-import elements.Coordinates
-import elements.Coordinates2D
-import elements.LineDirectionFor2Axes
+import geometry.abstractions.Coordinates
+import gameLogic.GameField
+import geometry.abstractions.OneMoveProcessing
+import players.PlayerProvider
 import utilities.Log
 
 internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMoveProcessing {

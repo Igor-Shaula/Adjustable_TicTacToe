@@ -1,4 +1,7 @@
-package elements
+package geometry.concept2D
+
+import geometry.abstractions.LineDirection
+import geometry.LineDirectionFor1Axis
 
 internal data class LineDirectionFor2Axes(
     internal val xAxisLD: LineDirectionFor1Axis, internal val yAxisLD: LineDirectionFor1Axis,

@@ -1,6 +1,14 @@
-package logic
+package gameLogic
 
-import elements.*
+import constants.MAX_GAME_FIELD_SIDE_SIZE
+import constants.MIN_GAME_FIELD_SIDE_SIZE
+import constants.SYMBOL_FOR_ABSENT_MARK
+import constants.SYMBOL_FOR_DIVIDER
+import constants.SYMBOL_FOR_NEW_LINE
+import players.PlayerProvider
+import geometry.abstractions.Coordinates
+import geometry.abstractions.OneMoveProcessing
+import geometry.conceptXY.NearestAreaScanWithXY
 import publicApi.AtttPlayer
 import utilities.Log
 
