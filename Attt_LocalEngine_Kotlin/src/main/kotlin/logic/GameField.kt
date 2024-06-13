@@ -5,6 +5,7 @@ import constants.MIN_GAME_FIELD_SIDE_SIZE
 import constants.SYMBOL_FOR_ABSENT_MARK
 import constants.SYMBOL_FOR_DIVIDER
 import constants.SYMBOL_FOR_NEW_LINE
+import players.PlayerProvider
 import geometry.Coordinates
 import geometry.OneMoveProcessing
 import geometry.conceptXY.NearestAreaScanWithXY

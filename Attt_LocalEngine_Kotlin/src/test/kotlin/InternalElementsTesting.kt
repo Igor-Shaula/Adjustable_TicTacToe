@@ -4,7 +4,7 @@ import constants.MAX_GAME_FIELD_SIDE_SIZE
 import constants.MIN_GAME_FIELD_SIDE_SIZE
 import logic.GameSession
 import geometry.conceptXY.NearestAreaScanWithXY
-import logic.PlayerProvider
+import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.*

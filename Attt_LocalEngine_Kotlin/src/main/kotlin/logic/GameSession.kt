@@ -1,7 +1,8 @@
 package logic
 
+import players.PlayerModel
+import players.PlayerProvider
 import geometry.Coordinates
-import elements.Player
 import geometry.OneMoveProcessing
 import geometry.concept2D.NearestAreaScanWith2D
 import geometry.concept3D.NearestAreaScanWith3D
@@ -63,7 +64,8 @@ class GameSession(
         if (gameField.placeNewMark(where, what)) {
             chosenAlgorithm.getMaxLengthAchievedForThisMove(where)?.let {
                 Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $it")
-                (what as Player).tryToSetMaxLineLength(it) // this cast is secure as Player is direct inheritor to AtttPlayer
+                // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
+                (what as PlayerModel).tryToSetMaxLineLength(it)
                 updateGameScore(what, it)
             }
             PlayerProvider.presetNextPlayer()

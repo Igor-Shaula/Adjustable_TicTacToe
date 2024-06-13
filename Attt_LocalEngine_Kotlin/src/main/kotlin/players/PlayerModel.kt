@@ -1,8 +1,8 @@
-package elements
+package players
 
 import publicApi.AtttPlayer
 
-internal data class Player(
+internal data class PlayerModel(
     private val id: Int, private var name: String? = null, private var symbol: Char? = null
 ) : AtttPlayer {
 

@@ -3,7 +3,7 @@ package geometry.conceptXY
 import geometry.Coordinates
 import logic.GameField
 import geometry.OneMoveProcessing
-import logic.PlayerProvider
+import players.PlayerProvider
 import utilities.Log
 
 internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMoveProcessing {

@@ -3,7 +3,7 @@ package geometry.concept2D
 import geometry.Coordinates
 import logic.GameField
 import geometry.OneMoveProcessing
-import logic.PlayerProvider
+import players.PlayerProvider
 import utilities.Log
 
 internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMoveProcessing {

@@ -1,5 +1,5 @@
 import logic.GameSession
-import logic.PlayerProvider
+import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest

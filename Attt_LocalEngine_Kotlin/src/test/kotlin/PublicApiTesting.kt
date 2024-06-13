@@ -1,5 +1,5 @@
 import constants.MAX_NUMBER_OF_PLAYERS
-import logic.PlayerProvider
+import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.random.Random
