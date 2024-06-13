@@ -1,7 +1,8 @@
-package geometry
+package geometry.concept3D
 
 import elements.*
 import elements.Border
+import geometry.LineDirectionFor1Axis
 
 // 3d as simple as 2d :)
 data class Coordinates3D(

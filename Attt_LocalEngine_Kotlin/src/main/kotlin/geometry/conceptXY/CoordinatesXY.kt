@@ -1,4 +1,4 @@
-package geometry
+package geometry.conceptXY
 
 import elements.Border
 import elements.Coordinates

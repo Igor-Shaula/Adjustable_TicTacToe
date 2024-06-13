@@ -1,6 +1,7 @@
-package geometry
+package geometry.concept3D
 
 import elements.LineDirection
+import geometry.LineDirectionFor1Axis
 
 internal data class LineDirectionFor3Axes(
     internal val xAxisLD: LineDirectionFor1Axis,

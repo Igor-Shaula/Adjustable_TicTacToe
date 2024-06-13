@@ -2,9 +2,9 @@ package logic
 
 import elements.Coordinates
 import elements.Player
-import geometry.NearestAreaScanWith2D
-import geometry.NearestAreaScanWith3D
-import geometry.NearestAreaScanWithXY
+import geometry.concept2D.NearestAreaScanWith2D
+import geometry.concept3D.NearestAreaScanWith3D
+import geometry.conceptXY.NearestAreaScanWithXY
 import publicApi.AtttGame
 import publicApi.AtttPlayer
 import utilities.Log

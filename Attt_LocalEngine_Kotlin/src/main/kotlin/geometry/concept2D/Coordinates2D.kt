@@ -1,7 +1,8 @@
-package geometry
+package geometry.concept2D
 
 import elements.*
 import elements.Border
+import geometry.LineDirectionFor1Axis
 
 // extensible alternative for CoordinatesXY
 data class Coordinates2D(val xAxis: OneAxis, val yAxis: OneAxis) : Coordinates(xAxis.l, yAxis.l) {
