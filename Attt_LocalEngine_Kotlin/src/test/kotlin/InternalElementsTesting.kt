@@ -1,13 +1,13 @@
+import gameLogic.GameSession
 import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
-import constants.MAX_GAME_FIELD_SIDE_SIZE
-import constants.MIN_GAME_FIELD_SIDE_SIZE
-import gameLogic.GameSession
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
-import kotlin.test.*
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class InternalElementsTesting {
 

@@ -57,12 +57,12 @@ class GameFieldPreparationTests {
         val game1k1 = AtttGame.create(
             MAX_GAME_FIELD_SIDE_SIZE + 1, MAX_GAME_FIELD_SIDE_SIZE + 1
         ) as GameSession
-//        Log.pl("\ngameEngine is ready having this field: ${game1k1.gameField.prepareForPrinting3dIn2d()}")
+        Log.pl("\ngameEngine is ready having this field: ${game1k1.gameField.prepareForPrinting3dIn2d()}")
         assertTrue(game1k1.gameField.isReady())
         assertEquals(MAX_GAME_FIELD_SIDE_SIZE, game1k1.gameField.sideLength)
         // size = maxLength = Int.MAX_VALUE
         val gameMM = AtttGame.create(Int.MAX_VALUE, Int.MAX_VALUE) as GameSession
-//        Log.pl("\ngameEngine is ready having this field: ${gameMM.gameField.prepareForPrinting3dIn2d()}")
+        Log.pl("\ngameEngine is ready having this field: ${gameMM.gameField.prepareForPrinting3dIn2d()}")
         assertTrue(gameMM.gameField.isReady())
         assertEquals(MAX_GAME_FIELD_SIDE_SIZE, gameMM.gameField.sideLength)
     }
@@ -74,7 +74,7 @@ class GameFieldPreparationTests {
         val game = AtttGame.create(
             Int.MIN_VALUE - 1, Int.MIN_VALUE - 1
         ) as GameSession
-//        Log.pl("\ngameEngine is ready having this field: ${game.gameField.prepareForPrinting3dIn2d()}")
+        Log.pl("\ngameEngine is ready having this field: ${game.gameField.prepareForPrinting3dIn2d()}")
         assertTrue(game.gameField.isReady())
         assertEquals(MAX_GAME_FIELD_SIDE_SIZE, game.gameField.sideLength)
     }
