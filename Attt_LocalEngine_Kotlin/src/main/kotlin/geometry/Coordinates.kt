@@ -1,5 +1,8 @@
 package geometry
 
+/**
+ * describes any real position which may exist on the game field
+ */
 open class Coordinates(open val x: Int, open val y: Int, open val z: Int = 0) : GameSpace {
 
     /**
