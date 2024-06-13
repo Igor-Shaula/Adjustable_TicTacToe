@@ -1,4 +1,4 @@
-package geometry
+package geometry.abstractions
 
 /**
  * describes any real position which may exist on the game field

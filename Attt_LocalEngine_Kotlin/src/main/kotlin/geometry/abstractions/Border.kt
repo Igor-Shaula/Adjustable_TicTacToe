@@ -1,4 +1,4 @@
-package geometry
+package geometry.abstractions
 
 /**
  * a spot with any coordinate which does not exist on the reasonably sized field - is considered to be its border

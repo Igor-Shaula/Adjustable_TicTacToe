@@ -1,4 +1,4 @@
-package geometry
+package geometry.abstractions
 
 /**
  * any 2 and more dots in any space can be represented as a line.

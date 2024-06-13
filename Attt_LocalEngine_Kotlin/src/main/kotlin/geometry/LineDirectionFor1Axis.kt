@@ -1,5 +1,7 @@
 package geometry
 
+import geometry.abstractions.LineDirection
+
 /**
  * this is the simplest case - only for one axis - imagine a line where you can move only in two directions
  */

@@ -1,8 +1,8 @@
 package geometry.concept3D
 
-import geometry.Coordinates
+import geometry.abstractions.Coordinates
 import gameLogic.GameField
-import geometry.OneMoveProcessing
+import geometry.abstractions.OneMoveProcessing
 import players.PlayerProvider
 import utilities.Log
 

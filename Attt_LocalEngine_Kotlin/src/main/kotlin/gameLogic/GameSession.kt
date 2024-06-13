@@ -2,8 +2,8 @@ package gameLogic
 
 import players.PlayerModel
 import players.PlayerProvider
-import geometry.Coordinates
-import geometry.OneMoveProcessing
+import geometry.abstractions.Coordinates
+import geometry.abstractions.OneMoveProcessing
 import geometry.concept2D.NearestAreaScanWith2D
 import geometry.concept3D.NearestAreaScanWith3D
 import geometry.conceptXY.NearestAreaScanWithXY

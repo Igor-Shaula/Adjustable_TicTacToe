@@ -1,8 +1,8 @@
 package geometry.concept2D
 
-import geometry.Border
-import geometry.Coordinates
-import geometry.GameSpace
+import geometry.abstractions.Border
+import geometry.abstractions.Coordinates
+import geometry.abstractions.GameSpace
 import geometry.LineDirectionFor1Axis
 
 // extensible alternative for CoordinatesXY

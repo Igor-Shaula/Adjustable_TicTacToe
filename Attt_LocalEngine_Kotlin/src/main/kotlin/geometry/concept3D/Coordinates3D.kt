@@ -1,8 +1,8 @@
 package geometry.concept3D
 
-import geometry.Border
-import geometry.Coordinates
-import geometry.GameSpace
+import geometry.abstractions.Border
+import geometry.abstractions.Coordinates
+import geometry.abstractions.GameSpace
 import geometry.LineDirectionFor1Axis
 
 // 3d as simple as 2d :)
