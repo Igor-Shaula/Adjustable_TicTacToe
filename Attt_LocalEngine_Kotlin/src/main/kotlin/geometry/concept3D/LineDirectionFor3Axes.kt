@@ -1,7 +1,7 @@
 package geometry.concept3D
 
-import geometry.abstractions.LineDirection
 import geometry.LineDirectionFor1Axis
+import geometry.abstractions.LineDirection
 
 internal data class LineDirectionFor3Axes(
     internal val xAxisLD: LineDirectionFor1Axis,

@@ -11,9 +11,9 @@ import geometry.abstractions.GameSpace
 internal data class CoordinatesXY(override val x: Int, override val y: Int) : Coordinates(x, y) {
 
     /**
-     * returns the next possible Coordinate within the given line direction
+     * returns the next possible Coordinate within the given line direction - should be exactly CoordinatesXY
      */
-    internal fun getNextInTheDirection(lineDirectionForXY: LineDirectionForXY): CoordinatesXY = // should be exactly CoordinatesXY
+    internal fun getNextInTheDirection(lineDirectionForXY: LineDirectionForXY): CoordinatesXY =
         CoordinatesXY(x + lineDirectionForXY.dx, y + lineDirectionForXY.dy)
 
     internal fun getTheNextSpaceFor(lineDirectionForXY: LineDirectionForXY, sideLength: Int): GameSpace {

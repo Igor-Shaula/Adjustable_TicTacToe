@@ -1,11 +1,13 @@
 package geometry.concept3D
 
+import geometry.LineDirectionFor1Axis
 import geometry.abstractions.Border
 import geometry.abstractions.Coordinates
 import geometry.abstractions.GameSpace
-import geometry.LineDirectionFor1Axis
 
-// 3d as simple as 2d :)
+/**
+ * 3d as simple as 2d :)
+ */
 internal data class Coordinates3D(
     val xAxis: Int, val yAxis: Int, val zAxis: Int
 ) : Coordinates(xAxis, yAxis, zAxis) {

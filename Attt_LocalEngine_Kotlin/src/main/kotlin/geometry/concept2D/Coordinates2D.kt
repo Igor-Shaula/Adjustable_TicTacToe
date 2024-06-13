@@ -1,11 +1,13 @@
 package geometry.concept2D
 
+import geometry.LineDirectionFor1Axis
 import geometry.abstractions.Border
 import geometry.abstractions.Coordinates
 import geometry.abstractions.GameSpace
-import geometry.LineDirectionFor1Axis
 
-// extensible alternative for CoordinatesXY
+/**
+ * extensible alternative for CoordinatesXY
+ */
 internal data class Coordinates2D(val xAxis: Int, val yAxis: Int) : Coordinates(xAxis, yAxis) {
 
     internal fun getNextInTheDirection(
