@@ -1,8 +1,8 @@
 package geometry.conceptXY
 
-import elements.Border
-import elements.Coordinates
-import elements.GameSpace
+import geometry.Border
+import geometry.Coordinates
+import geometry.GameSpace
 
 /**
  * describes every place on the game field, later add 3rd dimension here.

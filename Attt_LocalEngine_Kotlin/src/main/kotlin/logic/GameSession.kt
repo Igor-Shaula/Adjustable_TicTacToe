@@ -1,6 +1,6 @@
 package logic
 
-import elements.Coordinates
+import geometry.Coordinates
 import elements.Player
 import geometry.OneMoveProcessing
 import geometry.concept2D.NearestAreaScanWith2D

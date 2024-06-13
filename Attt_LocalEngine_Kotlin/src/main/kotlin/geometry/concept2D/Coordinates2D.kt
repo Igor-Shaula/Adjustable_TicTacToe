@@ -1,7 +1,7 @@
 package geometry.concept2D
 
-import elements.*
-import elements.Border
+import geometry.*
+import geometry.Border
 import geometry.LineDirectionFor1Axis
 
 // extensible alternative for CoordinatesXY

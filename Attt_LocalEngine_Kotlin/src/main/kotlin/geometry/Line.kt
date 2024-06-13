@@ -1,4 +1,4 @@
-package elements
+package geometry
 
 // todo: analyze this experimental idea
 //internal class Line {

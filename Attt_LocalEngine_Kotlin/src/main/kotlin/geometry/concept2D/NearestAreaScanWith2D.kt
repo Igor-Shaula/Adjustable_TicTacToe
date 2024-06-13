@@ -1,6 +1,6 @@
 package geometry.concept2D
 
-import elements.Coordinates
+import geometry.Coordinates
 import logic.GameField
 import geometry.OneMoveProcessing
 import logic.PlayerProvider

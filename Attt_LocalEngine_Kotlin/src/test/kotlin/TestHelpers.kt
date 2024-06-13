@@ -1,5 +1,5 @@
-import elements.Border
-import elements.Coordinates
+import geometry.Border
+import geometry.Coordinates
 import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
 import logic.GameSession

@@ -1,4 +1,4 @@
-package elements
+package geometry
 
 open class Coordinates(open val x: Int, open val y: Int, open val z: Int = 0) : GameSpace {
 
