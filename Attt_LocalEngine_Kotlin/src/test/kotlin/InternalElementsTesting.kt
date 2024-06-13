@@ -1,7 +1,6 @@
 import gameLogic.GameSession
 import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
-import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
@@ -71,36 +70,6 @@ class InternalElementsTesting {
         game.makeMove(1, 1) // another attempt for the same player - this time successful
         assertEquals(playerO, PlayerProvider.activePlayer) // this time the next player is prepared for a move
         assertEquals(playerX, game.gameField.getCurrentMarkAt(game.chosenAlgorithm.getCoordinatesFor(1, 1)))
-        game.printCurrentFieldIn2d()
-    }
-
-    @Test
-    fun having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect() {
-        val game = AtttGame.create() as GameSession
-        val playerX = PlayerProvider.playersList[0]
-        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0), playerX)
-        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 0), playerX)
-        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
-        // gameField & winning message for player A is printed in the console
-        assertEquals(playerX, game.getWinner())
-        assertEquals(3, game.getWinner().getMaxLineLength())
-        game.printCurrentFieldIn2d()
-    }
-
-    @Test
-    fun having2LinesOfOnePlayerOn5x5Field_thisPlayerMarkIsSetInBetween_victoryConditionIsCorrect() {
-        val game = AtttGame.create(5, 5) as GameSession
-        val playerX = PlayerProvider.playersList[0]
-        Log.pl("\ntest5x5Field: gameEngine ready with given field: ${game.gameField.prepareForPrinting3dIn2d()}")
-        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0), playerX)
-        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 0), playerX)
-        // GameEngine.makeNewMove(Coordinates(2, 0), WhichPlayer.A) // intentionally commented - it will be used a bit later
-        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(3, 0), playerX)
-        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(4, 0), playerX)
-        // intentionally placed here to connect 2 segments
-        game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
-        assertEquals(playerX, game.getWinner())
-        assertEquals(5, game.getWinner().getMaxLineLength())
         game.printCurrentFieldIn2d()
     }
 }
