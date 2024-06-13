@@ -13,14 +13,14 @@ private const val PLAYER_X_NAME = "PlayerX"
 private const val PLAYER_O_NAME = "PlayerO"
 private const val PLAYER_NONE_NAME = "PlayerNone"
 
-private const val idForPlayerX = 0 // because by convention X is the first
-private const val idForPlayerO = 1 // by convention O goes only after X
-private const val idForPlayerNone = -1
+private const val ID_FOR_PLAYER_X = 0 // because by convention X is the first
+private const val ID_FOR_PLAYER_O = 1 // by convention O goes only after X
+private const val ID_FOR_PLAYER_NONE = -1
 
 // for now - just the replacement of the former enums use
 internal object PlayerProvider {
 
-    val None: AtttPlayer = Player(idForPlayerNone, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE) // one for all cases
+    val None: AtttPlayer = Player(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE) // one for all cases
 
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
     internal var activePlayer: AtttPlayer = None
@@ -44,8 +44,8 @@ internal object PlayerProvider {
         Log.pl("prepareNewPlayersInstances: numberOfPlayersInGameSession = $numberOfPlayersInGameSession")
         playersList = ArrayList(numberOfPlayersInGameSession)
         if (numberOfPlayersInGameSession == MIN_NUMBER_OF_PLAYERS) { // default case for a classic Crosses & Noughts game
-            playersList.add(0, Player(idForPlayerX, PLAYER_X_NAME, SYMBOL_FOR_PLAYER_X)) // usually goes first
-            playersList.add(1, Player(idForPlayerO, PLAYER_O_NAME, SYMBOL_FOR_PLAYER_O)) // usually goes after X
+            playersList.add(0, Player(ID_FOR_PLAYER_X, PLAYER_X_NAME, SYMBOL_FOR_PLAYER_X)) // usually goes first
+            playersList.add(1, Player(ID_FOR_PLAYER_O, PLAYER_O_NAME, SYMBOL_FOR_PLAYER_O)) // usually goes after X
         } else { // more than 2 players
             (0 until numberOfPlayersInGameSession).forEachIndexed { index, _ ->
                 playersList.add(index, Player(index))
