@@ -1,8 +1,8 @@
 package publicApi
 
-import elements.MIN_GAME_FIELD_SIDE_SIZE
-import elements.MIN_NUMBER_OF_PLAYERS
-import elements.MIN_WINNING_LINE_LENGTH
+import constants.MIN_GAME_FIELD_SIDE_SIZE
+import constants.MIN_NUMBER_OF_PLAYERS
+import constants.MIN_WINNING_LINE_LENGTH
 import logic.GameSession
 
 interface AtttPlayer {

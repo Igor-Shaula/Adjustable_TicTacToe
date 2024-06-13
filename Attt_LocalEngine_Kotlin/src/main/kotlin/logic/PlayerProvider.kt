@@ -1,6 +1,11 @@
 package logic
 
-import elements.*
+import constants.MAX_NUMBER_OF_PLAYERS
+import constants.MIN_NUMBER_OF_PLAYERS
+import elements.Player
+import elements.SYMBOL_FOR_PLAYER_NONE
+import elements.SYMBOL_FOR_PLAYER_O
+import elements.SYMBOL_FOR_PLAYER_X
 import publicApi.AtttPlayer
 import utilities.Log
 

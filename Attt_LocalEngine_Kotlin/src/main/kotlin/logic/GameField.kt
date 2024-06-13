@@ -1,5 +1,7 @@
 package logic
 
+import constants.MAX_GAME_FIELD_SIDE_SIZE
+import constants.MIN_GAME_FIELD_SIDE_SIZE
 import elements.*
 import publicApi.AtttPlayer
 import utilities.Log

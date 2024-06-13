@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package elements
+package constants
 
 // all numbers & limitations are set here
 

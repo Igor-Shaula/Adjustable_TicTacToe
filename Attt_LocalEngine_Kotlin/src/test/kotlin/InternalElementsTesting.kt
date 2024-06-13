@@ -1,7 +1,7 @@
 import elements.CoordinatesXY
 import elements.LineDirectionForXY
-import elements.MAX_GAME_FIELD_SIDE_SIZE
-import elements.MIN_GAME_FIELD_SIDE_SIZE
+import constants.MAX_GAME_FIELD_SIDE_SIZE
+import constants.MIN_GAME_FIELD_SIDE_SIZE
 import logic.GameSession
 import logic.NearestAreaScanWithXY
 import logic.PlayerProvider

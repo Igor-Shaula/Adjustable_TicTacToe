@@ -1,4 +1,4 @@
-import elements.MAX_NUMBER_OF_PLAYERS
+import constants.MAX_NUMBER_OF_PLAYERS
 import logic.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
