@@ -2,6 +2,7 @@ package logic
 
 import elements.Coordinates
 import elements.Player
+import geometry.OneMoveProcessing
 import geometry.concept2D.NearestAreaScanWith2D
 import geometry.concept3D.NearestAreaScanWith3D
 import geometry.conceptXY.NearestAreaScanWithXY
