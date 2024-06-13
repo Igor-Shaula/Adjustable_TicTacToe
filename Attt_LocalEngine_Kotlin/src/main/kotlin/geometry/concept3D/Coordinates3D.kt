@@ -6,7 +6,7 @@ import geometry.abstractions.GameSpace
 import geometry.LineDirectionFor1Axis
 
 // 3d as simple as 2d :)
-data class Coordinates3D(
+internal data class Coordinates3D(
     val xAxis: Int, val yAxis: Int, val zAxis: Int
 ) : Coordinates(xAxis, yAxis, zAxis) {
 

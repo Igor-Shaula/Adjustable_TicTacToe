@@ -15,7 +15,7 @@ import utilities.Log
  * this is the main contacting point for any game UI. the game is fully controlled with this singleton.
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
-class GameSession(
+internal class GameSession(
     desiredFieldSize: Int, desiredMaxLineLength: Int, private val is3D: Boolean, desiredPlayerNumber: Int
 ) : AtttGame {
 

@@ -6,7 +6,7 @@ import geometry.abstractions.GameSpace
 import geometry.LineDirectionFor1Axis
 
 // extensible alternative for CoordinatesXY
-data class Coordinates2D(val xAxis: Int, val yAxis: Int) : Coordinates(xAxis, yAxis) {
+internal data class Coordinates2D(val xAxis: Int, val yAxis: Int) : Coordinates(xAxis, yAxis) {
 
     internal fun getNextInTheDirection(
         xAxisDirection: LineDirectionFor1Axis, yAxisDirection: LineDirectionFor1Axis

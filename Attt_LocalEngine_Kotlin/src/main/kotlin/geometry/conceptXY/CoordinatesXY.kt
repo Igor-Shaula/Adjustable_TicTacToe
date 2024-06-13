@@ -8,7 +8,7 @@ import geometry.abstractions.GameSpace
  * describes every place on the game field, later add 3rd dimension here.
  * coordinates for every axis (x & y for now) should exist only here.
  */
-data class CoordinatesXY(override val x: Int, override val y: Int) : Coordinates(x, y) {
+internal data class CoordinatesXY(override val x: Int, override val y: Int) : Coordinates(x, y) {
 
     /**
      * returns the next possible Coordinate within the given line direction

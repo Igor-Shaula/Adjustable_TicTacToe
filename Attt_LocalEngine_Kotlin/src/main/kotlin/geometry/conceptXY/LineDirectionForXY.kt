@@ -6,7 +6,7 @@ import geometry.abstractions.LineDirection
  * describes all possible directions for the simplest line of 2 dots on a 2d field
  * m -> minus, p -> plus, 0 -> no change along this axis
  */
-enum class LineDirectionForXY(val dx: Int, val dy: Int) : LineDirection {
+internal enum class LineDirectionForXY(val dx: Int, val dy: Int) : LineDirection {
     XmY0(-1, 0),    // horizontal to the left
     XpY0(+1, 0),    // horizontal to the right
     X0Ym(0, -1),    // vertical up
