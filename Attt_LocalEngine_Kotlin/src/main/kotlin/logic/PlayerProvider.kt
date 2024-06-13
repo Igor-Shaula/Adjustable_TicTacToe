@@ -9,6 +9,10 @@ import elements.SYMBOL_FOR_PLAYER_X
 import publicApi.AtttPlayer
 import utilities.Log
 
+private const val PLAYER_X_NAME = "PlayerX"
+private const val PLAYER_O_NAME = "PlayerO"
+private const val PLAYER_NONE_NAME = "PlayerNone"
+
 private const val idForPlayerX = 0 // because by convention X is the first
 private const val idForPlayerO = 1 // by convention O goes only after X
 private const val idForPlayerNone = -1

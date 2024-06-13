@@ -9,7 +9,3 @@ internal const val SYMBOL_FOR_FULL_BLOCK = '\u2588' // all space for one charact
 internal const val SYMBOL_FOR_PLAYER_X = 'X'
 internal const val SYMBOL_FOR_PLAYER_O = 'O'
 internal const val SYMBOL_FOR_PLAYER_NONE = '_' // just for case but this should not be ever shown on the game field
-
-internal const val PLAYER_NONE_NAME = "PlayerNone"
-internal const val PLAYER_X_NAME = "PlayerX"
-internal const val PLAYER_O_NAME = "PlayerO"
