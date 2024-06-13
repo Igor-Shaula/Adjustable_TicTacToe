@@ -1,9 +1,5 @@
 package elements
 
-internal interface LineDirection {
-    fun opposite(): LineDirection
-}
-
 sealed interface GameSpace
 
 /**

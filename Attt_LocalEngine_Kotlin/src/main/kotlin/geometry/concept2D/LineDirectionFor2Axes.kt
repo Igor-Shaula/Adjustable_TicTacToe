@@ -1,6 +1,6 @@
 package geometry.concept2D
 
-import elements.LineDirection
+import geometry.LineDirection
 import geometry.LineDirectionFor1Axis
 
 internal data class LineDirectionFor2Axes(

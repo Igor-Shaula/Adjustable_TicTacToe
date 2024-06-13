@@ -1,11 +1,11 @@
 package geometry
 
 // only for one axis - imagine a line where you can move only in two directions
-internal enum class LineDirectionFor1Axis(internal val deltaOne: Int) {
+internal enum class LineDirectionFor1Axis(internal val deltaOne: Int) : LineDirection {
 
     Minus(-1), Plus(+1), None(0);
 
-    internal fun opposite() = when (this) {
+    override fun opposite() = when (this) {
         Minus -> Plus
         Plus -> Minus
         None -> None
