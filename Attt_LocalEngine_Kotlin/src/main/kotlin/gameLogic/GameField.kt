@@ -1,4 +1,4 @@
-package logic
+package gameLogic
 
 import constants.MAX_GAME_FIELD_SIDE_SIZE
 import constants.MIN_GAME_FIELD_SIDE_SIZE

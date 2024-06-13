@@ -1,4 +1,4 @@
-import logic.GameSession
+import gameLogic.GameSession
 import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log

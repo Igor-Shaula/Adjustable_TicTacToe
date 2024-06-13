@@ -1,7 +1,7 @@
 package geometry.conceptXY
 
 import geometry.Coordinates
-import logic.GameField
+import gameLogic.GameField
 import geometry.OneMoveProcessing
 import players.PlayerProvider
 import utilities.Log

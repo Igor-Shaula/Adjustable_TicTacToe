@@ -1,4 +1,4 @@
-package logic
+package gameLogic
 
 import players.PlayerModel
 import players.PlayerProvider

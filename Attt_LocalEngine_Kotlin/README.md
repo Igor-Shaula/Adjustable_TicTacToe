@@ -1,6 +1,6 @@
 # Adjustable Game Engine
 
-This is not a game - it's a logic engine that has to be ready to use by any UI.
+This is not a game - it's a gameLogic engine that has to be ready to use by any UI.
 
 Main concepts:
 - (default) This game field is traditionally a square, so here all its dimensions will be equal.

@@ -2,7 +2,7 @@ import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
 import constants.MAX_GAME_FIELD_SIDE_SIZE
 import constants.MIN_GAME_FIELD_SIDE_SIZE
-import logic.GameSession
+import gameLogic.GameSession
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
 import publicApi.AtttGame

@@ -2,7 +2,7 @@ import geometry.Border
 import geometry.Coordinates
 import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
-import logic.GameSession
+import gameLogic.GameSession
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.test.assertEquals
