@@ -1,4 +1,4 @@
-package elements
+package geometry
 
 // only for one axis - imagine a line where you can move only in two directions
 internal enum class LineDirectionFor1Axis(internal val deltaOne: Int) {

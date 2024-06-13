@@ -1,4 +1,7 @@
-package elements
+package geometry
+
+import elements.*
+import elements.Border
 
 // extensible alternative for CoordinatesXY
 data class Coordinates2D(val xAxis: OneAxis, val yAxis: OneAxis) : Coordinates(xAxis.l, yAxis.l) {

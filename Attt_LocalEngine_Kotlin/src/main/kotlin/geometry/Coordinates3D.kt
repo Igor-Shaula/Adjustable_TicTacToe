@@ -1,4 +1,7 @@
-package elements
+package geometry
+
+import elements.*
+import elements.Border
 
 // 3d as simple as 2d :)
 data class Coordinates3D(

@@ -1,4 +1,8 @@
-package elements
+package geometry
+
+import elements.Border
+import elements.Coordinates
+import elements.GameSpace
 
 /**
  * describes every place on the game field, later add 3rd dimension here.

@@ -1,4 +1,6 @@
-package elements
+package geometry
+
+import elements.LineDirection
 
 internal data class LineDirectionFor3Axes(
     internal val xAxisLD: LineDirectionFor1Axis,

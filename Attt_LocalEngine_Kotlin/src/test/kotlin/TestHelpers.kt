@@ -1,7 +1,7 @@
 import elements.Border
 import elements.Coordinates
-import elements.CoordinatesXY
-import elements.LineDirectionForXY
+import geometry.CoordinatesXY
+import geometry.LineDirectionForXY
 import logic.GameSession
 import publicApi.AtttGame
 import utilities.Log

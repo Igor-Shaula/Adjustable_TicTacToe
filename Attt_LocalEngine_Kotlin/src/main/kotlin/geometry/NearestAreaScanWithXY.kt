@@ -1,8 +1,9 @@
-package logic
+package geometry
 
 import elements.Coordinates
-import elements.CoordinatesXY
-import elements.LineDirectionForXY
+import logic.GameField
+import logic.OneMoveProcessing
+import logic.PlayerProvider
 import utilities.Log
 
 internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMoveProcessing {

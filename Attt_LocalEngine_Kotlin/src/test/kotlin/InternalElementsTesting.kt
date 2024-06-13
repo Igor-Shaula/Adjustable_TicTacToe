@@ -1,9 +1,9 @@
-import elements.CoordinatesXY
-import elements.LineDirectionForXY
+import geometry.CoordinatesXY
+import geometry.LineDirectionForXY
 import constants.MAX_GAME_FIELD_SIDE_SIZE
 import constants.MIN_GAME_FIELD_SIDE_SIZE
 import logic.GameSession
-import logic.NearestAreaScanWithXY
+import geometry.NearestAreaScanWithXY
 import logic.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log

@@ -1,4 +1,6 @@
-package elements
+package geometry
+
+import elements.LineDirection
 
 /**
  * describes all possible directions for the simplest line of 2 dots on a 2d field
