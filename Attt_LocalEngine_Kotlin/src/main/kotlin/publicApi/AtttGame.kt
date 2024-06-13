@@ -5,17 +5,6 @@ import constants.MIN_NUMBER_OF_PLAYERS
 import constants.MIN_WINNING_LINE_LENGTH
 import logic.GameSession
 
-interface AtttPlayer {
-
-    fun getId(): Int
-
-    fun getName(): String?
-
-    fun getSymbol(): Char?
-
-    fun getMaxLineLength(): Int
-}
-
 interface AtttGame {
 
     fun mm(x: Int, y: Int, z: Int = 0): AtttPlayer
