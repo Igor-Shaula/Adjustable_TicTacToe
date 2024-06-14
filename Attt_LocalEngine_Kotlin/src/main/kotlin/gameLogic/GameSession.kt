@@ -89,6 +89,8 @@ internal class GameSession(
      */
     override fun isGameWon() = gameRules.isGameWon()
 
+    override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied(is3D)
+
     /**
      * prints the current state of the game in 2d on console
      */

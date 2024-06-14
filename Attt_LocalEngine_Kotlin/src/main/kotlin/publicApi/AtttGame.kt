@@ -17,6 +17,8 @@ interface AtttGame {
 
     fun isGameWon(): Boolean
 
+    fun isGameFinished(): Boolean
+
     fun printCurrentFieldIn2d()
 
     companion object {
