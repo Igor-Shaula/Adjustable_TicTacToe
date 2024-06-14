@@ -47,17 +47,14 @@ internal object PlayerProvider {
      * sets the currently active player, for which a move will be made & returns the player for the next move
      */
     internal fun prepareNextPlayer(gameIsAlreadyWon: Boolean = false) {
-        if (gameIsAlreadyWon) activePlayer = None
-        activePlayer =
-            if (activePlayer == playersList.last() || activePlayer == None) { // any possible edge case -> select the first
-                playersList.first() // we need a ring here to make this carousel infinite
-            } else {
-                playersList[activePlayer.getId() + 1] // normal case in the middle of a game -> just pick the next one
-            }
+        println("prepareNextPlayer: gameIsAlreadyWon = $gameIsAlreadyWon")
+        activePlayer = if (gameIsAlreadyWon) {
+            None // no real player is ready for the next move as there will be no any move in this game as it's finished
+        } else if (activePlayer == playersList.last() || activePlayer == None) { // any possible edge case -> select the first
+            playersList.first() // we need a ring here to make this carousel infinite
+        } else {
+            playersList[activePlayer.getId() + 1] // normal case in the middle of a game -> just pick the next one
+        }
         Log.pl("activePlayer is set to be: $activePlayer")
-    }
-
-    internal fun clearNextPlayer() {
-        activePlayer = None
     }
 }
