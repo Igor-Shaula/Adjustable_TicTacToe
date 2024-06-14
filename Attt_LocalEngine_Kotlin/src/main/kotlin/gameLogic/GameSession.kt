@@ -66,7 +66,7 @@ internal class GameSession(
                 Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $it")
                 // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
                 (what as PlayerModel).tryToSetMaxLineLength(it)
-                updateGameScore(what, it)
+                gameRules.updatePlayerScore(what, it)
             }
             PlayerProvider.prepareNextPlayer(gameRules.isGameWon())
             PlayerProvider.activePlayer
@@ -100,19 +100,4 @@ internal class GameSession(
     }
 
     // endregion PUBLIC API
-    // --------
-    // region ALL PRIVATE
-
-    /**
-     * gameRules data is updated only here
-     */
-    private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
-        gameRules.updatePlayerScore(whichPlayer, detectedLineLength)
-        if (gameRules.isGameWon()) {
-            Log.pl("player ${gameRules.getWinner().getId()} wins with detectedLineLength: $detectedLineLength")
-            PlayerProvider.clearNextPlayer()
-        }
-    }
-
-    // endregion ALL PRIVATE
 }
