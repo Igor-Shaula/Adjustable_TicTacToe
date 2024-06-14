@@ -32,7 +32,7 @@ internal class GameSession(
 
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
-        PlayerProvider.presetNextPlayer() // this invocation sets the activePlayer to the starting Player among others
+        PlayerProvider.prepareNextPlayer() // this invocation sets the activePlayer to the starting Player among others
     }
 
     // -------
@@ -68,7 +68,7 @@ internal class GameSession(
                 (what as PlayerModel).tryToSetMaxLineLength(it)
                 updateGameScore(what, it)
             }
-            PlayerProvider.presetNextPlayer()
+            PlayerProvider.prepareNextPlayer()
         } else {
             what
         }
