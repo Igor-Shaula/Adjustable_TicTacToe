@@ -35,21 +35,21 @@ internal data class PlayerModel(
         val asciiCode = if (id < 10) {
             id + '0'.code // 0...9
         } else if (id < 10 + 26) { // id: 10...35 -> capital letters
-            id + 'A'.code // A...Z
+            id - (10) + 'A'.code // A...Z
         } else if (id < 10 + 26 + 26) { // id: 36...61 -> small letters
-            id + 'a'.code // a...z
+            id - (10 + 26) + 'a'.code // a...z
         } else if (id < 10 + 26 + 26 + 6) { // id: 62...67 -> signs from ! to & including both
-            id + '!'.code // ! " # $ % &
+            id - (10 + 26 + 26) + '!'.code // ! " # $ % &
         } else if (id < 10 + 26 + 26 + 6 + 6) { // id: 68...73 -> signs from ( to - including both
-            id + '('.code // ( ) * + , -
+            id - (10 + 26 + 26 + 6) + '('.code // ( ) * + , -
         } else if (id < 10 + 26 + 26 + 6 + 6 + 1) { // id = 74 -> sign /
-            id + '/'.code
+            '/'.code
         } else if (id < 10 + 26 + 26 + 6 + 6 + 1 + 7) { // id: 75...81 -> signs from : to @
-            id + ':'.code // : ; < = > ? @
+            id - (10 + 26 + 26 + 6 + 6 + 1) + ':'.code // : ; < = > ? @
         } else if (id < 10 + 26 + 26 + 6 + 6 + 1 + 7 + 4) { // id: 82...85 -> signs from [ to ^
-            id + '['.code // [ \ ] ^
+            id - (10 + 26 + 26 + 6 + 6 + 1 + 7) + '['.code // [ \ ] ^
         } else if (id < 10 + 26 + 26 + 6 + 6 + 1 + 7 + 4 + 4) { // id: 86...89 -> signs from { to ~
-            id + '{'.code // { | } ~
+            id - (10 + 26 + 26 + 6 + 6 + 1 + 7 + 4) + '{'.code // { | } ~
         } else { // id: 90+ -> but this case should not be accessible because
             '_'.code // _
         }
