@@ -4,20 +4,22 @@ import constants.*
 import publicApi.AtttPlayer
 import utilities.Log
 
-// for now - just the replacement of the former enums use
+/**
+ * unified place for handling active player for the upcoming move for any game session
+ */
 internal object PlayerProvider {
 
     // one instance for all cases
-    val None: AtttPlayer = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE)
+    internal val None: AtttPlayer = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE)
 
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
     internal var activePlayer: AtttPlayer = None
         private set
 
-    private var numberOfPlayersInGameSession: Int = -1 // real value cannot be less than 2 and more than 90 for now
-
     internal var playersList: MutableList<PlayerModel> = mutableListOf()
         private set
+
+    private var numberOfPlayersInGameSession: Int = -1 // real value cannot be less than 2 and more than 90 for now
 
     /**
      * resets the activePlayer and creates new instances for all players for every new GameSession instance

@@ -35,9 +35,6 @@ internal class GameSession(
         PlayerProvider.prepareNextPlayer() // this invocation sets the activePlayer to the starting Player among others
     }
 
-    // -------
-    // region PUBLIC API
-
     /**
      * the same as makeMove(...) - this reduction is made for convenience as this method is the most frequently used
      */
@@ -100,6 +97,4 @@ internal class GameSession(
         // not using Log.pl here as this action is intentional & has not be able to switch off
         println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize))
     }
-
-    // endregion PUBLIC API
 }
