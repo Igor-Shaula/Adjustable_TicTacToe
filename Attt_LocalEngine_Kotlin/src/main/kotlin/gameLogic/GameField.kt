@@ -1,14 +1,10 @@
 package gameLogic
 
-import constants.MAX_GAME_FIELD_SIDE_SIZE
-import constants.MIN_GAME_FIELD_SIDE_SIZE
-import constants.SYMBOL_FOR_ABSENT_MARK
-import constants.SYMBOL_FOR_DIVIDER
-import constants.SYMBOL_FOR_NEW_LINE
-import players.PlayerProvider
+import constants.*
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.conceptXY.NearestAreaScanWithXY
+import players.PlayerProvider
 import publicApi.AtttPlayer
 import utilities.Log
 
@@ -81,4 +77,15 @@ internal class GameField(
             // later we can also emit a custom exception here - to be caught on the UI side and ask for another point
             false // new mark is not placed because the space has been already occupied
         }
+
+    fun isCompletelyOccupied(is3D: Boolean): Boolean {
+        Log.pl("isCompletelyOccupied: theMap.size = ${theMap.size}")
+        val maxNumberOfSpaces = if (is3D) {
+            sideLength * sideLength * sideLength
+        } else {
+            sideLength * sideLength
+        }
+        Log.pl("maxNumberOfSpaces = $maxNumberOfSpaces")
+        return theMap.size >= maxNumberOfSpaces
+    }
 }

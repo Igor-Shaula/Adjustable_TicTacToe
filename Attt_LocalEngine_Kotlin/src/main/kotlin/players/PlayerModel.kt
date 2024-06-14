@@ -2,6 +2,9 @@ package players
 
 import publicApi.AtttPlayer
 
+/**
+ * the replacement of the former enums use, completely describes all player's data
+ */
 internal data class PlayerModel(
     private val id: Int, private var name: String? = null, private var symbol: Char? = null
 ) : AtttPlayer {

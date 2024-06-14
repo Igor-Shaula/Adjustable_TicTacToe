@@ -1,12 +1,12 @@
 package gameLogic
 
-import players.PlayerModel
-import players.PlayerProvider
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.concept2D.NearestAreaScanWith2D
 import geometry.concept3D.NearestAreaScanWith3D
 import geometry.conceptXY.NearestAreaScanWithXY
+import players.PlayerModel
+import players.PlayerProvider
 import publicApi.AtttGame
 import publicApi.AtttPlayer
 import utilities.Log
@@ -32,11 +32,8 @@ internal class GameSession(
 
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
-        PlayerProvider.presetNextPlayer() // this invocation sets the activePlayer to the starting Player among others
+        PlayerProvider.prepareNextPlayer() // this invocation sets the activePlayer to the starting Player among others
     }
-
-    // -------
-    // region PUBLIC API
 
     /**
      * the same as makeMove(...) - this reduction is made for convenience as this method is the most frequently used
@@ -66,11 +63,12 @@ internal class GameSession(
                 Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $it")
                 // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
                 (what as PlayerModel).tryToSetMaxLineLength(it)
-                updateGameScore(what, it)
+                gameRules.updatePlayerScore(what, it)
             }
-            PlayerProvider.presetNextPlayer()
+            PlayerProvider.prepareNextPlayer(gameRules.isGameWon())
+            PlayerProvider.activePlayer
         } else {
-            what
+            what // current player's mark was not successfully placed - prepared player stays the same
         }
 
     /**
@@ -88,6 +86,8 @@ internal class GameSession(
      */
     override fun isGameWon() = gameRules.isGameWon()
 
+    override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied(is3D)
+
     /**
      * prints the current state of the game in 2d on console
      */
@@ -97,20 +97,4 @@ internal class GameSession(
         // not using Log.pl here as this action is intentional & has not be able to switch off
         println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize))
     }
-
-    // endregion PUBLIC API
-    // --------
-    // region ALL PRIVATE
-
-    /**
-     * gameRules data is updated only here
-     */
-    private fun updateGameScore(whichPlayer: AtttPlayer, detectedLineLength: Int) {
-        gameRules.updatePlayerScore(whichPlayer, detectedLineLength)
-        if (gameRules.isGameWon()) {
-            Log.pl("player ${gameRules.getWinner().getId()} wins with detectedLineLength: $detectedLineLength")
-        }
-    }
-
-    // endregion ALL PRIVATE
 }

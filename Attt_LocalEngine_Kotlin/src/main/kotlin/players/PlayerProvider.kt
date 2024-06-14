@@ -4,18 +4,22 @@ import constants.*
 import publicApi.AtttPlayer
 import utilities.Log
 
-// for now - just the replacement of the former enums use
+/**
+ * unified place for handling active player for the upcoming move for any game session
+ */
 internal object PlayerProvider {
 
-    val None: AtttPlayer = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE) // one for all cases
+    // one instance for all cases
+    internal val None: AtttPlayer = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE)
 
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
     internal var activePlayer: AtttPlayer = None
         private set
 
-    private var numberOfPlayersInGameSession: Int = -1 // real value cannot be less than 2 and more than 90 for now
-
     internal var playersList: MutableList<PlayerModel> = mutableListOf()
+        private set
+
+    private var numberOfPlayersInGameSession: Int = -1 // real value cannot be less than 2 and more than 90 for now
 
     /**
      * resets the activePlayer and creates new instances for all players for every new GameSession instance
@@ -44,15 +48,15 @@ internal object PlayerProvider {
     /**
      * sets the currently active player, for which a move will be made & returns the player for the next move
      */
-    internal fun presetNextPlayer(): AtttPlayer {
-        // Assignments are not expressions, and only expressions are allowed in this context
-        activePlayer =
-            if (activePlayer == playersList.last() || activePlayer == None) { // any possible edge case -> select the first
-                playersList.first() // we need a ring here to make this carousel infinite
-            } else {
-                playersList[activePlayer.getId() + 1] // normal case in the middle of a game -> just pick the next one
-            }
+    internal fun prepareNextPlayer(gameIsAlreadyWon: Boolean = false) {
+        Log.pl("prepareNextPlayer: gameIsAlreadyWon = $gameIsAlreadyWon")
+        activePlayer = if (gameIsAlreadyWon) {
+            None // no real player is ready for the next move as there will be no any move in this game as it's finished
+        } else if (activePlayer == playersList.last() || activePlayer == None) { // any possible edge case -> select the first
+            playersList.first() // we need a ring here to make this carousel infinite
+        } else {
+            playersList[activePlayer.getId() + 1] // normal case in the middle of a game -> just pick the next one
+        }
         Log.pl("activePlayer is set to be: $activePlayer")
-        return activePlayer
     }
 }

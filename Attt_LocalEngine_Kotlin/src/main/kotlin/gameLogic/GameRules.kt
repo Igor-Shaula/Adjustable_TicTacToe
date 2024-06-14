@@ -4,6 +4,7 @@ import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
 import publicApi.AtttPlayer
+import utilities.Log
 
 /**
  * a single point of check if anybody wins, also container for all limitations & settings of game mechanics.
@@ -32,7 +33,10 @@ internal class GameRules(
     private fun detectLeadingPlayer(): AtttPlayer? = maxLines.entries.maxByOrNull { k -> k.value }?.key
 
     internal fun updatePlayerScore(whichPlayer: AtttPlayer, newLineLength: Int) {
-        if (isGameWon()) return // I decided to preserve the state of gameField when the winner is detected
+        if (isGameWon()) {
+            Log.pl("player ${theWinner.getId()} wins with detectedLineLength: ${theWinner.getMaxLineLength()}")
+            return // I decided to preserve the state of gameField when the winner is detected
+        }
         // the following lines work only when the winner has NOT been yet detected
         if (newLineLength > (maxLines[whichPlayer] ?: 0)) {
             maxLines[whichPlayer] = newLineLength

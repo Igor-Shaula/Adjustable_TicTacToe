@@ -1,12 +1,10 @@
 import constants.MAX_NUMBER_OF_PLAYERS
+import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
 import kotlin.random.Random
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 // simulation of different cases which can emerge when playing as a consumer of this API
 // preferably tests for AtttGame interface & other publicly accessible code of the library
@@ -19,8 +17,7 @@ class PublicApiTesting {
 
     @Test
     fun havingDefault2DField_zAxisIsUpdatedForEveryMove_winnerIsDetectedCorrectlyAsIn2dGame() {
-        val game = AtttGame.create()
-        /*
+        val game = AtttGame.create()/*
             . X x
             . x o
             o x o
@@ -40,8 +37,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3Field_onePlayerGetsMultiplePossibleLines_winnerIsDetectedOnceTheConditionsAreMet() {
-        val game = AtttGame.create()
-        /*
+        val game = AtttGame.create()/*
             . X x
             . x o
             o x o
@@ -61,8 +57,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3x3Field_onePlayerGetsMultiplePossibleLines_winnerIsDetectedOnceTheConditionsAreMet() {
-        val game = AtttGame.create(is3D = true)
-        /*
+        val game = AtttGame.create(is3D = true)/*
             . . x
             . X o <- x x x - on Z axis
             o . o
@@ -106,8 +101,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4Field_onePlayerMakesLongerLineThanAnother_thisPlayerBecomesTheLeadingOne() {
-        val game = AtttGame.create(4, 4)
-        /*
+        val game = AtttGame.create(4, 4)/*
             A B A .
             A B . .
             . B . .
@@ -127,8 +121,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4x4Field_onePlayerMakesLongerLineThanAnother_thisPlayerBecomesTheLeadingOne() {
-        val game = AtttGame.create(4, 4, true)
-        /*
+        val game = AtttGame.create(4, 4, true)/*
             a B a . <- b b b . on Z axis
             a . . .
             . . . .
@@ -148,8 +141,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4Field_3PlayersMakeCorrectMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = AtttGame.create(4, 4, false, 3)
-        /*
+        val game = AtttGame.create(4, 4, false, 3)/*
             A B C .
             A B C .
             A . . .
@@ -169,8 +161,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4x4Field_3PlayersMakeCorrectMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = AtttGame.create(4, 4, true, 3)
-        /*
+        val game = AtttGame.create(4, 4, true, 3)/*
             A B C . <- A A A . on Z-axis
             . B C .
             . . . .
@@ -190,20 +181,52 @@ class PublicApiTesting {
 
     // kind of a load testing on a field that is big and yet still able to fit into console output
     @Test
-    fun having100x100Field_2PlayersMakeRandomMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = AtttGame.create(100, 10, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
+    fun having100x100Field_90PlayersMakeRandomMoves_gameFieldSpaceRunningOutFinishesTheGame() {
+        val game = AtttGame.create(100, 100, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
         Log.switch(false) // speeding up and preventing from huge amount of messages in the console
         var iterationsCount = 0
-        (0..999_999).forEach { _ -> // including ,so it's precisely a million in fact
-            if (!game.isGameWon()) {
+        val moreThanNeeded = 999_999
+        (0..moreThanNeeded).forEach { _ -> // including ,so it's precisely a million in fact
+            if (game.isGameFinished()) { // game is not won but should return true as the free space on game field runs out
+                return@forEach
+            } else {
                 game.mm(Random.nextInt(100), Random.nextInt(100))
                 iterationsCount++
             }
         }
+        assertTrue(iterationsCount < moreThanNeeded)
+        assertEquals(PlayerProvider.None, game.getWinner())
         Log.switch(true) // restoring for possible other tests
         Log.pl("iterationsCount: $iterationsCount")
         Log.pl(
             "player ${game.getLeader().getName()} is leading with maxLineLength: ${game.getLeader().getMaxLineLength()}"
+        )
+        game.printCurrentFieldIn2d()
+    }
+
+    // kind of a load testing on a field that is big and yet still able to fit into console output
+    @Test
+    fun having100x100Field_oneOf90PlayersWins_isGameWonCriterionWorks() {
+        val game = AtttGame.create(100, MIN_WINNING_LINE_LENGTH, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
+        Log.switch(false) // speeding up and preventing from huge amount of messages in the console
+        var iterationsCount = 0
+        val moreThanNeeded = 999_999
+        (0..moreThanNeeded).forEach { _ -> // including ,so it's precisely a million in fact
+            if (game.isGameWon()) { // inner isGameWon() should return true here
+                return@forEach
+            } else {
+                game.mm(Random.nextInt(100), Random.nextInt(100))
+                ++iterationsCount
+            }
+        }
+        assertTrue(iterationsCount < moreThanNeeded)
+        assertNotEquals(PlayerProvider.None, game.getWinner())
+        Log.switch(true) // restoring for possible other tests
+        Log.pl("iterationsCount: $iterationsCount")
+        Log.pl(
+            "player ${game.getLeader().getName()} is leading with maxLineLength: ${
+                game.getLeader().getMaxLineLength()
+            }"
         )
         game.printCurrentFieldIn2d()
     }

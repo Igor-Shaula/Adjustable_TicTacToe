@@ -1,3 +1,4 @@
+import constants.MIN_WINNING_LINE_LENGTH
 import gameLogic.GameSession
 import players.PlayerProvider
 import publicApi.AtttGame
@@ -23,7 +24,8 @@ class VictoryConditionTests {
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
         // gameField & winning message for player A is printed in the console
         assertEquals(playerX, game.getWinner())
-        assertEquals(3, game.getWinner().getMaxLineLength())
+        assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().getMaxLineLength())
+        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 
@@ -41,6 +43,7 @@ class VictoryConditionTests {
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
         assertEquals(playerX, game.getWinner())
         assertEquals(5, game.getWinner().getMaxLineLength())
+        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 
@@ -71,6 +74,8 @@ class VictoryConditionTests {
         // assertEquals(AtttPlayer.A, AtttEngine.getWinner())
         // -> and yes, this is done:
         assertEquals(playerX, game.getWinner())
+        assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().getMaxLineLength())
+        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 
@@ -89,18 +94,16 @@ class VictoryConditionTests {
             . O .
          */
         // gameField & winning message for player B is printed in the console
-        val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
         assertEquals(playerO, game.getWinner())
-        assertEquals(playerX, PlayerProvider.activePlayer) // game is ready for the next potential move in any case
-        assertEquals(3, game.getWinner().getMaxLineLength())
+        assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().getMaxLineLength())
+        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 
     @Test
     fun having3x3Field_realSimulation2PlayersShortenedMovesMade_victoryConditionIsCorrect() {
         val game = AtttGame.create()
-        val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
         game.makeMove(0, 0) // X
         game.makeMove(1, 0) // O
@@ -110,8 +113,8 @@ class VictoryConditionTests {
         game.makeMove(1, 2) // O
         // gameField & winning message for player B is printed in the console
         assertEquals(playerO, game.getWinner())
-        assertEquals(playerX, PlayerProvider.activePlayer) // game is ready for the next potential move in any case
-        assertEquals(3, game.getWinner().getMaxLineLength())
+        assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().getMaxLineLength())
+        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 }
