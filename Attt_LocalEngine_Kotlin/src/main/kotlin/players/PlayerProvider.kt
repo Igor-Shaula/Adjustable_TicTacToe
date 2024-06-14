@@ -47,7 +47,7 @@ internal object PlayerProvider {
      * sets the currently active player, for which a move will be made & returns the player for the next move
      */
     internal fun prepareNextPlayer(gameIsAlreadyWon: Boolean = false) {
-        println("prepareNextPlayer: gameIsAlreadyWon = $gameIsAlreadyWon")
+        Log.pl("prepareNextPlayer: gameIsAlreadyWon = $gameIsAlreadyWon")
         activePlayer = if (gameIsAlreadyWon) {
             None // no real player is ready for the next move as there will be no any move in this game as it's finished
         } else if (activePlayer == playersList.last() || activePlayer == None) { // any possible edge case -> select the first

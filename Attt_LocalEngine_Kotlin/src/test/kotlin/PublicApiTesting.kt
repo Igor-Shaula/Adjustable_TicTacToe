@@ -198,6 +198,8 @@ class PublicApiTesting {
             if (!game.isGameWon()) {
                 game.mm(Random.nextInt(100), Random.nextInt(100))
                 iterationsCount++
+            } else {
+                return@forEach
             }
         }
         Log.switch(true) // restoring for possible other tests
