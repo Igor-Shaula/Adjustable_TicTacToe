@@ -109,6 +109,7 @@ internal class GameSession(
         gameRules.updatePlayerScore(whichPlayer, detectedLineLength)
         if (gameRules.isGameWon()) {
             Log.pl("player ${gameRules.getWinner().getId()} wins with detectedLineLength: $detectedLineLength")
+            PlayerProvider.clearNextPlayer()
         }
     }
 

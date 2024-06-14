@@ -7,7 +7,8 @@ import utilities.Log
 // for now - just the replacement of the former enums use
 internal object PlayerProvider {
 
-    val None: AtttPlayer = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE) // one for all cases
+    // one instance for all cases
+    val None: AtttPlayer = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE)
 
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
     internal var activePlayer: AtttPlayer = None
@@ -16,6 +17,7 @@ internal object PlayerProvider {
     private var numberOfPlayersInGameSession: Int = -1 // real value cannot be less than 2 and more than 90 for now
 
     internal var playersList: MutableList<PlayerModel> = mutableListOf()
+        private set
 
     /**
      * resets the activePlayer and creates new instances for all players for every new GameSession instance
@@ -54,5 +56,9 @@ internal object PlayerProvider {
             }
         Log.pl("activePlayer is set to be: $activePlayer")
         return activePlayer
+    }
+
+    internal fun clearNextPlayer() {
+        activePlayer = None
     }
 }
