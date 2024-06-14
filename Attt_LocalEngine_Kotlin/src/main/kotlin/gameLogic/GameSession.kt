@@ -68,7 +68,7 @@ internal class GameSession(
                 (what as PlayerModel).tryToSetMaxLineLength(it)
                 updateGameScore(what, it)
             }
-            PlayerProvider.prepareNextPlayer()
+            PlayerProvider.prepareNextPlayer(gameRules.isGameWon())
             PlayerProvider.activePlayer
         } else {
             what // current player's mark was not successfully placed - prepared player stays the same
