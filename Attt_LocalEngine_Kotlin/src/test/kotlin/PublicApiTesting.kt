@@ -1,4 +1,5 @@
 import constants.MAX_NUMBER_OF_PLAYERS
+import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
 import publicApi.AtttGame
 import utilities.Log
@@ -190,7 +191,7 @@ class PublicApiTesting {
 
     // kind of a load testing on a field that is big and yet still able to fit into console output
     @Test
-    fun having100x100Field_2PlayersMakeRandomMoves_activePlayerDefinitionForEachMoveIsCorrect() {
+    fun having100x100Field_90PlayersMakeRandomMoves_activePlayerDefinitionForEachMoveIsCorrect() {
         val game = AtttGame.create(100, 10, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
         Log.switch(false) // speeding up and preventing from huge amount of messages in the console
         var iterationsCount = 0
@@ -206,6 +207,34 @@ class PublicApiTesting {
         Log.pl("iterationsCount: $iterationsCount")
         Log.pl(
             "player ${game.getLeader().getName()} is leading with maxLineLength: ${game.getLeader().getMaxLineLength()}"
+        )
+        game.printCurrentFieldIn2d()
+    }
+
+    // kind of a load testing on a field that is big and yet still able to fit into console output
+    @Test
+    fun having100x100Field_oneOf90PlayersWins_isGameFinishedCriterionWorks() {
+        val game = AtttGame.create(10, MIN_WINNING_LINE_LENGTH, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
+        Log.switch(false) // speeding up and preventing from huge amount of messages in the console
+        var iterationsCount = 0
+        val moreThanNeeded = 999_999
+        run longerThanNeeded@{
+            (0..moreThanNeeded).forEach { _ -> // including ,so it's precisely a million in fact
+                if (game.isGameFinished()) {
+                    return@longerThanNeeded
+                } else {
+                    game.mm(Random.nextInt(10), Random.nextInt(10))
+                    ++iterationsCount
+                }
+            }
+        }
+        assertTrue(iterationsCount < moreThanNeeded)
+        Log.switch(true) // restoring for possible other tests
+        Log.pl("iterationsCount: $iterationsCount")
+        Log.pl(
+            "player ${game.getLeader().getName()} is leading with maxLineLength: ${
+                game.getLeader().getMaxLineLength()
+            }"
         )
         game.printCurrentFieldIn2d()
     }
