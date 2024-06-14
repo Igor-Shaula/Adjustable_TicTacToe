@@ -1,12 +1,12 @@
 package gameLogic
 
-import players.PlayerModel
-import players.PlayerProvider
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.concept2D.NearestAreaScanWith2D
 import geometry.concept3D.NearestAreaScanWith3D
 import geometry.conceptXY.NearestAreaScanWithXY
+import players.PlayerModel
+import players.PlayerProvider
 import publicApi.AtttGame
 import publicApi.AtttPlayer
 import utilities.Log
@@ -69,8 +69,9 @@ internal class GameSession(
                 updateGameScore(what, it)
             }
             PlayerProvider.prepareNextPlayer()
+            PlayerProvider.activePlayer
         } else {
-            what
+            what // current player's mark was not successfully placed - prepared player stays the same
         }
 
     /**

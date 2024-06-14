@@ -46,7 +46,7 @@ internal object PlayerProvider {
     /**
      * sets the currently active player, for which a move will be made & returns the player for the next move
      */
-    internal fun prepareNextPlayer(): AtttPlayer {
+    internal fun prepareNextPlayer() {
         // Assignments are not expressions, and only expressions are allowed in this context
         activePlayer =
             if (activePlayer == playersList.last() || activePlayer == None) { // any possible edge case -> select the first
@@ -55,7 +55,6 @@ internal object PlayerProvider {
                 playersList[activePlayer.getId() + 1] // normal case in the middle of a game -> just pick the next one
             }
         Log.pl("activePlayer is set to be: $activePlayer")
-        return activePlayer
     }
 
     internal fun clearNextPlayer() {
