@@ -199,7 +199,7 @@ class PublicApiTesting {
         Log.switch(true) // restoring for possible other tests
         Log.pl("iterationsCount: $iterationsCount")
         Log.pl(
-            "player ${game.getLeader().getName()} is leading with maxLineLength: ${game.getLeader().getMaxLineLength()}"
+            "player ${game.getLeader()} is leading with maxLineLength: ${game.getLeader().getMaxLineLength()}"
         )
         game.printCurrentFieldIn2d()
     }
@@ -224,7 +224,7 @@ class PublicApiTesting {
         Log.switch(true) // restoring for possible other tests
         Log.pl("iterationsCount: $iterationsCount")
         Log.pl(
-            "player ${game.getLeader().getName()} is leading with maxLineLength: ${
+            "player ${game.getLeader()} is leading with maxLineLength: ${
                 game.getLeader().getMaxLineLength()
             }"
         )
