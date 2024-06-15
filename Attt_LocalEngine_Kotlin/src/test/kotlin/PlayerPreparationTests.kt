@@ -64,10 +64,46 @@ class PlayerPreparationTests {
     }
 
     @Test
-    fun having74players_1playersAreAdded_playersSymbolsAreDefinedCorrectly() {
+    fun having74players_1playerIsAdded_playersSymbolsAreDefinedCorrectly() {
         val playersBefore = 10 + 26 + 26 + 6 + 6
         (playersBefore until playersBefore + 1).forEach { i ->
             assertEquals(('/' + i - playersBefore), PlayerModel(i).getSymbol())
+            Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
+        }
+    }
+
+    @Test
+    fun having75players_7playersAreAdded_playersSymbolsAreDefinedCorrectly() {
+        val playersBefore = 10 + 26 + 26 + 6 + 6 + 1
+        (playersBefore until playersBefore + 7).forEach { i ->
+            assertEquals((':' + i - playersBefore), PlayerModel(i).getSymbol())
+            Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
+        }
+    }
+
+    @Test
+    fun having82players_4playersAreAdded_playersSymbolsAreDefinedCorrectly() {
+        val playersBefore = 10 + 26 + 26 + 6 + 6 + 1 + 7
+        (playersBefore until playersBefore + 4).forEach { i ->
+            assertEquals(('[' + i - playersBefore), PlayerModel(i).getSymbol())
+            Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
+        }
+    }
+
+    @Test
+    fun having86players_4playersAreAdded_playersSymbolsAreDefinedCorrectly() {
+        val playersBefore = 10 + 26 + 26 + 6 + 6 + 1 + 7 + 4
+        (playersBefore until playersBefore + 4).forEach { i ->
+            assertEquals(('{' + i - playersBefore), PlayerModel(i).getSymbol())
+            Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
+        }
+    }
+
+    @Test
+    fun having90players_10playersAreAdded_playersSymbolsAreDefinedCorrectly() {
+        val playersBefore = 10 + 26 + 26 + 6 + 6 + 1 + 7 + 4 + 4
+        (playersBefore until playersBefore + 10).forEach { i ->
+            assertEquals('_', PlayerModel(i).getSymbol())
             Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
         }
     }
