@@ -44,4 +44,31 @@ class PlayerPreparationTests {
             Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
         }
     }
+
+    @Test
+    fun having62players_6playersAreAdded_playersSymbolsAreDefinedCorrectly() {
+        val playersBefore = 10 + 26 + 26
+        (playersBefore until playersBefore + 6).forEach { i ->
+            assertEquals(('!' + i - playersBefore), PlayerModel(i).getSymbol())
+            Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
+        }
+    }
+
+    @Test
+    fun having68players_6playersAreAdded_playersSymbolsAreDefinedCorrectly() {
+        val playersBefore = 10 + 26 + 26 + 6
+        (playersBefore until playersBefore + 6).forEach { i ->
+            assertEquals(('(' + i - playersBefore), PlayerModel(i).getSymbol())
+            Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
+        }
+    }
+
+    @Test
+    fun having74players_1playersAreAdded_playersSymbolsAreDefinedCorrectly() {
+        val playersBefore = 10 + 26 + 26 + 6 + 6
+        (playersBefore until playersBefore + 1).forEach { i ->
+            assertEquals(('/' + i - playersBefore), PlayerModel(i).getSymbol())
+            Log.pl("Player's index: $i, symbol: ${PlayerModel(i).getSymbol().toString()}")
+        }
+    }
 }
