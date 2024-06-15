@@ -1,27 +1,49 @@
 import publicApi.AtttGame
 
 fun main() {
-    println("=======================")
-    println("game1 is about to start")
+    play3x3gameWithNoWinner() // 2D
+    println()
+    play3x3gameWhichIsWon() // 2D
+}
 
-    val game1 = AtttGame.create()
-    game1.mm(1, 1)
-    game1.mm(0, 0)
-    game1.mm(1, 2)
-    game1.mm(1, 0)
-    game1.mm(2, 0)
-    game1.mm(0, 2)
-    game1.mm(0, 1)
-    game1.mm(2, 1)
-    game1.mm(2, 2)
-    game1.printCurrentFieldIn2d()
-    println("game1.isGameFinished() = " + game1.isGameFinished())
-    println("game1.isGameWon() = " + game1.isGameWon())
-    println("game1.getWinner() = " + game1.getWinner())
-    println("game1.getLeader() = " + game1.getLeader())
+fun play3x3gameWithNoWinner() {
+    println("=========================")
+    println("game #1 is about to start")
+    val game = AtttGame.create()
+    game.mm(1, 1)
+    game.mm(0, 0)
+    game.mm(1, 2)
+    game.mm(1, 0)
+    game.mm(2, 0)
+    game.mm(0, 2)
+    game.mm(0, 1)
+    game.mm(2, 1)
+    game.mm(2, 2)
+    game.printCurrentFieldIn2d()
+    println("game.isGameFinished() = " + game.isGameFinished())
+    println("game.isGameWon() = " + game.isGameWon())
+    println("game.getWinner() = " + game.getWinner())
+    println("game.getLeader() = " + game.getLeader())
+}
 
-    println("\n=======================")
-    println("\ngame2 is about to start")
+fun play3x3gameWhichIsWon() {
+    println("=========================")
+    println("game #2 is about to start")
+    val game = AtttGame.create()
+    game.mm(1, 1) // X
+    game.mm(2, 1) // O
+    game.mm(2, 0) // X
+    game.mm(0, 2) // O
+    game.mm(1, 2) // X
+    game.mm(2, 2) // O
+    game.printCurrentFieldIn2d()
+    println("game.isGameFinished() = " + game.isGameFinished())
+    game.mm(1, 0) // X - this one was problematic
+    game.printCurrentFieldIn2d()
+    println("game.isGameFinished() = " + game.isGameFinished())
+    println("game.isGameWon() = " + game.isGameWon())
+    println("game.getWinner() = " + game.getWinner())
+}
 
     val game2 = AtttGame.create()
     game2.mm(1, 1) // X
