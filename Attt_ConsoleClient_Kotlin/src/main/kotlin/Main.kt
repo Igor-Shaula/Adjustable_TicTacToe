@@ -7,9 +7,13 @@ fun main() {
     println()
     play3x3x3gameWhichIsWon() // 3D
     println()
-    play4x4gameWhichIsWon() // 2D
+    play4x4gameWhichIsWon() // bigger field & 2D
     println()
-    play4x4x4gameWhichIsWon() // 3D
+    play4x4x4gameWhichIsWon() // bigger field & 3D
+    println()
+    play4x4gameWith3PlayersWhichIsWon() // bigger field & 2D & 3 players
+    println()
+    play4x4x4gameWith3PlayersWhichIsWon() // bigger field & 3D & 3 players
 }
 
 fun play3x3gameWithNoWinner() {
@@ -108,6 +112,52 @@ fun play4x4x4gameWhichIsWon() {
     /*
         a B a . <- b b b . on Z axis
         a . . .
+        . . . .
+        . . . .
+     */
+    game.printCurrentFieldIn2d()
+    println("game.isGameFinished() = " + game.isGameFinished())
+    println("game.isGameWon() = " + game.isGameWon())
+    println("game.getWinner() = " + game.getWinner())
+}
+
+fun play4x4gameWith3PlayersWhichIsWon() {
+    println("=========================")
+    println("game #6 is about to start")
+    val game = AtttGame.create(4, 3, false, 3)
+    game.mm(0, 0) // A
+    game.mm(1, 0) // B
+    game.mm(2, 0) // C
+    game.mm(0, 1) // A -> now A has a line of 2 marks and becomes a leader
+    game.mm(1, 1) // B -> now B also has a line of 2 marks
+    game.mm(2, 1) // C -> now C also has a line of 2 marks
+    game.mm(0, 2) // A -> now A has a line of 3 marks and becomes a new leader
+    /*
+        A B C .
+        A B C .
+        A . . .
+        . . . .
+     */
+    game.printCurrentFieldIn2d()
+    println("game.isGameFinished() = " + game.isGameFinished())
+    println("game.isGameWon() = " + game.isGameWon())
+    println("game.getWinner() = " + game.getWinner())
+}
+
+fun play4x4x4gameWith3PlayersWhichIsWon() {
+    println("=========================")
+    println("game #7 is about to start")
+    val game = AtttGame.create(4, 3, true, 3)
+    game.mm(0, 0, 0) // A
+    game.mm(1, 0, 0) // B
+    game.mm(2, 0, 0) // C
+    game.mm(0, 0, 1) // A -> now A has a line of 2 marks and becomes a leader
+    game.mm(1, 1, 0) // B -> now B also has a line of 2 marks
+    game.mm(2, 1, 0) // C -> now C also has a line of 2 marks
+    game.mm(0, 0, 2) // A -> now A has a line of 3 marks and becomes a new leader
+    /*
+        A B C . <- A A A . on Z-axis
+        . B C .
         . . . .
         . . . .
      */
