@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'org.igor_shaula'
@@ -10,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation files('libs/Attt_LocalEngine-0.3.0.jar')
+    implementation files("libs/Attt_LocalEngine_Kotlin-0.7.4.jar")
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
