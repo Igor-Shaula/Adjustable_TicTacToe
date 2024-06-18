@@ -7,8 +7,8 @@ import geometry.concept3D.NearestAreaScanWith3D
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerModel
 import players.PlayerProvider
-import publicApi.AtttGame
-import publicApi.AtttPlayer
+import attt.Game
+import attt.Player
 import utilities.Log
 
 /**
@@ -17,7 +17,7 @@ import utilities.Log
  */
 internal class GameSession(
     desiredFieldSize: Int, desiredMaxLineLength: Int, private val is3D: Boolean, desiredPlayerNumber: Int
-) : AtttGame {
+) : Game {
 
     // to distinguish between older XY-based logic and new multi-axis-based approach for coordinates processing
     private val useNewDimensionsBasedLogic = true
@@ -36,15 +36,10 @@ internal class GameSession(
     }
 
     /**
-     * the same as makeMove(...) - this reduction is made for convenience as this method is the most frequently used
-     */
-    override fun mm(x: Int, y: Int, z: Int) = makeMove(x, y, z)
-
-    /**
      * this is the only way for a client to make progress in the game.
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
-    override fun makeMove(x: Int, y: Int, z: Int): AtttPlayer {
+    override fun makeMove(x: Int, y: Int, z: Int): Player {
         Log.pl("makeMove: x = $x, y = $y, z = $z")
         val requestedPosition = chosenAlgorithm.getCoordinatesFor(x, y, z)
         return if (requestedPosition.existsWithin(gameField.sideLength)) {
@@ -57,7 +52,7 @@ internal class GameSession(
     /**
      * this function is actually the only place for making moves and thus changing the game field
      */
-    internal fun makeMove(where: Coordinates, what: AtttPlayer = PlayerProvider.activePlayer): AtttPlayer =
+    internal fun makeMove(where: Coordinates, what: Player = PlayerProvider.activePlayer): Player =
         if (gameField.placeNewMark(where, what)) {
             chosenAlgorithm.getMaxLengthAchievedForThisMove(where)?.let {
                 Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $it")
@@ -74,12 +69,12 @@ internal class GameSession(
     /**
      * a client might want to know the currently leading player at any time during the game
      */
-    override fun getLeader(): AtttPlayer = gameRules.getLeadingPlayer()
+    override fun getLeader(): Player = gameRules.getLeadingPlayer()
 
     /**
      * there can be only one winner - Player.None is returned until the winner not yet detected
      */
-    override fun getWinner(): AtttPlayer = gameRules.getWinner()
+    override fun getWinner(): Player = gameRules.getWinner()
 
     /**
      * after the winner is detected there is no way to modify the game field, so the game state is preserved

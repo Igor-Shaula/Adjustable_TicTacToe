@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation files("libs/Attt_LocalEngine_Kotlin-0.7.4.jar")
+    implementation files("libs/Attt_LocalEngine_Kotlin-0.7.5.jar")
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

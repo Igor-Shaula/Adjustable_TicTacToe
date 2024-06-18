@@ -3,7 +3,7 @@ package gameLogic
 import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
-import publicApi.AtttPlayer
+import attt.Player
 import utilities.Log
 
 /**
@@ -13,9 +13,9 @@ internal class GameRules(
     private var winningLength: Int,
     // potentially here we can later add more criteria to detect if the game is won by any of players
 ) {
-    private val maxLines: MutableMap<AtttPlayer, Int> = mutableMapOf()
+    private val maxLines: MutableMap<Player, Int> = mutableMapOf()
 
-    private var theWinner: AtttPlayer = PlayerProvider.None
+    private var theWinner: Player = PlayerProvider.None
 
     init {
         // here we're doing possible corrections that may be needed to keep the game rules reasonable
@@ -25,14 +25,14 @@ internal class GameRules(
 
     internal fun isGameWon(): Boolean = theWinner != PlayerProvider.None
 
-    internal fun getWinner(): AtttPlayer = theWinner
+    internal fun getWinner(): Player = theWinner
 
-    internal fun getLeadingPlayer(): AtttPlayer = detectLeadingPlayer() ?: PlayerProvider.None
+    internal fun getLeadingPlayer(): Player = detectLeadingPlayer() ?: PlayerProvider.None
 
     // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case
-    private fun detectLeadingPlayer(): AtttPlayer? = maxLines.entries.maxByOrNull { k -> k.value }?.key
+    private fun detectLeadingPlayer(): Player? = maxLines.entries.maxByOrNull { k -> k.value }?.key
 
-    internal fun updatePlayerScore(whichPlayer: AtttPlayer, newLineLength: Int) {
+    internal fun updatePlayerScore(whichPlayer: Player, newLineLength: Int) {
         if (isGameWon()) {
             Log.pl("player ${theWinner.getId()} wins with detectedLineLength: ${theWinner.getMaxLineLength()}")
             return // I decided to preserve the state of gameField when the winner is detected

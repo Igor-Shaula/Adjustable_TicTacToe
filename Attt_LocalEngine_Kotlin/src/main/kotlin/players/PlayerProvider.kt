@@ -1,7 +1,7 @@
 package players
 
 import constants.*
-import publicApi.AtttPlayer
+import attt.Player
 import utilities.Log
 
 /**
@@ -10,10 +10,10 @@ import utilities.Log
 internal object PlayerProvider {
 
     // one instance for all cases
-    internal val None: AtttPlayer = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE)
+    internal val None: Player = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE)
 
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
-    internal var activePlayer: AtttPlayer = None
+    internal var activePlayer: Player = None
         private set
 
     internal var playersList: MutableList<PlayerModel> = mutableListOf()

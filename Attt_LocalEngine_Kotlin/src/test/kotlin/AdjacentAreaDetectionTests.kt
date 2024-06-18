@@ -3,7 +3,7 @@ import geometry.abstractions.Border
 import geometry.abstractions.Coordinates
 import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
-import publicApi.AtttGame
+import attt.Game
 import utilities.Log
 import kotlin.test.*
 
@@ -59,7 +59,7 @@ private fun checkTheNextSpotDetectionBlock(startSpot: CoordinatesXY) {
 
 private fun checkTheNextSpotDetectionForLineDirection(startSpot: CoordinatesXY, direction: LineDirectionForXY) {
     // as gameField is a stateful object - we have to reset it every time before a new test
-    val game = AtttGame.create() as GameSession
+    val game = Game.create() as GameSession
     val nextSpot = startSpot.getTheNextSpaceFor(direction, game.gameField.sideLength)
     Log.pl("nextSpot on 3x3 field for $direction is $nextSpot")
     when {

@@ -1,6 +1,6 @@
 package constants
 
-internal const val SYMBOL_FOR_ABSENT_MARK = '·'
+internal const val SYMBOL_FOR_ABSENT_MARK = '.' // '·' used simple dot for avoiding � when launched from Java
 internal const val SYMBOL_FOR_DIVIDER = ' '
 internal const val SYMBOL_FOR_NEW_LINE = '\n' // it can be a Char - no need to use it as the String like "\n"
 
