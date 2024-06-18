@@ -7,19 +7,25 @@ import gameLogic.GameSession
 
 interface AtttGame {
 
+    /**
+     * the only action for a selected/next player during the active game, this one is the most precise form
+     */
     fun makeMove(x: Int, y: Int, z: Int = 0): AtttPlayer
 
     /**
      * the same as makeMove() with 3 arguments, but this one is much more convenient for use in Java code
      */
-    fun makeMove(x: Int, y: Int): AtttPlayer
+    fun makeMove(x: Int, y: Int): AtttPlayer = makeMove(x, y, 0)
 
-    fun mm(x: Int, y: Int, z: Int = 0): AtttPlayer
+    /**
+     * the same as makeMove() - this reduction is made for convenience as this method is the most frequently used
+     */
+    fun mm(x: Int, y: Int, z: Int = 0): AtttPlayer = makeMove(x, y, z)
 
     /**
      * the same as mm() with 3 arguments, but this one is much more convenient for use in Java code
      */
-    fun mm(x: Int, y: Int): AtttPlayer
+    fun mm(x: Int, y: Int): AtttPlayer = makeMove(x, y, 0)
 
     fun getLeader(): AtttPlayer
 
