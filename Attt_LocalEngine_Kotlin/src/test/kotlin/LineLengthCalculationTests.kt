@@ -3,7 +3,7 @@ import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
-import attt.AtttGame
+import attt.Game
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -18,7 +18,7 @@ class LineLengthCalculationTests {
 
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val firstMark = CoordinatesXY(0, 0)
         val secondMark = CoordinatesXY(1, 0)
         val playerX = PlayerProvider.playersList[0]
@@ -36,7 +36,7 @@ class LineLengthCalculationTests {
 
     @Test
     fun having3x3Field_2RemoteMarksAreSetByTheSamePlayer_detectedLineLengthIsCorrect() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val firstMark = CoordinatesXY(0, 0)
         val secondMark = CoordinatesXY(2, 0)
         val playerX = PlayerProvider.playersList[0]
@@ -55,7 +55,7 @@ class LineLengthCalculationTests {
 
     @Test
     fun having3x3Field_2RemoteMarksOfTheSamePlayerAreConnected_detectedLineLengthIsCorrect() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val firstMark = CoordinatesXY(0, 0)
         val secondMark = CoordinatesXY(2, 0)
         val connectingMark = CoordinatesXY(1, 0)
@@ -76,7 +76,7 @@ class LineLengthCalculationTests {
 
     @Test
     fun having3x3Field_2AdjacentMarksOfTheSamePlayerAreAddedWithOneMoreMark_detectedLineLengthIsCorrect() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val firstMark = CoordinatesXY(0, 0)
         val secondMark = CoordinatesXY(1, 0)
         val oneMoreMark = CoordinatesXY(2, 0)
@@ -97,7 +97,7 @@ class LineLengthCalculationTests {
 
     @Test
     fun having3x3Field_2AdjacentMarksAreSetByDifferentPlayers_noLineIsCreatedForAnyPlayer() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val firstMark = CoordinatesXY(0, 0)
         val secondMark = CoordinatesXY(1, 0)
         val firstActivePlayer = PlayerProvider.activePlayer // should be player A

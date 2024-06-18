@@ -1,6 +1,6 @@
 package attt
 
-interface AtttPlayer {
+interface Player {
 
     fun getId(): Int
 

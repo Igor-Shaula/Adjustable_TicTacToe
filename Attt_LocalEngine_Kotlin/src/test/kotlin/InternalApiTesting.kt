@@ -1,6 +1,6 @@
 import gameLogic.GameSession
 import players.PlayerProvider
-import attt.AtttGame
+import attt.Game
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -15,7 +15,7 @@ class InternalApiTesting {
 
     @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val theSameSpot = game.chosenAlgorithm.getCoordinatesFor(1, 1)
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
@@ -27,7 +27,7 @@ class InternalApiTesting {
 
     @Test
     fun having3x3Field_TryToSetMarkForThisPlayerOnWrongPosition_currentPlayerRemainsUnchanged() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
         game.makeMove(-1, -1) // attempt to set the mark on a wrong place

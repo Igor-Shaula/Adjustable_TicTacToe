@@ -5,31 +5,31 @@ import constants.MIN_NUMBER_OF_PLAYERS
 import constants.MIN_WINNING_LINE_LENGTH
 import gameLogic.GameSession
 
-interface AtttGame {
+interface Game {
 
     /**
      * the only action for a selected/next player during the active game, this one is the most precise form
      */
-    fun makeMove(x: Int, y: Int, z: Int = 0): AtttPlayer
+    fun makeMove(x: Int, y: Int, z: Int = 0): Player
 
     /**
      * the same as makeMove() with 3 arguments, but this one is much more convenient for use in Java code
      */
-    fun makeMove(x: Int, y: Int): AtttPlayer = makeMove(x, y, 0)
+    fun makeMove(x: Int, y: Int): Player = makeMove(x, y, 0)
 
     /**
      * the same as makeMove() - this reduction is made for convenience as this method is the most frequently used
      */
-    fun m(x: Int, y: Int, z: Int = 0): AtttPlayer = makeMove(x, y, z)
+    fun m(x: Int, y: Int, z: Int = 0): Player = makeMove(x, y, z)
 
     /**
      * the same as m() with 3 arguments, but this one is much more convenient for use in Java code
      */
-    fun m(x: Int, y: Int): AtttPlayer = makeMove(x, y, 0)
+    fun m(x: Int, y: Int): Player = makeMove(x, y, 0)
 
-    fun getLeader(): AtttPlayer
+    fun getLeader(): Player
 
-    fun getWinner(): AtttPlayer
+    fun getWinner(): Player
 
     fun isGameWon(): Boolean
 
@@ -46,18 +46,18 @@ interface AtttGame {
             desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH,
             is3D: Boolean = false,
             desiredPlayerNumber: Int = MIN_NUMBER_OF_PLAYERS
-        ): AtttGame = GameSession(desiredFieldSize, desiredMaxLineLength, is3D, desiredPlayerNumber)
+        ): Game = GameSession(desiredFieldSize, desiredMaxLineLength, is3D, desiredPlayerNumber)
 
         /**
          * the shortest ever way to get the game ready
          */
-        fun create(): AtttGame =
+        fun create(): Game =
             GameSession(MIN_GAME_FIELD_SIDE_SIZE, MIN_WINNING_LINE_LENGTH, false, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * convenient for getting the game field of bigger size
          */
-        fun create(desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE): AtttGame =
+        fun create(desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE): Game =
             GameSession(desiredFieldSize, MIN_WINNING_LINE_LENGTH, false, MIN_NUMBER_OF_PLAYERS)
 
         /**
@@ -65,18 +65,18 @@ interface AtttGame {
          */
         fun create(
             desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE, desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH
-        ): AtttGame = GameSession(desiredFieldSize, desiredMaxLineLength, false, MIN_NUMBER_OF_PLAYERS)
+        ): Game = GameSession(desiredFieldSize, desiredMaxLineLength, false, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * the shortest ever way to get the game ready in 3D
          */
-        fun create(is3D: Boolean = false): AtttGame =
+        fun create(is3D: Boolean = false): Game =
             GameSession(MIN_GAME_FIELD_SIDE_SIZE, MIN_WINNING_LINE_LENGTH, is3D, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * convenient for getting the game field of bigger size in 3D
          */
-        fun create(desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE, is3D: Boolean = false): AtttGame =
+        fun create(desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE, is3D: Boolean = false): Game =
             GameSession(desiredFieldSize, MIN_WINNING_LINE_LENGTH, is3D, MIN_NUMBER_OF_PLAYERS)
 
         /**
@@ -86,6 +86,6 @@ interface AtttGame {
             desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE,
             desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH,
             is3D: Boolean = false
-        ): AtttGame = GameSession(desiredFieldSize, desiredMaxLineLength, is3D, MIN_NUMBER_OF_PLAYERS)
+        ): Game = GameSession(desiredFieldSize, desiredMaxLineLength, is3D, MIN_NUMBER_OF_PLAYERS)
     }
 }

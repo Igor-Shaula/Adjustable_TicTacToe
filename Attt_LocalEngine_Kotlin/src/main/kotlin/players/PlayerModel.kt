@@ -1,6 +1,6 @@
 package players
 
-import attt.AtttPlayer
+import attt.Player
 
 private const val symbolsBeforeDigits = 0
 private const val symbolsBeforeCapitalLetters = 10
@@ -17,7 +17,7 @@ private const val symbolsBefore5thSymbolsBlock = 10 + 26 + 26 + 6 + 6 + 1 + 7 + 
  */
 internal data class PlayerModel(
     private val id: Int, private var name: String? = null, private var symbol: Char? = null
-) : AtttPlayer {
+) : Player {
 
     init {
         if (name.isNullOrBlank()) name = "Player # $id"

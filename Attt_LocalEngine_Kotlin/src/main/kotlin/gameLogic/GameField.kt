@@ -5,7 +5,7 @@ import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
-import attt.AtttPlayer
+import attt.Player
 import utilities.Log
 
 /**
@@ -28,7 +28,7 @@ internal class GameField(
     }
 
     // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
-    private val theMap: MutableMap<Coordinates, AtttPlayer> = mutableMapOf() // initially empty to save memory
+    private val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
 
     /**
      * returns beautiful & simple String representation of the current state of game field
@@ -53,9 +53,9 @@ internal class GameField(
     /**
      * allows to see what's inside this game field space for the given coordinates
      */
-    internal fun getCurrentMarkAt(coordinates: Coordinates): AtttPlayer? = theMap[coordinates]
+    internal fun getCurrentMarkAt(coordinates: Coordinates): Player? = theMap[coordinates]
 
-    internal fun containsTheSameMark(what: AtttPlayer?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
+    internal fun containsTheSameMark(what: Player?, potentialSpot: Coordinates) = what == theMap[potentialSpot]
 
     internal fun belongToTheSameRealPlayer(givenPlace: Coordinates, potentialSpot: Coordinates): Boolean {
         val newMark = theMap[potentialSpot] // optimization to do finding in map only once
@@ -68,7 +68,7 @@ internal class GameField(
     internal fun isReady(): Boolean =
         sideLength in MIN_GAME_FIELD_SIDE_SIZE..MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
 
-    internal fun placeNewMark(where: Coordinates, what: AtttPlayer): Boolean =
+    internal fun placeNewMark(where: Coordinates, what: Player): Boolean =
         if (theMap[where] == null || theMap[where] == PlayerProvider.None) { // PlayerProvider.None - to ensure all cases
             theMap[where] = what
             true // new mark is successfully placed

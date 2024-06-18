@@ -1,7 +1,7 @@
 import constants.MAX_NUMBER_OF_PLAYERS
 import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
-import attt.AtttGame
+import attt.Game
 import utilities.Log
 import kotlin.random.Random
 import kotlin.test.*
@@ -17,7 +17,7 @@ class PublicApiTesting {
 
     @Test
     fun havingDefault2DField_zAxisIsUpdatedForEveryMove_winnerIsDetectedCorrectlyAsIn2dGame() {
-        val game = AtttGame.create()/*
+        val game = Game.create()/*
             . X x
             . x o
             o x o
@@ -37,7 +37,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3Field_onePlayerGetsMultiplePossibleLines_winnerIsDetectedOnceTheConditionsAreMet() {
-        val game = AtttGame.create()/*
+        val game = Game.create()/*
             . X x
             . x o
             o x o
@@ -57,7 +57,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3x3Field_onePlayerGetsMultiplePossibleLines_winnerIsDetectedOnceTheConditionsAreMet() {
-        val game = AtttGame.create(is3D = true)/*
+        val game = Game.create(is3D = true)/*
             . . x
             . X o <- x x x - on Z axis
             o . o
@@ -77,7 +77,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3Field_onePlayerMakesTheFirstLine_leadingPlayerIsDetectedCorrectly() {
-        val game = AtttGame.create()
+        val game = Game.create()
         game.m(0, 0) // X
         game.m(1, 0) // O
         game.m(0, 1) // X -> now A has a line of 2 marks
@@ -89,7 +89,7 @@ class PublicApiTesting {
 
     @Test
     fun having3x3x3Field_onePlayerMakesTheFirstLine_leadingPlayerIsDetectedCorrectly() {
-        val game = AtttGame.create(is3D = true)
+        val game = Game.create(is3D = true)
         game.m(0, 0, 0) // X
         game.m(1, 0, 0) // O
         game.m(0, 0, 1) // X -> now A has a line of 2 marks
@@ -101,7 +101,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4Field_onePlayerMakesLongerLineThanAnother_thisPlayerBecomesTheLeadingOne() {
-        val game = AtttGame.create(4, 4)/*
+        val game = Game.create(4, 4)/*
             A B A .
             A B . .
             . B . .
@@ -121,7 +121,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4x4Field_onePlayerMakesLongerLineThanAnother_thisPlayerBecomesTheLeadingOne() {
-        val game = AtttGame.create(4, 4, true)/*
+        val game = Game.create(4, 4, true)/*
             a B a . <- b b b . on Z axis
             a . . .
             . . . .
@@ -141,7 +141,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4Field_3PlayersMakeCorrectMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = AtttGame.create(4, 4, false, 3)/*
+        val game = Game.create(4, 4, false, 3)/*
             A B C .
             A B C .
             A . . .
@@ -161,7 +161,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4x4Field_3PlayersMakeCorrectMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = AtttGame.create(4, 4, true, 3)/*
+        val game = Game.create(4, 4, true, 3)/*
             A B C . <- A A A . on Z-axis
             . B C .
             . . . .
@@ -182,7 +182,7 @@ class PublicApiTesting {
     // kind of a load testing on a field that is big and yet still able to fit into console output
     @Test
     fun having100x100Field_90PlayersMakeRandomMoves_gameFieldSpaceRunningOutFinishesTheGame() {
-        val game = AtttGame.create(100, 100, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
+        val game = Game.create(100, 100, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
         Log.switch(false) // speeding up and preventing from huge amount of messages in the console
         var iterationsCount = 0
         val moreThanNeeded = 999_999
@@ -207,7 +207,7 @@ class PublicApiTesting {
     // kind of a load testing on a field that is big and yet still able to fit into console output
     @Test
     fun having100x100Field_oneOf90PlayersWins_isGameWonCriterionWorks() {
-        val game = AtttGame.create(100, MIN_WINNING_LINE_LENGTH, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
+        val game = Game.create(100, MIN_WINNING_LINE_LENGTH, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
         Log.switch(false) // speeding up and preventing from huge amount of messages in the console
         var iterationsCount = 0
         val moreThanNeeded = 999_999

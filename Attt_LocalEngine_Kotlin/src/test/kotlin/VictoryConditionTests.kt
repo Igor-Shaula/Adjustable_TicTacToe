@@ -1,7 +1,7 @@
 import constants.MIN_WINNING_LINE_LENGTH
 import gameLogic.GameSession
 import players.PlayerProvider
-import attt.AtttGame
+import attt.Game
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -17,7 +17,7 @@ class VictoryConditionTests {
 
     @Test
     fun having3x3Field_onlyOnePlayerMarksAreSet_victoryConditionIsCorrect() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val playerX = PlayerProvider.playersList[0]
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0), playerX)
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 0), playerX)
@@ -31,7 +31,7 @@ class VictoryConditionTests {
 
     @Test
     fun having2LinesOfOnePlayerOn5x5Field_thisPlayerMarkIsSetInBetween_victoryConditionIsCorrect() {
-        val game = AtttGame.create(5, 5) as GameSession
+        val game = Game.create(5, 5) as GameSession
         val playerX = PlayerProvider.playersList[0]
         Log.pl("\ntest5x5Field: gameEngine ready with given field: ${game.gameField.prepareForPrinting3dIn2d()}")
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0), playerX)
@@ -50,7 +50,7 @@ class VictoryConditionTests {
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
     @Test
     fun test3x3FieldWithMultiplePossibleLines() { // test name is left as it was in the pull-request
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
 
@@ -81,7 +81,7 @@ class VictoryConditionTests {
 
     @Test
     fun having3x3Field_realSimulation2PlayersMovesMade_victoryConditionIsCorrect() {
-        val game = AtttGame.create() as GameSession
+        val game = Game.create() as GameSession
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(0, 0)) // X
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(1, 0)) // O
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0)) // X
@@ -103,7 +103,7 @@ class VictoryConditionTests {
 
     @Test
     fun having3x3Field_realSimulation2PlayersShortenedMovesMade_victoryConditionIsCorrect() {
-        val game = AtttGame.create()
+        val game = Game.create()
         val playerO = PlayerProvider.playersList[1]
         game.makeMove(0, 0) // X
         game.makeMove(1, 0) // O
