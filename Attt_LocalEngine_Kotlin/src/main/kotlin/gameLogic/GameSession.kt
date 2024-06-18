@@ -36,11 +36,6 @@ internal class GameSession(
     }
 
     /**
-     * the same as makeMove(...) - this reduction is made for convenience as this method is the most frequently used
-     */
-    override fun mm(x: Int, y: Int, z: Int) = makeMove(x, y, z)
-
-    /**
      * this is the only way for a client to make progress in the game.
      * there is no need to set active player - it's detected & returned automatically, like the next cartridge in revolver.
      */
@@ -53,10 +48,6 @@ internal class GameSession(
             PlayerProvider.activePlayer
         }
     }
-
-    override fun mm(x: Int, y: Int): AtttPlayer = mm(x, y, 0)
-
-    override fun makeMove(x: Int, y: Int): AtttPlayer = makeMove(x, y, 0)
 
     /**
      * this function is actually the only place for making moves and thus changing the game field
