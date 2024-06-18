@@ -7,9 +7,19 @@ import gameLogic.GameSession
 
 interface AtttGame {
 
+    fun makeMove(x: Int, y: Int, z: Int = 0): AtttPlayer
+
+    /**
+     * the same as makeMove() with 3 arguments, but this one is much more convenient for use in Java code
+     */
+    fun makeMove(x: Int, y: Int): AtttPlayer
+
     fun mm(x: Int, y: Int, z: Int = 0): AtttPlayer
 
-    fun makeMove(x: Int, y: Int, z: Int = 0): AtttPlayer
+    /**
+     * the same as mm() with 3 arguments, but this one is much more convenient for use in Java code
+     */
+    fun mm(x: Int, y: Int): AtttPlayer
 
     fun getLeader(): AtttPlayer
 
@@ -48,10 +58,8 @@ interface AtttGame {
          * more precise adjustment of winning condition for configurable game field
          */
         fun create(
-            desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE,
-            desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH
-        ): AtttGame =
-            GameSession(desiredFieldSize, desiredMaxLineLength, false, MIN_NUMBER_OF_PLAYERS)
+            desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE, desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH
+        ): AtttGame = GameSession(desiredFieldSize, desiredMaxLineLength, false, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * the shortest ever way to get the game ready in 3D
