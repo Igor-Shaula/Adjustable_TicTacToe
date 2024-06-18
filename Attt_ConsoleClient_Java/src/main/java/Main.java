@@ -1,6 +1,5 @@
-import publicApi.AtttGame;
+import attt.Game;
 
-@SuppressWarnings({"ExplicitToImplicitClassMigration", "StringTemplateMigration"})
 public class Main {
 
     @SuppressWarnings("unused")
@@ -23,7 +22,7 @@ public class Main {
     static void play3x3gameWithNoWinner() {
         System.out.println("=========================");
         System.out.println("game #1 is about to start");
-        var game = AtttGame.Companion.create();
+        var game = Game.Companion.create();
         game.m(1, 1);
         game.m(0, 0);
         game.m(1, 2);
@@ -43,7 +42,7 @@ public class Main {
     static void play3x3gameWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #2 is about to start");
-        var game = AtttGame.Companion.create(3, 3, false, 2);
+        var game = Game.Companion.create();
         game.m(1, 1); // X
         game.m(2, 1); // O
         game.m(2, 0); // X
@@ -62,7 +61,7 @@ public class Main {
     static void play3x3x3gameWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #3 is about to start");
-        var game = AtttGame.Companion.create(3, 3, true, 2);
+        var game = Game.Companion.create(true);
         game.m(1, 1, 0); // X
         game.m(2, 1, 0); // O
         game.m(2, 0, 0); // X
@@ -84,7 +83,7 @@ public class Main {
     static void play4x4gameWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #4 is about to start");
-        var game = AtttGame.Companion.create(4, 3, false, 2);
+        var game = Game.Companion.create(4);
         game.m(0, 0); // X
         game.m(1, 0); // O
         game.m(0, 1); // X -> now A has a line of 2 marks and becomes a leader
@@ -106,7 +105,7 @@ public class Main {
     static void play4x4x4gameWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #5 is about to start");
-        var game = AtttGame.Companion.create(4, 3, true, 2);
+        var game = Game.Companion.create(4, true);
         game.m(0, 0, 0); // X
         game.m(1, 0, 0); // O
         game.m(0, 1, 0); // X -> now A has a line of 2 marks and becomes a leader
@@ -128,7 +127,7 @@ public class Main {
     static void play4x4gameWith3PlayersWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #6 is about to start");
-        var game = AtttGame.Companion.create(4, 3, false, 3);
+        var game = Game.Companion.create(4, 3, false, 3);
         game.m(0, 0); // A
         game.m(1, 0); // B
         game.m(2, 0); // C
@@ -151,7 +150,7 @@ public class Main {
     static void play4x4x4gameWith3PlayersWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #7 is about to start");
-        var game = AtttGame.Companion.create(4, 3, true, 3);
+        var game = Game.Companion.create(4, 3, true, 3);
         game.m(0, 0, 0); // A
         game.m(1, 0, 0); // B
         game.m(2, 0, 0); // C
