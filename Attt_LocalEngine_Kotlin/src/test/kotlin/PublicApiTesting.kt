@@ -1,7 +1,7 @@
 import constants.MAX_NUMBER_OF_PLAYERS
 import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
-import publicApi.AtttGame
+import attt.AtttGame
 import utilities.Log
 import kotlin.random.Random
 import kotlin.test.*

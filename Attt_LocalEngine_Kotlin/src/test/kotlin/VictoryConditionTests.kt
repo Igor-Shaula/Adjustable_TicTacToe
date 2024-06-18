@@ -1,7 +1,7 @@
 import constants.MIN_WINNING_LINE_LENGTH
 import gameLogic.GameSession
 import players.PlayerProvider
-import publicApi.AtttGame
+import attt.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test

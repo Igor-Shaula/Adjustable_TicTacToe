@@ -3,7 +3,7 @@ import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
-import publicApi.AtttGame
+import attt.AtttGame
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test

@@ -3,7 +3,7 @@ package gameLogic
 import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
-import publicApi.AtttPlayer
+import attt.AtttPlayer
 import utilities.Log
 
 /**

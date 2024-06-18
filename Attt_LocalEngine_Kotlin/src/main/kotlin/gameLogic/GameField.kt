@@ -5,7 +5,7 @@ import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
-import publicApi.AtttPlayer
+import attt.AtttPlayer
 import utilities.Log
 
 /**

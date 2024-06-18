@@ -1,4 +1,4 @@
-package publicApi
+package attt
 
 import constants.MIN_GAME_FIELD_SIDE_SIZE
 import constants.MIN_NUMBER_OF_PLAYERS

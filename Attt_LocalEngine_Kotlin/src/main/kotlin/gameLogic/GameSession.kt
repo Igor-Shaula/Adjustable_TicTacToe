@@ -7,8 +7,8 @@ import geometry.concept3D.NearestAreaScanWith3D
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerModel
 import players.PlayerProvider
-import publicApi.AtttGame
-import publicApi.AtttPlayer
+import attt.AtttGame
+import attt.AtttPlayer
 import utilities.Log
 
 /**

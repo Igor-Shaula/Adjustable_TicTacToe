@@ -1,7 +1,7 @@
 import constants.MAX_GAME_FIELD_SIDE_SIZE
 import constants.MIN_GAME_FIELD_SIDE_SIZE
 import gameLogic.GameSession
-import publicApi.AtttGame
+import attt.AtttGame
 import utilities.Log
 import kotlin.test.*
 

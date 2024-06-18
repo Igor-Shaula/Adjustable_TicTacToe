@@ -3,7 +3,7 @@ import geometry.abstractions.Border
 import geometry.abstractions.Coordinates
 import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
-import publicApi.AtttGame
+import attt.AtttGame
 import utilities.Log
 import kotlin.test.*
 

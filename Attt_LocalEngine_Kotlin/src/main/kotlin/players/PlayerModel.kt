@@ -1,6 +1,6 @@
 package players
 
-import publicApi.AtttPlayer
+import attt.AtttPlayer
 
 private const val symbolsBeforeDigits = 0
 private const val symbolsBeforeCapitalLetters = 10

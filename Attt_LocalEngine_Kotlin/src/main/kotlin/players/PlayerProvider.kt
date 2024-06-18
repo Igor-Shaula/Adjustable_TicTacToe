@@ -1,7 +1,7 @@
 package players
 
 import constants.*
-import publicApi.AtttPlayer
+import attt.AtttPlayer
 import utilities.Log
 
 /**
