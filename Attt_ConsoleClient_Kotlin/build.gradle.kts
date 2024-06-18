@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation(files("libs/Attt_LocalEngine_Kotlin-0.7.4.jar"))
+    implementation(files("libs/Attt_LocalEngine_Kotlin-0.7.5.jar"))
     testImplementation(kotlin("test"))
 }
 
