@@ -20,12 +20,12 @@ interface AtttGame {
     /**
      * the same as makeMove() - this reduction is made for convenience as this method is the most frequently used
      */
-    fun mm(x: Int, y: Int, z: Int = 0): AtttPlayer = makeMove(x, y, z)
+    fun m(x: Int, y: Int, z: Int = 0): AtttPlayer = makeMove(x, y, z)
 
     /**
-     * the same as mm() with 3 arguments, but this one is much more convenient for use in Java code
+     * the same as m() with 3 arguments, but this one is much more convenient for use in Java code
      */
-    fun mm(x: Int, y: Int): AtttPlayer = makeMove(x, y, 0)
+    fun m(x: Int, y: Int): AtttPlayer = makeMove(x, y, 0)
 
     fun getLeader(): AtttPlayer
 
