@@ -1,9 +1,9 @@
 package gameLogic
 
+import attt.Player
 import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
-import attt.Player
 import utilities.Log
 
 /**
@@ -34,7 +34,7 @@ internal class GameRules(
 
     internal fun updatePlayerScore(whichPlayer: Player, newLineLength: Int) {
         if (isGameWon()) {
-            Log.pl("player ${theWinner.getId()} wins with detectedLineLength: ${theWinner.getMaxLineLength()}")
+            Log.pl("player ${theWinner.id} wins with detectedLineLength: ${theWinner.maxLineLength}")
             return // I decided to preserve the state of gameField when the winner is detected
         }
         // the following lines work only when the winner has NOT been yet detected
