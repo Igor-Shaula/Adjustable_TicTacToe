@@ -2,11 +2,23 @@ package attt
 
 interface Player {
 
-    fun getId(): Int
+    /**
+     * this is the main criterion to distinguish one player from any other
+     */
+    val id: Int
 
-    fun getName(): String?
+    /**
+     * optional - as the name is not really required to play the game & differ the players
+     */
+    var name: String?
 
-    fun getSymbol(): Char?
+    /**
+     * optional - is set automatically, symbol is used mostly for printing the game field in 2d
+     */
+    var symbol: Char?
 
-    fun getMaxLineLength(): Int
+    /**
+     * the longest achieved line for this player, winning condition check is based on it
+     */
+    var maxLineLength: Int
 }
