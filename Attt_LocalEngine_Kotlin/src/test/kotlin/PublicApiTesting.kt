@@ -1,7 +1,7 @@
+import attt.Game
 import constants.MAX_NUMBER_OF_PLAYERS
 import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
-import attt.Game
 import utilities.Log
 import kotlin.random.Random
 import kotlin.test.*
@@ -83,7 +83,7 @@ class PublicApiTesting {
         game.m(0, 1) // X -> now A has a line of 2 marks
         val playerX = PlayerProvider.playersList[0]
         assertEquals(playerX, game.getLeader())
-        assertEquals(2, game.getLeader().getMaxLineLength())
+        assertEquals(2, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
     }
 
@@ -95,7 +95,7 @@ class PublicApiTesting {
         game.m(0, 0, 1) // X -> now A has a line of 2 marks
         val playerX = PlayerProvider.playersList[0]
         assertEquals(playerX, game.getLeader())
-        assertEquals(2, game.getLeader().getMaxLineLength())
+        assertEquals(2, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
     }
 
@@ -114,8 +114,8 @@ class PublicApiTesting {
         game.m(2, 0) // X -> now A still has a line of 2 marks
         game.m(1, 2) // O -> now B has a line of 3 marks and becomes a new leader
         val playerO = PlayerProvider.playersList[1]
-        assertEquals(playerO.getId(), game.getLeader().getId())
-        assertEquals(3, game.getLeader().getMaxLineLength())
+        assertEquals(playerO.id, game.getLeader().id)
+        assertEquals(3, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
     }
 
@@ -134,8 +134,8 @@ class PublicApiTesting {
         game.m(2, 0, 0) // X -> now A still has a line of 2 marks
         game.m(1, 0, 2) // O -> now B has a line of 3 marks and becomes a new leader
         val playerO = PlayerProvider.playersList[1]
-        assertEquals(playerO.getId(), game.getLeader().getId())
-        assertEquals(3, game.getLeader().getMaxLineLength())
+        assertEquals(playerO.id, game.getLeader().id)
+        assertEquals(3, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
     }
 
@@ -155,7 +155,7 @@ class PublicApiTesting {
         game.m(2, 1) // C -> now C also has a line of 2 marks
         game.m(0, 2) // A -> now A has a line of 3 marks and becomes a new leader
         assertEquals(PlayerProvider.playersList[0], game.getLeader())
-        assertEquals(3, game.getLeader().getMaxLineLength())
+        assertEquals(3, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
     }
 
@@ -175,7 +175,7 @@ class PublicApiTesting {
         game.m(2, 1, 0) // C -> now C also has a line of 2 marks
         game.m(0, 0, 2) // A -> now A has a line of 3 marks and becomes a new leader
         assertEquals(PlayerProvider.playersList[0], game.getLeader())
-        assertEquals(3, game.getLeader().getMaxLineLength())
+        assertEquals(3, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
     }
 
@@ -199,7 +199,7 @@ class PublicApiTesting {
         Log.switch(true) // restoring for possible other tests
         Log.pl("iterationsCount: $iterationsCount")
         Log.pl(
-            "player ${game.getLeader()} is leading with maxLineLength: ${game.getLeader().getMaxLineLength()}"
+            "player ${game.getLeader()} is leading with maxLineLength: ${game.getLeader().maxLineLength}"
         )
         game.printCurrentFieldIn2d()
     }
@@ -225,7 +225,7 @@ class PublicApiTesting {
         Log.pl("iterationsCount: $iterationsCount")
         Log.pl(
             "player ${game.getLeader()} is leading with maxLineLength: ${
-                game.getLeader().getMaxLineLength()
+                game.getLeader().maxLineLength
             }"
         )
         game.printCurrentFieldIn2d()

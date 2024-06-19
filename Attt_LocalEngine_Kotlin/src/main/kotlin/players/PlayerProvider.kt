@@ -1,7 +1,7 @@
 package players
 
-import constants.*
 import attt.Player
+import constants.*
 import utilities.Log
 
 /**
@@ -55,7 +55,7 @@ internal object PlayerProvider {
         } else if (activePlayer == playersList.last() || activePlayer == None) { // any possible edge case -> select the first
             playersList.first() // we need a ring here to make this carousel infinite
         } else {
-            playersList[activePlayer.getId() + 1] // normal case in the middle of a game -> just pick the next one
+            playersList[activePlayer.id + 1] // normal case in the middle of a game -> just pick the next one
         }
         Log.pl("activePlayer is set to be: $activePlayer")
     }
