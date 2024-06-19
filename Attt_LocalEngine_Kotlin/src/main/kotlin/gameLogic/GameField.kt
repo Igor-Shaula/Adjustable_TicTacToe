@@ -1,11 +1,11 @@
 package gameLogic
 
+import attt.Player
 import constants.*
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
-import attt.Player
 import utilities.Log
 
 /**
@@ -41,7 +41,7 @@ internal class GameField(
             sb.append(SYMBOL_FOR_NEW_LINE)
             for (z in 0 until zAxisSize) { // will work only once for 2D
                 for (x in 0 until sideLength) {
-                    sb.append(theMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.getSymbol() ?: SYMBOL_FOR_ABSENT_MARK)
+                    sb.append(theMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.symbol ?: SYMBOL_FOR_ABSENT_MARK)
                         .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
                 }
                 repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value

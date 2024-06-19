@@ -1,5 +1,7 @@
 package gameLogic
 
+import attt.Game
+import attt.Player
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.concept2D.NearestAreaScanWith2D
@@ -7,8 +9,6 @@ import geometry.concept3D.NearestAreaScanWith3D
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerModel
 import players.PlayerProvider
-import attt.Game
-import attt.Player
 import utilities.Log
 
 /**
@@ -55,7 +55,7 @@ internal class GameSession(
     internal fun makeMove(where: Coordinates, what: Player = PlayerProvider.activePlayer): Player =
         if (gameField.placeNewMark(where, what)) {
             chosenAlgorithm.getMaxLengthAchievedForThisMove(where)?.let {
-                Log.pl("makeMove: maxLength for this move of player ${what.getName()} is: $it")
+                Log.pl("makeMove: maxLength for this move of player ${what.name} is: $it")
                 // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
                 (what as PlayerModel).tryToSetMaxLineLength(it)
                 gameRules.updatePlayerScore(what, it)

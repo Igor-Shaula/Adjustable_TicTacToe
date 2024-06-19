@@ -15,9 +15,16 @@ private const val symbolsBefore5thSymbolsBlock = 10 + 26 + 26 + 6 + 6 + 1 + 7 + 
 /**
  * the replacement of the former enums use, completely describes all player's data
  */
-internal data class PlayerModel(
-    private val id: Int, private var name: String? = null, private var symbol: Char? = null
-) : Player {
+internal data class PlayerModel(override val id: Int) : Player {
+
+    override var name: String? = null
+        private set
+
+    override var symbol: Char? = null
+        private set
+
+    override var maxLineLength = 0 // not using get & set here as this data is accessed from AtttPlayer interface
+        private set
 
     init {
         if (name.isNullOrBlank()) name = "Player # $id"
@@ -25,16 +32,6 @@ internal data class PlayerModel(
             symbol = definePlayerSymbolById()
         }
     }
-
-    private var maxLineLength = 0 // not using get & set here as this data is accessed from AtttPlayer interface
-
-    override fun getId(): Int = id // this is the main criterion to distinguish one player from any other
-
-    override fun getName(): String? = name // optional as the name is not required to play the game
-
-    override fun getSymbol(): Char? = symbol // this works mostly for a 2d field
-
-    override fun getMaxLineLength(): Int = maxLineLength
 
     internal fun tryToSetMaxLineLength(newLineLength: Int) {
         if (newLineLength > maxLineLength) maxLineLength = newLineLength
