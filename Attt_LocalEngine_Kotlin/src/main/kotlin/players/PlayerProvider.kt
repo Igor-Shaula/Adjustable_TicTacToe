@@ -10,7 +10,8 @@ import utilities.Log
 internal object PlayerProvider {
 
     // one instance for all cases
-    internal val None: Player = PlayerModel(ID_FOR_PLAYER_NONE, PLAYER_NONE_NAME, SYMBOL_FOR_PLAYER_NONE)
+    internal val None: Player =
+        PlayerModel(ID_FOR_PLAYER_NONE).apply { name = PLAYER_NONE_NAME; symbol = SYMBOL_FOR_PLAYER_NONE }
 
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
     internal var activePlayer: Player = None
@@ -35,8 +36,10 @@ internal object PlayerProvider {
         Log.pl("prepareNewPlayersInstances: numberOfPlayersInGameSession = $numberOfPlayersInGameSession")
         playersList = ArrayList(numberOfPlayersInGameSession)
         if (numberOfPlayersInGameSession == MIN_NUMBER_OF_PLAYERS) { // default case for a classic Crosses & Noughts game
-            playersList.add(0, PlayerModel(ID_FOR_PLAYER_X, PLAYER_X_NAME, SYMBOL_FOR_PLAYER_X)) // usually goes first
-            playersList.add(1, PlayerModel(ID_FOR_PLAYER_O, PLAYER_O_NAME, SYMBOL_FOR_PLAYER_O)) // usually goes after X
+            val playerX = PlayerModel(ID_FOR_PLAYER_X).apply { name = PLAYER_X_NAME; symbol = SYMBOL_FOR_PLAYER_X }
+            playersList.add(0, playerX) // usually goes first
+            val playerO = PlayerModel(ID_FOR_PLAYER_O).apply { name = PLAYER_O_NAME; symbol = SYMBOL_FOR_PLAYER_O }
+            playersList.add(1, playerO) // usually goes after X
         } else { // more than 2 players
             (0 until numberOfPlayersInGameSession).forEachIndexed { index, _ ->
                 playersList.add(index, PlayerModel(index))

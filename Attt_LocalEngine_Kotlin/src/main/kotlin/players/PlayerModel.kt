@@ -15,9 +15,11 @@ private const val symbolsBefore5thSymbolsBlock = 10 + 26 + 26 + 6 + 6 + 1 + 7 + 
 /**
  * the replacement of the former enums use, completely describes all player's data
  */
-internal data class PlayerModel(
-    override val id: Int, override var name: String? = null, override var symbol: Char? = null
-) : Player {
+internal data class PlayerModel(override val id: Int) : Player {
+
+    override var name: String? = null
+
+    override var symbol: Char? = null
 
     override var maxLineLength = 0 // not using get & set here as this data is accessed from AtttPlayer interface
 
