@@ -18,10 +18,13 @@ private const val symbolsBefore5thSymbolsBlock = 10 + 26 + 26 + 6 + 6 + 1 + 7 + 
 internal data class PlayerModel(override val id: Int) : Player {
 
     override var name: String? = null
+        private set
 
     override var symbol: Char? = null
+        private set
 
     override var maxLineLength = 0 // not using get & set here as this data is accessed from AtttPlayer interface
+        private set
 
     init {
         if (name.isNullOrBlank()) name = "Player # $id"
