@@ -4,6 +4,7 @@ import attt.Player
 import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
 import players.PlayerProvider
+import players.PlayerModel
 import utilities.Log
 
 /**
@@ -15,7 +16,7 @@ internal class GameRules(
 ) {
     private val maxLines: MutableMap<Player, Int> = mutableMapOf()
 
-    private var theWinner: Player = PlayerProvider.None
+    private var theWinner: Player = PlayerModel.None
 
     init {
         // here we're doing possible corrections that may be needed to keep the game rules reasonable
@@ -23,11 +24,11 @@ internal class GameRules(
         else if (winningLength < MIN_WINNING_LINE_LENGTH) winningLength = MIN_WINNING_LINE_LENGTH
     }
 
-    internal fun isGameWon(): Boolean = theWinner != PlayerProvider.None
+    internal fun isGameWon(): Boolean = theWinner != PlayerModel.None
 
     internal fun getWinner(): Player = theWinner
 
-    internal fun getLeadingPlayer(): Player = detectLeadingPlayer() ?: PlayerProvider.None
+    internal fun getLeadingPlayer(): Player = detectLeadingPlayer() ?: PlayerModel.None
 
     // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case
     private fun detectLeadingPlayer(): Player? = maxLines.entries.maxByOrNull { k -> k.value }?.key

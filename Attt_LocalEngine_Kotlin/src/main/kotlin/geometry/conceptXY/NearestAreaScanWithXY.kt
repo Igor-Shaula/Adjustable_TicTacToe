@@ -3,7 +3,7 @@ package geometry.conceptXY
 import gameLogic.GameField
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
-import players.PlayerProvider
+import players.PlayerModel
 import utilities.Log
 
 internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMoveProcessing {
@@ -20,7 +20,7 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
 
     private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: CoordinatesXY): List<LineDirectionForXY> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
-        if (checkedMark == null || checkedMark == PlayerProvider.None) {
+        if (checkedMark == null || checkedMark == PlayerModel.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
         }
         val allDirections = mutableListOf<LineDirectionForXY>()

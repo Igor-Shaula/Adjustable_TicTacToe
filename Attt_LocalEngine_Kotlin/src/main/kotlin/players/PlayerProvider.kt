@@ -1,7 +1,8 @@
 package players
 
 import attt.Player
-import constants.*
+import constants.MAX_NUMBER_OF_PLAYERS
+import constants.MIN_NUMBER_OF_PLAYERS
 import utilities.Log
 
 /**
@@ -9,12 +10,8 @@ import utilities.Log
  */
 internal object PlayerProvider {
 
-    // one instance for all cases
-    internal val None: Player =
-        PlayerModel(ID_FOR_PLAYER_NONE).apply { name = PLAYER_NONE_NAME; symbol = SYMBOL_FOR_PLAYER_NONE }
-
     // this is a part of inner game logic - it should be used only internally, for now there's no need to show it to a client
-    internal var activePlayer: Player = None
+    internal var activePlayer: Player = PlayerModel.None
         private set
 
     internal var playersList: MutableList<PlayerModel> = mutableListOf()
@@ -26,7 +23,7 @@ internal object PlayerProvider {
      * resets the activePlayer and creates new instances for all players for every new GameSession instance
      */
     internal fun prepareNewPlayersInstances(desiredNumberOfPlayers: Int) {
-        activePlayer = None
+        activePlayer = PlayerModel.None
         Log.pl("prepareNewPlayersInstances: desiredNumberOfPlayers = $desiredNumberOfPlayers")
         numberOfPlayersInGameSession = when {
             desiredNumberOfPlayers > MAX_NUMBER_OF_PLAYERS -> MAX_NUMBER_OF_PLAYERS
@@ -36,10 +33,8 @@ internal object PlayerProvider {
         Log.pl("prepareNewPlayersInstances: numberOfPlayersInGameSession = $numberOfPlayersInGameSession")
         playersList = ArrayList(numberOfPlayersInGameSession)
         if (numberOfPlayersInGameSession == MIN_NUMBER_OF_PLAYERS) { // default case for a classic Crosses & Noughts game
-            val playerX = PlayerModel(ID_FOR_PLAYER_X).apply { name = PLAYER_X_NAME; symbol = SYMBOL_FOR_PLAYER_X }
-            playersList.add(0, playerX) // usually goes first
-            val playerO = PlayerModel(ID_FOR_PLAYER_O).apply { name = PLAYER_O_NAME; symbol = SYMBOL_FOR_PLAYER_O }
-            playersList.add(1, playerO) // usually goes after X
+            playersList.add(0, PlayerModel.createPlayerX()) // usually goes first
+            playersList.add(1, PlayerModel.createPlayerO()) // usually goes after X
         } else { // more than 2 players
             (0 until numberOfPlayersInGameSession).forEachIndexed { index, _ ->
                 playersList.add(index, PlayerModel(index))
@@ -54,9 +49,11 @@ internal object PlayerProvider {
     internal fun prepareNextPlayer(gameIsAlreadyWon: Boolean = false) {
         Log.pl("prepareNextPlayer: gameIsAlreadyWon = $gameIsAlreadyWon")
         activePlayer = if (gameIsAlreadyWon) {
-            None // no real player is ready for the next move as there will be no any move in this game as it's finished
-        } else if (activePlayer == playersList.last() || activePlayer == None) { // any possible edge case -> select the first
-            playersList.first() // we need a ring here to make this carousel infinite
+            // no real player is ready for the next move as there will be no any move in this game as it's finished
+            PlayerModel.None
+        } else if (activePlayer == playersList.last() || activePlayer == PlayerModel.None) {
+            // any possible edge case -> select the first
+            playersList.first() // we need to do like a ring here to make this carousel infinite
         } else {
             playersList[activePlayer.id + 1] // normal case in the middle of a game -> just pick the next one
         }

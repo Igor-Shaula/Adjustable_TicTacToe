@@ -5,7 +5,7 @@ import constants.*
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.conceptXY.NearestAreaScanWithXY
-import players.PlayerProvider
+import players.PlayerModel
 import utilities.Log
 
 /**
@@ -59,7 +59,7 @@ internal class GameField(
 
     internal fun belongToTheSameRealPlayer(givenPlace: Coordinates, potentialSpot: Coordinates): Boolean {
         val newMark = theMap[potentialSpot] // optimization to do finding in map only once
-        return newMark != null && newMark != PlayerProvider.None && newMark == theMap[givenPlace]
+        return newMark != null && newMark != PlayerModel.None && newMark == theMap[givenPlace]
     }
 
     /**
@@ -69,7 +69,7 @@ internal class GameField(
         sideLength in MIN_GAME_FIELD_SIDE_SIZE..MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
 
     internal fun placeNewMark(where: Coordinates, what: Player): Boolean =
-        if (theMap[where] == null || theMap[where] == PlayerProvider.None) { // PlayerProvider.None - to ensure all cases
+        if (theMap[where] == null || theMap[where] == PlayerModel.None) { // why None? - to ensure all cases coverage
             theMap[where] = what
             true // new mark is successfully placed
         } else {

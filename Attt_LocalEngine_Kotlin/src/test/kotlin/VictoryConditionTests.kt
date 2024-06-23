@@ -1,6 +1,7 @@
 import attt.Game
 import constants.MIN_WINNING_LINE_LENGTH
 import gameLogic.GameSession
+import players.PlayerModel
 import players.PlayerProvider
 import utilities.Log
 import kotlin.test.BeforeTest
@@ -25,7 +26,7 @@ class VictoryConditionTests {
         // gameField & winning message for player A is printed in the console
         assertEquals(playerX, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
-        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
+        assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 
@@ -43,7 +44,7 @@ class VictoryConditionTests {
         game.makeMove(game.chosenAlgorithm.getCoordinatesFor(2, 0), playerX)
         assertEquals(playerX, game.getWinner())
         assertEquals(5, game.getWinner().maxLineLength)
-        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
+        assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 
@@ -75,7 +76,7 @@ class VictoryConditionTests {
         // -> and yes, this is done:
         assertEquals(playerX, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
-        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
+        assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 
@@ -97,7 +98,7 @@ class VictoryConditionTests {
         val playerO = PlayerProvider.playersList[1]
         assertEquals(playerO, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
-        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
+        assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 
@@ -114,7 +115,7 @@ class VictoryConditionTests {
         // gameField & winning message for player B is printed in the console
         assertEquals(playerO, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
-        assertEquals(PlayerProvider.None, PlayerProvider.activePlayer)
+        assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
     }
 }
