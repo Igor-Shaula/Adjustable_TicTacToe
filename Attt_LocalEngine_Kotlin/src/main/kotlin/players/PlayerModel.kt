@@ -1,6 +1,9 @@
 package players
 
 import attt.Player
+import constants.SYMBOL_FOR_PLAYER_NONE
+import constants.SYMBOL_FOR_PLAYER_O
+import constants.SYMBOL_FOR_PLAYER_X
 
 private const val symbolsBeforeDigits = 0
 private const val symbolsBeforeCapitalLetters = 10
@@ -61,5 +64,23 @@ internal data class PlayerModel(override val id: Int) : Player {
             '_'.code // _
         }
         return asciiCode.toChar()
+    }
+
+    /*
+     here I create new instances of players X & O because PlayerModel is stateful
+     and contains maxLineLength which needs to be reset for every game, that would complicate the flow,
+     as maxLineLength is not the only thing which can keep player data from a previous game session.
+     */
+    companion object {
+
+        internal fun createPlayerX() =
+            PlayerModel(ID_FOR_PLAYER_X).apply { name = PLAYER_X_NAME; symbol = SYMBOL_FOR_PLAYER_X }
+
+        internal fun createPlayerO() =
+            PlayerModel(ID_FOR_PLAYER_O).apply { name = PLAYER_O_NAME; symbol = SYMBOL_FOR_PLAYER_O }
+
+        // one instance is enough for all the time of all possible games
+        internal val None: Player =
+            PlayerModel(ID_FOR_PLAYER_NONE).apply { name = PLAYER_NONE_NAME; symbol = SYMBOL_FOR_PLAYER_NONE }
     }
 }

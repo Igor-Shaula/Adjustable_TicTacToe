@@ -1,6 +1,7 @@
 import attt.Game
 import constants.MAX_NUMBER_OF_PLAYERS
 import constants.MIN_WINNING_LINE_LENGTH
+import players.PlayerModel
 import players.PlayerProvider
 import utilities.Log
 import kotlin.random.Random
@@ -195,7 +196,7 @@ class PublicApiTesting {
             }
         }
         assertTrue(iterationsCount < moreThanNeeded)
-        assertEquals(PlayerProvider.None, game.getWinner())
+        assertEquals(PlayerModel.None, game.getWinner())
         Log.switch(true) // restoring for possible other tests
         Log.pl("iterationsCount: $iterationsCount")
         Log.pl(
@@ -220,7 +221,7 @@ class PublicApiTesting {
             }
         }
         assertTrue(iterationsCount < moreThanNeeded)
-        assertNotEquals(PlayerProvider.None, game.getWinner())
+        assertNotEquals(PlayerModel.None, game.getWinner())
         Log.switch(true) // restoring for possible other tests
         Log.pl("iterationsCount: $iterationsCount")
         Log.pl(
