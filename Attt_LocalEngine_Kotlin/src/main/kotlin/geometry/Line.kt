@@ -1,6 +1,5 @@
 package geometry
 
-import constants.MAX_WINNING_LINE_LENGTH
 import geometry.abstractions.Coordinates
 
 /**
@@ -11,36 +10,42 @@ import geometry.abstractions.Coordinates
  * processing/detecting of the line direction is not a job of the line.
  * all existing lines are meant to be proven/correct/checked to be straight & aligned in a direction.
  */
-internal data class Line(val startingMark: Coordinates, val adjacentMark: Coordinates) {
+internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
 
-    // decided to initially allocate maximum of memory to avoid possible re-allocations
-    val marks: ArrayDeque<Coordinates> = ArrayDeque(initialCapacity = MAX_WINNING_LINE_LENGTH)
+    /**
+     * why a Set? -> because each coordinate is unique, and also we need unordered set
+     * - to avoid keeping track of a starting point and its repositioning in case of adding a new mark before it.
+     * also I decided to avoid using LineDirection concept here - for simplicity.
+     * all control of line correctness is done at the level of line detection inside existing logic chains.
+     */
+    val marks: MutableSet<Coordinates> = mutableSetOf()
 
     init {
-        marks.addFirst(startingMark)
-        marks.addLast(adjacentMark)
+        marks.add(startingMark)
+        marks.add(adjacentMark)
     }
 
-    internal fun addToHead(newMark: Coordinates) {
-        marks.addFirst(newMark)
+    internal fun add(newMark: Coordinates) {
+        marks.add(newMark)
     }
 
-    internal fun addToTail(newMark: Coordinates) {
-        marks.addLast(newMark)
-    }
+    /*
+        // it is decided to treat two lines with similar marks but opposite direction as one (the same) line
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            return if (other == null || other !is Line) false
+            else this.startingMark == other.adjacentMark && this.adjacentMark == other.startingMark
+        }
 
-    // it is decided to treat two lines with similar marks but opposite direction as one (the same) line
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        return if (other == null || other !is Line) false
-        else this.startingMark == other.adjacentMark && this.adjacentMark == other.startingMark
-    }
-
-    // if we override equals -> we have to override hashCode as well to prevent from breaking their contract
-    override fun hashCode(): Int {
-        return (startingMark.z + adjacentMark.z) * 1_000_000 + // 1 & 1 -> 2_000_000
-                (startingMark.y + adjacentMark.y) * 1_000 + // 1 & 1 -> 2_002_000
-                (startingMark.x + adjacentMark.x) // 1 & 1 -> 2_002_002
-        // this is only beginning implementation - later check upper limits & maybe include lineDirection here
-    }
+        // if we override equals -> we have to override hashCode as well to prevent from breaking their contract
+        override fun hashCode(): Int {
+            return (startingMark.z + adjacentMark.z) * 1_000_000 + // 1 & 1 -> 2_000_000
+                    (startingMark.y + adjacentMark.y) * 1_000 + // 1 & 1 -> 2_002_000
+                    (startingMark.x + adjacentMark.x) // 1 & 1 -> 2_002_002
+            // this is only beginning implementation - later check upper limits & maybe include lineDirection here
+        }
+    */
 }
+
+internal fun Set<Line?>.getMaxLength(): Int =
+    this.maxByOrNull { line: Line? -> line?.marks?.size ?: 0 }?.marks?.size ?: 0
