@@ -3,6 +3,8 @@ package gameLogic
 import attt.Player
 import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
+import geometry.Line
+import geometry.getMaxLength
 import players.PlayerProvider
 import players.PlayerModel
 import utilities.Log
@@ -11,10 +13,14 @@ import utilities.Log
  * a single point of check if anybody wins, also container for all limitations & settings of game mechanics.
  */
 internal class GameRules(
-    private var winningLength: Int,
+    private var winningLength: Int
     // potentially here we can later add more criteria to detect if the game is won by any of players
 ) {
+    // quickly accessible container for every player's achievements - needed for getting a winner & a leader
     private val maxLines: MutableMap<Player, Int> = mutableMapOf()
+
+    // contains all detected lines for every player - should not be looped/read during every move
+    private val allPlayersLines: MutableMap<Player, MutableSet<Line?>> = mutableMapOf()
 
     private var theWinner: Player = PlayerModel.None
 
@@ -31,7 +37,10 @@ internal class GameRules(
     internal fun getLeadingPlayer(): Player = detectLeadingPlayer() ?: PlayerModel.None
 
     // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case
-    private fun detectLeadingPlayer(): Player? = maxLines.entries.maxByOrNull { k -> k.value }?.key
+    private fun detectLeadingPlayer(): Player? = maxLines.entries.maxByOrNull { length -> length.value }?.key
+
+    private fun detectLeadingPlayerFromSet(): Player? =
+        allPlayersLines.entries.maxByOrNull { setOfLines -> setOfLines.value.getMaxLength() }?.key
 
     internal fun updatePlayerScore(whichPlayer: Player, newLineLength: Int) {
         if (isGameWon()) {
@@ -43,5 +52,10 @@ internal class GameRules(
             maxLines[whichPlayer] = newLineLength
             if (newLineLength >= winningLength) theWinner = whichPlayer
         }
+    }
+
+    internal fun saveNewLine(player: Player, line: Line) {
+        allPlayersLines[player]?.add(line)
+        Log.pl("saveNewLine: saved new line: $line for player: ${player.name}")
     }
 }
