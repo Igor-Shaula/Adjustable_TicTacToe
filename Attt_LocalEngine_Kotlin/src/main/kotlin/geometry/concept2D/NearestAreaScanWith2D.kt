@@ -1,6 +1,8 @@
 package geometry.concept2D
 
+import attt.Player
 import gameLogic.GameField
+import geometry.Line
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import players.PlayerModel
@@ -8,7 +10,7 @@ import utilities.Log
 
 internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMoveProcessing {
 
-    override fun getMaxLengthAchievedForThisMove(where: Coordinates): Int? {
+    override fun getMaxLengthAchievedForThisMove(where: Coordinates, saveNewLine: (Player, Line) -> Unit): Int? {
         if (where !is Coordinates2D) return null
         return detectAllExistingLineDirectionsFromThePlacedMark(where)
             .maxOfOrNull { twoAxisDirection ->

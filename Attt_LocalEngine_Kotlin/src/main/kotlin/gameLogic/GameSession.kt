@@ -54,7 +54,9 @@ internal class GameSession(
      */
     internal fun makeMove(where: Coordinates, what: Player = PlayerProvider.activePlayer): Player =
         if (gameField.placeNewMark(where, what)) {
-            chosenAlgorithm.getMaxLengthAchievedForThisMove(where)?.let {
+            chosenAlgorithm.getMaxLengthAchievedForThisMove(where) { player, line ->
+                gameRules.saveNewLine(player, line)
+            }?.let {
                 Log.pl("makeMove: maxLength for this move of player ${what.name} is: $it")
                 // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
                 (what as PlayerModel).tryToSetMaxLineLength(it)
