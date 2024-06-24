@@ -5,7 +5,6 @@ import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
 import geometry.Line
 import geometry.getMaxLength
-import players.PlayerProvider
 import players.PlayerModel
 import utilities.Log
 
@@ -20,7 +19,7 @@ internal class GameRules(
     private val maxLines: MutableMap<Player, Int> = mutableMapOf()
 
     // contains all detected lines for every player - should not be looped/read during every move
-    private val allPlayersLines: MutableMap<Player, MutableSet<Line?>> = mutableMapOf()
+    internal val allPlayersLines: MutableMap<Player, MutableSet<Line?>> = mutableMapOf()
 
     private var theWinner: Player = PlayerModel.None
 
@@ -55,7 +54,11 @@ internal class GameRules(
     }
 
     internal fun saveNewLine(player: Player, line: Line) {
-        allPlayersLines[player]?.add(line)
-        Log.pl("saveNewLine: saved new line: $line for player: ${player.name}")
+        var setOfThisPlayerLines = allPlayersLines[player]
+        if (setOfThisPlayerLines == null) { // here we do not know currently existing number of players
+            setOfThisPlayerLines = mutableSetOf() // because initially a set for every player does not exist
+        }
+        setOfThisPlayerLines.add(line)
+        allPlayersLines[player] = setOfThisPlayerLines
     }
 }
