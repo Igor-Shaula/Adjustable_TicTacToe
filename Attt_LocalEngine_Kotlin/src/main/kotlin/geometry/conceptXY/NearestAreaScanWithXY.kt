@@ -18,14 +18,15 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
         if (where !is CoordinatesXY) return null
         return detectAllExistingLineDirectionsFromThePlacedMark(where, saveNewLine)
             .maxOfOrNull { lineDirection ->
-                measureFullLengthForExistingLineFrom(where, lineDirection)
+                measureFullLengthForExistingLineFrom(where, lineDirection, addNewMark)
             }
     }
 
     override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = CoordinatesXY(x, y)
 
     private fun detectAllExistingLineDirectionsFromThePlacedMark(
-        fromWhere: CoordinatesXY, saveNewLine: (Player, Line) -> Unit
+        fromWhere: CoordinatesXY,
+        saveNewLine: (Player, Line) -> Unit
     ): List<LineDirectionForXY> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerModel.None) {
@@ -46,7 +47,9 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
     }
 
     private fun measureFullLengthForExistingLineFrom(
-        start: CoordinatesXY, lineDirectionForXY: LineDirectionForXY
+        start: CoordinatesXY,
+        lineDirectionForXY: LineDirectionForXY,
+        addNewMark: (Player, Coordinates) -> Unit
     ): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
         // we also have a proven placed dot of the same player in the detected line direction.
@@ -55,15 +58,18 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
         var lineTotalLength = 0
         if (checkedNearCoordinates is CoordinatesXY) {
             lineTotalLength =
-                measureLineFrom(checkedNearCoordinates, lineDirectionForXY, 2) +
-                        measureLineFrom(start, lineDirectionForXY.opposite(), 0)
+                measureLineFrom(checkedNearCoordinates, lineDirectionForXY, 2, addNewMark) +
+                        measureLineFrom(start, lineDirectionForXY.opposite(), 0, addNewMark)
             Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
         } // else checkedNearCoordinates cannot be Border or anything else apart from Coordinates type
         return lineTotalLength
     }
 
     internal fun measureLineFrom(
-        givenMark: CoordinatesXY, lineDirectionForXY: LineDirectionForXY, startingLength: Int
+        givenMark: CoordinatesXY,
+        lineDirectionForXY: LineDirectionForXY,
+        startingLength: Int,
+        addNewMark: (Player, Coordinates) -> Unit = { _, _ -> }
     ): Int {
         Log.pl("measureLineFrom: given startingLength: $startingLength")
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
@@ -71,7 +77,9 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
         val nextMark = givenMark.getTheNextSpaceFor(lineDirectionForXY, gameField.sideLength)
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
         return if (nextMark is CoordinatesXY && gameField.belongToTheSameRealPlayer(givenMark, nextMark)) {
-            measureLineFrom(nextMark, lineDirectionForXY, startingLength + 1)
+            // here the line gets longer by one new mark, this is a side effect to the measurement
+            gameField.getCurrentMarkAt(givenMark)?.let { addNewMark(it, nextMark) }
+            measureLineFrom(nextMark, lineDirectionForXY, startingLength + 1, addNewMark)
         } else {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength
