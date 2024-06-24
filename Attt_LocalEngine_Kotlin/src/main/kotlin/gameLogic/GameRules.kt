@@ -4,6 +4,7 @@ import attt.Player
 import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
 import geometry.Line
+import geometry.abstractions.Coordinates
 import geometry.getMaxLength
 import players.PlayerModel
 import utilities.Log
@@ -60,5 +61,10 @@ internal class GameRules(
         }
         setOfThisPlayerLines.add(line)
         allPlayersLines[player] = setOfThisPlayerLines
+    }
+
+    internal fun addToRecentLine(player: Player, coordinates: Coordinates) {
+        // as LinkedHashSet is the default implementation of Set in Kotlin - we have the order of insertions preserved
+        allPlayersLines[player]?.last()?.add(coordinates)
     }
 }
