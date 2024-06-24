@@ -12,7 +12,7 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
 
     override fun getMaxLengthAchievedForThisMove(where: Coordinates, saveNewLine: (Player, Line) -> Unit): Int? {
         if (where !is CoordinatesXY) return null
-        return detectAllExistingLineDirectionsFromThePlacedMark(where)
+        return detectAllExistingLineDirectionsFromThePlacedMark(where, saveNewLine)
             .maxOfOrNull { lineDirection ->
                 measureFullLengthForExistingLineFrom(where, lineDirection)
             }
@@ -20,7 +20,9 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
 
     override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = CoordinatesXY(x, y)
 
-    private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: CoordinatesXY): List<LineDirectionForXY> {
+    private fun detectAllExistingLineDirectionsFromThePlacedMark(
+        fromWhere: CoordinatesXY, saveNewLine: (Player, Line) -> Unit
+    ): List<LineDirectionForXY> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerModel.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
@@ -33,6 +35,7 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
             ) {
                 allDirections.add(lineDirection)
                 Log.pl("line exists in direction: $lineDirection")
+                saveNewLine(checkedMark, Line(fromWhere, nextCoordinates))
             }
         }
         return allDirections // is empty if no lines ae found in all possible directions

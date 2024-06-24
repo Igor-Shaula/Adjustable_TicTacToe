@@ -12,7 +12,7 @@ internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMove
 
     override fun getMaxLengthAchievedForThisMove(where: Coordinates, saveNewLine: (Player, Line) -> Unit): Int? {
         if (where !is Coordinates2D) return null
-        return detectAllExistingLineDirectionsFromThePlacedMark(where)
+        return detectAllExistingLineDirectionsFromThePlacedMark(where, saveNewLine)
             .maxOfOrNull { twoAxisDirection ->
                 measureFullLengthForExistingLineFrom(where, twoAxisDirection)
             }
@@ -20,7 +20,9 @@ internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMove
 
     override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = Coordinates2D(x, y)
 
-    private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates2D): List<LineDirectionFor2Axes> {
+    private fun detectAllExistingLineDirectionsFromThePlacedMark(
+        fromWhere: Coordinates2D, saveNewLine: (Player, Line) -> Unit
+    ): List<LineDirectionFor2Axes> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerModel.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
@@ -35,6 +37,7 @@ internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMove
             ) {
                 allDirections.add(twoAxisDirection)
                 Log.pl("line exists in direction: $twoAxisDirection")
+                saveNewLine(checkedMark, Line(fromWhere, nextCoordinates))
             }
         }
         return allDirections // is empty if no lines ae found in all possible directions

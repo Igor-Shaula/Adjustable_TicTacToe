@@ -12,7 +12,7 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
 
     override fun getMaxLengthAchievedForThisMove(where: Coordinates, saveNewLine: (Player, Line) -> Unit): Int? {
         if (where !is Coordinates3D) return null
-        return detectAllExistingLineDirectionsFromThePlacedMark(where)
+        return detectAllExistingLineDirectionsFromThePlacedMark(where, saveNewLine)
             .maxOfOrNull { threeAxesDirection ->
                 measureFullLengthForExistingLineFrom(where, threeAxesDirection)
             }
@@ -20,7 +20,9 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
 
     override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = Coordinates3D(x, y, z)
 
-    private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates3D): List<LineDirectionFor3Axes> {
+    private fun detectAllExistingLineDirectionsFromThePlacedMark(
+        fromWhere: Coordinates3D, saveNewLine: (Player, Line) -> Unit
+    ): List<LineDirectionFor3Axes> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerModel.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
@@ -35,6 +37,7 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
             ) {
                 allDirections.add(threeAxisDirection)
                 Log.pl("line exists in direction: $threeAxisDirection")
+                saveNewLine(checkedMark, Line(fromWhere, nextCoordinates))
             }
         }
         return allDirections // is empty if no lines ae found in all possible directions
