@@ -8,7 +8,11 @@ import geometry.Line
  */
 internal interface OneMoveProcessing {
 
-    fun getMaxLengthAchievedForThisMove(where: Coordinates, saveNewLine: (Player, Line) -> Unit): Int?
+    fun getMaxLengthAchievedForThisMove(
+        where: Coordinates,
+        saveNewLine: (Player, Line) -> Unit,
+        addNewMark: (Player, Coordinates) -> Unit
+    ): Int?
 
     fun getCoordinatesFor(x: Int, y: Int, z: Int = 0): Coordinates
 }

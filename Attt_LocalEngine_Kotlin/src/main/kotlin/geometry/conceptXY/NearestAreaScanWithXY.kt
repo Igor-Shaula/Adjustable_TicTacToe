@@ -10,7 +10,11 @@ import utilities.Log
 
 internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMoveProcessing {
 
-    override fun getMaxLengthAchievedForThisMove(where: Coordinates, saveNewLine: (Player, Line) -> Unit): Int? {
+    override fun getMaxLengthAchievedForThisMove(
+        where: Coordinates,
+        saveNewLine: (Player, Line) -> Unit,
+        addNewMark: (Player, Coordinates) -> Unit
+    ): Int? {
         if (where !is CoordinatesXY) return null
         return detectAllExistingLineDirectionsFromThePlacedMark(where, saveNewLine)
             .maxOfOrNull { lineDirection ->

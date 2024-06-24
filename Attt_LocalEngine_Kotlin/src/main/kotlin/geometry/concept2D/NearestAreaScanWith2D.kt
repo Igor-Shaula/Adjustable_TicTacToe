@@ -10,7 +10,9 @@ import utilities.Log
 
 internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMoveProcessing {
 
-    override fun getMaxLengthAchievedForThisMove(where: Coordinates, saveNewLine: (Player, Line) -> Unit): Int? {
+    override fun getMaxLengthAchievedForThisMove(
+        where: Coordinates, saveNewLine: (Player, Line) -> Unit, addNewMark: (Player, Coordinates) -> Unit
+    ): Int? {
         if (where !is Coordinates2D) return null
         return detectAllExistingLineDirectionsFromThePlacedMark(where, saveNewLine)
             .maxOfOrNull { twoAxisDirection ->
