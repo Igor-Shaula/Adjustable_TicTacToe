@@ -23,7 +23,7 @@ internal class GameSession(
     private val useNewDimensionsBasedLogic = true
 
     internal var gameField: GameField = GameField(desiredFieldSize)
-    private var gameRules: GameRules = GameRules(desiredMaxLineLength)
+    internal var gameRules: GameRules = GameRules(desiredMaxLineLength)
 
     // the only place for switching between kinds of algorithms for every move processing
     internal val chosenAlgorithm: OneMoveProcessing =
@@ -95,5 +95,15 @@ internal class GameSession(
         val zAxisSize = if (is3D) gameField.sideLength else 1
         // not using Log.pl here as this action is intentional & has not be able to switch off
         println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize))
+    }
+
+    fun printExistingLinesFor(player: Player) {
+        println("printExistingLinesFor")
+        val allExistingLinesForThisPlayer = gameRules.allPlayersLines[player]
+        println(allExistingLinesForThisPlayer)
+        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
+        val zAxisSize = if (is3D) gameField.sideLength else 1
+        // not using Log.pl here as this action is intentional & has not be able to switch off
+        println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize, player, allExistingLinesForThisPlayer))
     }
 }
