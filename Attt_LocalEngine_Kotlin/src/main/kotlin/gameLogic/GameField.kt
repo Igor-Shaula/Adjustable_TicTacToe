@@ -53,11 +53,11 @@ internal class GameField(
         return sb.toString()
     }
 
-    fun prepareForPrinting3dIn2d(
+    internal fun prepareForPrintingPlayerLines(
+        player: Player,
+        allExistingLinesForThisPlayer: MutableSet<Line?>?,
         chosenAlgorithm: OneMoveProcessing,
         zAxisSize: Int,
-        player: Player,
-        allExistingLinesForThisPlayer: MutableSet<Line?>?
     ): String {
         val onePlayerMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
         allExistingLinesForThisPlayer?.forEach { line ->
@@ -65,20 +65,7 @@ internal class GameField(
                 onePlayerMap[mark] = player
             }
         }
-
-        val sb = StringBuilder(sideLength * (zAxisSize + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
-        for (y in 0 until sideLength) {
-            sb.append(SYMBOL_FOR_NEW_LINE)
-            for (z in 0 until zAxisSize) { // will work only once for 2D
-                for (x in 0 until sideLength) {
-                    sb.append(
-                        onePlayerMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.symbol ?: SYMBOL_FOR_ABSENT_MARK
-                    ).append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
-                }
-                repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
-            }
-        }
-        return sb.toString()
+        return prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize, onePlayerMap)
     }
 
     /**

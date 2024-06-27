@@ -104,6 +104,10 @@ internal class GameSession(
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
         val zAxisSize = if (is3D) gameField.sideLength else 1
         // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize, player, allExistingLinesForThisPlayer))
+        println(
+            gameField.prepareForPrintingPlayerLines(
+                player, allExistingLinesForThisPlayer, chosenAlgorithm, zAxisSize
+            )
+        )
     }
 }
