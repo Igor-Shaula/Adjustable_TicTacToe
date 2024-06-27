@@ -97,7 +97,7 @@ internal class GameSession(
         println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize))
     }
 
-    fun printExistingLinesFor(player: Player) {
+    override fun printExistingLinesFor(player: Player) {
         val allExistingLinesForThisPlayer = gameRules.allPlayersLines[player]
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
         val zAxisSize = if (is3D) gameField.sideLength else 1
