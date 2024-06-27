@@ -2,6 +2,7 @@ package gameLogic
 
 import attt.Player
 import constants.*
+import geometry.Line
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.conceptXY.NearestAreaScanWithXY
@@ -34,20 +35,37 @@ internal class GameField(
      * returns beautiful & simple String representation of the current state of game field
      */
     internal fun prepareForPrinting3dIn2d(
-        chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this), zAxisSize: Int = 1 // for tests
+        chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this), // this default value works for tests
+        zAxisSize: Int = 1, // this default value works for tests
+        givenMap: MutableMap<Coordinates, Player> = theMap
     ): String {
         val sb = StringBuilder(sideLength * (zAxisSize + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
         for (y in 0 until sideLength) {
             sb.append(SYMBOL_FOR_NEW_LINE)
             for (z in 0 until zAxisSize) { // will work only once for 2D
                 for (x in 0 until sideLength) {
-                    sb.append(theMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.symbol ?: SYMBOL_FOR_ABSENT_MARK)
+                    sb.append(givenMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.symbol ?: SYMBOL_FOR_ABSENT_MARK)
                         .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
                 }
                 repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
             }
         }
         return sb.toString()
+    }
+
+    internal fun prepareForPrintingPlayerLines(
+        player: Player,
+        allExistingLinesForThisPlayer: MutableSet<Line?>?,
+        chosenAlgorithm: OneMoveProcessing,
+        zAxisSize: Int,
+    ): String {
+        val onePlayerMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
+        allExistingLinesForThisPlayer?.forEach { line ->
+            line?.marks?.forEach { mark ->
+                onePlayerMap[mark] = player
+            }
+        }
+        return prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize, onePlayerMap)
     }
 
     /**

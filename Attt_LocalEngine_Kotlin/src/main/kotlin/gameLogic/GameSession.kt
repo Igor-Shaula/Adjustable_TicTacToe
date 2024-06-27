@@ -23,7 +23,7 @@ internal class GameSession(
     private val useNewDimensionsBasedLogic = true
 
     internal var gameField: GameField = GameField(desiredFieldSize)
-    private var gameRules: GameRules = GameRules(desiredMaxLineLength)
+    internal var gameProgress: GameProgress = GameProgress(desiredMaxLineLength)
 
     // the only place for switching between kinds of algorithms for every move processing
     internal val chosenAlgorithm: OneMoveProcessing =
@@ -54,13 +54,17 @@ internal class GameSession(
      */
     internal fun makeMove(where: Coordinates, what: Player = PlayerProvider.activePlayer): Player =
         if (gameField.placeNewMark(where, what)) {
-            chosenAlgorithm.getMaxLengthAchievedForThisMove(where)?.let {
+            chosenAlgorithm.getMaxLengthAchievedForThisMove(
+                where,
+                saveNewLine = { player, line -> gameProgress.saveNewLine(player, line) },
+                addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) }
+            )?.let {
                 Log.pl("makeMove: maxLength for this move of player ${what.name} is: $it")
                 // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
                 (what as PlayerModel).tryToSetMaxLineLength(it)
-                gameRules.updatePlayerScore(what, it)
+                gameProgress.updatePlayerScore(what, it)
             }
-            PlayerProvider.prepareNextPlayer(gameRules.isGameWon())
+            PlayerProvider.prepareNextPlayer(gameProgress.isGameWon())
             PlayerProvider.activePlayer
         } else {
             what // current player's mark was not successfully placed - prepared player stays the same
@@ -69,17 +73,17 @@ internal class GameSession(
     /**
      * a client might want to know the currently leading player at any time during the game
      */
-    override fun getLeader(): Player = gameRules.getLeadingPlayer()
+    override fun getLeader(): Player = gameProgress.getLeadingPlayer()
 
     /**
      * there can be only one winner - Player.None is returned until the winner not yet detected
      */
-    override fun getWinner(): Player = gameRules.getWinner()
+    override fun getWinner(): Player = gameProgress.getWinner()
 
     /**
      * after the winner is detected there is no way to modify the game field, so the game state is preserved
      */
-    override fun isGameWon() = gameRules.isGameWon()
+    override fun isGameWon() = gameProgress.isGameWon()
 
     override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied(is3D)
 
@@ -91,5 +95,25 @@ internal class GameSession(
         val zAxisSize = if (is3D) gameField.sideLength else 1
         // not using Log.pl here as this action is intentional & has not be able to switch off
         println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize))
+    }
+
+    override fun printExistingLinesFor(player: Player) {
+        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
+        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
+        val zAxisSize = if (is3D) gameField.sideLength else 1
+        // not using Log.pl here as this action is intentional & has not be able to switch off
+        println(
+            gameField.prepareForPrintingPlayerLines(
+                player, allExistingLinesForThisPlayer, chosenAlgorithm, zAxisSize
+            )
+        )
+    }
+
+    override fun printExistingLinesForLeadingPlayer() {
+        printExistingLinesFor(gameProgress.getLeadingPlayer())
+    }
+
+    override fun printExistingLinesForTheWinner() {
+        printExistingLinesFor(gameProgress.getWinner())
     }
 }

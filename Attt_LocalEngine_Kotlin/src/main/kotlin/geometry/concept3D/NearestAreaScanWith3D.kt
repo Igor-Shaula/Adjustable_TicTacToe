@@ -1,6 +1,8 @@
 package geometry.concept3D
 
+import attt.Player
 import gameLogic.GameField
+import geometry.Line
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import players.PlayerModel
@@ -8,17 +10,23 @@ import utilities.Log
 
 internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMoveProcessing {
 
-    override fun getMaxLengthAchievedForThisMove(where: Coordinates): Int? {
+    override fun getMaxLengthAchievedForThisMove(
+        where: Coordinates,
+        saveNewLine: (Player, Line) -> Unit,
+        addNewMark: (Player, Coordinates) -> Unit
+    ): Int? {
         if (where !is Coordinates3D) return null
-        return detectAllExistingLineDirectionsFromThePlacedMark(where)
+        return detectAllExistingLineDirectionsFromThePlacedMark(where, saveNewLine)
             .maxOfOrNull { threeAxesDirection ->
-                measureFullLengthForExistingLineFrom(where, threeAxesDirection)
+                measureFullLengthForExistingLineFrom(where, threeAxesDirection, addNewMark)
             }
     }
 
     override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = Coordinates3D(x, y, z)
 
-    private fun detectAllExistingLineDirectionsFromThePlacedMark(fromWhere: Coordinates3D): List<LineDirectionFor3Axes> {
+    private fun detectAllExistingLineDirectionsFromThePlacedMark(
+        fromWhere: Coordinates3D, saveNewLine: (Player, Line) -> Unit
+    ): List<LineDirectionFor3Axes> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerModel.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
@@ -33,13 +41,16 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
             ) {
                 allDirections.add(threeAxisDirection)
                 Log.pl("line exists in direction: $threeAxisDirection")
+                saveNewLine(checkedMark, Line(fromWhere, nextCoordinates))
             }
         }
         return allDirections // is empty if no lines ae found in all possible directions
     }
 
     private fun measureFullLengthForExistingLineFrom(
-        start: Coordinates3D, lineDirectionFor3Axes: LineDirectionFor3Axes
+        start: Coordinates3D,
+        lineDirectionFor3Axes: LineDirectionFor3Axes,
+        addNewMark: (Player, Coordinates) -> Unit
     ): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
         // we also have a proven placed dot of the same player in the detected line direction.
@@ -53,15 +64,18 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
         var lineTotalLength = 0
         if (checkedNearCoordinates is Coordinates3D) {
             lineTotalLength =
-                measureLineFrom(checkedNearCoordinates, lineDirectionFor3Axes, 2) +
-                        measureLineFrom(start, lineDirectionFor3Axes.opposite(), 0)
+                measureLineFrom(checkedNearCoordinates, lineDirectionFor3Axes, 2, addNewMark) +
+                        measureLineFrom(start, lineDirectionFor3Axes.opposite(), 0, addNewMark)
             Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
         } // else checkedNearCoordinates cannot be Border or anything else apart from Coordinates type
         return lineTotalLength
     }
 
     private fun measureLineFrom(
-        givenMark: Coordinates3D, lineDirectionFor3Axes: LineDirectionFor3Axes, startingLength: Int
+        givenMark: Coordinates3D,
+        lineDirectionFor3Axes: LineDirectionFor3Axes,
+        startingLength: Int,
+        addNewMark: (Player, Coordinates) -> Unit
     ): Int {
         Log.pl("measureLineFrom: given startingLength: $startingLength")
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
@@ -74,7 +88,9 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
         )
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
         return if (nextMark is Coordinates3D && gameField.belongToTheSameRealPlayer(givenMark, nextMark)) {
-            measureLineFrom(nextMark, lineDirectionFor3Axes, startingLength + 1)
+            // here the line gets longer by one new mark, this is a side effect to the measurement
+            gameField.getCurrentMarkAt(givenMark)?.let { addNewMark(it, nextMark) }
+            measureLineFrom(nextMark, lineDirectionFor3Axes, startingLength + 1, addNewMark)
         } else {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength

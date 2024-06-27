@@ -28,6 +28,7 @@ class VictoryConditionTests {
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 
     @Test
@@ -46,6 +47,7 @@ class VictoryConditionTests {
         assertEquals(5, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
@@ -78,6 +80,7 @@ class VictoryConditionTests {
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 
     @Test
@@ -100,11 +103,12 @@ class VictoryConditionTests {
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 
     @Test
     fun having3x3Field_realSimulation2PlayersShortenedMovesMade_victoryConditionIsCorrect() {
-        val game = Game.create()
+        val game = Game.create() as GameSession
         val playerO = PlayerProvider.playersList[1]
         game.makeMove(0, 0) // X
         game.makeMove(1, 0) // O
@@ -117,5 +121,6 @@ class VictoryConditionTests {
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 }
