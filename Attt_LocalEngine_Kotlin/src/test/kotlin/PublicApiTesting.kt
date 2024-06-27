@@ -34,6 +34,7 @@ class PublicApiTesting {
         assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(playerX, game.getWinner())
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 
     @Test
@@ -54,6 +55,7 @@ class PublicApiTesting {
         assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(playerX, game.getWinner())
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 
     @Test
@@ -74,6 +76,7 @@ class PublicApiTesting {
         assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(playerX, game.getWinner())
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 
     @Test
@@ -86,6 +89,7 @@ class PublicApiTesting {
         assertEquals(playerX, game.getLeader())
         assertEquals(2, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForLeadingPlayer()
     }
 
     @Test
@@ -98,6 +102,7 @@ class PublicApiTesting {
         assertEquals(playerX, game.getLeader())
         assertEquals(2, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForLeadingPlayer()
     }
 
     @Test
@@ -118,6 +123,7 @@ class PublicApiTesting {
         assertEquals(playerO.id, game.getLeader().id)
         assertEquals(3, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForLeadingPlayer()
     }
 
     @Test
@@ -138,6 +144,7 @@ class PublicApiTesting {
         assertEquals(playerO.id, game.getLeader().id)
         assertEquals(3, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForLeadingPlayer()
     }
 
     @Test
@@ -158,6 +165,7 @@ class PublicApiTesting {
         assertEquals(PlayerProvider.playersList[0], game.getLeader())
         assertEquals(3, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForLeadingPlayer()
     }
 
     @Test
@@ -178,6 +186,7 @@ class PublicApiTesting {
         assertEquals(PlayerProvider.playersList[0], game.getLeader())
         assertEquals(3, game.getLeader().maxLineLength)
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForLeadingPlayer()
     }
 
     // kind of a load testing on a field that is big and yet still able to fit into console output
@@ -203,6 +212,7 @@ class PublicApiTesting {
             "player ${game.getLeader()} is leading with maxLineLength: ${game.getLeader().maxLineLength}"
         )
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForLeadingPlayer()
     }
 
     // kind of a load testing on a field that is big and yet still able to fit into console output
@@ -230,5 +240,6 @@ class PublicApiTesting {
             }"
         )
         game.printCurrentFieldIn2d()
+        game.printExistingLinesForTheWinner()
     }
 }
