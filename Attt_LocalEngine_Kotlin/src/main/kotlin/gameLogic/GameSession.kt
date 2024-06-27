@@ -98,9 +98,7 @@ internal class GameSession(
     }
 
     fun printExistingLinesFor(player: Player) {
-        println("printExistingLinesFor")
         val allExistingLinesForThisPlayer = gameRules.allPlayersLines[player]
-        println(allExistingLinesForThisPlayer)
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
         val zAxisSize = if (is3D) gameField.sideLength else 1
         // not using Log.pl here as this action is intentional & has not be able to switch off
