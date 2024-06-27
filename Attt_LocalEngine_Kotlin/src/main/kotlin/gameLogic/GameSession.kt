@@ -108,4 +108,12 @@ internal class GameSession(
             )
         )
     }
+
+    override fun printExistingLinesForLeadingPlayer() {
+        printExistingLinesFor(gameRules.getLeadingPlayer())
+    }
+
+    override fun printExistingLinesForTheWinner() {
+        printExistingLinesFor(gameRules.getWinner())
+    }
 }
