@@ -2,6 +2,7 @@ package gameLogic
 
 import attt.Game
 import attt.Player
+import geometry.Line
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
 import geometry.concept2D.NearestAreaScanWith2D
@@ -115,5 +116,15 @@ internal class GameSession(
 
     override fun printExistingLinesForTheWinner() {
         printExistingLinesFor(gameProgress.getWinner())
+    }
+
+    override fun printTheWinningLine() {
+        val winningLine: Line = gameProgress.getWinningLine() ?: return
+        val zAxisSize = if (is3D) gameField.sideLength else 1
+        println(
+            gameField.prepareTheWinningLineForPrinting(
+                winningLine, chosenAlgorithm, zAxisSize
+            )
+        )
     }
 }
