@@ -66,25 +66,15 @@ internal class GameField(
         return prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize, onePlayerMap)
     }
 
-    fun prepareTheWinningLineForPrinting(
-        winningLine: Line, chosenAlgorithm: OneMoveProcessing, zAxisSize: Int
+    internal fun prepareTheWinningLineForPrinting(
+        player: Player, winningLine: Line, chosenAlgorithm: OneMoveProcessing, zAxisSize: Int
     ): String {
-        val onePlayerMap: MutableMap<Coordinates, Char> = mutableMapOf() // initially empty to save memory
+        val winnerLineOnMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
+        val winner = PlayerModel.markWinner(player)
         winningLine.marks.forEach { mark -> // each mark has coordinates relevant to chosenAlgorithm
-            onePlayerMap[mark] = SYMBOL_FOR_FULL_BLOCK
+            winnerLineOnMap[mark] = winner
         }
-        return buildString {
-            for (y in 0 until sideLength) {
-                append(SYMBOL_FOR_NEW_LINE)
-                for (z in 0 until zAxisSize) { // will work only once for 2D
-                    for (x in 0 until sideLength) {
-                        append(onePlayerMap[chosenAlgorithm.getCoordinatesFor(x, y, z)] ?: SYMBOL_FOR_ABSENT_MARK)
-                            .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
-                    }
-                    repeat(2) { append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
-                }
-            }
-        }
+        return prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize, winnerLineOnMap)
     }
 
     /**

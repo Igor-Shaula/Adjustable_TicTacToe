@@ -123,7 +123,7 @@ internal class GameSession(
         val zAxisSize = if (is3D) gameField.sideLength else 1
         println(
             gameField.prepareTheWinningLineForPrinting(
-                winningLine, chosenAlgorithm, zAxisSize
+                gameProgress.getWinner(), winningLine, chosenAlgorithm, zAxisSize
             )
         )
     }

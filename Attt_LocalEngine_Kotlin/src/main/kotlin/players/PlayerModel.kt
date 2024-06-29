@@ -1,6 +1,7 @@
 package players
 
 import attt.Player
+import constants.SYMBOL_FOR_FULL_BLOCK
 import constants.SYMBOL_FOR_PLAYER_NONE
 import constants.SYMBOL_FOR_PLAYER_O
 import constants.SYMBOL_FOR_PLAYER_X
@@ -78,6 +79,9 @@ internal data class PlayerModel(override val id: Int) : Player {
 
         internal fun createPlayerO() =
             PlayerModel(ID_FOR_PLAYER_O).apply { name = PLAYER_O_NAME; symbol = SYMBOL_FOR_PLAYER_O }
+
+        internal fun markWinner(player: Player) =
+            PlayerModel(player.id).apply { name = player.name; symbol = SYMBOL_FOR_FULL_BLOCK }
 
         // one instance is enough for all the time of all possible games
         internal val None: Player =
