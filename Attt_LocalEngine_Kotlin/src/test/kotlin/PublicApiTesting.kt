@@ -35,6 +35,7 @@ class PublicApiTesting {
         assertEquals(playerX, game.getWinner())
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 
     @Test
@@ -56,6 +57,7 @@ class PublicApiTesting {
         assertEquals(playerX, game.getWinner())
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 
     @Test
@@ -77,6 +79,7 @@ class PublicApiTesting {
         assertEquals(playerX, game.getWinner())
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 
     @Test
@@ -241,5 +244,6 @@ class PublicApiTesting {
         )
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 }
