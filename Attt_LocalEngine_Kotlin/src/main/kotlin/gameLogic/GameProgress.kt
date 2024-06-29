@@ -34,6 +34,16 @@ internal class GameProgress(
 
     internal fun getWinner(): Player = theWinner
 
+    internal fun getWinningLine(): Line? {
+        allPlayersLines[theWinner]?.forEach { line: Line? ->
+            if (line == null) return null
+            if (line.marks.size >= winningLength) {
+                return line
+            }
+        }
+        return null
+    }
+
     internal fun getLeadingPlayer(): Player = detectLeadingPlayer() ?: PlayerModel.None
 
     // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case

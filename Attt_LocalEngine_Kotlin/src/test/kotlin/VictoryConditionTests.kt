@@ -29,6 +29,7 @@ class VictoryConditionTests {
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 
     @Test
@@ -48,6 +49,7 @@ class VictoryConditionTests {
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
@@ -81,6 +83,7 @@ class VictoryConditionTests {
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 
     @Test
@@ -104,6 +107,7 @@ class VictoryConditionTests {
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 
     @Test
@@ -122,5 +126,6 @@ class VictoryConditionTests {
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
         game.printCurrentFieldIn2d()
         game.printExistingLinesForTheWinner()
+        game.printTheWinningLine()
     }
 }

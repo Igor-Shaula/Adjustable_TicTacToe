@@ -43,6 +43,8 @@ interface Game {
 
     fun printExistingLinesForTheWinner()
 
+    fun printTheWinningLine()
+
     companion object {
         /**
          * create AtttGame instance & provide the UI with a new game field, adjustability happens here - in the parameters
