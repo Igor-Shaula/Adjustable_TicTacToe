@@ -38,19 +38,17 @@ internal class GameField(
         chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this), // this default value works for tests
         zAxisSize: Int = 1, // this default value works for tests
         givenMap: MutableMap<Coordinates, Player> = theMap
-    ): String {
-        val sb = StringBuilder(sideLength * (zAxisSize + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
+    ): String = buildString {
         for (y in 0 until sideLength) {
-            sb.append(SYMBOL_FOR_NEW_LINE)
+            append(SYMBOL_FOR_NEW_LINE)
             for (z in 0 until zAxisSize) { // will work only once for 2D
                 for (x in 0 until sideLength) {
-                    sb.append(givenMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.symbol ?: SYMBOL_FOR_ABSENT_MARK)
+                    append(givenMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.symbol ?: SYMBOL_FOR_ABSENT_MARK)
                         .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
                 }
-                repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
+                repeat(2) { append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
             }
         }
-        return sb.toString()
     }
 
     internal fun prepareForPrintingPlayerLines(
@@ -75,18 +73,18 @@ internal class GameField(
         winningLine.marks.forEach { mark -> // each mark has coordinates relevant to chosenAlgorithm
             onePlayerMap[mark] = SYMBOL_FOR_FULL_BLOCK
         }
-        val sb = StringBuilder(sideLength * (zAxisSize + 2) * (sideLength + 1)) // for: y * (z+2) * (x+1)
-        for (y in 0 until sideLength) {
-            sb.append(SYMBOL_FOR_NEW_LINE)
-            for (z in 0 until zAxisSize) { // will work only once for 2D
-                for (x in 0 until sideLength) {
-                    sb.append(onePlayerMap[chosenAlgorithm.getCoordinatesFor(x, y, z)] ?: SYMBOL_FOR_ABSENT_MARK)
-                        .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
+        return buildString {
+            for (y in 0 until sideLength) {
+                append(SYMBOL_FOR_NEW_LINE)
+                for (z in 0 until zAxisSize) { // will work only once for 2D
+                    for (x in 0 until sideLength) {
+                        append(onePlayerMap[chosenAlgorithm.getCoordinatesFor(x, y, z)] ?: SYMBOL_FOR_ABSENT_MARK)
+                            .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
+                    }
+                    repeat(2) { append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
                 }
-                repeat(2) { sb.append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
             }
         }
-        return sb.toString()
     }
 
     /**
