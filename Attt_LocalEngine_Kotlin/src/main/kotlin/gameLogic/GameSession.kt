@@ -97,6 +97,14 @@ internal class GameSession(
     override fun getCurrentFieldAsMapOfTriples(): Map<Triple<Int, Int, Int>, Player> =
         gameField.theMap.mapKeys { entry -> Triple(entry.key.x, entry.key.y, entry.key.z) }
 
+    override fun getCurrentFieldAsMapOfPairs(z: Int): Map<Pair<Int, Int>, Player> {
+        return if (z > 0) { // just an optimization to avoid excess filtering for Z=0 case
+            gameField.getSliceForZ(z)
+        } else {
+            gameField.theMap // by default its coordinates as pairs are processed only for the base Z=0 slice
+        }.mapKeys { entry -> Pair(entry.key.x, entry.key.y) }
+    }
+
     override fun getCurrentFieldIn2dAsAString(): String {
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
         val zAxisSize = if (is3D) gameField.sideLength else 1
