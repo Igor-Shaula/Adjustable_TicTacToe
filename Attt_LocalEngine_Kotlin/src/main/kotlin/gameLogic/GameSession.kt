@@ -55,11 +55,9 @@ internal class GameSession(
      */
     internal fun makeMove(where: Coordinates, what: Player = PlayerProvider.activePlayer): Player =
         if (gameField.placeNewMark(where, what)) {
-            chosenAlgorithm.getMaxLengthAchievedForThisMove(
-                where,
+            chosenAlgorithm.getMaxLengthAchievedForThisMove(where,
                 saveNewLine = { player, line -> gameProgress.saveNewLine(player, line) },
-                addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) }
-            )?.let {
+                addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) })?.let {
                 Log.pl("makeMove: maxLength for this move of player ${what.name} is: $it")
                 // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
                 (what as PlayerModel).tryToSetMaxLineLength(it)
@@ -94,6 +92,11 @@ internal class GameSession(
         return gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize)
     }
 
+    override fun printCurrentFieldIn2d() {
+        // not using Log.pl here as this action is intentional & has not be able to switch off
+        println(getCurrentFieldIn2dAsAString())
+    }
+
     override fun getExistingLinesForGivenPlayerAsAString(player: Player): String {
         val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
         val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
@@ -102,11 +105,23 @@ internal class GameSession(
         )
     }
 
+    override fun printExistingLinesForGivenPlayer(player: Player) {
+        println(getExistingLinesForGivenPlayerAsAString(player))
+    }
+
     override fun getExistingLinesForLeadingPlayerAsAString(): String =
         getExistingLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
 
+    override fun printExistingLinesForLeadingPlayer() {
+        println(getExistingLinesForLeadingPlayerAsAString())
+    }
+
     override fun getExistingLinesForTheWinnerAsAString(): String =
         getExistingLinesForGivenPlayerAsAString(gameProgress.getWinner())
+
+    override fun printExistingLinesForTheWinner() {
+        println(getExistingLinesForTheWinnerAsAString())
+    }
 
     override fun getTheWinningLineAsAString(): String {
         val winningLine: Line = gameProgress.getWinningLine() ?: return ""
@@ -114,26 +129,6 @@ internal class GameSession(
         return gameField.prepareTheWinningLineForPrinting(
             gameProgress.getWinner(), winningLine, chosenAlgorithm, zAxisSize
         )
-    }
-
-    /**
-     * prints the current state of the game in 2d on console
-     */
-    override fun printCurrentFieldIn2d() {
-        // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(getCurrentFieldIn2dAsAString())
-    }
-
-    override fun printExistingLinesForGivenPlayer(player: Player) {
-        println(getExistingLinesForGivenPlayerAsAString(player))
-    }
-
-    override fun printExistingLinesForLeadingPlayer() {
-        println(getExistingLinesForLeadingPlayerAsAString())
-    }
-
-    override fun printExistingLinesForTheWinner() {
-        println(getExistingLinesForTheWinnerAsAString())
     }
 
     override fun printTheWinningLine() {
