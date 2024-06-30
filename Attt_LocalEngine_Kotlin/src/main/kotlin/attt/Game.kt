@@ -53,6 +53,8 @@ interface Game {
 
     fun printExistingLinesForGivenPlayer(player: Player)
 
+    fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>?>?
+
     fun getExistingLinesForLeadingPlayerAsAString(): String
 
     fun printExistingLinesForLeadingPlayer()

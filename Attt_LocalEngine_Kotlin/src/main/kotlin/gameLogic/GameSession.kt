@@ -139,6 +139,9 @@ internal class GameSession(
         println(getExistingLinesForGivenPlayerAsAString(player))
     }
 
+    override fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>?>? =
+        getExistingLinesForGivenPlayer(gameProgress.getLeadingPlayer())
+
     override fun getExistingLinesForLeadingPlayerAsAString(): String =
         getExistingLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
 
