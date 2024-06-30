@@ -55,11 +55,9 @@ internal class GameSession(
      */
     internal fun makeMove(where: Coordinates, what: Player = PlayerProvider.activePlayer): Player =
         if (gameField.placeNewMark(where, what)) {
-            chosenAlgorithm.getMaxLengthAchievedForThisMove(
-                where,
+            chosenAlgorithm.getMaxLengthAchievedForThisMove(where,
                 saveNewLine = { player, line -> gameProgress.saveNewLine(player, line) },
-                addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) }
-            )?.let {
+                addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) })?.let {
                 Log.pl("makeMove: maxLength for this move of player ${what.name} is: $it")
                 // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
                 (what as PlayerModel).tryToSetMaxLineLength(it)
@@ -89,42 +87,90 @@ internal class GameSession(
     override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied(is3D)
 
     /**
-     * prints the current state of the game in 2d on console
+     * I decided to return the field state as a map of Triple Integers to Player
+     * instead of just giving the existing map of Coordinates to Player
+     * to prevent from opening inner implementation details on a public API level.
+     * even if Coordinates was made public and not abstract - it would not be possible to get a Player by key
+     * as this key would be something like Coordinates(0,0,0) which is NOT the same as Coordinates3D(0,0,0)
+     * due to specifics of generics & collections implementation in Java & Kotlin.
      */
-    override fun printCurrentFieldIn2d() {
-        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
-        val zAxisSize = if (is3D) gameField.sideLength else 1
-        // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize))
+    override fun getCurrentFieldAsMapOfTriples(): Map<Triple<Int, Int, Int>, Player> =
+        gameField.theMap.mapKeys { entry -> Triple(entry.key.x, entry.key.y, entry.key.z) }
+
+    override fun getCurrentFieldAsMapOfPairs(z: Int): Map<Pair<Int, Int>, Player> {
+        return if (z > 0) { // just an optimization to avoid excess filtering for Z=0 case
+            gameField.getSliceForZ(z)
+        } else {
+            gameField.theMap // by default its coordinates as pairs are processed only for the base Z=0 slice
+        }.mapKeys { entry -> Pair(entry.key.x, entry.key.y) }
     }
 
-    override fun printExistingLinesFor(player: Player) {
-        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
+    override fun getCurrentFieldIn2dAsAString(): String {
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
         val zAxisSize = if (is3D) gameField.sideLength else 1
+        return gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize)
+    }
+
+    override fun printCurrentFieldIn2d() {
         // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(
-            gameField.prepareForPrintingPlayerLines(
-                player, allExistingLinesForThisPlayer, chosenAlgorithm, zAxisSize
-            )
+        println(getCurrentFieldIn2dAsAString())
+    }
+
+    override fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>> {
+        val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
+        return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
+            // every line is a set of marks
+            listOf(oneLine?.marks?.map { oneMark -> // inner List (of marks in the line) is created here
+                // every mark should be converted from Coordinates to Triple of integers
+                Triple(oneMark.x, oneMark.y, oneMark.z)
+            } ?: emptyList())
+        } ?: emptyList()
+    }
+
+    override fun getExistingLinesForGivenPlayerAsAString(player: Player): String {
+        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
+        val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
+        return gameField.prepareForPrintingPlayerLines(
+            player, allExistingLinesForThisPlayer, chosenAlgorithm, zAxisSize
         )
     }
 
-    override fun printExistingLinesForLeadingPlayer() {
-        printExistingLinesFor(gameProgress.getLeadingPlayer())
+    override fun printExistingLinesForGivenPlayer(player: Player) {
+        println(getExistingLinesForGivenPlayerAsAString(player))
     }
 
+    override fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>> =
+        getExistingLinesForGivenPlayer(gameProgress.getLeadingPlayer())
+
+    override fun getExistingLinesForLeadingPlayerAsAString(): String =
+        getExistingLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
+
+    override fun printExistingLinesForLeadingPlayer() {
+        println(getExistingLinesForLeadingPlayerAsAString())
+    }
+
+    override fun getExistingLinesForTheWinner(): List<List<Triple<Int, Int, Int>>> =
+        getExistingLinesForGivenPlayer(gameProgress.getWinner())
+
+    override fun getExistingLinesForTheWinnerAsAString(): String =
+        getExistingLinesForGivenPlayerAsAString(gameProgress.getWinner())
+
     override fun printExistingLinesForTheWinner() {
-        printExistingLinesFor(gameProgress.getWinner())
+        println(getExistingLinesForTheWinnerAsAString())
+    }
+
+    override fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>> =
+        gameProgress.getWinningLine()?.marks?.map { oneMark -> Triple(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()
+
+    override fun getTheWinningLineAsAString(): String {
+        val winningLine: Line = gameProgress.getWinningLine() ?: return ""
+        val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
+        return gameField.prepareTheWinningLineForPrinting(
+            gameProgress.getWinner(), winningLine, chosenAlgorithm, zAxisSize
+        )
     }
 
     override fun printTheWinningLine() {
-        val winningLine: Line = gameProgress.getWinningLine() ?: return
-        val zAxisSize = if (is3D) gameField.sideLength else 1
-        println(
-            gameField.prepareTheWinningLineForPrinting(
-                gameProgress.getWinner(), winningLine, chosenAlgorithm, zAxisSize
-            )
-        )
+        println(getTheWinningLineAsAString())
     }
 }

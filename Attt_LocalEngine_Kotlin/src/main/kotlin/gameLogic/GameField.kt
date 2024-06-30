@@ -29,7 +29,7 @@ internal class GameField(
     }
 
     // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
-    private val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
+    internal val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
 
     /**
      * returns beautiful & simple String representation of the current state of game field
@@ -105,7 +105,7 @@ internal class GameField(
             false // new mark is not placed because the space has been already occupied
         }
 
-    fun isCompletelyOccupied(is3D: Boolean): Boolean {
+    internal fun isCompletelyOccupied(is3D: Boolean): Boolean {
         Log.pl("isCompletelyOccupied: theMap.size = ${theMap.size}")
         val maxNumberOfSpaces = if (is3D) {
             sideLength * sideLength * sideLength
@@ -115,4 +115,6 @@ internal class GameField(
         Log.pl("maxNumberOfSpaces = $maxNumberOfSpaces")
         return theMap.size >= maxNumberOfSpaces
     }
+
+    internal fun getSliceForZ(z: Int): Map<Coordinates, Player> = theMap.filter { entry -> entry.key.z == z }
 }
