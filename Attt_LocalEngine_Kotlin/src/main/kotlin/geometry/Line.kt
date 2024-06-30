@@ -45,6 +45,3 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
         return marks.toString()
     }
 }
-
-internal fun Set<Line?>.getMaxLength(): Int =
-    this.maxByOrNull { line: Line? -> line?.marks?.size ?: 0 }?.marks?.size ?: 0

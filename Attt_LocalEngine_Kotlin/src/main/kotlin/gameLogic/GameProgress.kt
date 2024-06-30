@@ -5,7 +5,6 @@ import constants.MAX_WINNING_LINE_LENGTH
 import constants.MIN_WINNING_LINE_LENGTH
 import geometry.Line
 import geometry.abstractions.Coordinates
-import geometry.getMaxLength
 import players.PlayerModel
 import utilities.Log
 
@@ -49,9 +48,6 @@ internal class GameProgress(
     // here we need the player - not its line length, so do not use maxOfOrNull {...} as it returns Int? in this case
     private fun detectLeadingPlayer(): Player? = maxLines.entries.maxByOrNull { length -> length.value }?.key
 
-    private fun detectLeadingPlayerFromSet(): Player? =
-        allPlayersLines.entries.maxByOrNull { setOfLines -> setOfLines.value.getMaxLength() }?.key
-
     internal fun updatePlayerScore(whichPlayer: Player, newLineLength: Int) {
         if (isGameWon()) {
             Log.pl("player ${theWinner.id} wins with detectedLineLength: ${theWinner.maxLineLength}")
@@ -77,4 +73,10 @@ internal class GameProgress(
         // as LinkedHashSet is the default implementation of Set in Kotlin - we have the order of insertions preserved
         allPlayersLines[player]?.last()?.add(coordinates)
     }
+
+    private fun detectLeadingPlayerFromSet(): Player? =
+        allPlayersLines.entries.maxByOrNull { setOfLines -> setOfLines.value.getMaxLength() }?.key
 }
+
+internal fun Set<Line?>.getMaxLength(): Int =
+    this.maxByOrNull { line: Line? -> line?.marks?.size ?: 0 }?.marks?.size ?: 0
