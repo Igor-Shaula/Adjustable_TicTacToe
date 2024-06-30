@@ -47,6 +47,8 @@ interface Game {
 
     fun printCurrentFieldIn2d()
 
+    fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>?>?
+
     fun getExistingLinesForGivenPlayerAsAString(player: Player): String
 
     fun printExistingLinesForGivenPlayer(player: Player)

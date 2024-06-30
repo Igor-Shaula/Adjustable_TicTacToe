@@ -116,6 +116,17 @@ internal class GameSession(
         println(getCurrentFieldIn2dAsAString())
     }
 
+    override fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>?>? {
+        val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
+        return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
+            // every line is a set of marks
+            listOf(oneLine?.marks?.map { oneMark -> // inner List (of marks in the line) is created here
+                // every mark should be converted from Coordinates to Triple of integers
+                Triple(oneMark.x, oneMark.y, oneMark.z)
+            })
+        }
+    }
+
     override fun getExistingLinesForGivenPlayerAsAString(player: Player): String {
         val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
         val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
