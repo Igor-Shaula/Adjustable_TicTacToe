@@ -142,6 +142,9 @@ internal class GameSession(
         println(getExistingLinesForTheWinnerAsAString())
     }
 
+    override fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>>? =
+        gameProgress.getWinningLine()?.marks?.map { oneMark -> Triple(oneMark.x, oneMark.y, oneMark.z) }
+
     override fun getTheWinningLineAsAString(): String {
         val winningLine: Line = gameProgress.getWinningLine() ?: return ""
         val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist

@@ -59,6 +59,8 @@ interface Game {
 
     fun printExistingLinesForTheWinner()
 
+    fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>>?
+
     fun getTheWinningLineAsAString(): String
 
     fun printTheWinningLine()
