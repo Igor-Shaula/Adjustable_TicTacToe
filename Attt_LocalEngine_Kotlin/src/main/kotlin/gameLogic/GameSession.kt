@@ -124,7 +124,7 @@ internal class GameSession(
         println(getCurrentFieldIn2dAsAString())
     }
 
-    override fun printExistingLinesFor(player: Player) {
+    override fun printExistingLinesForGivenPlayer(player: Player) {
         println(getExistingLinesForGivenPlayerAsAString(player))
     }
 

@@ -41,7 +41,7 @@ interface Game {
 
     fun getExistingLinesForGivenPlayerAsAString(player: Player): String
 
-    fun printExistingLinesFor(player: Player)
+    fun printExistingLinesForGivenPlayer(player: Player)
 
     fun getExistingLinesForLeadingPlayerAsAString(): String
 
