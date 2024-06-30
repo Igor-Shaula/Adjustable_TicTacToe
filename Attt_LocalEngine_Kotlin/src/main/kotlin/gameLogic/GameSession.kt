@@ -86,6 +86,17 @@ internal class GameSession(
 
     override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied(is3D)
 
+    /**
+     * I decided to return the field state as a map of Triple Integers to Player
+     * instead of just giving the existing map of Coordinates to Player
+     * to prevent from opening inner implementation details on a public API level.
+     * even if Coordinates was made public and not abstract - it would not be possible to get a Player by key
+     * as this key would be something like Coordinates(0,0,0) which is NOT the same as Coordinates3D(0,0,0)
+     * due to specifics of generics & collections implementation in Java & Kotlin.
+     */
+    override fun getCurrentFieldAsMapOfTriples(): Map<Triple<Int, Int, Int>, Player> =
+        gameField.theMap.mapKeys { entry -> Triple(entry.key.x, entry.key.y, entry.key.z) }
+
     override fun getCurrentFieldIn2dAsAString(): String {
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
         val zAxisSize = if (is3D) gameField.sideLength else 1

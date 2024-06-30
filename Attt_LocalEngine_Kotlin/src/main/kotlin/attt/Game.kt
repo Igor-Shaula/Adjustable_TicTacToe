@@ -35,6 +35,12 @@ interface Game {
 
     fun isGameFinished(): Boolean
 
+    /**
+     * represents the current game field state in an associative way (as a dictionary or map).
+     * Triple<Int, Int, Int> represents coordinates - X, Y, Z in this order (the same as for makeMove() method).
+     */
+    fun getCurrentFieldAsMapOfTriples(): Map<Triple<Int, Int, Int>, Player>
+
     fun getCurrentFieldIn2dAsAString(): String
 
     fun printCurrentFieldIn2d()

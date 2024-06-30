@@ -29,7 +29,7 @@ internal class GameField(
     }
 
     // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
-    private val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
+    internal val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
 
     /**
      * returns beautiful & simple String representation of the current state of game field
