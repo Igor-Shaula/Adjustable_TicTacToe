@@ -88,43 +88,55 @@ internal class GameSession(
 
     override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied(is3D)
 
+    override fun getCurrentFieldIn2dAsAString(): String {
+        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
+        val zAxisSize = if (is3D) gameField.sideLength else 1
+        return gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize)
+    }
+
+    override fun getExistingLinesForGivenPlayerAsAString(player: Player): String {
+        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
+        val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
+        return gameField.prepareForPrintingPlayerLines(
+            player, allExistingLinesForThisPlayer, chosenAlgorithm, zAxisSize
+        )
+    }
+
+    override fun getExistingLinesForLeadingPlayerAsAString(): String =
+        getExistingLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
+
+    override fun getExistingLinesForTheWinnerAsAString(): String =
+        getExistingLinesForGivenPlayerAsAString(gameProgress.getWinner())
+
+    override fun getTheWinningLineAsAString(): String {
+        val winningLine: Line = gameProgress.getWinningLine() ?: return ""
+        val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
+        return gameField.prepareTheWinningLineForPrinting(
+            gameProgress.getWinner(), winningLine, chosenAlgorithm, zAxisSize
+        )
+    }
+
     /**
      * prints the current state of the game in 2d on console
      */
     override fun printCurrentFieldIn2d() {
-        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
-        val zAxisSize = if (is3D) gameField.sideLength else 1
         // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize))
+        println(getCurrentFieldIn2dAsAString())
     }
 
     override fun printExistingLinesFor(player: Player) {
-        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
-        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
-        val zAxisSize = if (is3D) gameField.sideLength else 1
-        // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(
-            gameField.prepareForPrintingPlayerLines(
-                player, allExistingLinesForThisPlayer, chosenAlgorithm, zAxisSize
-            )
-        )
+        println(getExistingLinesForGivenPlayerAsAString(player))
     }
 
     override fun printExistingLinesForLeadingPlayer() {
-        printExistingLinesFor(gameProgress.getLeadingPlayer())
+        println(getExistingLinesForLeadingPlayerAsAString())
     }
 
     override fun printExistingLinesForTheWinner() {
-        printExistingLinesFor(gameProgress.getWinner())
+        println(getExistingLinesForTheWinnerAsAString())
     }
 
     override fun printTheWinningLine() {
-        val winningLine: Line = gameProgress.getWinningLine() ?: return
-        val zAxisSize = if (is3D) gameField.sideLength else 1
-        println(
-            gameField.prepareTheWinningLineForPrinting(
-                gameProgress.getWinner(), winningLine, chosenAlgorithm, zAxisSize
-            )
-        )
+        println(getTheWinningLineAsAString())
     }
 }

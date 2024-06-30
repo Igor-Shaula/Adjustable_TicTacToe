@@ -35,13 +35,23 @@ interface Game {
 
     fun isGameFinished(): Boolean
 
+    fun getCurrentFieldIn2dAsAString(): String
+
     fun printCurrentFieldIn2d()
+
+    fun getExistingLinesForGivenPlayerAsAString(player: Player): String
 
     fun printExistingLinesFor(player: Player)
 
+    fun getExistingLinesForLeadingPlayerAsAString(): String
+
     fun printExistingLinesForLeadingPlayer()
 
+    fun getExistingLinesForTheWinnerAsAString(): String
+
     fun printExistingLinesForTheWinner()
+
+    fun getTheWinningLineAsAString(): String
 
     fun printTheWinningLine()
 
