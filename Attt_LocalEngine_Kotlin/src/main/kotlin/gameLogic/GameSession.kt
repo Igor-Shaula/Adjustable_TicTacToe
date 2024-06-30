@@ -24,7 +24,7 @@ internal class GameSession(
     private val useNewDimensionsBasedLogic = true
 
     internal var gameField: GameField = GameField(desiredFieldSize)
-    internal var gameProgress: GameProgress = GameProgress(desiredMaxLineLength)
+    private var gameProgress: GameProgress = GameProgress(desiredMaxLineLength)
 
     // the only place for switching between kinds of algorithms for every move processing
     internal val chosenAlgorithm: OneMoveProcessing =
@@ -53,13 +53,18 @@ internal class GameSession(
     /**
      * this function is actually the only place for making moves and thus changing the game field
      */
-    internal fun makeMove(where: Coordinates, what: Player = PlayerProvider.activePlayer): Player =
+    // @formatter:off
+    internal fun makeMove(
+        where: Coordinates, what: Player = PlayerProvider.activePlayer
+    ): Player =
         if (gameField.placeNewMark(where, what)) {
-            chosenAlgorithm.getMaxLengthAchievedForThisMove(where,
+            chosenAlgorithm.getMaxLengthAchievedForThisMove(
+                where,
                 saveNewLine = { player, line -> gameProgress.saveNewLine(player, line) },
-                addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) })?.let {
-                Log.pl("makeMove: maxLength for this move of player ${what.name} is: $it")
-                // this cast is secure as PlayerModel is direct inheritor to AtttPlayer
+                addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) }
+            )?.let {
+                Log.pl("makeMove: maxLength for this move of player with id: ${what.id} is: $it")
+                // this cast is secure as PlayerModel is the only inheritor to Player interface
                 (what as PlayerModel).tryToSetMaxLineLength(it)
                 gameProgress.updatePlayerScore(what, it)
             }
@@ -68,6 +73,7 @@ internal class GameSession(
         } else {
             what // current player's mark was not successfully placed - prepared player stays the same
         }
+    // @formatter:on
 
     /**
      * a client might want to know the currently leading player at any time during the game
