@@ -18,7 +18,7 @@ import utilities.Log
  * represents the area/space where all players' marks are placed and exist through one active game session
  */
 internal class GameField(
-    is3D: Boolean, sideLength: Int // it's impossible to add private setter for sideLength here
+    private val is3D: Boolean, sideLength: Int // it's impossible to add private setter for sideLength here
 ) {
     // to distinguish between older XY-based logic and new multi-axis-based approach for coordinates processing
     private val useNewDimensionsBasedLogic = true
@@ -50,10 +50,10 @@ internal class GameField(
      * returns beautiful & simple String representation of the current state of game field
      */
     internal fun prepareForPrinting3dIn2d(
-        zAxisSize: Int = 1, // this default value works for tests
         givenMap: MutableMap<Coordinates, Player> = theMap
     ): String = buildString {
-        for (y in 0 until sideLength) {
+        val zAxisSize: Int = if (is3D) sideLength else 1 // this default value works for tests
+        for (y in 0 until sideLength) { // Y is outer just for convenience when printing slices by Z axis
             appendLine()
             for (z in 0 until zAxisSize) { // will work only once for 2D
                 for (x in 0 until sideLength) {
@@ -66,9 +66,7 @@ internal class GameField(
     }
 
     internal fun prepareForPrintingPlayerLines(
-        player: Player,
-        allExistingLinesForThisPlayer: MutableSet<Line?>?,
-        zAxisSize: Int,
+        player: Player, allExistingLinesForThisPlayer: MutableSet<Line?>?
     ): String {
         val onePlayerMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
         allExistingLinesForThisPlayer?.forEach { line ->
@@ -76,18 +74,16 @@ internal class GameField(
                 onePlayerMap[mark] = player
             }
         }
-        return prepareForPrinting3dIn2d(zAxisSize, onePlayerMap)
+        return prepareForPrinting3dIn2d(onePlayerMap)
     }
 
-    internal fun prepareTheWinningLineForPrinting(
-        player: Player, winningLine: Line, zAxisSize: Int
-    ): String {
+    internal fun prepareTheWinningLineForPrinting(player: Player, winningLine: Line): String {
         val winnerLineOnMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
         val winner = PlayerModel.markWinner(player)
         winningLine.marks.forEach { mark -> // each mark has coordinates relevant to chosenAlgorithm
             winnerLineOnMap[mark] = winner
         }
-        return prepareForPrinting3dIn2d(zAxisSize, winnerLineOnMap)
+        return prepareForPrinting3dIn2d(winnerLineOnMap)
     }
 
     /**
@@ -117,7 +113,7 @@ internal class GameField(
         false // new mark is not placed because the space has been already occupied
     }
 
-    internal fun isCompletelyOccupied(is3D: Boolean): Boolean {
+    internal fun isCompletelyOccupied(): Boolean {
         Log.pl("isCompletelyOccupied: theMap.size = ${theMap.size}")
         val maxNumberOfSpaces = if (is3D) {
             sideLength * sideLength * sideLength

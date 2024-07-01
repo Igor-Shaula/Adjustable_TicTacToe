@@ -13,7 +13,7 @@ import utilities.Log
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
 internal class GameSession(
-    desiredFieldSize: Int, desiredMaxLineLength: Int, private val is3D: Boolean, desiredPlayerNumber: Int
+    desiredFieldSize: Int, desiredMaxLineLength: Int, is3D: Boolean, desiredPlayerNumber: Int
 ) : Game {
 
     internal var gameField: GameField = GameField(is3D, desiredFieldSize)
@@ -78,7 +78,7 @@ internal class GameSession(
      */
     override fun isGameWon() = gameProgress.isGameWon()
 
-    override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied(is3D)
+    override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied()
 
     /**
      * I decided to return the field state as a map of Triple Integers to Player
@@ -101,8 +101,7 @@ internal class GameSession(
 
     override fun getCurrentFieldIn2dAsAString(): String {
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
-        val zAxisSize = if (is3D) gameField.sideLength else 1
-        return gameField.prepareForPrinting3dIn2d(zAxisSize)
+        return gameField.prepareForPrinting3dIn2d()
     }
 
     override fun printCurrentFieldIn2d() {
@@ -123,10 +122,7 @@ internal class GameSession(
 
     override fun getExistingLinesForGivenPlayerAsAString(player: Player): String {
         val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
-        val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
-        return gameField.prepareForPrintingPlayerLines(
-            player, allExistingLinesForThisPlayer, zAxisSize
-        )
+        return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
     override fun printExistingLinesForGivenPlayer(player: Player) {
@@ -158,10 +154,7 @@ internal class GameSession(
 
     override fun getTheWinningLineAsAString(): String {
         val winningLine: Line = gameProgress.getWinningLine() ?: return ""
-        val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
-        return gameField.prepareTheWinningLineForPrinting(
-            gameProgress.getWinner(), winningLine, zAxisSize
-        )
+        return gameField.prepareTheWinningLineForPrinting(gameProgress.getWinner(), winningLine)
     }
 
     override fun printTheWinningLine() {
