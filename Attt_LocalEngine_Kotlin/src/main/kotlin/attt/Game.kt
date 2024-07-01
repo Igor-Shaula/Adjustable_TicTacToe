@@ -76,50 +76,52 @@ interface Game {
          * create AtttGame instance & provide the UI with a new game field, adjustability happens here - in the parameters
          */
         fun create(
+            is3D: Boolean = false,
             desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE,
             desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH,
-            is3D: Boolean = false,
             desiredPlayerNumber: Int = MIN_NUMBER_OF_PLAYERS
-        ): Game = GameSession(desiredFieldSize, desiredMaxLineLength, is3D, desiredPlayerNumber)
+        ): Game = GameSession(is3D, desiredFieldSize, desiredMaxLineLength, desiredPlayerNumber)
 
         /**
          * the shortest ever way to get the game ready
          */
         fun create(): Game =
-            GameSession(MIN_GAME_FIELD_SIDE_SIZE, MIN_WINNING_LINE_LENGTH, false, MIN_NUMBER_OF_PLAYERS)
+            GameSession(false, MIN_GAME_FIELD_SIDE_SIZE, MIN_WINNING_LINE_LENGTH, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * convenient for getting the game field of bigger size
          */
         fun create(desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE): Game =
-            GameSession(desiredFieldSize, MIN_WINNING_LINE_LENGTH, false, MIN_NUMBER_OF_PLAYERS)
+            GameSession(false, desiredFieldSize, MIN_WINNING_LINE_LENGTH, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * more precise adjustment of winning condition for configurable game field
          */
         fun create(
             desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE, desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH
-        ): Game = GameSession(desiredFieldSize, desiredMaxLineLength, false, MIN_NUMBER_OF_PLAYERS)
+        ): Game = GameSession(false, desiredFieldSize, desiredMaxLineLength, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * the shortest ever way to get the game ready in 3D
          */
         fun create(is3D: Boolean = false): Game =
-            GameSession(MIN_GAME_FIELD_SIDE_SIZE, MIN_WINNING_LINE_LENGTH, is3D, MIN_NUMBER_OF_PLAYERS)
+            GameSession(is3D, MIN_GAME_FIELD_SIDE_SIZE, MIN_WINNING_LINE_LENGTH, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * convenient for getting the game field of bigger size in 3D
          */
-        fun create(desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE, is3D: Boolean = false): Game =
-            GameSession(desiredFieldSize, MIN_WINNING_LINE_LENGTH, is3D, MIN_NUMBER_OF_PLAYERS)
+        fun create(
+            is3D: Boolean = false, desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE
+        ): Game =
+            GameSession(is3D, desiredFieldSize, MIN_WINNING_LINE_LENGTH, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * more precise adjustment of winning condition for configurable 3D game field
          */
         fun create(
+            is3D: Boolean = false,
             desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE,
-            desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH,
-            is3D: Boolean = false
-        ): Game = GameSession(desiredFieldSize, desiredMaxLineLength, is3D, MIN_NUMBER_OF_PLAYERS)
+            desiredMaxLineLength: Int = MIN_WINNING_LINE_LENGTH
+        ): Game = GameSession(is3D, desiredFieldSize, desiredMaxLineLength, MIN_NUMBER_OF_PLAYERS)
     }
 }

@@ -16,7 +16,7 @@ class InternalApiTesting {
     @Test
     fun havingOneMarkSetForOnePlayerOn3x3Field_TryToSetMarkForAnotherPlayerInTheSamePlace_previousMarkRemainsUnchanged() {
         val game = Game.create() as GameSession
-        val theSameSpot = game.chosenAlgorithm.getCoordinatesFor(1, 1)
+        val theSameSpot = game.gameField.chosenAlgorithm.getCoordinatesFor(1, 1)
         val playerX = PlayerProvider.playersList[0]
         val playerO = PlayerProvider.playersList[1]
         game.makeMove(theSameSpot, playerX)
@@ -34,7 +34,7 @@ class InternalApiTesting {
         assertEquals(playerX, PlayerProvider.activePlayer) // this player remains chosen for the next move
         game.makeMove(1, 1) // another attempt for the same player - this time successful
         assertEquals(playerO, PlayerProvider.activePlayer) // this time the next player is prepared for a move
-        assertEquals(playerX, game.gameField.getCurrentMarkAt(game.chosenAlgorithm.getCoordinatesFor(1, 1)))
+        assertEquals(playerX, game.gameField.getCurrentMarkAt(game.gameField.chosenAlgorithm.getCoordinatesFor(1, 1)))
         game.printCurrentFieldIn2d()
     }
 }

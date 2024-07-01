@@ -131,7 +131,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4x4Field_onePlayerMakesLongerLineThanAnother_thisPlayerBecomesTheLeadingOne() {
-        val game = Game.create(4, 4, true)/*
+        val game = Game.create(true, 4, 4)/*
             a B a . <- b b b . on Z axis
             a . . .
             . . . .
@@ -152,7 +152,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4Field_3PlayersMakeCorrectMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = Game.create(4, 4, false, 3)/*
+        val game = Game.create(false, 4, 4, 3)/*
             A B C .
             A B C .
             A . . .
@@ -173,7 +173,7 @@ class PublicApiTesting {
 
     @Test
     fun having4x4x4Field_3PlayersMakeCorrectMoves_activePlayerDefinitionForEachMoveIsCorrect() {
-        val game = Game.create(4, 4, true, 3)/*
+        val game = Game.create(true, 4, 4, 3)/*
             A B C . <- A A A . on Z-axis
             . B C .
             . . . .
@@ -195,7 +195,7 @@ class PublicApiTesting {
     // kind of a load testing on a field that is big and yet still able to fit into console output
     @Test
     fun having100x100Field_90PlayersMakeRandomMoves_gameFieldSpaceRunningOutFinishesTheGame() {
-        val game = Game.create(100, 100, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
+        val game = Game.create(false, 100, 100, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
         Log.switch(false) // speeding up and preventing from huge amount of messages in the console
         var iterationsCount = 0
         val moreThanNeeded = 999_999
@@ -221,7 +221,7 @@ class PublicApiTesting {
     // kind of a load testing on a field that is big and yet still able to fit into console output
     @Test
     fun having100x100Field_oneOf90PlayersWins_isGameWonCriterionWorks() {
-        val game = Game.create(100, MIN_WINNING_LINE_LENGTH, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
+        val game = Game.create(false, 100, MIN_WINNING_LINE_LENGTH, desiredPlayerNumber = MAX_NUMBER_OF_PLAYERS)
         Log.switch(false) // speeding up and preventing from huge amount of messages in the console
         var iterationsCount = 0
         val moreThanNeeded = 999_999

@@ -35,10 +35,9 @@ internal class GameProgress(
 
     internal fun getWinningLine(): Line? {
         allPlayersLines[theWinner]?.forEach { line: Line? ->
-            if (line == null) return null
-            if (line.marks.size >= winningLength) {
-                return line
-            }
+            line?.let {
+                if (it.marks.size >= winningLength) return line
+            } ?: return null
         }
         return null
     }
@@ -61,10 +60,8 @@ internal class GameProgress(
     }
 
     internal fun saveNewLine(player: Player, line: Line) {
-        var setOfThisPlayerLines = allPlayersLines[player]
-        if (setOfThisPlayerLines == null) { // here we do not know currently existing number of players
-            setOfThisPlayerLines = mutableSetOf() // because initially a set for every player does not exist
-        }
+        // here we do not know currently existing number of players, also initially a set for every player does not exist
+        val setOfThisPlayerLines = allPlayersLines[player] ?: mutableSetOf()
         setOfThisPlayerLines.add(line)
         allPlayersLines[player] = setOfThisPlayerLines
     }
