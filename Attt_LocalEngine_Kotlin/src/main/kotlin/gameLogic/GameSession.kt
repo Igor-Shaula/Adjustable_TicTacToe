@@ -13,7 +13,7 @@ import utilities.Log
  * a game session can be started & finished, each time new to be clear from any possible remains.
  */
 internal class GameSession(
-    desiredFieldSize: Int, desiredMaxLineLength: Int, is3D: Boolean, desiredPlayerNumber: Int
+    is3D: Boolean, desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int
 ) : Game {
 
     internal var gameField: GameField = GameField(is3D, desiredFieldSize)
