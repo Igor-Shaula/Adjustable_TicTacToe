@@ -15,6 +15,9 @@ import utilities.Log
 internal class GameField(
     sideLength: Int // the only required parameter, by the way it's impossible to add private setter here
 ) {
+    // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
+    internal val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
+
     internal var sideLength = 42 // for some specifics of Kotlin this value is correctly set only inside init-block
         private set(value) { // I'm doing this for prevent from changing anywhere outside this class
             // here we're applying all possible corrections that may be needed to keep the game rules reasonable
@@ -27,9 +30,6 @@ internal class GameField(
     init {
         this.sideLength = sideLength // this is not obvious but absolutely needed here - proven by tests
     }
-
-    // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
-    internal val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
 
     /**
      * returns beautiful & simple String representation of the current state of game field
