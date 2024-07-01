@@ -1,7 +1,10 @@
 package gameLogic
 
 import attt.Player
-import constants.*
+import constants.MAX_GAME_FIELD_SIDE_SIZE
+import constants.MIN_GAME_FIELD_SIDE_SIZE
+import constants.SYMBOL_FOR_ABSENT_MARK
+import constants.SYMBOL_FOR_DIVIDER
 import geometry.Line
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
@@ -40,7 +43,7 @@ internal class GameField(
         givenMap: MutableMap<Coordinates, Player> = theMap
     ): String = buildString {
         for (y in 0 until sideLength) {
-            append(SYMBOL_FOR_NEW_LINE)
+            appendLine()
             for (z in 0 until zAxisSize) { // will work only once for 2D
                 for (x in 0 until sideLength) {
                     append(givenMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.symbol ?: SYMBOL_FOR_ABSENT_MARK)
