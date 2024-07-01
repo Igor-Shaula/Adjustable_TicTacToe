@@ -95,15 +95,14 @@ internal class GameField(
     internal fun isReady(): Boolean =
         sideLength in MIN_GAME_FIELD_SIDE_SIZE..MAX_GAME_FIELD_SIDE_SIZE && theMap.isEmpty()
 
-    internal fun placeNewMark(where: Coordinates, what: Player): Boolean =
-        if (theMap[where] == null || theMap[where] == PlayerModel.None) { // why None? - to ensure all cases coverage
-            theMap[where] = what
-            true // new mark is successfully placed
-        } else {
-            Log.pl("attempting to set a mark for player $what on the occupied coordinates: $where")
-            // later we can also emit a custom exception here - to be caught on the UI side and ask for another point
-            false // new mark is not placed because the space has been already occupied
-        }
+    internal fun placeNewMark(where: Coordinates, what: Player): Boolean = if (theCellIsVacant(where)) {
+        theMap[where] = what
+        true // new mark is successfully placed
+    } else {
+        Log.pl("attempting to set a mark for player $what at the occupied coordinates: $where")
+        // later we can also emit a custom exception here - to be caught on the UI side and ask for another point
+        false // new mark is not placed because the space has been already occupied
+    }
 
     internal fun isCompletelyOccupied(is3D: Boolean): Boolean {
         Log.pl("isCompletelyOccupied: theMap.size = ${theMap.size}")
@@ -117,4 +116,12 @@ internal class GameField(
     }
 
     internal fun getSliceForZ(z: Int): Map<Coordinates, Player> = theMap.filter { entry -> entry.key.z == z }
+
+    /**
+     * purpose of this function is to save performance on finding the value by the key -
+     * it's done only once instead of twice - with help of "let" function.
+     * also there is no guarantee that None player mark cannot be written anywhere on the field,
+     * so it was decided to check it as well - and for this we did "theMap.get(where)" twice previously.
+     */
+    private fun theCellIsVacant(where: Coordinates) = theMap[where]?.let { PlayerModel.None == it } ?: true
 }
