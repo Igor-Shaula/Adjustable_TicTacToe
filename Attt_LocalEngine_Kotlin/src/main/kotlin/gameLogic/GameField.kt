@@ -8,6 +8,8 @@ import constants.SYMBOL_FOR_DIVIDER
 import geometry.Line
 import geometry.abstractions.Coordinates
 import geometry.abstractions.OneMoveProcessing
+import geometry.concept2D.NearestAreaScanWith2D
+import geometry.concept3D.NearestAreaScanWith3D
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerModel
 import utilities.Log
@@ -16,8 +18,16 @@ import utilities.Log
  * represents the area/space where all players' marks are placed and exist through one active game session
  */
 internal class GameField(
-    sideLength: Int // the only required parameter, by the way it's impossible to add private setter here
+    is3D: Boolean, sideLength: Int // it's impossible to add private setter for sideLength here
 ) {
+    // to distinguish between older XY-based logic and new multi-axis-based approach for coordinates processing
+    private val useNewDimensionsBasedLogic = true
+
+    // the only place for switching between kinds of algorithms for every move processing
+    internal val chosenAlgorithm: OneMoveProcessing =
+        if (is3D) NearestAreaScanWith3D(this) // NewDimensionsBasedLogic is used as the only option here
+        else if (useNewDimensionsBasedLogic) NearestAreaScanWith2D(this) else NearestAreaScanWithXY(this)
+
     // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
     internal val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
 
@@ -34,11 +44,12 @@ internal class GameField(
         this.sideLength = sideLength // this is not obvious but absolutely needed here - proven by tests
     }
 
+    internal fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = chosenAlgorithm.getCoordinatesFor(x, y, z)
+
     /**
      * returns beautiful & simple String representation of the current state of game field
      */
     internal fun prepareForPrinting3dIn2d(
-        chosenAlgorithm: OneMoveProcessing = NearestAreaScanWithXY(this), // this default value works for tests
         zAxisSize: Int = 1, // this default value works for tests
         givenMap: MutableMap<Coordinates, Player> = theMap
     ): String = buildString {
@@ -47,7 +58,7 @@ internal class GameField(
             for (z in 0 until zAxisSize) { // will work only once for 2D
                 for (x in 0 until sideLength) {
                     append(givenMap[chosenAlgorithm.getCoordinatesFor(x, y, z)]?.symbol ?: SYMBOL_FOR_ABSENT_MARK)
-                        .append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
+                    append(SYMBOL_FOR_DIVIDER) // between adjacent marks inside one field slice
                 }
                 repeat(2) { append(SYMBOL_FOR_DIVIDER) } // between the fields for each slice of every Z axis value
             }
@@ -57,7 +68,6 @@ internal class GameField(
     internal fun prepareForPrintingPlayerLines(
         player: Player,
         allExistingLinesForThisPlayer: MutableSet<Line?>?,
-        chosenAlgorithm: OneMoveProcessing,
         zAxisSize: Int,
     ): String {
         val onePlayerMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
@@ -66,18 +76,18 @@ internal class GameField(
                 onePlayerMap[mark] = player
             }
         }
-        return prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize, onePlayerMap)
+        return prepareForPrinting3dIn2d(zAxisSize, onePlayerMap)
     }
 
     internal fun prepareTheWinningLineForPrinting(
-        player: Player, winningLine: Line, chosenAlgorithm: OneMoveProcessing, zAxisSize: Int
+        player: Player, winningLine: Line, zAxisSize: Int
     ): String {
         val winnerLineOnMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
         val winner = PlayerModel.markWinner(player)
         winningLine.marks.forEach { mark -> // each mark has coordinates relevant to chosenAlgorithm
             winnerLineOnMap[mark] = winner
         }
-        return prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize, winnerLineOnMap)
+        return prepareForPrinting3dIn2d(zAxisSize, winnerLineOnMap)
     }
 
     /**

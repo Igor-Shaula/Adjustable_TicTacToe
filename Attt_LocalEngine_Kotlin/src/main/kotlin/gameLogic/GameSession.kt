@@ -4,10 +4,6 @@ import attt.Game
 import attt.Player
 import geometry.Line
 import geometry.abstractions.Coordinates
-import geometry.abstractions.OneMoveProcessing
-import geometry.concept2D.NearestAreaScanWith2D
-import geometry.concept3D.NearestAreaScanWith3D
-import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerModel
 import players.PlayerProvider
 import utilities.Log
@@ -20,16 +16,8 @@ internal class GameSession(
     desiredFieldSize: Int, desiredMaxLineLength: Int, private val is3D: Boolean, desiredPlayerNumber: Int
 ) : Game {
 
-    // to distinguish between older XY-based logic and new multi-axis-based approach for coordinates processing
-    private val useNewDimensionsBasedLogic = true
-
-    internal var gameField: GameField = GameField(desiredFieldSize)
+    internal var gameField: GameField = GameField(is3D, desiredFieldSize)
     private var gameProgress: GameProgress = GameProgress(desiredMaxLineLength)
-
-    // the only place for switching between kinds of algorithms for every move processing
-    internal val chosenAlgorithm: OneMoveProcessing =
-        if (is3D) NearestAreaScanWith3D(gameField) // NewDimensionsBasedLogic is used as the only option here
-        else if (useNewDimensionsBasedLogic) NearestAreaScanWith2D(gameField) else NearestAreaScanWithXY(gameField)
 
     init {
         PlayerProvider.prepareNewPlayersInstances(desiredPlayerNumber)
@@ -42,7 +30,7 @@ internal class GameSession(
      */
     override fun makeMove(x: Int, y: Int, z: Int): Player {
         Log.pl("makeMove: x = $x, y = $y, z = $z")
-        val requestedPosition = chosenAlgorithm.getCoordinatesFor(x, y, z)
+        val requestedPosition = gameField.getCoordinatesFor(x, y, z)
         return if (requestedPosition.existsWithin(gameField.sideLength)) {
             makeMove(requestedPosition)
         } else {
@@ -58,7 +46,7 @@ internal class GameSession(
         where: Coordinates, what: Player = PlayerProvider.activePlayer
     ): Player =
         if (gameField.placeNewMark(where, what)) {
-            chosenAlgorithm.getMaxLengthAchievedForThisMove(
+            gameField.chosenAlgorithm.getMaxLengthAchievedForThisMove(
                 where,
                 saveNewLine = { player, line -> gameProgress.saveNewLine(player, line) },
                 addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) }
@@ -114,7 +102,7 @@ internal class GameSession(
     override fun getCurrentFieldIn2dAsAString(): String {
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
         val zAxisSize = if (is3D) gameField.sideLength else 1
-        return gameField.prepareForPrinting3dIn2d(chosenAlgorithm, zAxisSize)
+        return gameField.prepareForPrinting3dIn2d(zAxisSize)
     }
 
     override fun printCurrentFieldIn2d() {
@@ -137,7 +125,7 @@ internal class GameSession(
         val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
         val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
         return gameField.prepareForPrintingPlayerLines(
-            player, allExistingLinesForThisPlayer, chosenAlgorithm, zAxisSize
+            player, allExistingLinesForThisPlayer, zAxisSize
         )
     }
 
@@ -172,7 +160,7 @@ internal class GameSession(
         val winningLine: Line = gameProgress.getWinningLine() ?: return ""
         val zAxisSize = if (is3D) gameField.sideLength else 1 // only one layer in Z dimension will exist
         return gameField.prepareTheWinningLineForPrinting(
-            gameProgress.getWinner(), winningLine, chosenAlgorithm, zAxisSize
+            gameProgress.getWinner(), winningLine, zAxisSize
         )
     }
 
