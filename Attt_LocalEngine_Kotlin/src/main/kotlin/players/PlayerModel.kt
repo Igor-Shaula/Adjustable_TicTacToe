@@ -2,7 +2,6 @@ package players
 
 import attt.Player
 import constants.SYMBOL_FOR_FULL_BLOCK
-import constants.SYMBOL_FOR_PLAYER_NONE
 import constants.SYMBOL_FOR_PLAYER_O
 import constants.SYMBOL_FOR_PLAYER_X
 
@@ -27,7 +26,7 @@ internal data class PlayerModel(override val id: Int) : Player {
     override var symbol: Char? = null
         private set
 
-    override var maxLineLength = 0 // not using get & set here as this data is accessed from AtttPlayer interface
+    override var maxLineLength = 0
         private set
 
     init {
@@ -67,10 +66,10 @@ internal data class PlayerModel(override val id: Int) : Player {
         return asciiCode.toChar()
     }
 
-    /*
-     here I create new instances of players X & O because PlayerModel is stateful
-     and contains maxLineLength which needs to be reset for every game, that would complicate the flow,
-     as maxLineLength is not the only thing which can keep player data from a previous game session.
+    /**
+    here I create new instances of players X & O because PlayerModel is stateful
+    and contains maxLineLength which needs to be reset for every game, that would complicate the flow,
+    as maxLineLength is not the only thing which can keep player data from a previous game session.
      */
     companion object {
 
@@ -84,7 +83,6 @@ internal data class PlayerModel(override val id: Int) : Player {
             PlayerModel(player.id).apply { name = player.name; symbol = SYMBOL_FOR_FULL_BLOCK }
 
         // one instance is enough for all the time of all possible games
-        internal val None: Player =
-            PlayerModel(ID_FOR_PLAYER_NONE).apply { name = PLAYER_NONE_NAME; symbol = SYMBOL_FOR_PLAYER_NONE }
+        internal val None: Player = PlayerModel(ID_FOR_PLAYER_NONE)
     }
 }
