@@ -35,6 +35,16 @@ interface Game {
 
     fun isGameFinished(): Boolean
 
+    fun getCurrentFieldAsAString(): String
+
+    fun getTheWinningLineAsAString(): String
+
+    fun getLinesAsAStringFor(player: Player): String
+
+    fun getLinesAsAStringForLeader(): String
+
+    fun getLinesAsAStringForWinner(): String
+
     /**
      * represents the current game field state in an associative way (as a dictionary or map).
      * Triple<Int, Int, Int> represents coordinates - X, Y, Z in this order (the same as for makeMove() method).
@@ -43,23 +53,13 @@ interface Game {
 
     fun getCurrentLayer(z: Int = 0): Map<Pair<Int, Int>, Player>
 
-    fun getCurrentFieldAsAString(): String
+    fun getTheWinningLine(): List<Triple<Int, Int, Int>>
 
     fun getLinesFor(player: Player): List<List<Triple<Int, Int, Int>>>
 
-    fun getLinesAsAStringFor(player: Player): String
-
     fun getLinesForLeader(): List<List<Triple<Int, Int, Int>>>
 
-    fun getLinesAsAStringForLeader(): String
-
     fun getLinesForWinner(): List<List<Triple<Int, Int, Int>>>
-
-    fun getLinesAsAStringForWinner(): String
-
-    fun getTheWinningLine(): List<Triple<Int, Int, Int>>
-
-    fun getTheWinningLineAsAString(): String
 
     companion object {
         /**
