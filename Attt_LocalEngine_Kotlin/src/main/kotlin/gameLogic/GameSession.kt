@@ -104,11 +104,6 @@ internal class GameSession(
         return gameField.prepareForPrinting3dIn2d()
     }
 
-    override fun printCurrentFieldIn2d() {
-        // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(getCurrentFieldIn2dAsAString())
-    }
-
     override fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>> {
         val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
         return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
@@ -125,19 +120,11 @@ internal class GameSession(
         return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
-    override fun printExistingLinesForGivenPlayer(player: Player) {
-        println(getExistingLinesForGivenPlayerAsAString(player))
-    }
-
     override fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>> =
         getExistingLinesForGivenPlayer(gameProgress.getLeadingPlayer())
 
     override fun getExistingLinesForLeadingPlayerAsAString(): String =
         getExistingLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
-
-    override fun printExistingLinesForLeadingPlayer() {
-        println(getExistingLinesForLeadingPlayerAsAString())
-    }
 
     override fun getExistingLinesForTheWinner(): List<List<Triple<Int, Int, Int>>> =
         getExistingLinesForGivenPlayer(gameProgress.getWinner())
@@ -145,19 +132,11 @@ internal class GameSession(
     override fun getExistingLinesForTheWinnerAsAString(): String =
         getExistingLinesForGivenPlayerAsAString(gameProgress.getWinner())
 
-    override fun printExistingLinesForTheWinner() {
-        println(getExistingLinesForTheWinnerAsAString())
-    }
-
     override fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>> =
         gameProgress.getWinningLine()?.marks?.map { oneMark -> Triple(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()
 
     override fun getTheWinningLineAsAString(): String {
         val winningLine: Line = gameProgress.getWinningLine() ?: return ""
         return gameField.prepareTheWinningLineForPrinting(gameProgress.getWinner(), winningLine)
-    }
-
-    override fun printTheWinningLine() {
-        println(getTheWinningLineAsAString())
     }
 }

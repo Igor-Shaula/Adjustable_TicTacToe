@@ -45,31 +45,21 @@ interface Game {
 
     fun getCurrentFieldIn2dAsAString(): String
 
-    fun printCurrentFieldIn2d()
-
     fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>>
 
     fun getExistingLinesForGivenPlayerAsAString(player: Player): String
-
-    fun printExistingLinesForGivenPlayer(player: Player)
 
     fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>>
 
     fun getExistingLinesForLeadingPlayerAsAString(): String
 
-    fun printExistingLinesForLeadingPlayer()
-
     fun getExistingLinesForTheWinner(): List<List<Triple<Int, Int, Int>>>
 
     fun getExistingLinesForTheWinnerAsAString(): String
 
-    fun printExistingLinesForTheWinner()
-
     fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>>
 
     fun getTheWinningLineAsAString(): String
-
-    fun printTheWinningLine()
 
     companion object {
         /**
