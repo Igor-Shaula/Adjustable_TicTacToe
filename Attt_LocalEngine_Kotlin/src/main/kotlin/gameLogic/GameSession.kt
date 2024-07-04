@@ -99,7 +99,7 @@ internal class GameSession(
         }.mapKeys { entry -> Pair(entry.key.x, entry.key.y) }
     }
 
-    override fun getCurrentFieldIn2dAsAString(): String {
+    override fun getCurrentFieldAsAString(): String {
         // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
         return gameField.prepareForPrinting3dIn2d()
     }

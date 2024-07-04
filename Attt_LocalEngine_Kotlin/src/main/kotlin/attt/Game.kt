@@ -43,7 +43,7 @@ interface Game {
 
     fun getCurrentFieldAsMapOfPairs(z: Int = 0): Map<Pair<Int, Int>, Player>
 
-    fun getCurrentFieldIn2dAsAString(): String
+    fun getCurrentFieldAsAString(): String
 
     fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>>
 
