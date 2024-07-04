@@ -53,9 +53,9 @@ interface Game {
 
     fun getLinesForLeaderAsAString(): String
 
-    fun getLinesForTheWinner(): List<List<Triple<Int, Int, Int>>>
+    fun getLinesForWinner(): List<List<Triple<Int, Int, Int>>>
 
-    fun getLinesForTheWinnerAsAString(): String
+    fun getLinesForWinnerAsAString(): String
 
     fun getTheWinningLine(): List<Triple<Int, Int, Int>>
 
