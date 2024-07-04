@@ -41,7 +41,7 @@ interface Game {
      */
     fun getCurrentField(): Map<Triple<Int, Int, Int>, Player>
 
-    fun getCurrentFieldAsMapOfPairs(z: Int = 0): Map<Pair<Int, Int>, Player>
+    fun getCurrentLayer(z: Int = 0): Map<Pair<Int, Int>, Player>
 
     fun getCurrentFieldAsAString(): String
 

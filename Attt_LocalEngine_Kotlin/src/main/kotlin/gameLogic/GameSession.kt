@@ -91,7 +91,7 @@ internal class GameSession(
     override fun getCurrentField(): Map<Triple<Int, Int, Int>, Player> =
         gameField.theMap.mapKeys { entry -> Triple(entry.key.x, entry.key.y, entry.key.z) }
 
-    override fun getCurrentFieldAsMapOfPairs(z: Int): Map<Pair<Int, Int>, Player> {
+    override fun getCurrentLayer(z: Int): Map<Pair<Int, Int>, Player> {
         return if (z > 0) { // just an optimization to avoid excess filtering for Z=0 case
             gameField.getSliceForZ(z)
         } else {
