@@ -39,7 +39,7 @@ interface Game {
      * represents the current game field state in an associative way (as a dictionary or map).
      * Triple<Int, Int, Int> represents coordinates - X, Y, Z in this order (the same as for makeMove() method).
      */
-    fun getCurrentFieldAsMapOfTriples(): Map<Triple<Int, Int, Int>, Player>
+    fun getCurrentField(): Map<Triple<Int, Int, Int>, Player>
 
     fun getCurrentFieldAsMapOfPairs(z: Int = 0): Map<Pair<Int, Int>, Player>
 
@@ -57,7 +57,7 @@ interface Game {
 
     fun getExistingLinesForTheWinnerAsAString(): String
 
-    fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>>
+    fun getTheWinningLine(): List<Triple<Int, Int, Int>>
 
     fun getTheWinningLineAsAString(): String
 

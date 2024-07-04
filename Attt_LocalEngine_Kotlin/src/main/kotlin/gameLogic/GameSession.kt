@@ -88,7 +88,7 @@ internal class GameSession(
      * as this key would be something like Coordinates(0,0,0) which is NOT the same as Coordinates3D(0,0,0)
      * due to specifics of generics & collections implementation in Java & Kotlin.
      */
-    override fun getCurrentFieldAsMapOfTriples(): Map<Triple<Int, Int, Int>, Player> =
+    override fun getCurrentField(): Map<Triple<Int, Int, Int>, Player> =
         gameField.theMap.mapKeys { entry -> Triple(entry.key.x, entry.key.y, entry.key.z) }
 
     override fun getCurrentFieldAsMapOfPairs(z: Int): Map<Pair<Int, Int>, Player> {
@@ -132,7 +132,7 @@ internal class GameSession(
     override fun getExistingLinesForTheWinnerAsAString(): String =
         getExistingLinesForGivenPlayerAsAString(gameProgress.getWinner())
 
-    override fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>> =
+    override fun getTheWinningLine(): List<Triple<Int, Int, Int>> =
         gameProgress.getWinningLine()?.marks?.map { oneMark -> Triple(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()
 
     override fun getTheWinningLineAsAString(): String {
