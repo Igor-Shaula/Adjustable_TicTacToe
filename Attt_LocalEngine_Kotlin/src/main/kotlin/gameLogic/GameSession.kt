@@ -104,7 +104,7 @@ internal class GameSession(
         return gameField.prepareForPrinting3dIn2d()
     }
 
-    override fun getLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>> {
+    override fun getLinesFor(player: Player): List<List<Triple<Int, Int, Int>>> {
         val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
         return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
             // every line is a set of marks
@@ -115,22 +115,22 @@ internal class GameSession(
         } ?: emptyList()
     }
 
-    override fun getLinesForGivenPlayerAsAString(player: Player): String {
+    override fun getLinesAsAStringFor(player: Player): String {
         val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
         return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
     override fun getLinesForLeader(): List<List<Triple<Int, Int, Int>>> =
-        getLinesForGivenPlayer(gameProgress.getLeadingPlayer())
+        getLinesFor(gameProgress.getLeadingPlayer())
 
     override fun getLinesForLeaderAsAString(): String =
-        getLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
+        getLinesAsAStringFor(gameProgress.getLeadingPlayer())
 
     override fun getLinesForWinner(): List<List<Triple<Int, Int, Int>>> =
-        getLinesForGivenPlayer(gameProgress.getWinner())
+        getLinesFor(gameProgress.getWinner())
 
     override fun getLinesForWinnerAsAString(): String =
-        getLinesForGivenPlayerAsAString(gameProgress.getWinner())
+        getLinesAsAStringFor(gameProgress.getWinner())
 
     override fun getTheWinningLine(): List<Triple<Int, Int, Int>> =
         gameProgress.getWinningLine()?.marks?.map { oneMark -> Triple(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()

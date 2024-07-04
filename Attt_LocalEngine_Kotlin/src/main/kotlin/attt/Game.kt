@@ -45,9 +45,9 @@ interface Game {
 
     fun getCurrentFieldAsAString(): String
 
-    fun getLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>>
+    fun getLinesFor(player: Player): List<List<Triple<Int, Int, Int>>>
 
-    fun getLinesForGivenPlayerAsAString(player: Player): String
+    fun getLinesAsAStringFor(player: Player): String
 
     fun getLinesForLeader(): List<List<Triple<Int, Int, Int>>>
 
