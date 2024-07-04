@@ -120,10 +120,10 @@ internal class GameSession(
         return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
-    override fun getLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>> =
+    override fun getLinesForLeader(): List<List<Triple<Int, Int, Int>>> =
         getLinesForGivenPlayer(gameProgress.getLeadingPlayer())
 
-    override fun getLinesForLeadingPlayerAsAString(): String =
+    override fun getLinesForLeaderAsAString(): String =
         getLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
 
     override fun getLinesForTheWinner(): List<List<Triple<Int, Int, Int>>> =
