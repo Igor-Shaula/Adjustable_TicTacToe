@@ -104,7 +104,7 @@ internal class GameSession(
         return gameField.prepareForPrinting3dIn2d()
     }
 
-    override fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>> {
+    override fun getLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>> {
         val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
         return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
             // every line is a set of marks
@@ -115,22 +115,22 @@ internal class GameSession(
         } ?: emptyList()
     }
 
-    override fun getExistingLinesForGivenPlayerAsAString(player: Player): String {
+    override fun getLinesForGivenPlayerAsAString(player: Player): String {
         val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
         return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
-    override fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>> =
-        getExistingLinesForGivenPlayer(gameProgress.getLeadingPlayer())
+    override fun getLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>> =
+        getLinesForGivenPlayer(gameProgress.getLeadingPlayer())
 
-    override fun getExistingLinesForLeadingPlayerAsAString(): String =
-        getExistingLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
+    override fun getLinesForLeadingPlayerAsAString(): String =
+        getLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
 
-    override fun getExistingLinesForTheWinner(): List<List<Triple<Int, Int, Int>>> =
-        getExistingLinesForGivenPlayer(gameProgress.getWinner())
+    override fun getLinesForTheWinner(): List<List<Triple<Int, Int, Int>>> =
+        getLinesForGivenPlayer(gameProgress.getWinner())
 
-    override fun getExistingLinesForTheWinnerAsAString(): String =
-        getExistingLinesForGivenPlayerAsAString(gameProgress.getWinner())
+    override fun getLinesForTheWinnerAsAString(): String =
+        getLinesForGivenPlayerAsAString(gameProgress.getWinner())
 
     override fun getTheWinningLine(): List<Triple<Int, Int, Int>> =
         gameProgress.getWinningLine()?.marks?.map { oneMark -> Triple(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()

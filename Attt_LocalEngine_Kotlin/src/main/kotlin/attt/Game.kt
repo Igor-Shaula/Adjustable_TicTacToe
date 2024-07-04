@@ -45,17 +45,17 @@ interface Game {
 
     fun getCurrentFieldAsAString(): String
 
-    fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>>
+    fun getLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>>
 
-    fun getExistingLinesForGivenPlayerAsAString(player: Player): String
+    fun getLinesForGivenPlayerAsAString(player: Player): String
 
-    fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>>
+    fun getLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>>
 
-    fun getExistingLinesForLeadingPlayerAsAString(): String
+    fun getLinesForLeadingPlayerAsAString(): String
 
-    fun getExistingLinesForTheWinner(): List<List<Triple<Int, Int, Int>>>
+    fun getLinesForTheWinner(): List<List<Triple<Int, Int, Int>>>
 
-    fun getExistingLinesForTheWinnerAsAString(): String
+    fun getLinesForTheWinnerAsAString(): String
 
     fun getTheWinningLine(): List<Triple<Int, Int, Int>>
 
