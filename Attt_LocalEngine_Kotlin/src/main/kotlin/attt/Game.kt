@@ -51,11 +51,11 @@ interface Game {
 
     fun getLinesForLeader(): List<List<Triple<Int, Int, Int>>>
 
-    fun getLinesForLeaderAsAString(): String
+    fun getLinesAsAStringForLeader(): String
 
     fun getLinesForWinner(): List<List<Triple<Int, Int, Int>>>
 
-    fun getLinesForWinnerAsAString(): String
+    fun getLinesAsAStringForWinner(): String
 
     fun getTheWinningLine(): List<Triple<Int, Int, Int>>
 

@@ -123,13 +123,13 @@ internal class GameSession(
     override fun getLinesForLeader(): List<List<Triple<Int, Int, Int>>> =
         getLinesFor(gameProgress.getLeadingPlayer())
 
-    override fun getLinesForLeaderAsAString(): String =
+    override fun getLinesAsAStringForLeader(): String =
         getLinesAsAStringFor(gameProgress.getLeadingPlayer())
 
     override fun getLinesForWinner(): List<List<Triple<Int, Int, Int>>> =
         getLinesFor(gameProgress.getWinner())
 
-    override fun getLinesForWinnerAsAString(): String =
+    override fun getLinesAsAStringForWinner(): String =
         getLinesAsAStringFor(gameProgress.getWinner())
 
     override fun getTheWinningLine(): List<Triple<Int, Int, Int>> =
