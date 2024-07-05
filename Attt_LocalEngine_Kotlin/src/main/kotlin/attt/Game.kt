@@ -52,13 +52,13 @@ interface Game {
 
     fun getCurrentLayer(z: Int = 0): Map<XY, Player>
 
-    fun getTheWinningLine(): OneLine
-
     fun getLinesFor(player: Player): List<OneLine>
 
     fun getLinesForLeader(): List<OneLine>
 
     fun getLinesForWinner(): List<OneLine>
+
+    fun getTheWinningLine(): OneLine
 
     companion object {
         /**
