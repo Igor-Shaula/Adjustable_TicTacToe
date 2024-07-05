@@ -34,9 +34,7 @@ internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMove
         }
         val allDirections = mutableListOf<LineDirectionFor2Axes>()
         LineDirectionFor2Axes.getAllFromLoops().filter { !it.isNone() }.forEach { twoAxisDirection ->
-            val nextCoordinates = fromWhere.getNextInTheDirection(
-                twoAxisDirection.xAxisLD, twoAxisDirection.yAxisLD
-            )
+            val nextCoordinates = fromWhere.getNextInTheDirection(twoAxisDirection)
             if (nextCoordinates.existsWithin(gameField.sideLength) &&
                 gameField.containsTheSameMark(checkedMark, nextCoordinates)
             ) {
@@ -57,7 +55,7 @@ internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMove
         // we also have a proven placed dot of the same player in the detected line direction.
         // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
         val checkedNearCoordinates = start.getTheNextSpaceFor(
-            lineDirectionFor2Axes.xAxisLD, lineDirectionFor2Axes.yAxisLD, gameField.sideLength
+            lineDirectionFor2Axes, gameField.sideLength
         )
         var lineTotalLength = 0
         if (checkedNearCoordinates is Coordinates2D) {
@@ -79,7 +77,7 @@ internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMove
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
         // firstly let's measure in the given direction and then in the opposite, also recursively
         val nextMark = givenMark.getTheNextSpaceFor(
-            lineDirectionFor2Axes.xAxisLD, lineDirectionFor2Axes.yAxisLD, gameField.sideLength
+            lineDirectionFor2Axes, gameField.sideLength
         )
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
         return if (nextMark is Coordinates2D && gameField.belongToTheSameRealPlayer(givenMark, nextMark)) {
