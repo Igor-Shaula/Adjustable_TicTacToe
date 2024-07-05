@@ -1,7 +1,6 @@
 package gameLogic
 
-import attt.Game
-import attt.Player
+import attt.*
 import geometry.Line
 import geometry.abstractions.Coordinates
 import players.PlayerModel
@@ -80,6 +79,27 @@ internal class GameSession(
 
     override fun isGameFinished(): Boolean = isGameWon() || gameField.isCompletelyOccupied()
 
+    override fun getCurrentFieldAsAString(): String {
+        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
+        return gameField.prepareForPrinting3dIn2d()
+    }
+
+    override fun getLinesAsAStringFor(player: Player): String {
+        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
+        return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
+    }
+
+    override fun getLinesAsAStringForLeader(): String =
+        getLinesAsAStringFor(gameProgress.getLeadingPlayer())
+
+    override fun getLinesAsAStringForWinner(): String =
+        getLinesAsAStringFor(gameProgress.getWinner())
+
+    override fun getTheWinningLineAsAString(): String {
+        val winningLine: Line = gameProgress.getWinningLine() ?: return ""
+        return gameField.prepareTheWinningLineForPrinting(gameProgress.getWinner(), winningLine)
+    }
+
     /**
      * I decided to return the field state as a map of Triple Integers to Player
      * instead of just giving the existing map of Coordinates to Player
@@ -88,76 +108,34 @@ internal class GameSession(
      * as this key would be something like Coordinates(0,0,0) which is NOT the same as Coordinates3D(0,0,0)
      * due to specifics of generics & collections implementation in Java & Kotlin.
      */
-    override fun getCurrentFieldAsMapOfTriples(): Map<Triple<Int, Int, Int>, Player> =
-        gameField.theMap.mapKeys { entry -> Triple(entry.key.x, entry.key.y, entry.key.z) }
+    override fun getCurrentField(): Map<XYZ, Player> =
+        gameField.theMap.mapKeys { entry -> XYZ(entry.key.x, entry.key.y, entry.key.z) }
 
-    override fun getCurrentFieldAsMapOfPairs(z: Int): Map<Pair<Int, Int>, Player> {
+    override fun getCurrentLayer(z: Int): Map<XY, Player> {
         return if (z > 0) { // just an optimization to avoid excess filtering for Z=0 case
             gameField.getSliceForZ(z)
         } else {
             gameField.theMap // by default its coordinates as pairs are processed only for the base Z=0 slice
-        }.mapKeys { entry -> Pair(entry.key.x, entry.key.y) }
+        }.mapKeys { entry -> XY(entry.key.x, entry.key.y) }
     }
 
-    override fun getCurrentFieldIn2dAsAString(): String {
-        // reasonable sideLength here is 1 -> minIndex = 0 -> only one layer in Z dimension will exist
-        return gameField.prepareForPrinting3dIn2d()
-    }
-
-    override fun printCurrentFieldIn2d() {
-        // not using Log.pl here as this action is intentional & has not be able to switch off
-        println(getCurrentFieldIn2dAsAString())
-    }
-
-    override fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>> {
+    override fun getLinesFor(player: Player): List<OneLine> {
         val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
         return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
             // every line is a set of marks
             listOf(oneLine?.marks?.map { oneMark -> // inner List (of marks in the line) is created here
                 // every mark should be converted from Coordinates to Triple of integers
-                Triple(oneMark.x, oneMark.y, oneMark.z)
+                XYZ(oneMark.x, oneMark.y, oneMark.z)
             } ?: emptyList())
         } ?: emptyList()
     }
 
-    override fun getExistingLinesForGivenPlayerAsAString(player: Player): String {
-        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
-        return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
-    }
+    override fun getLinesForLeader(): List<OneLine> =
+        getLinesFor(gameProgress.getLeadingPlayer())
 
-    override fun printExistingLinesForGivenPlayer(player: Player) {
-        println(getExistingLinesForGivenPlayerAsAString(player))
-    }
+    override fun getLinesForWinner(): List<OneLine> =
+        getLinesFor(gameProgress.getWinner())
 
-    override fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>> =
-        getExistingLinesForGivenPlayer(gameProgress.getLeadingPlayer())
-
-    override fun getExistingLinesForLeadingPlayerAsAString(): String =
-        getExistingLinesForGivenPlayerAsAString(gameProgress.getLeadingPlayer())
-
-    override fun printExistingLinesForLeadingPlayer() {
-        println(getExistingLinesForLeadingPlayerAsAString())
-    }
-
-    override fun getExistingLinesForTheWinner(): List<List<Triple<Int, Int, Int>>> =
-        getExistingLinesForGivenPlayer(gameProgress.getWinner())
-
-    override fun getExistingLinesForTheWinnerAsAString(): String =
-        getExistingLinesForGivenPlayerAsAString(gameProgress.getWinner())
-
-    override fun printExistingLinesForTheWinner() {
-        println(getExistingLinesForTheWinnerAsAString())
-    }
-
-    override fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>> =
-        gameProgress.getWinningLine()?.marks?.map { oneMark -> Triple(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()
-
-    override fun getTheWinningLineAsAString(): String {
-        val winningLine: Line = gameProgress.getWinningLine() ?: return ""
-        return gameField.prepareTheWinningLineForPrinting(gameProgress.getWinner(), winningLine)
-    }
-
-    override fun printTheWinningLine() {
-        println(getTheWinningLineAsAString())
-    }
+    override fun getTheWinningLine(): OneLine =
+        gameProgress.getWinningLine()?.marks?.map { oneMark -> XYZ(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()
 }

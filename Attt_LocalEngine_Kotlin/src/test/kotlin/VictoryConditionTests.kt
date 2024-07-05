@@ -27,9 +27,9 @@ class VictoryConditionTests {
         assertEquals(playerX, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
-        game.printCurrentFieldIn2d()
-        game.printExistingLinesForTheWinner()
-        game.printTheWinningLine()
+        Log.pl(game.getCurrentFieldAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
+        Log.pl(game.getTheWinningLineAsAString())
     }
 
     @Test
@@ -47,9 +47,9 @@ class VictoryConditionTests {
         assertEquals(playerX, game.getWinner())
         assertEquals(5, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
-        game.printCurrentFieldIn2d()
-        game.printExistingLinesForTheWinner()
-        game.printTheWinningLine()
+        Log.pl(game.getCurrentFieldAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
+        Log.pl(game.getTheWinningLineAsAString())
     }
 
     // this test was provided by Matt Tucker - https://github.com/tuck182 - many thanks for finding a serious bug!
@@ -81,9 +81,9 @@ class VictoryConditionTests {
         assertEquals(playerX, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
-        game.printCurrentFieldIn2d()
-        game.printExistingLinesForTheWinner()
-        game.printTheWinningLine()
+        Log.pl(game.getCurrentFieldAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
+        Log.pl(game.getTheWinningLineAsAString())
     }
 
     @Test
@@ -105,9 +105,9 @@ class VictoryConditionTests {
         assertEquals(playerO, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
-        game.printCurrentFieldIn2d()
-        game.printExistingLinesForTheWinner()
-        game.printTheWinningLine()
+        Log.pl(game.getCurrentFieldAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
+        Log.pl(game.getTheWinningLineAsAString())
     }
 
     @Test
@@ -124,8 +124,8 @@ class VictoryConditionTests {
         assertEquals(playerO, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
-        game.printCurrentFieldIn2d()
-        game.printExistingLinesForTheWinner()
-        game.printTheWinningLine()
+        Log.pl(game.getCurrentFieldAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
+        Log.pl(game.getTheWinningLineAsAString())
     }
 }

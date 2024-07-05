@@ -7,6 +7,8 @@ import gameLogic.GameSession
 
 interface Game {
 
+    // region section of moves
+
     /**
      * the only action for a selected/next player during the active game, this one is the most precise form
      */
@@ -27,6 +29,10 @@ interface Game {
      */
     fun m(x: Int, y: Int): Player = makeMove(x, y, 0)
 
+    // endregion section of moves
+
+    // region section of Boolean getters
+
     fun getLeader(): Player
 
     fun getWinner(): Player
@@ -35,41 +41,40 @@ interface Game {
 
     fun isGameFinished(): Boolean
 
-    /**
-     * represents the current game field state in an associative way (as a dictionary or map).
-     * Triple<Int, Int, Int> represents coordinates - X, Y, Z in this order (the same as for makeMove() method).
-     */
-    fun getCurrentFieldAsMapOfTriples(): Map<Triple<Int, Int, Int>, Player>
+    // endregion section of Boolean getters
 
-    fun getCurrentFieldAsMapOfPairs(z: Int = 0): Map<Pair<Int, Int>, Player>
+    // region section of String getters
 
-    fun getCurrentFieldIn2dAsAString(): String
-
-    fun printCurrentFieldIn2d()
-
-    fun getExistingLinesForGivenPlayer(player: Player): List<List<Triple<Int, Int, Int>>>
-
-    fun getExistingLinesForGivenPlayerAsAString(player: Player): String
-
-    fun printExistingLinesForGivenPlayer(player: Player)
-
-    fun getExistingLinesForLeadingPlayer(): List<List<Triple<Int, Int, Int>>>
-
-    fun getExistingLinesForLeadingPlayerAsAString(): String
-
-    fun printExistingLinesForLeadingPlayer()
-
-    fun getExistingLinesForTheWinner(): List<List<Triple<Int, Int, Int>>>
-
-    fun getExistingLinesForTheWinnerAsAString(): String
-
-    fun printExistingLinesForTheWinner()
-
-    fun getTheWinningLineAsListOfTriples(): List<Triple<Int, Int, Int>>
+    fun getCurrentFieldAsAString(): String
 
     fun getTheWinningLineAsAString(): String
 
-    fun printTheWinningLine()
+    fun getLinesAsAStringFor(player: Player): String
+
+    fun getLinesAsAStringForLeader(): String
+
+    fun getLinesAsAStringForWinner(): String
+
+    // endregion section of String getters
+
+    // region section of complex getters
+
+    /**
+     * represents the current game field state in an associative way (as a dictionary or map).
+     */
+    fun getCurrentField(): Map<XYZ, Player>
+
+    fun getCurrentLayer(z: Int = 0): Map<XY, Player>
+
+    fun getLinesFor(player: Player): List<OneLine>
+
+    fun getLinesForLeader(): List<OneLine>
+
+    fun getLinesForWinner(): List<OneLine>
+
+    fun getTheWinningLine(): OneLine
+
+    // endregion section of complex getters
 
     companion object {
         /**
@@ -112,8 +117,7 @@ interface Game {
          */
         fun create(
             is3D: Boolean = false, desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE
-        ): Game =
-            GameSession(is3D, desiredFieldSize, MIN_WINNING_LINE_LENGTH, MIN_NUMBER_OF_PLAYERS)
+        ): Game = GameSession(is3D, desiredFieldSize, MIN_WINNING_LINE_LENGTH, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * more precise adjustment of winning condition for configurable 3D game field
