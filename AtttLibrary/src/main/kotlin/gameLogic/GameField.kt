@@ -29,7 +29,7 @@ internal class GameField(
         else if (useNewDimensionsBasedLogic) NearestAreaScanWith2D(this) else NearestAreaScanWithXY(this)
 
     // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
-    internal val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
+    private val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
 
     internal var sideLength = 42 // for some specifics of Kotlin this value is correctly set only inside init-block
         private set(value) { // I'm doing this for prevent from changing anywhere outside this class
@@ -124,7 +124,9 @@ internal class GameField(
         return theMap.size >= maxNumberOfSpaces
     }
 
-    internal fun getSliceForZ(z: Int): Map<Coordinates, Player> = theMap.filter { entry -> entry.key.z == z }
+    internal fun getField() = theMap as Map<Coordinates, Player> // strictly immutable, of course
+
+    internal fun getLayerForZ(z: Int): Map<Coordinates, Player> = theMap.filter { entry -> entry.key.z == z }
 
     /**
      * purpose of this function is to save performance on finding the value by the key -
