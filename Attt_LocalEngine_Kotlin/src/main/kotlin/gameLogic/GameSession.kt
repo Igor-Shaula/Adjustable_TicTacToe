@@ -1,7 +1,6 @@
 package gameLogic
 
-import attt.Game
-import attt.Player
+import attt.*
 import geometry.Line
 import geometry.abstractions.Coordinates
 import players.PlayerModel
@@ -88,15 +87,15 @@ internal class GameSession(
      * as this key would be something like Coordinates(0,0,0) which is NOT the same as Coordinates3D(0,0,0)
      * due to specifics of generics & collections implementation in Java & Kotlin.
      */
-    override fun getCurrentField(): Map<Triple<Int, Int, Int>, Player> =
-        gameField.theMap.mapKeys { entry -> Triple(entry.key.x, entry.key.y, entry.key.z) }
+    override fun getCurrentField(): Map<XYZ, Player> =
+        gameField.theMap.mapKeys { entry -> XYZ(entry.key.x, entry.key.y, entry.key.z) }
 
-    override fun getCurrentLayer(z: Int): Map<Pair<Int, Int>, Player> {
+    override fun getCurrentLayer(z: Int): Map<XY, Player> {
         return if (z > 0) { // just an optimization to avoid excess filtering for Z=0 case
             gameField.getSliceForZ(z)
         } else {
             gameField.theMap // by default its coordinates as pairs are processed only for the base Z=0 slice
-        }.mapKeys { entry -> Pair(entry.key.x, entry.key.y) }
+        }.mapKeys { entry -> XY(entry.key.x, entry.key.y) }
     }
 
     override fun getCurrentFieldAsAString(): String {
@@ -104,13 +103,13 @@ internal class GameSession(
         return gameField.prepareForPrinting3dIn2d()
     }
 
-    override fun getLinesFor(player: Player): List<List<Triple<Int, Int, Int>>> {
+    override fun getLinesFor(player: Player): List<OneLine> {
         val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
         return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
             // every line is a set of marks
             listOf(oneLine?.marks?.map { oneMark -> // inner List (of marks in the line) is created here
                 // every mark should be converted from Coordinates to Triple of integers
-                Triple(oneMark.x, oneMark.y, oneMark.z)
+                XYZ(oneMark.x, oneMark.y, oneMark.z)
             } ?: emptyList())
         } ?: emptyList()
     }
@@ -120,20 +119,20 @@ internal class GameSession(
         return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
-    override fun getLinesForLeader(): List<List<Triple<Int, Int, Int>>> =
+    override fun getLinesForLeader(): List<OneLine> =
         getLinesFor(gameProgress.getLeadingPlayer())
 
     override fun getLinesAsAStringForLeader(): String =
         getLinesAsAStringFor(gameProgress.getLeadingPlayer())
 
-    override fun getLinesForWinner(): List<List<Triple<Int, Int, Int>>> =
+    override fun getLinesForWinner(): List<OneLine> =
         getLinesFor(gameProgress.getWinner())
 
     override fun getLinesAsAStringForWinner(): String =
         getLinesAsAStringFor(gameProgress.getWinner())
 
-    override fun getTheWinningLine(): List<Triple<Int, Int, Int>> =
-        gameProgress.getWinningLine()?.marks?.map { oneMark -> Triple(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()
+    override fun getTheWinningLine(): OneLine =
+        gameProgress.getWinningLine()?.marks?.map { oneMark -> XYZ(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()
 
     override fun getTheWinningLineAsAString(): String {
         val winningLine: Line = gameProgress.getWinningLine() ?: return ""
