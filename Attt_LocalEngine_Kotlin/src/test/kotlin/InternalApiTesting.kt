@@ -1,6 +1,6 @@
+import attt.Game
 import gameLogic.GameSession
 import players.PlayerProvider
-import attt.Game
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -22,7 +22,7 @@ class InternalApiTesting {
         game.makeMove(theSameSpot, playerX)
         game.makeMove(theSameSpot, playerO)
         assertEquals(playerX, game.gameField.getCurrentMarkAt(theSameSpot))
-        game.printCurrentFieldIn2d()
+        Log.pl(game.getCurrentFieldAsAString())
     }
 
     @Test
@@ -35,6 +35,6 @@ class InternalApiTesting {
         game.makeMove(1, 1) // another attempt for the same player - this time successful
         assertEquals(playerO, PlayerProvider.activePlayer) // this time the next player is prepared for a move
         assertEquals(playerX, game.gameField.getCurrentMarkAt(game.gameField.chosenAlgorithm.getCoordinatesFor(1, 1)))
-        game.printCurrentFieldIn2d()
+        Log.pl(game.getCurrentFieldAsAString())
     }
 }

@@ -1,9 +1,9 @@
+import attt.Game
 import gameLogic.GameSession
 import geometry.conceptXY.CoordinatesXY
 import geometry.conceptXY.LineDirectionForXY
 import geometry.conceptXY.NearestAreaScanWithXY
 import players.PlayerProvider
-import attt.Game
 import utilities.Log
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -31,7 +31,7 @@ class LineLengthCalculationTests {
         val lengthFromSecondToFirst = algorithmForXY.measureLineFrom(secondMark, LineDirectionForXY.XmY0, 1)
         assertEquals(2, lengthFromFirstToSecond)
         assertEquals(2, lengthFromSecondToFirst)
-        game.printCurrentFieldIn2d()
+        Log.pl(game.getCurrentFieldAsAString())
     }
 
     @Test
@@ -50,7 +50,7 @@ class LineLengthCalculationTests {
         assertEquals(1, lengthFromFirstToSecond)
         assertEquals(1, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
-        game.printCurrentFieldIn2d()
+        Log.pl(game.getCurrentFieldAsAString())
     }
 
     @Test
@@ -71,7 +71,7 @@ class LineLengthCalculationTests {
         assertEquals(3, lengthFromFirstToSecond)
         assertEquals(3, lengthFromSecondToFirst)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
-        game.printCurrentFieldIn2d()
+        Log.pl(game.getCurrentFieldAsAString())
     }
 
     @Test
@@ -92,7 +92,7 @@ class LineLengthCalculationTests {
         assertEquals(3, lengthFromEdgeToEdge)
         assertEquals(3, lengthFromEdgeToEdgeOpposite)
         // 1 here is the given length of one dot on the field - if the mark exists - its min line length is 1, not less
-        game.printCurrentFieldIn2d()
+        Log.pl(game.getCurrentFieldAsAString())
     }
 
     @Test
@@ -111,6 +111,6 @@ class LineLengthCalculationTests {
         val lengthForPlayerB = algorithmForXY.measureLineFrom(secondMark, LineDirectionForXY.XpY0, 1)
         assertEquals(1, lengthForPlayerA)
         assertEquals(1, lengthForPlayerB)
-        game.printCurrentFieldIn2d()
+        Log.pl(game.getCurrentFieldAsAString())
     }
 }
