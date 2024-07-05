@@ -62,9 +62,9 @@ interface Game {
     /**
      * represents the current game field state in an associative way (as a dictionary or map).
      */
-    fun getCurrentField(): Map<XYZ, Player>
+    fun getMarksOnField(): Map<XYZ, Player>
 
-    fun getCurrentLayer(z: Int = 0): Map<XY, Player>
+    fun getMarksOnLayer(z: Int = 0): Map<XY, Player>
 
     fun getLinesFor(player: Player): List<OneLine>
 

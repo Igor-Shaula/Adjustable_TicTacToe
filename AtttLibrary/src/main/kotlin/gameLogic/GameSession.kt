@@ -3,6 +3,7 @@ package gameLogic
 import attt.*
 import geometry.Line
 import geometry.abstractions.Coordinates
+import geometry.concept2D.Coordinates2D
 import players.PlayerModel
 import players.PlayerProvider
 import utilities.Log
@@ -108,10 +109,10 @@ internal class GameSession(
      * as this key would be something like Coordinates(0,0,0) which is NOT the same as Coordinates3D(0,0,0)
      * due to specifics of generics & collections implementation in Java & Kotlin.
      */
-    override fun getCurrentField(): Map<XYZ, Player> =
+    override fun getMarksOnField(): Map<XYZ, Player> =
         gameField.theMap.mapKeys { entry -> XYZ(entry.key.x, entry.key.y, entry.key.z) }
 
-    override fun getCurrentLayer(z: Int): Map<XY, Player> {
+    override fun getMarksOnLayer(z: Int): Map<XY, Player> {
         return if (z > 0) { // just an optimization to avoid excess filtering for Z=0 case
             gameField.getSliceForZ(z)
         } else {
