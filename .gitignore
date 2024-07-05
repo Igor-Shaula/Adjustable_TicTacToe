@@ -8,6 +8,8 @@ gradle/
 gradlew
 gradlew.bat
 
+.kotlin
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws
