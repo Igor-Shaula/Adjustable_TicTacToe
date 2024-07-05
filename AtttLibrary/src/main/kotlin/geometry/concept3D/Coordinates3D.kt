@@ -4,6 +4,7 @@ import geometry.LineDirectionFor1Axis
 import geometry.abstractions.Border
 import geometry.abstractions.Coordinates
 import geometry.abstractions.GameSpace
+import geometry.abstractions.LineDirection
 
 /**
  * 3d as simple as 2d :)
@@ -12,11 +13,15 @@ internal data class Coordinates3D(
     val xAxis: Int, val yAxis: Int, val zAxis: Int
 ) : Coordinates(xAxis, yAxis, zAxis) {
 
-    internal fun getNextInTheDirection(lineDirection: LineDirectionFor3Axes): Coordinates3D =
-        getNextInTheDirection(lineDirection.xAxisLD, lineDirection.yAxisLD, lineDirection.zAxisLD)
+    override fun getNextInTheDirection(lineDirection: LineDirection): Coordinates3D {
+        lineDirection as LineDirectionFor3Axes
+        return getNextInTheDirection(lineDirection.xAxisLD, lineDirection.yAxisLD, lineDirection.zAxisLD)
+    }
 
-    internal fun getTheNextSpaceFor(lineDirection: LineDirectionFor3Axes, sideLength: Int): GameSpace =
-        getTheNextSpaceFor(lineDirection.xAxisLD, lineDirection.yAxisLD, lineDirection.zAxisLD, sideLength)
+    override fun getTheNextSpaceFor(lineDirection: LineDirection, sideLength: Int): GameSpace {
+        lineDirection as LineDirectionFor3Axes
+        return getTheNextSpaceFor(lineDirection.xAxisLD, lineDirection.yAxisLD, lineDirection.zAxisLD, sideLength)
+    }
 
     private fun getNextInTheDirection(
         xAxisDirection: LineDirectionFor1Axis,

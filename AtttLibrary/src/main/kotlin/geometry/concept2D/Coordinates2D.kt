@@ -4,17 +4,22 @@ import geometry.LineDirectionFor1Axis
 import geometry.abstractions.Border
 import geometry.abstractions.Coordinates
 import geometry.abstractions.GameSpace
+import geometry.abstractions.LineDirection
 
 /**
  * extensible alternative for CoordinatesXY
  */
 internal data class Coordinates2D(val xAxis: Int, val yAxis: Int) : Coordinates(xAxis, yAxis) {
 
-    internal fun getNextInTheDirection(lineDirection: LineDirectionFor2Axes): Coordinates2D =
-        getNextInTheDirection(lineDirection.xAxisLD, lineDirection.yAxisLD)
+    override fun getNextInTheDirection(lineDirection: LineDirection): Coordinates2D {
+        lineDirection as LineDirectionFor2Axes
+        return getNextInTheDirection(lineDirection.xAxisLD, lineDirection.yAxisLD)
+    }
 
-    internal fun getTheNextSpaceFor(lineDirection: LineDirectionFor2Axes, sideLength: Int): GameSpace =
-        getTheNextSpaceFor(lineDirection.xAxisLD, lineDirection.yAxisLD, sideLength)
+    override fun getTheNextSpaceFor(lineDirection: LineDirection, sideLength: Int): GameSpace {
+        lineDirection as LineDirectionFor2Axes
+        return getTheNextSpaceFor(lineDirection.xAxisLD, lineDirection.yAxisLD, sideLength)
+    }
 
     private fun getNextInTheDirection(
         xAxisDirection: LineDirectionFor1Axis, yAxisDirection: LineDirectionFor1Axis
