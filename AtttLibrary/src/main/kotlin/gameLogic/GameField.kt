@@ -24,7 +24,7 @@ internal class GameField(
     private val useNewDimensionsBasedLogic = true
 
     // the only place for switching between kinds of algorithms for every move processing
-    internal val chosenAlgorithm: OneMoveProcessing =
+    private val chosenAlgorithm: OneMoveProcessing =
         if (is3D) NearestAreaScanWith3D(this) // NewDimensionsBasedLogic is used as the only option here
         else if (useNewDimensionsBasedLogic) NearestAreaScanWith2D(this) else NearestAreaScanWithXY(this)
 
@@ -44,7 +44,11 @@ internal class GameField(
         this.sideLength = sideLength // this is not obvious but absolutely needed here - proven by tests
     }
 
-    internal fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = chosenAlgorithm.getCoordinatesFor(x, y, z)
+    internal fun getCoordinatesFor(x: Int, y: Int, z: Int = 0): Coordinates = chosenAlgorithm.getCoordinatesFor(x, y, z)
+
+    internal fun getMaxLengthAchievedForThisMove(
+        where: Coordinates, saveNewLine: (Player, Line) -> Unit, addNewMark: (Player, Coordinates) -> Unit
+    ) = chosenAlgorithm.getMaxLengthAchievedForThisMove(where, saveNewLine, addNewMark)
 
     /**
      * returns beautiful & simple String representation of the current state of game field

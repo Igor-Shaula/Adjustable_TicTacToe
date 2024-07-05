@@ -45,7 +45,7 @@ internal class GameSession(
         where: Coordinates, what: Player = PlayerProvider.activePlayer
     ): Player =
         if (gameField.placeNewMark(where, what)) {
-            gameField.chosenAlgorithm.getMaxLengthAchievedForThisMove(
+            gameField.getMaxLengthAchievedForThisMove(
                 where,
                 saveNewLine = { player, line -> gameProgress.saveNewLine(player, line) },
                 addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) }
