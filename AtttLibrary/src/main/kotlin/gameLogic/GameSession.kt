@@ -15,7 +15,7 @@ internal class GameSession(
     is3D: Boolean, desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int
 ) : Game {
 
-    internal var gameField: GameField = GameField(is3D, desiredFieldSize)
+    internal var gameField: GameField = GameField(is3D, desiredFieldSize) // kept internal only testing purpose
     private var gameProgress: GameProgress = GameProgress(desiredMaxLineLength)
 
     init {
@@ -85,7 +85,7 @@ internal class GameSession(
     }
 
     override fun getLinesAsAStringFor(player: Player): String {
-        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
+        val allExistingLinesForThisPlayer = gameProgress.getLinesFor(player)
         return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
@@ -120,7 +120,7 @@ internal class GameSession(
     }
 
     override fun getLinesFor(player: Player): List<OneLine> {
-        val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
+        val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.getLinesFor(player)
         return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
             // every line is a set of marks
             listOf(oneLine?.marks?.map { oneMark -> // inner List (of marks in the line) is created here
