@@ -9,8 +9,7 @@ repositories {
 }
 
 dependencies {
-    project(":AtttLibrary")
-//    implementation(project(":utilities"))
+    implementation(project(":AtttLibrary"))
 }
 
 tasks.test {

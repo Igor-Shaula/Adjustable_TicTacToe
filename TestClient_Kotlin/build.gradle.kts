@@ -1,5 +1,5 @@
 plugins {
-    id("kotlin")
+    kotlin("jvm") version "1.9.24"
 }
 
 group = "org.igor_shaula"
@@ -9,8 +9,7 @@ repositories {
 }
 
 dependencies {
-    project(":AtttLibrary")
-//    implementation(project(":utilities"))
+    implementation(project(":AtttLibrary"))
 }
 
 tasks.test {
