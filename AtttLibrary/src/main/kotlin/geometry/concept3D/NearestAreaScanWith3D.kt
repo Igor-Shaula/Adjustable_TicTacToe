@@ -25,7 +25,8 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
     override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = Coordinates3D(x, y, z)
 
     private fun detectAllExistingLineDirectionsFromThePlacedMark(
-        fromWhere: Coordinates3D, saveNewLine: (Player, Line) -> Unit
+        fromWhere: Coordinates3D,
+        saveNewLine: (Player, Line) -> Unit
     ): List<LineDirectionFor3Axes> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerModel.None) {
@@ -33,9 +34,7 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
         }
         val allDirections = mutableListOf<LineDirectionFor3Axes>()
         LineDirectionFor3Axes.getAllFromLoops().filter { !it.isNone() }.forEach { threeAxisDirection ->
-            val nextCoordinates = fromWhere.getNextInTheDirection(
-                threeAxisDirection.xAxisLD, threeAxisDirection.yAxisLD, threeAxisDirection.zAxisLD
-            )
+            val nextCoordinates = fromWhere.getNextInTheDirection(threeAxisDirection)
             if (nextCoordinates.existsWithin(gameField.sideLength) &&
                 gameField.containsTheSameMark(checkedMark, nextCoordinates)
             ) {
@@ -56,10 +55,7 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
         // we also have a proven placed dot of the same player in the detected line direction.
         // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
         val checkedNearCoordinates = start.getTheNextSpaceFor(
-            lineDirectionFor3Axes.xAxisLD,
-            lineDirectionFor3Axes.yAxisLD,
-            lineDirectionFor3Axes.zAxisLD,
-            gameField.sideLength
+            lineDirectionFor3Axes, gameField.sideLength
         )
         var lineTotalLength = 0
         if (checkedNearCoordinates is Coordinates3D) {
@@ -81,10 +77,7 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
         // firstly let's measure in the given direction and then in the opposite, also recursively
         val nextMark = givenMark.getTheNextSpaceFor(
-            lineDirectionFor3Axes.xAxisLD,
-            lineDirectionFor3Axes.yAxisLD,
-            lineDirectionFor3Axes.zAxisLD,
-            gameField.sideLength
+            lineDirectionFor3Axes, gameField.sideLength
         )
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
         return if (nextMark is Coordinates3D && gameField.belongToTheSameRealPlayer(givenMark, nextMark)) {

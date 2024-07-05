@@ -12,17 +12,21 @@ internal data class Coordinates3D(
     val xAxis: Int, val yAxis: Int, val zAxis: Int
 ) : Coordinates(xAxis, yAxis, zAxis) {
 
-    internal fun getNextInTheDirection(
+    internal fun getNextInTheDirection(lineDirection: LineDirectionFor3Axes): Coordinates3D =
+        getNextInTheDirection(lineDirection.xAxisLD, lineDirection.yAxisLD, lineDirection.zAxisLD)
+
+    internal fun getTheNextSpaceFor(lineDirection: LineDirectionFor3Axes, sideLength: Int): GameSpace =
+        getTheNextSpaceFor(lineDirection.xAxisLD, lineDirection.yAxisLD, lineDirection.zAxisLD, sideLength)
+
+    private fun getNextInTheDirection(
         xAxisDirection: LineDirectionFor1Axis,
         yAxisDirection: LineDirectionFor1Axis,
         zAxisDirection: LineDirectionFor1Axis
     ) = Coordinates3D( // should be exactly Coordinates3D
-        xAxis + xAxisDirection.deltaOne,
-        yAxis + yAxisDirection.deltaOne,
-        zAxis + zAxisDirection.deltaOne
+        xAxis + xAxisDirection.deltaOne, yAxis + yAxisDirection.deltaOne, zAxis + zAxisDirection.deltaOne
     )
 
-    internal fun getTheNextSpaceFor(
+    private fun getTheNextSpaceFor(
         xAxisDirection: LineDirectionFor1Axis,
         yAxisDirection: LineDirectionFor1Axis,
         zAxisDirection: LineDirectionFor1Axis,
@@ -30,8 +34,7 @@ internal data class Coordinates3D(
     ): GameSpace {
         val minIndex = 0 // this is obvious but let it be here for consistency
         val maxIndex = sideLength - 1 // constant for the given game field
-        @Suppress("SimplifyBooleanWithConstants")
-        when {
+        @Suppress("SimplifyBooleanWithConstants") when {
             false || // just for the following cases alignment
                     xAxis <= minIndex && xAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
                     xAxis >= maxIndex && xAxisDirection == LineDirectionFor1Axis.Plus || // X is out of game field
@@ -42,9 +45,7 @@ internal data class Coordinates3D(
                 return Border
         }
         return Coordinates3D(
-            xAxis + xAxisDirection.deltaOne,
-            yAxis + yAxisDirection.deltaOne,
-            zAxis + zAxisDirection.deltaOne
+            xAxis + xAxisDirection.deltaOne, yAxis + yAxisDirection.deltaOne, zAxis + zAxisDirection.deltaOne
         )
     }
 }
