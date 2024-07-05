@@ -4,6 +4,7 @@ import attt.Player
 import gameLogic.GameField
 import geometry.Line
 import geometry.abstractions.Coordinates
+import geometry.abstractions.LineDirection
 import geometry.abstractions.OneMoveProcessing
 import players.PlayerModel
 import utilities.Log
@@ -25,14 +26,14 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
     override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = CoordinatesXY(x, y)
 
     private fun detectAllExistingLineDirectionsFromThePlacedMark(
-        fromWhere: CoordinatesXY,
+        fromWhere: Coordinates,
         saveNewLine: (Player, Line) -> Unit
-    ): List<LineDirectionForXY> {
+    ): List<LineDirection> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerModel.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
         }
-        val allDirections = mutableListOf<LineDirectionForXY>()
+        val allDirections = mutableListOf<LineDirection>()
         LineDirectionForXY.entries.filter { it != LineDirectionForXY.None }.forEach { lineDirection ->
             val nextCoordinates = fromWhere.getNextInTheDirection(lineDirection)
             if (nextCoordinates.existsWithin(gameField.sideLength) &&
@@ -47,8 +48,8 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
     }
 
     private fun measureFullLengthForExistingLineFrom(
-        start: CoordinatesXY,
-        lineDirectionForXY: LineDirectionForXY,
+        start: Coordinates,
+        lineDirectionForXY: LineDirection,
         addNewMark: (Player, Coordinates) -> Unit
     ): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
@@ -66,8 +67,8 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
     }
 
     internal fun measureLineFrom(
-        givenMark: CoordinatesXY,
-        lineDirectionForXY: LineDirectionForXY,
+        givenMark: Coordinates,
+        lineDirectionForXY: LineDirection,
         startingLength: Int,
         addNewMark: (Player, Coordinates) -> Unit = { _, _ -> }
     ): Int {

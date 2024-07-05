@@ -4,6 +4,7 @@ import attt.Player
 import gameLogic.GameField
 import geometry.Line
 import geometry.abstractions.Coordinates
+import geometry.abstractions.LineDirection
 import geometry.abstractions.OneMoveProcessing
 import players.PlayerModel
 import utilities.Log
@@ -25,14 +26,14 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
     override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = Coordinates3D(x, y, z)
 
     private fun detectAllExistingLineDirectionsFromThePlacedMark(
-        fromWhere: Coordinates3D,
+        fromWhere: Coordinates,
         saveNewLine: (Player, Line) -> Unit
-    ): List<LineDirectionFor3Axes> {
+    ): List<LineDirection> {
         val checkedMark = gameField.getCurrentMarkAt(fromWhere)
         if (checkedMark == null || checkedMark == PlayerModel.None) {
             return emptyList() // preventing from doing detection calculations for initially wrong Player
         }
-        val allDirections = mutableListOf<LineDirectionFor3Axes>()
+        val allDirections = mutableListOf<LineDirection>()
         LineDirectionFor3Axes.getAllFromLoops().filter { !it.isNone() }.forEach { threeAxisDirection ->
             val nextCoordinates = fromWhere.getNextInTheDirection(threeAxisDirection)
             if (nextCoordinates.existsWithin(gameField.sideLength) &&
@@ -47,8 +48,8 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
     }
 
     private fun measureFullLengthForExistingLineFrom(
-        start: Coordinates3D,
-        lineDirectionFor3Axes: LineDirectionFor3Axes,
+        start: Coordinates,
+        lineDirectionFor3Axes: LineDirection,
         addNewMark: (Player, Coordinates) -> Unit
     ): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
@@ -68,8 +69,8 @@ internal class NearestAreaScanWith3D(private val gameField: GameField) : OneMove
     }
 
     private fun measureLineFrom(
-        givenMark: Coordinates3D,
-        lineDirectionFor3Axes: LineDirectionFor3Axes,
+        givenMark: Coordinates,
+        lineDirectionFor3Axes: LineDirection,
         startingLength: Int,
         addNewMark: (Player, Coordinates) -> Unit
     ): Int {
