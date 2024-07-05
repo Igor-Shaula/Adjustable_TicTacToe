@@ -32,7 +32,7 @@ public class Main {
         game.m(0, 1);
         game.m(2, 1);
         game.m(2, 2);
-        game.printCurrentFieldIn2d();
+//        game.printCurrentFieldIn2d();
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -49,10 +49,10 @@ public class Main {
         game.m(0, 2); // O
         game.m(1, 2); // X
         game.m(2, 2); // O
-        game.printCurrentFieldIn2d();
+//        game.printCurrentFieldIn2d();
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         game.m(1, 0); // X - this one was problematic
-        game.printCurrentFieldIn2d();
+//        game.printCurrentFieldIn2d();
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -74,7 +74,7 @@ public class Main {
         . X o <- x x x - on Z axis
         o . o
     */
-        game.printCurrentFieldIn2d();
+//        game.printCurrentFieldIn2d();
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -96,7 +96,7 @@ public class Main {
         . O . .
         . . . .
      */
-        game.printCurrentFieldIn2d();
+//        game.printCurrentFieldIn2d();
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -105,7 +105,7 @@ public class Main {
     static void play4x4x4gameWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #5 is about to start");
-        var game = Game.Companion.create(4, true);
+        var game = Game.Companion.create(true, 4);
         game.m(0, 0, 0); // X
         game.m(1, 0, 0); // O
         game.m(0, 1, 0); // X -> now A has a line of 2 marks and becomes a leader
@@ -118,7 +118,7 @@ public class Main {
         . . . .
         . . . .
      */
-        game.printCurrentFieldIn2d();
+//        game.printCurrentFieldIn2d();
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -127,7 +127,7 @@ public class Main {
     static void play4x4gameWith3PlayersWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #6 is about to start");
-        var game = Game.Companion.create(4, 3, false, 3);
+        var game = Game.Companion.create(false, 4, 3, 3);
         game.m(0, 0); // A
         game.m(1, 0); // B
         game.m(2, 0); // C
@@ -141,7 +141,7 @@ public class Main {
         A . . .
         . . . .
      */
-        game.printCurrentFieldIn2d();
+//        game.printCurrentFieldIn2d();
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -150,7 +150,7 @@ public class Main {
     static void play4x4x4gameWith3PlayersWhichIsWon() {
         System.out.println("=========================");
         System.out.println("game #7 is about to start");
-        var game = Game.Companion.create(4, 3, true, 3);
+        var game = Game.Companion.create(true, 4, 3, 3);
         game.m(0, 0, 0); // A
         game.m(1, 0, 0); // B
         game.m(2, 0, 0); // C
@@ -164,7 +164,7 @@ public class Main {
         . . . .
         . . . .
      */
-        game.printCurrentFieldIn2d();
+//        game.printCurrentFieldIn2d();
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
