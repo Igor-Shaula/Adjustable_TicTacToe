@@ -3,20 +3,15 @@ plugins {
 }
 
 group = "org.igor_shaula"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(files("libs/Attt_LocalEngine_Kotlin-0.7.5.jar"))
-    testImplementation(kotlin("test"))
+    implementation(project(":AtttLibrary"))
 }
 
 tasks.test {
     useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(21)
 }
