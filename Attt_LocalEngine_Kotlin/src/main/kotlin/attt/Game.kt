@@ -47,19 +47,18 @@ interface Game {
 
     /**
      * represents the current game field state in an associative way (as a dictionary or map).
-     * Triple<Int, Int, Int> represents coordinates - X, Y, Z in this order (the same as for makeMove() method).
      */
-    fun getCurrentField(): Map<Triple<Int, Int, Int>, Player>
+    fun getCurrentField(): Map<XYZ, Player>
 
-    fun getCurrentLayer(z: Int = 0): Map<Pair<Int, Int>, Player>
+    fun getCurrentLayer(z: Int = 0): Map<XY, Player>
 
-    fun getTheWinningLine(): List<Triple<Int, Int, Int>>
+    fun getTheWinningLine(): OneLine
 
-    fun getLinesFor(player: Player): List<List<Triple<Int, Int, Int>>>
+    fun getLinesFor(player: Player): List<OneLine>
 
-    fun getLinesForLeader(): List<List<Triple<Int, Int, Int>>>
+    fun getLinesForLeader(): List<OneLine>
 
-    fun getLinesForWinner(): List<List<Triple<Int, Int, Int>>>
+    fun getLinesForWinner(): List<OneLine>
 
     companion object {
         /**
@@ -102,8 +101,7 @@ interface Game {
          */
         fun create(
             is3D: Boolean = false, desiredFieldSize: Int = MIN_GAME_FIELD_SIDE_SIZE
-        ): Game =
-            GameSession(is3D, desiredFieldSize, MIN_WINNING_LINE_LENGTH, MIN_NUMBER_OF_PLAYERS)
+        ): Game = GameSession(is3D, desiredFieldSize, MIN_WINNING_LINE_LENGTH, MIN_NUMBER_OF_PLAYERS)
 
         /**
          * more precise adjustment of winning condition for configurable 3D game field
