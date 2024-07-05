@@ -7,6 +7,8 @@ import gameLogic.GameSession
 
 interface Game {
 
+    // region section of moves
+
     /**
      * the only action for a selected/next player during the active game, this one is the most precise form
      */
@@ -27,6 +29,10 @@ interface Game {
      */
     fun m(x: Int, y: Int): Player = makeMove(x, y, 0)
 
+    // endregion section of moves
+
+    // region section of Boolean getters
+
     fun getLeader(): Player
 
     fun getWinner(): Player
@@ -34,6 +40,10 @@ interface Game {
     fun isGameWon(): Boolean
 
     fun isGameFinished(): Boolean
+
+    // endregion section of Boolean getters
+
+    // region section of String getters
 
     fun getCurrentFieldAsAString(): String
 
@@ -44,6 +54,10 @@ interface Game {
     fun getLinesAsAStringForLeader(): String
 
     fun getLinesAsAStringForWinner(): String
+
+    // endregion section of String getters
+
+    // region section of complex getters
 
     /**
      * represents the current game field state in an associative way (as a dictionary or map).
@@ -59,6 +73,8 @@ interface Game {
     fun getLinesForWinner(): List<OneLine>
 
     fun getTheWinningLine(): OneLine
+
+    // endregion section of complex getters
 
     companion object {
         /**
