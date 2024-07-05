@@ -32,7 +32,7 @@ public class Main {
         game.m(0, 1);
         game.m(2, 1);
         game.m(2, 2);
-//        game.printCurrentFieldIn2d();
+        System.out.println(game.getCurrentFieldAsAString());
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -49,10 +49,10 @@ public class Main {
         game.m(0, 2); // O
         game.m(1, 2); // X
         game.m(2, 2); // O
-//        game.printCurrentFieldIn2d();
+        System.out.println(game.getCurrentFieldAsAString());
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         game.m(1, 0); // X - this one was problematic
-//        game.printCurrentFieldIn2d();
+        System.out.println(game.getCurrentFieldAsAString());
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -73,8 +73,8 @@ public class Main {
         . . x
         . X o <- x x x - on Z axis
         o . o
-    */
-//        game.printCurrentFieldIn2d();
+     */
+        System.out.println(game.getCurrentFieldAsAString());
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -96,7 +96,7 @@ public class Main {
         . O . .
         . . . .
      */
-//        game.printCurrentFieldIn2d();
+        System.out.println(game.getCurrentFieldAsAString());
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -118,7 +118,7 @@ public class Main {
         . . . .
         . . . .
      */
-//        game.printCurrentFieldIn2d();
+        System.out.println(game.getCurrentFieldAsAString());
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -141,7 +141,7 @@ public class Main {
         A . . .
         . . . .
      */
-//        game.printCurrentFieldIn2d();
+        System.out.println(game.getCurrentFieldAsAString());
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());
@@ -164,7 +164,7 @@ public class Main {
         . . . .
         . . . .
      */
-//        game.printCurrentFieldIn2d();
+        System.out.println(game.getCurrentFieldAsAString());
         System.out.println("game.isGameFinished() = " + game.isGameFinished());
         System.out.println("game.isGameWon() = " + game.isGameWon());
         System.out.println("game.getWinner() = " + game.getWinner());

@@ -29,7 +29,7 @@ fun play3x3gameWithNoWinner() {
     game.m(0, 1)
     game.m(2, 1)
     game.m(2, 2)
-//    game.printCurrentFieldIn2d()
+    println(game.getCurrentFieldAsAString())
     println("game.isGameFinished() = " + game.isGameFinished())
     println("game.isGameWon() = " + game.isGameWon())
     println("game.getWinner() = " + game.getWinner())
@@ -46,10 +46,10 @@ fun play3x3gameWhichIsWon() {
     game.m(0, 2) // O
     game.m(1, 2) // X
     game.m(2, 2) // O
-//    game.printCurrentFieldIn2d()
+    println(game.getCurrentFieldAsAString())
     println("game.isGameFinished() = " + game.isGameFinished())
     game.m(1, 0) // X - this one was problematic
-//    game.printCurrentFieldIn2d()
+    println(game.getCurrentFieldAsAString())
     println("game.isGameFinished() = " + game.isGameFinished())
     println("game.isGameWon() = " + game.isGameWon())
     println("game.getWinner() = " + game.getWinner())
@@ -70,8 +70,8 @@ fun play3x3x3gameWhichIsWon() {
         . . x
         . X o <- x x x - on Z axis
         o . o
-    */
-//    game.printCurrentFieldIn2d()
+     */
+    println(game.getCurrentFieldAsAString())
     println("game.isGameFinished() = " + game.isGameFinished())
     println("game.isGameWon() = " + game.isGameWon())
     println("game.getWinner() = " + game.getWinner())
@@ -93,7 +93,7 @@ fun play4x4gameWhichIsWon() {
         . O . .
         . . . .
      */
-//    game.printCurrentFieldIn2d()
+    println(game.getCurrentFieldAsAString())
     println("game.isGameFinished() = " + game.isGameFinished())
     println("game.isGameWon() = " + game.isGameWon())
     println("game.getWinner() = " + game.getWinner())
@@ -115,7 +115,7 @@ fun play4x4x4gameWhichIsWon() {
         . . . .
         . . . .
      */
-//    game.printCurrentFieldIn2d()
+    println(game.getCurrentFieldAsAString())
     println("game.isGameFinished() = " + game.isGameFinished())
     println("game.isGameWon() = " + game.isGameWon())
     println("game.getWinner() = " + game.getWinner())
@@ -138,7 +138,7 @@ fun play4x4gameWith3PlayersWhichIsWon() {
         A . . .
         . . . .
      */
-//    game.printCurrentFieldIn2d()
+    println(game.getCurrentFieldAsAString())
     println("game.isGameFinished() = " + game.isGameFinished())
     println("game.isGameWon() = " + game.isGameWon())
     println("game.getWinner() = " + game.getWinner())
@@ -161,7 +161,7 @@ fun play4x4x4gameWith3PlayersWhichIsWon() {
         . . . .
         . . . .
      */
-//    game.printCurrentFieldIn2d()
+    println(game.getCurrentFieldAsAString())
     println("game.isGameFinished() = " + game.isGameFinished())
     println("game.isGameWon() = " + game.isGameWon())
     println("game.getWinner() = " + game.getWinner())
