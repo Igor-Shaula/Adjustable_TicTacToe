@@ -31,4 +31,12 @@ internal enum class LineDirectionForXY(val dx: Int, val dy: Int) : LineDirection
     }
 
     override fun isNone(): Boolean = this == None
+
+    companion object {
+        fun getAllFromLoops(): List<LineDirectionForXY> {
+            val resultList = mutableListOf<LineDirectionForXY>()
+            LineDirectionForXY.entries.forEach { resultList.add(it) }
+            return resultList
+        }
+    }
 }
