@@ -11,4 +11,8 @@ internal abstract class Coordinates(open val x: Int, open val y: Int, open val z
      */
     internal fun existsWithin(sideLength: Int): Boolean =
         x in 0 until sideLength && y in 0 until sideLength && z in 0 until sideLength
+
+    abstract fun getNextInTheDirection(lineDirection: LineDirection): Coordinates
+
+    abstract fun getTheNextSpaceFor(lineDirection: LineDirection, sideLength: Int): GameSpace
 }

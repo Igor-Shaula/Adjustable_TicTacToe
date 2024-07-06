@@ -7,4 +7,6 @@ package geometry.abstractions
 internal interface LineDirection {
 
     fun opposite(): LineDirection
+
+    fun isNone(): Boolean
 }

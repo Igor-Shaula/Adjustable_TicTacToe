@@ -4,6 +4,7 @@ import geometry.LineDirectionFor1Axis
 import geometry.abstractions.Border
 import geometry.abstractions.Coordinates
 import geometry.abstractions.GameSpace
+import geometry.abstractions.LineDirection
 
 /**
  * 3d as simple as 2d :)
@@ -12,17 +13,25 @@ internal data class Coordinates3D(
     val xAxis: Int, val yAxis: Int, val zAxis: Int
 ) : Coordinates(xAxis, yAxis, zAxis) {
 
-    internal fun getNextInTheDirection(
+    override fun getNextInTheDirection(lineDirection: LineDirection): Coordinates3D {
+        lineDirection as LineDirectionFor3Axes
+        return getNextInTheDirection(lineDirection.xAxisLD, lineDirection.yAxisLD, lineDirection.zAxisLD)
+    }
+
+    override fun getTheNextSpaceFor(lineDirection: LineDirection, sideLength: Int): GameSpace {
+        lineDirection as LineDirectionFor3Axes
+        return getTheNextSpaceFor(lineDirection.xAxisLD, lineDirection.yAxisLD, lineDirection.zAxisLD, sideLength)
+    }
+
+    private fun getNextInTheDirection(
         xAxisDirection: LineDirectionFor1Axis,
         yAxisDirection: LineDirectionFor1Axis,
         zAxisDirection: LineDirectionFor1Axis
     ) = Coordinates3D( // should be exactly Coordinates3D
-        xAxis + xAxisDirection.deltaOne,
-        yAxis + yAxisDirection.deltaOne,
-        zAxis + zAxisDirection.deltaOne
+        xAxis + xAxisDirection.deltaOne, yAxis + yAxisDirection.deltaOne, zAxis + zAxisDirection.deltaOne
     )
 
-    internal fun getTheNextSpaceFor(
+    private fun getTheNextSpaceFor(
         xAxisDirection: LineDirectionFor1Axis,
         yAxisDirection: LineDirectionFor1Axis,
         zAxisDirection: LineDirectionFor1Axis,
@@ -30,8 +39,7 @@ internal data class Coordinates3D(
     ): GameSpace {
         val minIndex = 0 // this is obvious but let it be here for consistency
         val maxIndex = sideLength - 1 // constant for the given game field
-        @Suppress("SimplifyBooleanWithConstants")
-        when {
+        @Suppress("SimplifyBooleanWithConstants") when {
             false || // just for the following cases alignment
                     xAxis <= minIndex && xAxisDirection == LineDirectionFor1Axis.Minus || // X is out of game field
                     xAxis >= maxIndex && xAxisDirection == LineDirectionFor1Axis.Plus || // X is out of game field
@@ -42,9 +50,7 @@ internal data class Coordinates3D(
                 return Border
         }
         return Coordinates3D(
-            xAxis + xAxisDirection.deltaOne,
-            yAxis + yAxisDirection.deltaOne,
-            zAxis + zAxisDirection.deltaOne
+            xAxis + xAxisDirection.deltaOne, yAxis + yAxisDirection.deltaOne, zAxis + zAxisDirection.deltaOne
         )
     }
 }
