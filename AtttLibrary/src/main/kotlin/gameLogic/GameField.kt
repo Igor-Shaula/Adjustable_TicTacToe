@@ -74,7 +74,7 @@ internal class GameField(
     ): String {
         val onePlayerMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
         allExistingLinesForThisPlayer?.forEach { line ->
-            line?.marks?.forEach { mark ->
+            line?.setOfMarks()?.forEach { mark ->
                 onePlayerMap[mark] = player
             }
         }
@@ -84,7 +84,7 @@ internal class GameField(
     internal fun prepareTheWinningLineForPrinting(player: Player, winningLine: Line): String {
         val winnerLineOnMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
         val winner = PlayerModel.markWinner(player)
-        winningLine.marks.forEach { mark -> // each mark has coordinates relevant to chosenAlgorithm
+        winningLine.setOfMarks().forEach { mark -> // each mark has coordinates relevant to chosenAlgorithm
             winnerLineOnMap[mark] = winner
         }
         return prepareForPrinting3dIn2d(winnerLineOnMap)

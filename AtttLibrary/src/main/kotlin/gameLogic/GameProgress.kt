@@ -36,7 +36,7 @@ internal class GameProgress(
     internal fun getWinningLine(): Line? {
         allPlayersLines[theWinner]?.forEach { line: Line? ->
             line?.let {
-                if (it.marks.size >= winningLength) return line
+                if (it.size() >= winningLength) return line
             } ?: return null
         }
         return null
@@ -78,4 +78,4 @@ internal class GameProgress(
 }
 
 internal fun Set<Line?>.getMaxLength(): Int =
-    this.maxByOrNull { line: Line? -> line?.marks?.size ?: 0 }?.marks?.size ?: 0
+    this.maxByOrNull { line: Line? -> line?.size() ?: 0 }?.size() ?: 0

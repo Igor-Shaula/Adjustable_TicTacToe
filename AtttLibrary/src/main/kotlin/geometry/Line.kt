@@ -18,7 +18,7 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
      * also I decided to avoid using LineDirection concept here - for simplicity.
      * all control of line correctness is done at the level of line detection inside existing logic chains.
      */
-    internal val marks: MutableSet<Coordinates> = mutableSetOf()
+    private val marks: MutableSet<Coordinates> = mutableSetOf()
 
     init {
         marks.add(startingMark)
@@ -28,6 +28,10 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
     internal fun add(newMark: Coordinates) {
         marks.add(newMark)
     }
+
+    internal fun setOfMarks() = marks as Set<Coordinates>
+
+    internal fun size() = marks.size
 
     // it is decided to treat two lines with similar marks but opposite direction as one (the same) line
     override fun equals(other: Any?): Boolean {
