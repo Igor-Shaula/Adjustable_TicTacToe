@@ -9,6 +9,8 @@ import geometry.getMaxLengthAchievedForThisMove
 
 internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMoveProcessing {
 
+    override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = Coordinates2D(x, y)
+
     override fun getMaxLengthAchievedForThisMove(
         where: Coordinates,
         saveNewLine: (Player, Line) -> Unit,
@@ -16,6 +18,4 @@ internal class NearestAreaScanWith2D(private val gameField: GameField) : OneMove
     ): Int? = getMaxLengthAchievedForThisMove<Coordinates2D>(
         LineDirectionFor2Axes.getAllFromLoops(), gameField, where, saveNewLine, addNewMark
     )
-
-    override fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = Coordinates2D(x, y)
 }
