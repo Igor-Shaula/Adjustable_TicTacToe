@@ -19,7 +19,7 @@ internal class GameProgress(
     private val maxLines: MutableMap<Player, Int> = mutableMapOf()
 
     // contains all detected lines for every player - should not be looped/read during every move
-    internal val allPlayersLines: MutableMap<Player, MutableSet<Line?>> = mutableMapOf()
+    private val allPlayersLines: MutableMap<Player, MutableSet<Line?>> = mutableMapOf()
 
     private var theWinner: Player = PlayerModel.None
 
@@ -70,6 +70,8 @@ internal class GameProgress(
         // as LinkedHashSet is the default implementation of Set in Kotlin - we have the order of insertions preserved
         allPlayersLines[player]?.last()?.add(coordinates)
     }
+
+    internal fun getLinesFor(player: Player): MutableSet<Line?>? = allPlayersLines[player]
 
     private fun detectLeadingPlayerFromSet(): Player? =
         allPlayersLines.entries.maxByOrNull { setOfLines -> setOfLines.value.getMaxLength() }?.key

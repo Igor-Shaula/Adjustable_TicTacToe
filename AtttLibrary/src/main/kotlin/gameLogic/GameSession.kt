@@ -15,7 +15,7 @@ internal class GameSession(
     is3D: Boolean, desiredFieldSize: Int, desiredMaxLineLength: Int, desiredPlayerNumber: Int
 ) : Game {
 
-    internal var gameField: GameField = GameField(is3D, desiredFieldSize)
+    internal var gameField: GameField = GameField(is3D, desiredFieldSize) // kept internal only testing purpose
     private var gameProgress: GameProgress = GameProgress(desiredMaxLineLength)
 
     init {
@@ -45,7 +45,7 @@ internal class GameSession(
         where: Coordinates, what: Player = PlayerProvider.activePlayer
     ): Player =
         if (gameField.placeNewMark(where, what)) {
-            gameField.chosenAlgorithm.getMaxLengthAchievedForThisMove(
+            gameField.getMaxLengthAchievedForThisMove(
                 where,
                 saveNewLine = { player, line -> gameProgress.saveNewLine(player, line) },
                 addNewMark = { player, coordinates -> gameProgress.addToRecentLine(player, coordinates) }
@@ -85,7 +85,7 @@ internal class GameSession(
     }
 
     override fun getLinesAsAStringFor(player: Player): String {
-        val allExistingLinesForThisPlayer = gameProgress.allPlayersLines[player]
+        val allExistingLinesForThisPlayer = gameProgress.getLinesFor(player)
         return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
@@ -108,19 +108,19 @@ internal class GameSession(
      * as this key would be something like Coordinates(0,0,0) which is NOT the same as Coordinates3D(0,0,0)
      * due to specifics of generics & collections implementation in Java & Kotlin.
      */
-    override fun getCurrentField(): Map<XYZ, Player> =
-        gameField.theMap.mapKeys { entry -> XYZ(entry.key.x, entry.key.y, entry.key.z) }
+    override fun getMarksOnField(): Map<XYZ, Player> =
+        gameField.getField().mapKeys { entry -> XYZ(entry.key.x, entry.key.y, entry.key.z) }
 
-    override fun getCurrentLayer(z: Int): Map<XY, Player> {
+    override fun getMarksOnLayer(z: Int): Map<XY, Player> {
         return if (z > 0) { // just an optimization to avoid excess filtering for Z=0 case
-            gameField.getSliceForZ(z)
+            gameField.getLayerForZ(z)
         } else {
-            gameField.theMap // by default its coordinates as pairs are processed only for the base Z=0 slice
+            gameField.getField() // by default its coordinates as pairs are processed only for the base Z=0 slice
         }.mapKeys { entry -> XY(entry.key.x, entry.key.y) }
     }
 
     override fun getLinesFor(player: Player): List<OneLine> {
-        val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.allPlayersLines[player]
+        val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.getLinesFor(player)
         return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
             // every line is a set of marks
             listOf(oneLine?.marks?.map { oneMark -> // inner List (of marks in the line) is created here

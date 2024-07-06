@@ -24,12 +24,12 @@ internal class GameField(
     private val useNewDimensionsBasedLogic = true
 
     // the only place for switching between kinds of algorithms for every move processing
-    internal val chosenAlgorithm: OneMoveProcessing =
+    private val chosenAlgorithm: OneMoveProcessing =
         if (is3D) NearestAreaScanWith3D(this) // NewDimensionsBasedLogic is used as the only option here
         else if (useNewDimensionsBasedLogic) NearestAreaScanWith2D(this) else NearestAreaScanWithXY(this)
 
     // let's NOT write default marks into the initial field for the game - to save memory & speed-up a new game start
-    internal val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
+    private val theMap: MutableMap<Coordinates, Player> = mutableMapOf() // initially empty to save memory
 
     internal var sideLength = 42 // for some specifics of Kotlin this value is correctly set only inside init-block
         private set(value) { // I'm doing this for prevent from changing anywhere outside this class
@@ -44,7 +44,11 @@ internal class GameField(
         this.sideLength = sideLength // this is not obvious but absolutely needed here - proven by tests
     }
 
-    internal fun getCoordinatesFor(x: Int, y: Int, z: Int): Coordinates = chosenAlgorithm.getCoordinatesFor(x, y, z)
+    internal fun getCoordinatesFor(x: Int, y: Int, z: Int = 0): Coordinates = chosenAlgorithm.getCoordinatesFor(x, y, z)
+
+    internal fun getMaxLengthAchievedForThisMove(
+        where: Coordinates, saveNewLine: (Player, Line) -> Unit, addNewMark: (Player, Coordinates) -> Unit
+    ) = chosenAlgorithm.getMaxLengthAchievedForThisMove(where, saveNewLine, addNewMark)
 
     /**
      * returns beautiful & simple String representation of the current state of game field
@@ -124,7 +128,9 @@ internal class GameField(
         return theMap.size >= maxNumberOfSpaces
     }
 
-    internal fun getSliceForZ(z: Int): Map<Coordinates, Player> = theMap.filter { entry -> entry.key.z == z }
+    internal fun getField() = theMap as Map<Coordinates, Player> // strictly immutable, of course
+
+    internal fun getLayerForZ(z: Int): Map<Coordinates, Player> = theMap.filter { entry -> entry.key.z == z }
 
     /**
      * purpose of this function is to save performance on finding the value by the key -
