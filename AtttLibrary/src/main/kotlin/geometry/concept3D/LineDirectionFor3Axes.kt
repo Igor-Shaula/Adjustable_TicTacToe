@@ -8,10 +8,11 @@ internal data class LineDirectionFor3Axes(
     internal val yAxisLD: LineDirectionFor1Axis,
     internal val zAxisLD: LineDirectionFor1Axis,
 ) : LineDirection {
+
     override fun opposite() = LineDirectionFor3Axes(xAxisLD.opposite(), yAxisLD.opposite(), zAxisLD.opposite())
 
-    fun isNone() = xAxisLD == LineDirectionFor1Axis.None && yAxisLD == LineDirectionFor1Axis.None
-            && zAxisLD == LineDirectionFor1Axis.None
+    override fun isNone() =
+        xAxisLD == LineDirectionFor1Axis.None && yAxisLD == LineDirectionFor1Axis.None && zAxisLD == LineDirectionFor1Axis.None
 
     companion object {
         fun getAllFromLoops(): List<LineDirectionFor3Axes> {

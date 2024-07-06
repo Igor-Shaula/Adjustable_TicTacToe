@@ -14,4 +14,6 @@ internal enum class LineDirectionFor1Axis(internal val deltaOne: Int) : LineDire
         Plus -> Minus
         None -> None
     }
+
+    override fun isNone(): Boolean = this == None
 }

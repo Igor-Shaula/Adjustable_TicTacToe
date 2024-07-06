@@ -29,4 +29,6 @@ internal enum class LineDirectionForXY(val dx: Int, val dy: Int) : LineDirection
         XpYm -> XmYp
         else -> None
     }
+
+    override fun isNone(): Boolean = this == None
 }
