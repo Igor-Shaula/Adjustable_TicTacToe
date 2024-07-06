@@ -49,18 +49,18 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
 
     private fun measureFullLengthForExistingLineFrom(
         start: Coordinates,
-        lineDirectionForXY: LineDirection,
+        lineDirection: LineDirection,
         addNewMark: (Player, Coordinates) -> Unit
     ): Int {
         // here we already have a detected line of 2 minimum dots, now let's measure its full potential length.
         // we also have a proven placed dot of the same player in the detected line direction.
         // so, we only have to inspect next potential dot of the same direction -> let's prepare the coordinates:
-        val checkedNearCoordinates = start.getTheNextSpaceFor(lineDirectionForXY, gameField.sideLength)
+        val checkedNearCoordinates = start.getTheNextSpaceFor(lineDirection, gameField.sideLength)
         var lineTotalLength = 0
         if (checkedNearCoordinates is CoordinatesXY) {
             lineTotalLength =
-                measureLineFrom(checkedNearCoordinates, lineDirectionForXY, 2, addNewMark) +
-                        measureLineFrom(start, lineDirectionForXY.opposite(), 0, addNewMark)
+                measureLineFrom(checkedNearCoordinates, lineDirection, 2, addNewMark) +
+                        measureLineFrom(start, lineDirection.opposite(), 0, addNewMark)
             Log.pl("makeNewMove: lineTotalLength = $lineTotalLength")
         } // else checkedNearCoordinates cannot be Border or anything else apart from Coordinates type
         return lineTotalLength
@@ -68,19 +68,19 @@ internal class NearestAreaScanWithXY(private val gameField: GameField) : OneMove
 
     internal fun measureLineFrom(
         givenMark: Coordinates,
-        lineDirectionForXY: LineDirection,
+        lineDirection: LineDirection,
         startingLength: Int,
         addNewMark: (Player, Coordinates) -> Unit = { _, _ -> }
     ): Int {
         Log.pl("measureLineFrom: given startingLength: $startingLength")
         Log.pl("measureLineFrom: given start coordinates: $givenMark")
         // firstly let's measure in the given direction and then in the opposite, also recursively
-        val nextMark = givenMark.getTheNextSpaceFor(lineDirectionForXY, gameField.sideLength)
+        val nextMark = givenMark.getTheNextSpaceFor(lineDirection, gameField.sideLength)
         Log.pl("measureLineFrom: detected next coordinates: $nextMark")
         return if (nextMark is CoordinatesXY && gameField.belongToTheSameRealPlayer(givenMark, nextMark)) {
             // here the line gets longer by one new mark, this is a side effect to the measurement
             gameField.getCurrentMarkAt(givenMark)?.let { addNewMark(it, nextMark) }
-            measureLineFrom(nextMark, lineDirectionForXY, startingLength + 1, addNewMark)
+            measureLineFrom(nextMark, lineDirection, startingLength + 1, addNewMark)
         } else {
             Log.pl("measureLineFrom: ELSE -> exit: $startingLength")
             startingLength
