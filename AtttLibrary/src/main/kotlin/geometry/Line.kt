@@ -32,7 +32,13 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates, val di
 
     internal fun setOfMarks() = marks as Set<Coordinates>
 
-    internal fun size() = marks.size
+    internal fun size() = marks.size // it's obvious that the minimum line length is 2
+
+    internal fun contains(mark: Coordinates?) = marks.contains(mark)
+
+    internal fun first() = marks.first()
+
+    internal fun last() = marks.last()
 
     // it is decided to treat two lines with similar marks but opposite direction as one (the same) line
     override fun equals(other: Any?): Boolean {
