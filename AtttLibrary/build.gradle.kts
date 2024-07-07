@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "org.igor_shaula"
-version = "0.9.2"
+version = "0.9.3"
 
 repositories {
     mavenCentral()
