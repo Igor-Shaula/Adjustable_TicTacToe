@@ -34,7 +34,7 @@ class PublicApiTesting {
         assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(playerX, game.getWinner())
         Log.pl(game.getCurrentFieldAsAString())
-        Log.pl(game.getTheWinningLineAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())
     }
 
@@ -56,7 +56,7 @@ class PublicApiTesting {
         assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(playerX, game.getWinner())
         Log.pl(game.getCurrentFieldAsAString())
-        Log.pl(game.getTheWinningLineAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())
     }
 
@@ -78,7 +78,7 @@ class PublicApiTesting {
         assertTrue(game.isGameWon(), "Game should have been won")
         assertEquals(playerX, game.getWinner())
         Log.pl(game.getCurrentFieldAsAString())
-        Log.pl(game.getTheWinningLineAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())
     }
 
@@ -243,7 +243,7 @@ class PublicApiTesting {
             }"
         )
         Log.pl(game.getCurrentFieldAsAString())
-        Log.pl(game.getTheWinningLineAsAString())
+        Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())
     }
 }
