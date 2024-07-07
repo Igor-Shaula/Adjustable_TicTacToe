@@ -59,10 +59,15 @@ internal class GameProgress(
         }
     }
 
-    internal fun saveNewLine(player: Player, line: Line) {
+    internal fun saveNewLine(player: Player, newLine: Line) {
         // here we do not know currently existing number of players, also initially a set for every player does not exist
         val setOfThisPlayerLines = allPlayersLines[player] ?: mutableSetOf()
-        setOfThisPlayerLines.add(line)
+        // before adding newly detected line into the set - let's remove all existing lines which are inside this new one
+        setOfThisPlayerLines.removeIf { line ->
+            (newLine.direction == line?.direction || newLine.direction == line?.direction?.opposite())
+                    && (newLine.contains(line.first()) || newLine.contains(line.last()))
+        }
+        setOfThisPlayerLines.add(newLine)
         allPlayersLines[player] = setOfThisPlayerLines
     }
 
