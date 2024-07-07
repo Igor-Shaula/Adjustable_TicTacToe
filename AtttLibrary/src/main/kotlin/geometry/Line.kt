@@ -40,6 +40,12 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates, val di
 
     internal fun last() = marks.last()
 
+    internal fun adjacentMarks(): Pair<Coordinates, Coordinates> {
+        val preFirst = first().getNextInTheDirection(direction.opposite())
+        val postLast = last().getNextInTheDirection(direction)
+        return Pair(preFirst, postLast)
+    }
+
     // it is decided to treat two lines with similar marks but opposite direction as one (the same) line
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
