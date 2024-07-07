@@ -39,7 +39,7 @@ internal fun detectAllExistingLineDirectionsFromThePlacedMark(
         ) {
             allDirections.add(lineDirection)
             Log.pl("line exists in direction: $lineDirection")
-            saveNewLine(checkedMark, Line(fromWhere, nextCoordinates))
+            saveNewLine(checkedMark, Line(fromWhere, nextCoordinates, lineDirection))
         }
     }
     return allDirections // is empty if no lines ae found in all possible directions

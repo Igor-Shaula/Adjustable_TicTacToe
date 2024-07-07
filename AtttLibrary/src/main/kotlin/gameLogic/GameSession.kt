@@ -89,11 +89,9 @@ internal class GameSession(
         return gameField.prepareForPrintingPlayerLines(player, allExistingLinesForThisPlayer)
     }
 
-    override fun getLinesAsAStringForLeader(): String =
-        getLinesAsAStringFor(gameProgress.getLeadingPlayer())
+    override fun getLinesAsAStringForLeader(): String = getLinesAsAStringFor(gameProgress.getLeadingPlayer())
 
-    override fun getLinesAsAStringForWinner(): String =
-        getLinesAsAStringFor(gameProgress.getWinner())
+    override fun getLinesAsAStringForWinner(): String = getLinesAsAStringFor(gameProgress.getWinner())
 
     override fun getTheWinningLineAsAString(): String {
         val winningLine: Line = gameProgress.getWinningLine() ?: return ""
@@ -123,19 +121,18 @@ internal class GameSession(
         val allExistingLinesForThisPlayer: MutableSet<Line?>? = gameProgress.getLinesFor(player)
         return allExistingLinesForThisPlayer?.flatMap { oneLine -> // outer List (of lines) is created here
             // every line is a set of marks
-            listOf(oneLine?.marks?.map { oneMark -> // inner List (of marks in the line) is created here
+            listOf(oneLine?.setOfMarks()?.map { oneMark -> // inner List (of marks in the line) is created here
                 // every mark should be converted from Coordinates to Triple of integers
                 XYZ(oneMark.x, oneMark.y, oneMark.z)
             } ?: emptyList())
         } ?: emptyList()
     }
 
-    override fun getLinesForLeader(): List<OneLine> =
-        getLinesFor(gameProgress.getLeadingPlayer())
+    override fun getLinesForLeader(): List<OneLine> = getLinesFor(gameProgress.getLeadingPlayer())
 
-    override fun getLinesForWinner(): List<OneLine> =
-        getLinesFor(gameProgress.getWinner())
+    override fun getLinesForWinner(): List<OneLine> = getLinesFor(gameProgress.getWinner())
 
-    override fun getTheWinningLine(): OneLine =
-        gameProgress.getWinningLine()?.marks?.map { oneMark -> XYZ(oneMark.x, oneMark.y, oneMark.z) } ?: emptyList()
+    override fun getTheWinningLine(): OneLine = gameProgress.getWinningLine()?.setOfMarks()?.map { oneMark ->
+        XYZ(oneMark.x, oneMark.y, oneMark.z)
+    } ?: emptyList()
 }

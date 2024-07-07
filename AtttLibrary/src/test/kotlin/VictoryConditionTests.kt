@@ -27,6 +27,7 @@ class VictoryConditionTests {
         assertEquals(playerX, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
+        assertEquals(1, game.getLinesForWinner().size)
         Log.pl(game.getCurrentFieldAsAString())
         Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())
@@ -47,6 +48,7 @@ class VictoryConditionTests {
         assertEquals(playerX, game.getWinner())
         assertEquals(5, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
+        assertEquals(1, game.getLinesForWinner().size)
         Log.pl(game.getCurrentFieldAsAString())
         Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())
@@ -69,10 +71,7 @@ class VictoryConditionTests {
         game.makeMove(game.gameField.getCoordinatesFor(0, 2), playerO)
         game.makeMove(game.gameField.getCoordinatesFor(1, 2), playerX)
         game.makeMove(game.gameField.getCoordinatesFor(2, 2), playerO)
-        game.makeMove(
-            game.gameField.getCoordinatesFor(1, 0),
-            playerX
-        ) // here A wins and anyway the next possible player is B
+        game.makeMove(game.gameField.getCoordinatesFor(1, 0), playerX) // here X wins
 
         assertTrue(game.isGameWon(), "Game should have been won")
         // Would be nice to be able to do this:
@@ -81,6 +80,7 @@ class VictoryConditionTests {
         assertEquals(playerX, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
+        assertEquals(3, game.getLinesForWinner().size)
         Log.pl(game.getCurrentFieldAsAString())
         Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())
@@ -105,6 +105,7 @@ class VictoryConditionTests {
         assertEquals(playerO, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
+        assertEquals(1, game.getLinesForWinner().size)
         Log.pl(game.getCurrentFieldAsAString())
         Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())
@@ -114,6 +115,11 @@ class VictoryConditionTests {
     fun having3x3Field_realSimulation2PlayersShortenedMovesMade_victoryConditionIsCorrect() {
         val game = Game.create() as GameSession
         val playerO = PlayerProvider.playersList[1]
+        /*
+            X O X
+            . O X
+            . O .
+         */
         game.makeMove(0, 0) // X
         game.makeMove(1, 0) // O
         game.makeMove(2, 0) // X
@@ -124,6 +130,7 @@ class VictoryConditionTests {
         assertEquals(playerO, game.getWinner())
         assertEquals(MIN_WINNING_LINE_LENGTH, game.getWinner().maxLineLength)
         assertEquals(PlayerModel.None, PlayerProvider.activePlayer)
+        assertEquals(1, game.getLinesForWinner().size)
         Log.pl(game.getCurrentFieldAsAString())
         Log.pl(game.getLinesAsAStringForWinner())
         Log.pl(game.getTheWinningLineAsAString())

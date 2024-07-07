@@ -36,7 +36,7 @@ internal class GameProgress(
     internal fun getWinningLine(): Line? {
         allPlayersLines[theWinner]?.forEach { line: Line? ->
             line?.let {
-                if (it.marks.size >= winningLength) return line
+                if (it.size() >= winningLength) return line
             } ?: return null
         }
         return null
@@ -59,10 +59,15 @@ internal class GameProgress(
         }
     }
 
-    internal fun saveNewLine(player: Player, line: Line) {
+    internal fun saveNewLine(player: Player, newLine: Line) {
         // here we do not know currently existing number of players, also initially a set for every player does not exist
         val setOfThisPlayerLines = allPlayersLines[player] ?: mutableSetOf()
-        setOfThisPlayerLines.add(line)
+        // before adding newly detected line into the set - let's remove all existing lines which are inside this new one
+        setOfThisPlayerLines.removeIf { line ->
+            (newLine.direction == line?.direction || newLine.direction == line?.direction?.opposite())
+                    && (newLine.contains(line.first()) || newLine.contains(line.last()))
+        }
+        setOfThisPlayerLines.add(newLine)
         allPlayersLines[player] = setOfThisPlayerLines
     }
 
@@ -78,4 +83,4 @@ internal class GameProgress(
 }
 
 internal fun Set<Line?>.getMaxLength(): Int =
-    this.maxByOrNull { line: Line? -> line?.marks?.size ?: 0 }?.marks?.size ?: 0
+    this.maxByOrNull { line: Line? -> line?.size() ?: 0 }?.size() ?: 0

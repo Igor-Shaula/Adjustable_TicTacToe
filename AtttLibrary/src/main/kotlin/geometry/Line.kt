@@ -1,6 +1,7 @@
 package geometry
 
 import geometry.abstractions.Coordinates
+import geometry.abstractions.LineDirection
 
 /**
  * a line is more than one adjacent dot/mark in one constant direction.
@@ -10,7 +11,7 @@ import geometry.abstractions.Coordinates
  * processing/detecting of the line direction is not a job of the line.
  * all existing lines are meant to be proven/correct/checked to be straight & aligned in a direction.
  */
-internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
+internal class Line(startingMark: Coordinates, adjacentMark: Coordinates, val direction: LineDirection) {
 
     /**
      * why a Set? -> because each coordinate is unique, and also we need unordered set
@@ -18,7 +19,7 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
      * also I decided to avoid using LineDirection concept here - for simplicity.
      * all control of line correctness is done at the level of line detection inside existing logic chains.
      */
-    internal val marks: MutableSet<Coordinates> = mutableSetOf()
+    private val marks: MutableSet<Coordinates> = mutableSetOf()
 
     init {
         marks.add(startingMark)
@@ -27,6 +28,22 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
 
     internal fun add(newMark: Coordinates) {
         marks.add(newMark)
+    }
+
+    internal fun setOfMarks() = marks as Set<Coordinates>
+
+    internal fun size() = marks.size // it's obvious that the minimum line length is 2
+
+    internal fun contains(mark: Coordinates?) = marks.contains(mark)
+
+    internal fun first() = marks.first()
+
+    internal fun last() = marks.last()
+
+    internal fun adjacentMarks(): Pair<Coordinates, Coordinates> {
+        val preFirst = first().getNextInTheDirection(direction.opposite())
+        val postLast = last().getNextInTheDirection(direction)
+        return Pair(preFirst, postLast)
     }
 
     // it is decided to treat two lines with similar marks but opposite direction as one (the same) line
@@ -42,6 +59,6 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
     }
 
     override fun toString(): String {
-        return marks.toString()
+        return "$marks / $direction"
     }
 }
