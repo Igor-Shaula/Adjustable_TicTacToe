@@ -1,6 +1,7 @@
 package geometry
 
 import geometry.abstractions.Coordinates
+import geometry.abstractions.LineDirection
 
 /**
  * a line is more than one adjacent dot/mark in one constant direction.
@@ -10,7 +11,7 @@ import geometry.abstractions.Coordinates
  * processing/detecting of the line direction is not a job of the line.
  * all existing lines are meant to be proven/correct/checked to be straight & aligned in a direction.
  */
-internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
+internal class Line(startingMark: Coordinates, adjacentMark: Coordinates, val direction: LineDirection) {
 
     /**
      * why a Set? -> because each coordinate is unique, and also we need unordered set
@@ -46,6 +47,6 @@ internal class Line(startingMark: Coordinates, adjacentMark: Coordinates) {
     }
 
     override fun toString(): String {
-        return marks.toString()
+        return "$marks / $direction"
     }
 }
